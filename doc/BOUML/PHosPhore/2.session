@@ -1,0 +1,10 @@
+window_sizes 1600 877 375 1220 725 104
+
+show_stereotypes
+selected 
+  package_ref 130050 // main
+open
+  
+  package_ref 130050 // main
+end
+end

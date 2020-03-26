@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Documentation produced by the Html generator of Bouml (http://www.bouml.fr) -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Class Role</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">Class Role</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<a name="ref4_134274"></a>
+<p>undocumented class<br /><br />@package default<br />@author <br /><br /></p>
+<p>Declaration :</p><ul>
+<li>Php : class Role extends <a href="class131714.html#ref4_131714"><b>Managed</b></a> </li></ul><p>Artifact : <a href="index.html#ref8_135042"><b>Role.class</b></a></p>
+<div class="sub">
+<a name="ref1_143874"></a>
+<table><tr><td><div class="element">Attribute <b>role_name</b></div></td></tr></table>
+<p>Attribute <br /><br />Role name<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # role_name : string</li><li>Php : protected $role_name</li></ul><a name="ref1_144002"></a>
+<table><tr><td><div class="element">Attribute <b>id</b></div></td></tr></table>
+<p>Id of the user with the role<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : # id : int</li><li>Php : protected $id</li></ul><a name="ref1_144130"></a>
+<table><tr><td><div class="element">Attribute <b>permissions</b></div></td></tr></table>
+<p>Permissions granted to the role<br /><br />@var array<br /><br /></p><p>Declaration :</p><ul><li>Uml : # permissions : array</li><li>Php : protected $permissions</li></ul><a name="ref2_179586"></a>
+<table><tr><td><div class="element">Operation <b>getRole_name</b></div></td></tr></table><p>Method <br /> Getter <br /><br />role_name accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getRole_name() : string</li><li>Php : public function getRole_name(): string </li></ul><a name="ref2_179714"></a>
+<table><tr><td><div class="element">Operation <b>getId</b></div></td></tr></table><p>id accessor<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getId() : int</li><li>Php : public function getId(): int </li></ul><a name="ref2_179842"></a>
+<table><tr><td><div class="element">Operation <b>getPermissions</b></div></td></tr></table><p>permissions accessor<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getPermissions() : array</li><li>Php : public function getPermissions(): array </li></ul><a name="ref2_179970"></a>
+<table><tr><td><div class="element">Operation <b>setRole_name</b></div></td></tr></table><p>Setter <br /><br />role_name setter<br /><br />@param string $role_name Role name<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setRole_name(in role_name : string) : void</li><li>Php : protected function setRole_name($role_name): void </li></ul><a name="ref2_180098"></a>
+<table><tr><td><div class="element">Operation <b>setId</b></div></td></tr></table><p>id setter<br /><br />@param int $id Id of the user with the role<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setId(in id : int) : void</li><li>Php : protected function setId($id): void </li></ul><a name="ref2_180226"></a>
+<table><tr><td><div class="element">Operation <b>setPermissions</b></div></td></tr></table><p>premissions setter<br /><br />@param array $permissions Permissions granted to the roll<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setPermissions(in permissions : array) : void</li><li>Php : protected function setPermissions($permissions): void </li></ul><a name="ref2_180354"></a>
+<table><tr><td><div class="element">Operation <b>displayRole_name</b></div></td></tr></table><p>Display <br /><br />role_name display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayRole_name() : string</li><li>Php : public function displayRole_name(): string </li></ul><a name="ref2_180482"></a>
+<table><tr><td><div class="element">Operation <b>displayId</b></div></td></tr></table><p>id display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayId() : string</li><li>Php : public function displayId(): string </li></ul><a name="ref2_180610"></a>
+<table><tr><td><div class="element">Operation <b>displayPermissions</b></div></td></tr></table><p>permissions display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayPermissions() : string</li><li>Php : public function displayPermissions(): string </li></ul><a name="ref2_180738"></a>
+<table><tr><td><div class="element">Operation <b>getPermission</b></div></td></tr></table><p>Accessor of a permission<br /><br />@param int $index Permission index in permissions<br /><br />@return \user\Permission<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getPermission(in index : int) : \user\Permission</li><li>Php : public function getPermission($index): \user\Permission </li></ul><a name="ref2_180866"></a>
+<table><tr><td><div class="element">Operation <b>setPermission</b></div></td></tr></table><p>Permission setter<br /><br />@param int $index Permission index in permissions<br /><br />@param \user\Permission $permission Permission to be defined<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + setPermission(in index : int, in permission : \user\Permission) : void</li><li>Php : public function setPermission($index, $permission): void </li></ul><a name="ref2_180994"></a>
+<table><tr><td><div class="element">Operation <b>displayPermission</b></div></td></tr></table><p>Permission display<br /><br />@param int $index Permission index in permissions<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayPermission(in index : int) : string</li><li>Php : public function displayPermission($index): string </li></ul><a name="ref2_181122"></a>
+<table><tr><td><div class="element">Operation <b>display</b></div></td></tr></table><p>Role display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + display() : string</li><li>Php : public function display(): string </li></ul><a name="ref2_181250"></a>
+<table><tr><td><div class="element">Operation <b>retrievePermissions</b></div></td></tr></table><p>Gets the permissions of the role with the already known role_name<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrievePermissions() : void</li><li>Php : public function retrievePermissions(): void </li></ul><a name="ref2_181378"></a>
+<table><tr><td><div class="element">Operation <b>existPermission</b></div></td></tr></table><p>Verifies the existence of permission for the role<br /><br />@param array $link Table containing the different parameters of an internal link<br /><br />@return bool<br /><br /></p><p>Declaration :</p><ul><li>Uml : + existPermission(in link : array) : bool</li><li>Php : public function existPermission($link): bool </li></ul><a name="ref2_181506"></a>
+<table><tr><td><div class="element">Operation <b>retrieve</b></div></td></tr></table><p>Retrieves the role from its id<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieve() : void</li><li>Php : public function retrieve(): void </li></ul></div>
+<p>All public operations : <a href="class131714.html#ref2_165250"><b>__construct</b></a> , <a href="class131714.html#ref2_164994"><b>change</b></a> , <a href="class131714.html#ref2_164866"><b>create</b></a> , <a href="class131714.html#ref2_165122"><b>delete</b></a> , <a href="class134274.html#ref2_181122"><b>display</b></a> , <a href="class134274.html#ref2_180482"><b>displayId</b></a> , <a href="class134274.html#ref2_180994"><b>displayPermission</b></a> , <a href="class134274.html#ref2_180610"><b>displayPermissions</b></a> , <a href="class134274.html#ref2_180354"><b>displayRole_name</b></a> , <a href="class134274.html#ref2_181378"><b>existPermission</b></a> , <a href="class131714.html#ref2_164354"><b>get</b></a> , <a href="class131714.html#ref2_163842"><b>getDisp</b></a> , <a href="class131714.html#ref2_163586"><b>getGet</b></a> , <a href="class134274.html#ref2_179714"><b>getId</b></a> , <a href="class134274.html#ref2_180738"><b>getPermission</b></a> , <a href="class134274.html#ref2_179842"><b>getPermissions</b></a> , <a href="class134274.html#ref2_179586"><b>getRole_name</b></a> , <a href="class131714.html#ref2_163714"><b>getSet</b></a> , <a href="class131714.html#ref2_164482"><b>identical</b></a> , <a href="class131714.html#ref2_164226"><b>Manager</b></a> , <a href="class131714.html#ref2_164738"><b>retrieve</b></a> , <a href="class134274.html#ref2_181506"><b>retrieve</b></a> , <a href="class134274.html#ref2_181250"><b>retrievePermissions</b></a> , <a href="class131714.html#ref2_163970"><b>setAffichage</b></a> , <a href="class134274.html#ref2_180866"><b>setPermission</b></a> , <a href="class131714.html#ref2_164610"><b>table</b></a> </p>
+</body>
+</html>

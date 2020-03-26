@@ -1,0 +1,175 @@
+class Notification
+!!!171394.php!!!	getId() : int
+
+				return $this->id;
+!!!171522.php!!!	getType() : string
+
+				return $this->type;
+!!!171650.php!!!	getDate_release() : string
+
+				return $this->date_release;
+!!!171778.php!!!	getId_content() : int
+
+				return $this->id_content;
+!!!171906.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!172034.php!!!	setType(in type : string) : void
+
+				$this->type=(string)$type;
+!!!172162.php!!!	setDate_release(in date_release : string) : void
+
+				$this->date_release=(string)$date_release;
+!!!172290.php!!!	setId_content(in id_content : string) : void
+
+				$this->id_content=(int)$id_content;
+!!!172418.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!172546.php!!!	displayType() : string
+
+				return htmlspecialchars((string)$this->type);
+!!!172674.php!!!	displayDate_release() : string
+
+				return htmlspecialchars((string)$this->date_release);
+!!!172802.php!!!	displayId_content() : string
+
+				return htmlspecialchars((string)$this->id_content);
+!!!172930.php!!!	displayContent() : string
+
+			global $Visitor;
+			$Content=new \content\Content(array(
+				'id_content' => $this->getId_content(),
+			));
+			$Content->retrieveLang($Visitor->getConfiguration('lang'));
+			return $Content->display();
+!!!173058.php!!!	display() : string
+
+			return $this->displayContent();
+!!!173186.php!!!	retrieveContents() : array
+
+			$ContentManager=new \content\ContentManager(\core\DBFactory::MysqlConnection());
+			return $ContentManager->retrieveBy(array(
+				'id_content' => $this->getId_content(),
+			), array(
+				'id_content' => '=',
+			));
+!!!173314.php!!!	sendNotification(in PageElement : , in Notification : \content\pageelement\Notification) : void
+
+			global $Visitor;
+			$Notification->addElement('type', $this->displayType());
+			$Notification->addElement('content', $this->displayContent());
+			if (!$PageElement->getElement('notifications'))
+			{
+				$PageElement->addElement('notifications', array());
+			}
+			$PageElement->addValueElement('notifications', $Notification);
+			$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$LinkNotificationUser->deleteBy(array(
+				'id_notification' => $this->getId(),
+				'id_user'         => $Visitor->getId(),
+			), array(
+				'id_notification' => '=',
+				'id_user'         => '=',
+			));
+!!!173442.php!!!	create(in id_users : array = array()) : void
+
+			$Manager=$this->Manager();
+			$Manager->add(array(
+				'type'         => $this->getType(),
+				'date_release' => date($GLOBALS['config']['db_date_format']),
+				'id_content'   => $this->getId_content(),
+			));
+			$this->setId($Manager->getIdBy(array(
+				'type'       => $this->getType(),
+				'id_content' => $this->getId_content(),
+			)));
+			$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$id_user=array();
+			foreach ($id_users as $id)
+			{
+				$id_user[]=array('id_user' => $id);
+			}
+			$LinkNotificationUser->addBy($id_user, array(
+				'id_notification' => $this->getId(),
+			));
+!!!173570.php!!!	change() : void
+
+			$Manager=$this->Manager();
+			$Manager->update(array(
+				'type'         => $this->getType(),
+				'date_release' => date($GLOBALS['config']['db_date_format']),
+			), $this->getId());
+			$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$id_users=array();
+			foreach ($this->retrieveUsers() as $User)
+			{
+				$id_users[]=$this->getId();
+			}
+			$donnees_already_in=$LinkNotificationUser->get('id_notification', $this->getId());
+			$id_users_already_in=array();
+			foreach ($donnees_already_in as $donnee)
+			{
+				$id_users_already_in[]=$donnee['id_user'];
+			}
+			$id_users_not_changed=array_intersect($id_users_already_in, $id_users);
+			if(array_diff($id_users_not_changed, $id_users_already_in))
+			{
+				$LinkNotificationUser->deleteBy(array(
+					'id_notification' => $this->getId(),
+				), array(
+					'id_notification' => '=',
+				));
+				$LinkNotificationUser->addBy(array(array(
+					'id_user' => $id_users,
+				)), array(
+					'id_notification' => $this->getId(),
+				));
+			}
+			else
+			{
+				$id_users_to_add=array_diff($id_users, $id_users_not_changed);
+				$LinkNotificationUser->addBy(array(array(
+					'id_user' => $id_users_to_add,
+				)), array(
+					'id_notification' => $this->getId(),
+				));
+			}
+!!!173698.php!!!	delete() : void
+
+			$Manager=$this->Manager();
+			$this->retrieve();
+			$Manager->delete($this->getId());
+			$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$LinkNotificationUser->deleteBy(array(
+				'id_notification' => $this->getId(),
+			), array(
+				'id_notification' => '=',
+			));
+			$ContentManager=new \content\ContentManager(\core\DBFactory::MysqlConnection());
+			$ContentManager->deleteBy(array(
+				'id_content' => $this->getId_content(),
+			), array(
+				'id_content' => '=',
+			));
+!!!173826.php!!!	recupererId_users() : void
+
+			$Liaison=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$resultats=$Liaison->get('id_notification', $this->getId());
+			$id=array();
+			foreach ($resultats as $resultat)
+			{
+				$id[]=$resultat['id_user'];
+			}
+			$this->setId_users($id);
+!!!173954.php!!!	retrieveUsers() : array
+
+			$Link=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			return $Link->retrieveBy(array(
+				'id_notification' => $this->getId(),
+			), array(
+				'id_notification' => '=',
+			), '\\user\\User', array(
+				'db'  => 'id_user',
+				'obj' => 'id',
+			), 1);
