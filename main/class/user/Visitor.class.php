@@ -186,7 +186,7 @@ class Visitor extends \user\User
 		*
 		* @return void
 		*/
-		public function inscription($password, $role_name)
+		public function registration($password, $role_name)
 		{
 			$VisitorManager=$this->Manager();
 			$VisitorManager->add(array(
@@ -321,8 +321,9 @@ class Visitor extends \user\User
 			if($this->getRole()->existPermission($parameters))	// Permission accordée
 			{
 				$this->setPage(new \user\Page($parameters));
-				if (include($this->getPage()->getPath()))
+				if (stream_resolve_include_path($this->getPage()->getPath()))
 				{
+					include($this->getPage()->getPath());
 					return $this->getPage()->display();
 				}
 				else

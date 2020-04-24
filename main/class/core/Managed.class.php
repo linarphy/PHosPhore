@@ -174,7 +174,7 @@ class Managed
 			$method=$this->getSet($this::INDEX);
 			if (method_exists($this, $method))
 			{
-				$this->method($this->Manager()->getIdBy($this->table()));
+				$this->$method($this->Manager()->getIdBy($this->table()));
 			}
 		}
 		/**
