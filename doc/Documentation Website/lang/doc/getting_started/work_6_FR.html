@@ -1,0 +1,10 @@
+<p>
+	Chaque page possède une configuration:
+	<ul>
+		<li>Un <code>content_type</code>, qui contient une chaîne de caractère. Si celle-ci est une valeur correspondante à une valeur de la clef 'name' d'une array de l'array contenu dans <code>default_content_type</code>, <code>content</code> et <code>notification_element</code> ne devront pas être précisé.</li>
+		<li>Un <code>content</code>, qui contient une array utilisée comme paramètre pour la création de <code>/content/pageelement/Page</code>, qui sera défini comme le PageElement de la <code>/user/Page</code>.</li>
+		<li>Un <code>notification_element</code>, qui contient une array utilisée comme paramètre pour la création de <code>/content/pageelement/Notification</code>, qui sera défini comme le PageElement associé aux notifications.</li>
+		<li>Un <code>notification</code>, qui contient un booléen, permettant l'affichage (ou non) des notifications. Si le booléen est "false", il est inutile de préciser un <code>notification_element</code>.</li>
+	</ul>
+	Cette configuration peut être précisée de différentes manières. Il est possible de préciser une configuration pour une action d'une application en définissant un paramètre <code>application_action_config</code>. De même pour toutes les actions d'une même application qui n'ont pas de configurations supplémentaires avec le paramètre <code>application_config</code>. Finalement, toutes les actions des applications sans configurations particulières auront la même configurations, définie dans <code>default_config</code>.
+</p>
