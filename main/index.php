@@ -7,9 +7,9 @@ require('func/func.php');
 spl_autoload_register('loadClass');
 
 require('config/config.php');
-require($GLOBALS['config']['path_lang'].$GLOBALS['config']['user_config']['lang'].'.lang.php');
-
 $Router=new \core\Router(init_router());
+
+require($GLOBALS['config']['path_lang'].$GLOBALS['config']['user_config']['lang'].'.lang.php');
 
 $Visitor=new \user\Visitor(init_visitor());
 
