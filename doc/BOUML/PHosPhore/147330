@@ -1,0 +1,284 @@
+format 222
+"html" // main::class::content::pageelement::html
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/class/content/pageelement/html/"
+  php_namespace "content\\pageelement\\html"
+  deploymentview 145410 "html"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 154626 "HTMLHead.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 152450 // HTMLHead
+      end
+    end
+
+    artifact 154754 "HTMLNotification.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 152578 // HTMLNotification
+      end
+    end
+  end
+
+  classview 143234 "html"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 152450 "HTMLHead"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+An HTML head
+
+@author gugus2000
+"
+      classrelation 149634 // <generalisation>
+	relation 149634 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 149634 // <generalisation>
+	  b parent class_ref 151938 // PageElement
+      end
+
+      operation 235266 "__construct"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+
+Create a \\content\\pageelement\\html\\HTMLHead instance
+
+@return ${type}
+"
+      end
+
+      operation 235394 "addValueElement"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "index" explicit_type "mixed"
+	  param in name "value" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Adds an element in an array element in elements
+
+@param ${t0} ${p0} Index of the element to which to add the value
+
+@param ${t1} ${p1} Value of the element of the element to be added
+
+@return ${type}
+"
+      end
+
+      operation 235522 "addMetas"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "meta" explicit_type ""
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Add a metas attribute to the page
+
+@param ${t1} $metas Metadata table
+
+@return ${type}
+"
+      end
+
+      operation 235650 "addCss"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "href" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Add a css file to the page
+
+@param ${t0} ${p0} Link to the css file
+
+@return ${type}
+"
+      end
+
+      operation 235778 "addJavascripts"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "src" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Add a Javascript script to the page
+
+@param ${t0} ${p0} Link to the javascript
+
+@return ${type}
+"
+      end
+
+      operation 235906 "display"
+	public explicit_return_type "string"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Display \\content\\pageelement\\html\\HTMLHead
+
+@return ${type}
+"
+      end
+    end
+
+    class 152578 "HTMLNotification"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+An HTML Notification
+
+@author gugus2000
+
+"
+      classrelation 149762 // <generalisation>
+	relation 149762 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 149762 // <generalisation>
+	  b parent class_ref 151938 // PageElement
+      end
+
+      operation 236034 "__construct"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+
+Create a \\content\\pageelement\\html\\HTMLNotification instance
+
+@return ${type}
+"
+      end
+    end
+  end
+end

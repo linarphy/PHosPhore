@@ -1,0 +1,84 @@
+class Role
+!!!216194.php!!!	getRole_name() : string
+
+				return $this->role_name;
+!!!216322.php!!!	getId() : int
+
+				return $this->id;
+!!!216450.php!!!	getPermissions() : array
+
+				return $this->permissions;
+!!!216578.php!!!	setRole_name(in role_name : string) : void
+
+				$this->role_name=(string)$role_name;
+!!!216706.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!216834.php!!!	setPermissions(in permissions : array) : void
+
+				$this->permissions=$permissions;
+!!!216962.php!!!	displayRole_name() : string
+
+				return htmlspecialchars((string)$this->nom_role);
+!!!217090.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!217218.php!!!	displayPermissions() : string
+
+				$display=array();
+				foreach ($this->permissions as $permission)
+				{
+					array_push($display, $permission->display());
+				}
+				return htmlspecialchars((string)implode(', ', $affichage));
+!!!217346.php!!!	getPermission(in index : int) : \user\Permission
+
+			return $this->permissions[$index];
+!!!217474.php!!!	setPermission(in index : int, in permission : \user\Permission) : void
+
+			$this->permissions[$index]=$permission;
+!!!217602.php!!!	displayPermission(in index : int) : string
+
+			return htmlspecialchars((string)$this->permissions[$index]->afficher());
+!!!217730.php!!!	display() : string
+
+			return $this->displayRole_name();
+!!!217858.php!!!	retrievePermissions() : void
+
+			if ($this->getRole_name())
+			{
+				$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
+				$permissions=$PermissionManager->getBy(array(
+					'role_name' => $this->getRole_name(),
+				), array(
+					'role_name' => '=',
+				));
+				$Permissions=array();
+				foreach ($permissions as $key => $permission)
+				{
+					$Permission=new \user\Permission($permission);
+					$Permissions[]=$Permission;
+				}
+				$this->setPermissions($Permissions);
+			}
+!!!217986.php!!!	existPermission(in link : array) : bool
+
+			global $Router;
+			$link=$Router->fill($link);
+			$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
+			return $PermissionManager->getBy(array(
+				'role_name'   => $this->getRole_name(),
+				'application' => $link['application'],
+				'action'      => $link['action'],
+			), array(
+				'role_name'   => '=',
+				'application' => '=',
+				'action'      => '=',
+			));
+!!!218114.php!!!	retrieve() : void
+
+			if ($this->getId())
+			{
+				parent::retrieve();
+				$this->retrievePermissions();
+			}

@@ -1,0 +1,55 @@
+class Password
+!!!250114.php!!!	getId() : int
+
+				return $this->id;
+!!!250242.php!!!	getPassword_clear() : string
+
+				return $this->password_clear;
+!!!250370.php!!!	getPassword_hashed() : string
+
+				return $this->password_hashed;
+!!!250498.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!250626.php!!!	setPassword_clear(in password_clear : string) : void
+
+				$this->password_clear=(string)$password_clear;
+!!!250754.php!!!	setPassword_hashed(in password_hashed : string) : void
+
+				$this->password_hashed=(string)$password_hashed;
+!!!250882.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!251010.php!!!	displayPassword_clear() : string
+
+				return htmlspecialchars((string)$this->password_clear);
+!!!251138.php!!!	displayPassword_hashed() : string
+
+				return htmlspecialchars((string)$this->password_hashed);
+!!!251266.php!!!	display() : string
+
+			return $this->displayPassword_hashed();
+!!!251394.php!!!	verif(in password : string) : bool
+
+			if ($this->getPassword_hashed())
+			{
+				$hash=$this->getPassword_hashed();
+				$options=array(
+					'cost' => $this::HASH_COST,
+				);
+				if (password_verify($password, $hash))
+				{
+				    if (password_needs_rehash($hash, PASSWORD_DEFAULT, $options))
+				    {
+				        $this->setPassword_hashed(password_hash($password, PASSWORD_DEFAULT, $options));
+				        $PasswordManager=$this->Manager();
+				        $PasswordManager->update(array(
+				        	'password_hashed' => $this->getPassword_hashed(),
+				        ), $this->getId());
+				    }
+				    $this->setPassword_clear($password);
+				    return True;
+				}
+				return False;
+			}
+			return False;
