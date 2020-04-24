@@ -16,20 +16,21 @@ $GLOBALS['config']=array(
 		'route_parameter' => 'parameters',						// Name of the parameter array for generating or retrieving URL
 		'route_mode'      => \core\Router::MODE_FULL_ROUTE,		// Default Router mode
 	/* path config */
-		'path_lang' => 'lang/',		// Directory where lang definitions are
+		'path_lang'   => './lang/',			// Directory where lang definitions are
+		'path_config' => './config/',		// Directory where config files are
 		/* template */
-			'path_template'          => 'asset/html/',			// Directory where templates are
-			'path_template_filename' => 'template.html',		// Default name of template file
+			'path_template'          => './asset/html/',			// Directory where templates are
+			'path_template_filename' => 'template.html',			// Default name of template file
 		/* page */
-			'path_page_definition_root'     => 'page/',			// Directory where php files which define a page are
-			'path_page_definition_filename' => 'page.php',		// Default name of php file which define a page
+			'path_page_definition_root'     => './page/',			// Directory where php files which define a page are
+			'path_page_definition_filename' => 'page.php',			// Default name of php file which define a page
 	/* general config */
 		'general_name'       => 'Example WebSite Name',		// Website name
 		'general_email'      => 'admin@mail.ext',			// Email from the site administrator
 		'general_parameters' => array(						// parameters which can be used in every page of this website
 			'lang' => array(
 				'necessary' => false,
-				'regex'     => 'EN',
+				'regex'     => 'EN|FR',
 			),
 		),
 		'general_langs'      => array(						// available languages
@@ -37,12 +38,23 @@ $GLOBALS['config']=array(
 				'abbr' => 'EN',
 				'full' => 'English',
 			),
+			'FR' => array(
+				'abbr' => 'FR',
+				'full' => 'Français',
+			),
 		),
 	/* user config */
 		'user_config' => array(				// default visitor configuration
 			'lang' => 'EN',
 		),
 	/* pageelement config  */
+		'default_content_type' => array(
+			array(
+				'name'         => 'html',
+				'content'      => 'HTML',
+				'notification' => 'html\HTMLNotification',
+			),
+		),
 		/* html */
 			'default_head_metas'       => array(		// Metas which will be in each html page
 				array(
@@ -64,8 +76,6 @@ $GLOBALS['config']=array(
 				'notification' => true,
 			),
 			'default_application' => 'home',		// Default application
-			/* home */
-				'home_default_action'      => 'hub',		// Default action for home application
 );
 
 ?>

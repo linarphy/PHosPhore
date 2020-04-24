@@ -90,7 +90,7 @@ class Router
 				default:
 					return array(
 						'application' => $GLOBALS['config']['default_application'],
-						'action'      => $GLOBALS['config'][$GLOBALS['config']['default_application'].'_default_action'],
+						'action'      => $GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'],
 					);
 			}
 		}
@@ -128,7 +128,14 @@ class Router
 			}
 			if (!isset($action))
 			{
-				$action=$GLOBALS['config'][$application.'_default_action'];
+				if (!isset($GLOBALS['config'][$application]))
+				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+					{
+						include($GLOBALS['config']['path_config'].$application.'/config.php');
+					}
+				}
+				$action=$GLOBALS['config'][$application]['default_action'];
 			}
 			$parameters=$this->manageParameters($_GET, $application, $action);
 			return array(
@@ -181,7 +188,14 @@ class Router
 			}
 			if (!isset($action))
 			{
-				$action=$GLOBALS['config'][$application.'_default_action'];
+				if (!isset($GLOBALS['config'][$application]))
+				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+					{
+						include($GLOBALS['config']['path_config'].$application.'/config.php');
+					}
+				}
+				$action=$GLOBALS['config'][$application]['default_action'];
 			}
 			$parameters=$this->manageParameters($_GET, $application, $action);
 			return array(
@@ -233,7 +247,14 @@ class Router
 			}
 			if (!isset($action))
 			{
-				$action=$GLOBALS['config'][$application.'_default_action'];
+				if (!isset($GLOBALS['config'][$application]))
+				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+					{
+						include($GLOBALS['config']['path_config'].$application.'/config.php');
+					}
+				}
+				$action=$GLOBALS['config'][$application]['default_action'];
 			}
 			$parameters=$this->manageParameters($possible_parameters, $application, $action);
 			return array(
@@ -385,12 +406,12 @@ class Router
 				}
 				else
 				{
-					return '?application='.$parameters['application'].'&action='.$GLOBALS['config']['default_'.$parameters['application'].'_action'].$additionnal_parameters;
+					return '?application='.$parameters['application'].'&action='.$GLOBALS['config'][$parameters['application']]['default_action'].$additionnal_parameters;
 				}
 			}
 			else
 			{
-				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config']['default_'.$GLOBALS['config']['default_application'].'_action'].$additionnal_parameters;
+				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].$additionnal_parameters;
 			}
 		}
 		/**
@@ -423,12 +444,12 @@ class Router
 				}
 				else
 				{
-					return '/'.$parameters['application'].'/'.$GLOBALS['config']['default_'.$parameters['application'].'_action'].'/'.$additionnal_parameters;
+					return '/'.$parameters['application'].'/'.$GLOBALS['config'][$parameters['application']]['default_action'].'/'.$additionnal_parameters;
 				}
 			}
 			else
 			{
-				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config']['default_'.$GLOBALS['config']['default_application'].'_action'].'/'.$additionnal_parameters;
+				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].'/'.$additionnal_parameters;
 			}
 		}
 		/**
@@ -454,7 +475,7 @@ class Router
 			}
 			else
 			{
-				$action=$GLOBALS['config']['default_'.$application.'_action'];
+				$action=$GLOBALS['config'][$application]['default_action'];
 			}
 			if (isset($parameters[$GLOBALS['config']['route_parameter']]))
 			{
@@ -489,7 +510,7 @@ class Router
 			}
 			if (!isset($parameters['action']))
 			{
-				$parameters['action']=$GLOBALS['config']['default_'.$parameters['application'].'_action'];
+				$parameters['action']=$GLOBALS['config'][$parameters['application']]['default_action'];
 			}
 			return $parameters;
 		}

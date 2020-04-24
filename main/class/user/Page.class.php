@@ -170,46 +170,12 @@ class Page
 		*/
 		public function display()
 		{
-			global $Visitor;
-			switch (strtolower(trim($this->getParameters()['config_perso']['content_type'])))
-			{
-				case 'html':
-					if ($this->getPageElement()->getElement('head'))
-					{
-						if ($this->getPageElement()->getElement('head')->getElement('metas'))
-						{
-							$this->getPageElement()->getElement('head')->addValueElement('metas', array(
-								'charset' => 'utf-8',
-								'lang'    => $Visitor->getConfiguration('lang'),
-							));
-						}
-						if ($this->getPageElement()->getElement('head')->getElement('title'))
-						{
-							$this->getPageElement()->getElement('head')->addValueElement('title', $GLOBALS['lang']['html_title_prefix']);
-						}
-					}
-					else
-					{
-						$this->getPageElement()->addElement('head', '');
-					}
-					if (!$this->getPageElement()->getElement('notifications'))
-					{
-						$this->getPageElement()->addElement('notifications', '');
-					}
-					if (!$this->getPageElement()->getElement('body'))
-					{
-						$this->getPageElement()->addElement('body', '');
-					}
-					break;
-				default:
-					break;
-			}
 			return $this->displayPageElement();
 		}
 		/**
 		* Sends notifications in the session
 		*
-		* @param \content\pageelement\Notification $Notification Notification to be sent within the session
+		* @param \user\Notification $Notification Notification to be sent within the session
 		* 
 		* @return void
 		*/
@@ -251,7 +217,7 @@ class Page
 		* 
 		* @return void
 		*/
-		public function ajouterParametre($name, $value)
+		public function addParameter($name, $value)
 		{
 			$this->setParametres(array_merge($this->getParameters(), array($name => $value)));
 		}
@@ -263,13 +229,13 @@ class Page
 		public function loadPageConfig()
 		{
 			$array=$GLOBALS['config']['default_config'];
-			if (isset($GLOBALS['config'][$this->getApplication().'_config']))
+			if (isset($GLOBALS['config'][$this->getApplication()]['config']))
 			{
-				$array=array_merge($array, $GLOBALS['config'][$this->getApplication().'_config']);
+				$array=array_merge($array, $GLOBALS['config'][$this->getApplication()]['config']);
 			}
-			if (isset($GLOBALS['config'][$this->getApplication().'_'.$this->getAction().'_config']))
+			if (isset($GLOBALS['config'][$this->getApplication()][$this->getAction()]['config']))
 			{
-				$array=array_merge($array, $GLOBALS['config'][$this->getApplication().'_'.$this->getAction().'_config']);
+				$array=array_merge($array, $GLOBALS['config'][$this->getApplication()][$this->getAction()]['config']);
 			}
 			return $array;
 		}
@@ -291,6 +257,31 @@ class Page
 					$this->$method($value);
 				}
 			}
+			if ($this->getApplication()!==null)
+			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$this->getApplication().'/config.php'))
+				{
+					include($GLOBALS['config']['path_config'].$this->getApplication().'/config.php');
+					if ($this->getAction()!==null)
+					{
+						if (stream_resolve_include_path($GLOBALS['config']['path_config'].$this->getApplication().'/'.$this->getAction().'/config.php'))
+						{
+							include($GLOBALS['config']['path_config'].$this->getApplication().'/'.$this->getAction().'/config.php');
+						}
+					}
+				}
+				if (stream_resolve_include_path($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
+				{
+					include($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php');
+					if ($this->getAction()!==null)
+					{
+						if (stream_resolve_include_path($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
+						{
+							include($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php');
+						}
+					}
+				}
+			}
 			$pageConfig=$this->loadPageConfig();
 			$parameters=$this->getParameters();
 			if (isset($parameters['config_perso']))
@@ -299,28 +290,48 @@ class Page
 			}
 			$parameters['config_perso']=$pageConfig;
 			$this->setParameters($parameters);
-			switch (strtolower(trim($pageConfig['content_type'])))
+			$name_class='\content\pageelement\\';
+			foreach ($GLOBALS['config']['default_content_type'] as $content_type)
 			{
-				case 'html':
-					$PageElement=new \content\pageelement\HTML();
-					$NotificationElement=new \content\pageelement\html\HTMLNotification();
+				if (strtolower(trim($pageConfig['content_type'])) === $content_type['name'])
+				{
+					$name_class_content=$name_class.$content_type['content'];
+					$PageElement=new $name_class_content();
+					$name_class_notification=$name_class.$content_type['notification'];
+					$NotificationElement=new $name_class_notification();
 					break;
-				default:
-					$PageElement=new \content\pageElement($pageConfig['content']);
-					$NotificationElement=new \content\pageelement\Notification($pageConfig['notification']);
-					break;
+				}
+			}
+			if (!isset($PageElement) && !isset($NotificationElement))
+			{
+				if (isset($pageConfig['content']))
+				{
+					$PageElement=new \content\pageelement\Page($pageConfig['content']);
+				}
+				else
+				{
+					$PageElement=new \content\pageelement\Page(array());
+				}
+				if (isset($pageConfig['notification_element']))
+				{
+					$NotificationElement=new \content\pageelement\Notification($pageConfig['notification_element']);
+				}
+				else
+				{
+					$NotificationElement=new \content\pageelement\Notification(array());
+				}
 			}
 			if ($pageConfig['notification'])
 			{
 				$Notifications=$Visitor->retrieveNotifications();
-				if (isset($_SESSION['notification']))
+				if (isset($_SESSION['notifications']))
 				{
-					foreach ($_SESSION['notification'] as $notification_serialized)
+					foreach ($_SESSION['notifications'] as $notification_serialized)
 					{
 						$Notification=unserialize($notification_serialized);
 						$Notification->sendNotification($PageElement, $NotificationElement);
 					}
-					unset($_SESSION['notification']);
+					unset($_SESSION['notifications']);
 				}
 				foreach ($Notifications as $Notification)
 				{

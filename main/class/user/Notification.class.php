@@ -56,6 +56,12 @@ class Notification extends \core\Managed
 		* @var int
 		*/
 		protected $id_content;
+		/**
+		* Notification content
+		* 
+		* @var string
+		*/
+		protected $content;
 
 	/* Method */
 
@@ -97,6 +103,15 @@ class Notification extends \core\Managed
 			{
 				return $this->id_content;
 			}
+			/**
+			* content accessor
+			*
+			* @return string
+			*/
+			public function getContent()
+			{
+				return $this->content;
+			}
 
 		/* Setter */
 
@@ -136,13 +151,24 @@ class Notification extends \core\Managed
 			/**
 			* id_content setter
 			*
-			* @param string $id_content Notification Content Id
+			* @param int $id_content Notification Content Id
 			* 
 			* @return void
 			*/
 			protected function setId_content($id_content)
 			{
 				$this->id_content=(int)$id_content;
+			}
+			/**
+			* content setter
+			*
+			* @param string $content Notification content
+			*
+			* @return void
+			*/
+			protected function setContent($content)
+			{
+				$this->content=(string)$content;
 			}
 
 		/* Display */
@@ -177,7 +203,7 @@ class Notification extends \core\Managed
 			/**
 			* id_content display
 			* 
-			* @return string
+			* @return int
 			*/
 			public function displayId_content()
 			{
@@ -192,6 +218,10 @@ class Notification extends \core\Managed
 		public function displayContent()
 		{
 			global $Visitor;
+			if ($this->getId_content()===null)		// From session
+			{
+				return $this->getContent();
+			}
 			$Content=new \content\Content(array(
 				'id_content' => $this->getId_content(),
 			));
@@ -233,6 +263,7 @@ class Notification extends \core\Managed
 		public function sendNotification($PageElement, $Notification)
 		{
 			global $Visitor;
+			$Notification=clone $Notification;
 			$Notification->addElement('type', $this->displayType());
 			$Notification->addElement('content', $this->displayContent());
 			if (!$PageElement->getElement('notifications'))
@@ -240,14 +271,17 @@ class Notification extends \core\Managed
 				$PageElement->addElement('notifications', array());
 			}
 			$PageElement->addValueElement('notifications', $Notification);
-			$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
-			$LinkNotificationUser->deleteBy(array(
-				'id_notification' => $this->getId(),
-				'id_user'         => $Visitor->getId(),
-			), array(
-				'id_notification' => '=',
-				'id_user'         => '=',
-			));
+			if ($this->getId_content()!==null)
+			{
+				$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+				$LinkNotificationUser->deleteBy(array(
+					'id_notification' => $this->getId(),
+					'id_user'         => $Visitor->getId(),
+				), array(
+					'id_notification' => '=',
+					'id_user'         => '=',
+				));
+			}
 		}
 		/**
 		* Create a notification
@@ -348,22 +382,6 @@ class Notification extends \core\Managed
 			), array(
 				'id_content' => '=',
 			));
-		}
-		/**
-		* Récupère l'id des users devant voir la notification
-		*
-		* @return void
-		*/
-		public function recupererId_users()
-		{
-			$Liaison=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
-			$resultats=$Liaison->get('id_notification', $this->getId());
-			$id=array();
-			foreach ($resultats as $resultat)
-			{
-				$id[]=$resultat['id_user'];
-			}
-			$this->setId_users($id);
 		}
 		/**
 		* Fetches users who need to see the notification
