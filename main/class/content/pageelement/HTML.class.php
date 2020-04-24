@@ -25,6 +25,23 @@ class HTML extends \content\PageElement
 				),
 			));
 		}
+		/**
+		* Display \content\pageelement\HTML
+		* 
+		* @return string
+		*/
+		public function display()
+		{
+			if (!$this->getElement('notifications'))
+			{
+				$this->addElement('notifications', '');
+			}
+			if (!$this->getElement('body'))
+			{
+				$this->addElement('body', '');
+			}
+			return parent::display();
+		}
 } // END class HTML extends \content\PageElement
 
 ?>

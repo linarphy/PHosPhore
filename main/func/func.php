@@ -80,8 +80,10 @@ function init_router()
 			{
 				unset($_SESSION['custom_route_mode']);
 			}
+			unset($_GET['custom_route_mode_session']);
 		}
 		$route_mode=$_GET['custom_route_mode'];
+		unset($_GET['custom_route_mode']);
 	}
 	if (isset($_SESSION['custom_route_mode']))
 	{

@@ -181,6 +181,24 @@ class HTMLHead extends \content\PageElement
 				$this->setElement('javascripts', $javascripts);		    
 			}
 		}
+		/**
+		* Display \content\pageelement\html\HTMLHead
+		* 
+		* @return string
+		*/
+		public function display()
+		{
+			global $Visitor;
+			$this->addValueElement('metas', array(
+				'charset' => 'utf-8',
+				'lang'    => $Visitor->getConfiguration('lang'),
+			));
+			if ($this->getElement('title'))
+			{
+				$this->addValueElement('title', $GLOBALS['lang']['html_title_prefix']);
+			}
+			return parent::display();
+		}
 } // END class HTMLHead extends \content\PageElement
 
 ?>

@@ -237,7 +237,7 @@ class PageElement
 		{
 			if (is_array($this->getElement($index)))
 			{
-				if (!in_array($value, $this->elements[$index]))
+				if (!in_array($value, $this->elements[$index], true))
 				{
 					$this->elements[$index][]=$value;
 				}
