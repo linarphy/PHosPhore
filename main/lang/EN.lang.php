@@ -5,9 +5,6 @@ $GLOBALS['lang']=array(
 		/* content */
 			'class_content_content_no_result'            => 'No result for this content id',
 			'class_content_pageelement_cannot_add_value' => 'Cannot add another element to an element that is neither an array nor a string',
-			/* pageelement */
-				/* html */
-					'class_content_pageelement_html_htmlnotification_unknown_type' => 'This type of notification is unknown',
 		/* core */
 			/* manager */
 				'class_core_manager_unknown_operator'  => 'Unknown operator',
@@ -21,14 +18,14 @@ $GLOBALS['lang']=array(
 				'class_core_managed_no_attributes' => 'No attributes to hydrate',
 		/* user */
 			/* visitor */
-				'class_user_visitor_no_file' => 'the requested file cannot be found',
-				'class_user_visitor_no_perm' => 'you do not have permission to view this page',
+				'class_user_visitor_no_file' => 'The requested file cannot be found',
+				'class_user_visitor_no_perm' => 'You do not have permission to view this page',
 	/* html */
-		'html_title_prefix' => ' | EXAMPLE',
+		'html_title_prefix' => ' | '.$GLOBALS['config']['general_name'],
 	/* general */
 		/* error */
 			'general_error_not_numeric' => 'Value not numeric',
-			'general_error_connection'   => 'Error during the connection: bad password or nickname',
+			'general_error_connection'  => 'Error during the connection: bad password or nickname',
 );
 
 ?>
