@@ -73,6 +73,8 @@ $GLOBALS['config']=array(
 			),
 			'default_head_css'         => array(),		// Css which will be in each html page
 			'default_head_javascripts' => array(),		// Javascripts which will be in each html page
+			'notification_css'         => array(),		// Css which will be in each html page if a notification exist
+			'notification_js'          => array(),		// Javascripts which will be in each html page if a notification exist
 	/* page config  */
 		'error_page' => array('application' => 'error', 'action' => 'error'),		// array which define the error page
 		/* default */

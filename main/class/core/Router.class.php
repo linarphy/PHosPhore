@@ -406,11 +406,19 @@ class Router
 				}
 				else
 				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
+					{
+						include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+					}
 					return '?application='.$parameters['application'].'&action='.$GLOBALS['config'][$parameters['application']]['default_action'].$additionnal_parameters;
 				}
 			}
 			else
 			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
+				{
+					include($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
+				}
 				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].$additionnal_parameters;
 			}
 		}
@@ -444,11 +452,19 @@ class Router
 				}
 				else
 				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
+					{
+						include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+					}
 					return '/'.$parameters['application'].'/'.$GLOBALS['config'][$parameters['application']]['default_action'].'/'.$additionnal_parameters;
 				}
 			}
 			else
 			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
+				{
+					include($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
+				}
 				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].'/'.$additionnal_parameters;
 			}
 		}
@@ -475,6 +491,10 @@ class Router
 			}
 			else
 			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+				{
+					include($GLOBALS['config']['path_config'].$application.'/config.php');
+				}
 				$action=$GLOBALS['config'][$application]['default_action'];
 			}
 			if (isset($parameters[$GLOBALS['config']['route_parameter']]))
@@ -510,6 +530,10 @@ class Router
 			}
 			if (!isset($parameters['action']))
 			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
+				{
+					include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+				}
 				$parameters['action']=$GLOBALS['config'][$parameters['application']]['default_action'];
 			}
 			return $parameters;

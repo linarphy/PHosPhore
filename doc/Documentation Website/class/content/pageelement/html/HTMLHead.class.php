@@ -131,11 +131,6 @@ class HTMLHead extends \content\PageElement
 					'metas' => $Metas,
 				),
 			));
-			if (!array_key_exists(spl_object_hash($Meta), $metas))
-			{
-				$metas[]=$Meta;
-				$this->setElement('metas', $metas);
-			}
 		}
 		/**
 		* Add a css file to the page
@@ -153,9 +148,9 @@ class HTMLHead extends \content\PageElement
 					'href' => $href,
 				),
 			));
-			if (!array_key_exists(spl_object_hash($Css), $css))
+			if (!array_key_exists($href, $css))
 			{
-				$css[]=$Css;
+				$css[$href]=$Css;
 				$this->setElement('css', $css);		    
 			}
 		}
@@ -175,9 +170,9 @@ class HTMLHead extends \content\PageElement
 					'src' => $src,
 				),
 			));
-			if (!array_key_exists(spl_object_hash($Javascript), $javascripts))
+			if (!array_key_exists($src, $javascripts))
 			{
-				$javascripts[]=$Javascript;
+				$javascripts[$src]=$Javascript;
 				$this->setElement('javascripts', $javascripts);		    
 			}
 		}

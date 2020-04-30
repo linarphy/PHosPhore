@@ -24,6 +24,31 @@ class HTMLNotification extends \content\PageElement
 				'elements' => array(),
 			));
 		}
+
+		/**
+		* Set CSS et Javascripts link in the head
+		*
+		* @param \content\PageElement $PageElement The PageElement which contains the head
+		* 
+		* @return void
+		*/
+		public function setHead($PageElement)
+		{
+			if (isset($GLOBALS['config']['notification_css']))
+			{
+				foreach ($GLOBALS['config']['notification_css'] as $notification_css)
+				{
+					$PageElement->getElement('head')->addValueElement('css', $notification_css);
+				}
+			}
+			if (isset($GLOBALS['config']['notification_js']))
+			{
+				foreach ($GLOBALS['config']['notification_js'] as $notification_js)
+				{
+					$PageElement->getElement('head')->addValueElement('javascripts', $notification_js);
+				}
+			}
+		}
 } // END class HTMLNotification extends \content\PageElement
 
 ?>

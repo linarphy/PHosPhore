@@ -264,6 +264,10 @@ class Notification extends \core\Managed
 		{
 			global $Visitor;
 			$Notification=clone $Notification;
+			if (method_exists($Notification, 'setHead'))
+			{
+				$Notification->setHead($PageElement);
+			}
 			$Notification->addElement('type', $this->displayType());
 			$Notification->addElement('content', $this->displayContent());
 			if (!$PageElement->getElement('notifications'))
