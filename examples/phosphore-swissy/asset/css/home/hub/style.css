@@ -1,0 +1,33 @@
+p.subtitle
+{
+	text-align: center;
+	color: #C5CAE9;
+}
+
+ul
+{
+	border: #BDBDBD 1px solid;
+	padding-left: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+li
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: flex;
+	justify-content: space-around;
+	border-top: #BDBDBD 1px solid;
+}
+
+li:first-child
+{
+	border: none;
+}
+
+a li:hover
+{
+	background: rgba(255,255,255,0.1);
+	transition: background-color 0.2s ease-in-out;
+}

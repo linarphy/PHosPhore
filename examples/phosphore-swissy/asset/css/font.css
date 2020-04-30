@@ -1,0 +1,37 @@
+@font-face
+{
+  font-family: 'Roboto';
+  src: local('Roboto'),
+       local('Roboto-Regular'),
+       url(../font/Roboto/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face
+{
+  font-family: 'Jaapokki Enchance';
+  src: url(enchance/web/jaapokkienchance-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Enchance'),
+       local('JaapokkiEnchance-Regular'),
+       url(../font/Jaapokki/enchance/web/jaapokkienchance-regular.woff) format('woff'),
+       url(../font/Jaapokki/enchance/web/jaapokkienchance-regular.ttf) format('truetype');
+}
+
+@font-face
+{
+  font-family: 'Jaapokki Regular';
+  src: url(Regular/web/jaapokki-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Regular'),
+       local('Jaapokki-Regular'),
+       url(../font/Jaapokki/Regular/web/jaapokki-regular.woff) format('woff'),
+       url(../font/Jaapokki/Regular/web/jaapokki-regular.ttf) format('truetype');
+}
+
+@font-face
+{
+  font-family: 'Jaapokki Subtract';
+  src: url(subtract/web/jaapokkisubtract-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Subtract'),
+       local('JaapokkiSubtract-Regular'),
+       url(../font/Jaapokki/subtract/web/jaapokkisubtract-regular.woff) format('woff'),
+       url(../font/Jaapokki/subtract/web/jaapokkisubtract-regular.ttf) format('truetype');
+}

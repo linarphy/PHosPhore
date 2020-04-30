@@ -1,0 +1,25 @@
+body
+{
+	background: #3F51B5;
+	font-family: Roboto, sans-serif;
+	color: #FFFFFF;
+}
+
+h1
+{
+	font-family: 'Jaapokki Regular', sans-serif;
+	text-align: center;
+	color: #212121;
+}
+
+a
+{
+	color: #4CAF50;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+}
+
+em
+{
+	color: #4CAF50;
+}

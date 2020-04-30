@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Jaapokki Enchance';
+  src: url(enchance/web/jaapokkienchance-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Enchance'),
+       local('JaapokkiEnchance-Regular'),
+       url(enchance/web/jaapokkienchance-regular.woff) format('woff'),
+       url(enchance/web/jaapokkienchance-regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Jaapokki Regular';
+  src: url(Regular/web/jaapokki-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Regular'),
+       local('Jaapokki-Regular'),
+       url(Regular/web/jaapokki-regular.woff) format('woff'),
+       url(Regular/web/jaapokki-regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Jaapokki Subtract';
+  src: url(subtract/web/jaapokkisubtract-regular.eot); /* For IE6-8 */
+  src: local('Jaapokki Subtract'),
+       local('JaapokkiSubtract-Regular'),
+       url(subtract/web/jaapokkisubtract-regular.woff) format('woff'),
+       url(subtract/web/jaapokkisubtract-regular.ttf) format('truetype');
+}

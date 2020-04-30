@@ -1,0 +1,14 @@
+.notification.error
+{
+	color: red;
+}
+
+.notification.warning
+{
+	color: orange;
+}
+
+.notification.success
+{
+	color: green;
+}
