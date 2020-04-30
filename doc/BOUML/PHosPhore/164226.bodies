@@ -1,0 +1,40 @@
+class Permission
+!!!288642.php!!!	getId() : int
+
+				return $this->id;
+!!!288770.php!!!	getRole_name() : string
+
+				return $this->role_name;
+!!!288898.php!!!	getApplication() : string
+
+				return $this->application;
+!!!289026.php!!!	getAction() : string
+
+				return $this->action;
+!!!289154.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!289282.php!!!	setRole_name(in role_name : string) : void
+
+				$this->role_name=(string)$role_name;
+!!!289410.php!!!	setApplication(in application : string) : void
+
+				$this->application=(string)$application;
+!!!289538.php!!!	setAction(in action : string) : void
+
+				$this->action=(string)$action;
+!!!289666.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!289794.php!!!	displayRole_name() : string
+
+				return htmlspecialchars((string)$this->role_name);
+!!!289922.php!!!	displayApplication() : string
+
+				return htmlspecialchars((string)$this->application);
+!!!290050.php!!!	displayAction() : string
+
+				return htmlspecialchars((string)$this->action);
+!!!290178.php!!!	display() : string
+
+			htmlspecialchars($this->displayApplication().'-'.$this->displayAction());

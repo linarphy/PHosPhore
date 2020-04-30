@@ -1,0 +1,215 @@
+class Visitor
+!!!296834.php!!!	getPage() : Page
+
+				return $this->page;
+!!!296962.php!!!	getConfigurations() : array
+
+				return $this->configurations;
+!!!297090.php!!!	setPage(in page : Page) : void
+
+				$this->page=$page;
+!!!297218.php!!!	setConfigurations(in configurations : array) : void
+
+				$this->configurations=$configurations;
+!!!297346.php!!!	displayPage() : string
+
+				return htmlspecialchars((string)$this->page->display());
+!!!297474.php!!!	displayConfigurations() : string
+
+				$display='';
+				foreach ($this->configurations as $Configuration)
+				{
+					$display.=$Configuration->display().'<br />';
+				}
+				return $display;
+!!!297602.php!!!	setConfiguration(in index : string, in value : mixed) : void
+
+			$this->configurations[$index]=$value;
+!!!297730.php!!!	getConfiguration(in index : string) : mixed
+
+			return $this->configurations[$index];
+!!!297858.php!!!	verifPermission() : bool
+
+			return $this->getRole()->existPermission(array('application' => $this->getPage()->getApplication(), 'action' => $this->getPage()->getAction()));
+!!!297986.php!!!	connection(in password : string) : bool
+
+			if ($this->getPassword()->verif($password))
+			{
+				$utilisateurManager=$this->Manager();
+				$date=date($GLOBALS['config']['db_date_format']);
+				$utilisateurManager->update(array(
+					'date_login' => $date,
+				), $this->getId());
+				$this->setDate_login($date);
+				$_SESSION['password']=$this->getPassword()->getPassword_clear();
+				$_SESSION['nickname']=$this->getNickname();
+				$_SESSION['id']=$this->getId();
+				return True;
+			}
+			else
+			{
+				return False;
+			}
+!!!298114.php!!!	disconnection() : void
+
+			if ($this->getPassword()->verif($this->getPassword()->getPassword_clear()))
+			{
+				$utilisateurManager=$this->Manager();
+				$date=date($GLOBALS['config']['db_date_format']);
+				$utilisateurManager->update(array(
+					'date_login' => $date,
+				), $this->getId());
+				unset($_SESSION['password']);
+				unset($_SESSION['nickname']);
+				unset($_SESSION['id']);
+			}
+!!!298242.php!!!	registration(in password : string, in role_name : string) : void
+
+			$VisitorManager=$this->Manager();
+			$VisitorManager->add(array(
+				'nickname'          => $this->getNickname(),
+				'avatar'            => $this->getAvatar(),
+				'date_registration' => $this->getDate_registration(),
+				'date_login'        => $this->getDate_login(),
+				'banned'            => (int)$this->getBanned(),
+				'email'             => $this->getEmail(),
+			));
+			$this->setId($VisitorManager->getIdBy(array(
+				'nickname'          => $this->getNickname(),
+				'avatar'            => $this->getAvatar(),
+				'date_registration' => $this->getDate_registration(),
+				'date_login'        => $this->getDate_login(),
+				'banned'            => (int)$this->getBanned(),
+				'email'             => $this->getEmail(),
+			)));
+			$this->setPassword(new \user\Password(array(
+				'id'             => $this->getId(),
+				'password_clear' => $password,
+			)));
+			$this->setRole(new \user\Role(array(
+				'id'        => $this->getId(),
+				'role_name' => $role_name,
+			)));
+			$this->getRole()->retrievePermissions();
+			$RoleManager=$this->getRole()->Manager();
+			$RoleManager->update(array(
+				'role_name' => $this->getRole()->getRole_name(),
+			), $this->getId());
+			$PasswordManager=$this->getPassword()->Manager();
+			$this->getPassword()->hash();
+			$PasswordManager->update(array(
+				'password_hashed' => $this->getPassword()->getPassword_hashed(),
+			), $this->getId());
+!!!298370.php!!!	update() : void
+
+			$Manager=$this->Manager();
+			$Manager->update(array(
+				'avatar' => $this->getAvatar(),
+				'banned' => (int)$this->getBanned(),
+				'email'  => $this->getEmail(),
+			), $this->getId());
+!!!298498.php!!!	delete() : void
+
+			$Manager=$this->Manager();
+			$Manager->delete($this->getId());
+!!!298626.php!!!	loadPage(in parameters : array) : string
+
+			global $Visitor, $Router;
+			$this->setConfigurations($GLOBALS['config']['user_config']);
+			$ConfigurationManager=new \user\ConfigurationManager(\core\DBFactory::MysqlConnection());
+			if (isset($parameters[$GLOBALS['config']['route_parameter']]['lang']))
+			{
+				if (in_array($parameters[$GLOBALS['config']['route_parameter']]['lang'],array_keys($GLOBALS['config']['general_langs'])))
+				{
+					if ($this->getId()==$GLOBALS['config']['guest_id'])
+					{
+						$_SESSION['lang']=$parameters[$GLOBALS['config']['route_parameter']]['lang'];
+					}
+					else
+					{
+						if ($ConfigurationManager->existBy(array(
+							'id_user' => $this->getId(),
+							'name'    => 'lang',
+						)))
+						{
+							$id=$ConfigurationManager->getIdBy(array(
+								'id_user' => $this->getId(),
+								'name'    => 'lang',
+							));
+							$ConfigurationManager->update(array(
+								'value' => $parameters[$GLOBALS['config']['route_parameter']]['lang'],
+							), $id);
+						}
+						else
+						{
+							$ConfigurationManager->add(array(
+								'id_user' => $this->getId(),
+								'name'    => 'lang',
+								'value'   => $parameters[$GLOBALS['config']['route_parameter']]['lang'],
+							));
+						}
+					}
+				}
+			}
+			if ($this->getId()==$GLOBALS['config']['guest_id'])
+			{
+				foreach (array_keys($this->getConfigurations()) as $configuration_name)
+				{
+					if (isset($_SESSION[$configuration_name]))
+					{
+						$this->setConfiguration($configuration_name, $_SESSION[$configuration_name]);
+					}
+				}
+			}
+			else
+			{
+				$configurations=$ConfigurationManager->getBy(array(
+					'id_user' => $this->getId(),
+				), array(
+					'id_user' => '=',
+				));
+				foreach ($configurations as $configuration)
+				{
+					$Configuration=new \user\Configuration($configuration);
+					$this->setConfiguration($Configuration->getName(), $Configuration->getValue());
+				}
+			}
+			require $GLOBALS['config']['path_lang'].$this->getConfiguration('lang').'.lang.php';
+			if($this->getRole()->existPermission($parameters))	// Permission accordée
+			{
+				$this->setPage(new \user\Page($parameters));
+				if (stream_resolve_include_path($this->getPage()->getPath()))
+				{
+					include($this->getPage()->getPath());
+					return $this->getPage()->display();
+				}
+				else
+				{
+					throw new \Exception($GLOBALS['lang']['class_user_visitor_no_file']);
+				}
+			}
+			else
+			{
+				throw new \Exception($GLOBALS['lang']['class_user_visitor_no_perm']);
+			}
+!!!298754.php!!!	verifLinks(in links : array) : bool
+
+			foreach ($links as $index => $link)
+			{
+				if ($this->getRole()->existPermission($link))
+				{
+					return True;
+				}
+			}
+			return False;
+!!!298882.php!!!	authorizationModification(in Object : \core\Managed) : bool
+
+			if (method_exists($Object, 'retrieveAuthor'))
+			{
+				return $this->identical($Object->retrieveAuthor()) || $this->getRole()->existPermission(array('application' => $GLOBALS['config']['application_modification'], 'action' => get_class($Object)));
+			}
+			return False;
+!!!299010.php!!!	__construct(in attributes : array) : mixed
+
+			parent::__construct($attributes);
+			$this->retrieve();

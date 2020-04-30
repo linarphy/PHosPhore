@@ -2,9 +2,9 @@ window_sizes 1600 877 375 1220 727 104
 
 show_stereotypes
 selected 
-  package_ref 146690 // main
+  package_ref 155138 // main
 open
   
-  package_ref 146690 // main
+  package_ref 155138 // main
 end
 end

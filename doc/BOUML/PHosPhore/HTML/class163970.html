@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Documentation produced by the Html generator of Bouml (http://www.bouml.fr) -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Class Password</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">Class Password</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<a name="ref4_163970"></a>
+<p>Password of an user<br /><br />@author gugus2000<br /><br /></p>
+<p>Declaration :</p><ul>
+<li>Php : class Password extends <a href="class161666.html#ref4_161666"><b>Managed</b></a> </li></ul><p>Artifact : <a href="index.html#ref8_167426"><b>Password.class</b></a></p>
+<div class="sub">
+<a name="ref1_189058"></a>
+<table><tr><td><div class="element">Attribute <b>HASH_COST</b></div></td></tr></table>
+<p>Constant <br /><br />Hash cost<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ HASH_COST : int = 6, read only</li><li>Php :  const HASH_COST</li></ul><a name="ref1_189186"></a>
+<table><tr><td><div class="element">Attribute <b>id</b></div></td></tr></table>
+<p>Attribute <br /><br />Id of the user<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : # id : int</li><li>Php : protected $id</li></ul><a name="ref1_189314"></a>
+<table><tr><td><div class="element">Attribute <b>password_clear</b></div></td></tr></table>
+<p>Clear password<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # password_clear : string</li><li>Php : protected $password_clear</li></ul><a name="ref1_189442"></a>
+<table><tr><td><div class="element">Attribute <b>password_hashed</b></div></td></tr></table>
+<p>Password hashed<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # password_hashed : string</li><li>Php : protected $password_hashed</li></ul><a name="ref2_287234"></a>
+<table><tr><td><div class="element">Operation <b>getId</b></div></td></tr></table><p>Method <br /> Getter <br /><br />id accessor<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getId() : int</li><li>Php : public function getId(): int </li></ul><a name="ref2_287362"></a>
+<table><tr><td><div class="element">Operation <b>getPassword_clear</b></div></td></tr></table><p>password_clear accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getPassword_clear() : string</li><li>Php : public function getPassword_clear(): string </li></ul><a name="ref2_287490"></a>
+<table><tr><td><div class="element">Operation <b>getPassword_hashed</b></div></td></tr></table><p>password_hashed accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getPassword_hashed() : string</li><li>Php : public function getPassword_hashed(): string </li></ul><a name="ref2_287618"></a>
+<table><tr><td><div class="element">Operation <b>setId</b></div></td></tr></table><p>Setter <br /><br />id setter<br /><br />@param int $id Id of the user<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setId(in id : int) : void</li><li>Php : protected function setId($id): void </li></ul><a name="ref2_287746"></a>
+<table><tr><td><div class="element">Operation <b>setPassword_clear</b></div></td></tr></table><p>password_clear setter<br /><br />@param string $password_clear Clear password<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setPassword_clear(in password_clear : string) : void</li><li>Php : protected function setPassword_clear($password_clear): void </li></ul><a name="ref2_287874"></a>
+<table><tr><td><div class="element">Operation <b>setPassword_hashed</b></div></td></tr></table><p>password_hashed setter<br /><br />@param string $password_hashed Password hashed<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setPassword_hashed(in password_hashed : string) : void</li><li>Php : protected function setPassword_hashed($password_hashed): void </li></ul><a name="ref2_288002"></a>
+<table><tr><td><div class="element">Operation <b>displayId</b></div></td></tr></table><p>Display <br /><br />id display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayId() : string</li><li>Php : public function displayId(): string </li></ul><a name="ref2_288130"></a>
+<table><tr><td><div class="element">Operation <b>displayPassword_clear</b></div></td></tr></table><p>password_clear display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayPassword_clear() : string</li><li>Php : public function displayPassword_clear(): string </li></ul><a name="ref2_288258"></a>
+<table><tr><td><div class="element">Operation <b>displayPassword_hashed</b></div></td></tr></table><p>password_hashed display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayPassword_hashed() : string</li><li>Php : public function displayPassword_hashed(): string </li></ul><a name="ref2_288386"></a>
+<table><tr><td><div class="element">Operation <b>display</b></div></td></tr></table><p>Display the Password<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + display() : string</li><li>Php : public function display(): string </li></ul><a name="ref2_288514"></a>
+<table><tr><td><div class="element">Operation <b>verif</b></div></td></tr></table><p>Checks if the password in plain text matches the hashed password<br /><br />@param string $password Verify plain text password<br /><br />@return bool<br /><br /></p><p>Declaration :</p><ul><li>Uml : + verif(in password : string) : bool</li><li>Php : public function verif($password): bool </li></ul></div>
+<p>All public operations : <a href="class161666.html#ref2_275842"><b>__construct</b></a> , <a href="class161666.html#ref2_275586"><b>change</b></a> , <a href="class161666.html#ref2_275458"><b>create</b></a> , <a href="class161666.html#ref2_275714"><b>delete</b></a> , <a href="class163970.html#ref2_288386"><b>display</b></a> , <a href="class163970.html#ref2_288002"><b>displayId</b></a> , <a href="class163970.html#ref2_288130"><b>displayPassword_clear</b></a> , <a href="class163970.html#ref2_288258"><b>displayPassword_hashed</b></a> , <a href="class161666.html#ref2_274946"><b>get</b></a> , <a href="class161666.html#ref2_274434"><b>getDisp</b></a> , <a href="class161666.html#ref2_274178"><b>getGet</b></a> , <a href="class163970.html#ref2_287234"><b>getId</b></a> , <a href="class163970.html#ref2_287362"><b>getPassword_clear</b></a> , <a href="class163970.html#ref2_287490"><b>getPassword_hashed</b></a> , <a href="class161666.html#ref2_274306"><b>getSet</b></a> , <a href="class161666.html#ref2_275074"><b>identical</b></a> , <a href="class161666.html#ref2_274818"><b>Manager</b></a> , <a href="class161666.html#ref2_275330"><b>retrieve</b></a> , <a href="class161666.html#ref2_274562"><b>setAffichage</b></a> , <a href="class161666.html#ref2_275202"><b>table</b></a> , <a href="class163970.html#ref2_288514"><b>verif</b></a> </p>
+</body>
+</html>

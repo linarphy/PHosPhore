@@ -1,0 +1,154 @@
+class User
+!!!292354.php!!!	getId() : int
+
+				return $this->id;
+!!!292482.php!!!	getNickname() : string
+
+				return $this->nickname;
+!!!292610.php!!!	getPassword() : \user\Password
+
+				return $this->password;
+!!!292738.php!!!	getAvatar() : string
+
+				return $this->avatar;
+!!!292866.php!!!	getDate_registration() : string
+
+				return $this->date_registration;
+!!!292994.php!!!	getDate_login() : string
+
+				return $this->date_login;
+!!!293122.php!!!	getBanned() : bool
+
+				return $this->banned;
+!!!293250.php!!!	getRole() : \user\Role
+
+				return $this->role;
+!!!293378.php!!!	getEmail() : string
+
+				return $this->email;
+!!!293506.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!293634.php!!!	setNickname(in nickname : string) : void
+
+				$this->nickname=(string)$nickname;
+!!!293762.php!!!	setPassword(in password : \user\Password) : void
+
+				$this->password=$password;
+!!!293890.php!!!	setAvatar(in avatar : string) : void
+
+				$this->avatar=(string)$avatar;
+!!!294018.php!!!	setDate_registration(in date_registration : string) : void
+
+				$this->date_registration=(string)$date_registration;
+!!!294146.php!!!	setDate_login(in date_login : string) : void
+
+				$this->date_login=(string)$date_login;
+!!!294274.php!!!	setBanned(in banned : ) : void
+
+				$this->banned=(bool)$banned;
+!!!294402.php!!!	setRole(in role : \user\Role) : void
+
+				$this->role=$role;
+!!!294530.php!!!	setEmail(in email : string) : void
+
+				$this->email=$email;
+!!!294658.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!294786.php!!!	displayNickname() : string
+
+				return htmlspecialchars((string)$this->nickname);
+!!!294914.php!!!	displayPassword() : string
+
+				return htmlspecialchars((string)$this->password->display());
+!!!295042.php!!!	displayAvatar() : string
+
+				return htmlspecialchars((string)$this->avatar);
+!!!295170.php!!!	displayDate_registration() : string
+
+				return htmlspecialchars((string)$this->date_registration);
+!!!295298.php!!!	displayDate_login() : string
+
+				return htmlspecialchars((string)$this->date_login);
+!!!295426.php!!!	displayBanned() : string
+
+				return htmlspecialchars((string)$this->banned);
+!!!295554.php!!!	displayRole() : string
+
+				return htmlspecialchars((string)$this->role->display());
+!!!295682.php!!!	displayEmail() : string
+
+				return htmlspecialchars((string)$this->email);
+!!!295810.php!!!	afficherDate_registrationFormat(in format : string) : string
+
+			return date($format, strtotime($this->date_registration));
+!!!295938.php!!!	afficherDate_loginFormat(in format : string) : string
+
+			return date($format, strtotime($this->date_login));
+!!!296066.php!!!	display() : string
+
+			return $this->displayNickname();
+!!!296194.php!!!	isConnected(in interval : string = 'PT5M') : bool
+
+			$Manager=$this->Manager();
+			$date=new \DateTime(date($GLOBALS['config']['db_date_format']));
+			$date->sub(new \DateInterval($interval));
+			$data=$Manager->getBy(array(
+				'date_login' => $date->format($GLOBALS['config']['db_date_format']),
+				'id'         => $this->getId(),
+			), array(
+				'date_login' => '>=',
+				'id'         => '=',
+			));
+			return (bool)$data;
+!!!296322.php!!!	retrievePassword() : void
+
+			if ($this->getId())
+			{
+				$Password=new \user\Password(array(
+					'id' => $this->getId(),
+				));
+				$Password->retrieve();
+				$this->setPassword($Password);
+			}
+!!!296450.php!!!	retrieveRole() : void
+
+			if ($this->getId())
+			{
+				$Role=new \user\Role(array(
+					'id' => $this->getId(),
+				));
+				$Role->retrieve();
+				$this->setRole($Role);
+			}
+!!!296578.php!!!	retrieve() : void
+
+			$UserManager=$this->Manager();
+			if ($this->getId())
+			{
+				$this->get($this->getId());
+			}
+			else if ($this->getNickname())
+			{
+				$this->setId($UserManager->getIdBy(array(
+					'nickname' => $this->getNickname(),
+				)));
+				$this->get($this->getId());
+			}
+			$this->retrieveRole();
+			$this->retrievePassword();
+!!!296706.php!!!	retrieveNotifications() : array
+
+			$Linked=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$results=$Linked->get('id_user', $this->getId());
+			$notifications=array();
+			foreach ($results as $key => $resultat)
+			{
+				$notification=new \user\Notification(array(
+					'id' => $resultat['id_notification'],
+				));
+				$notification->retrieve();
+				$notifications[]=$notification;
+			}
+			return $notifications;

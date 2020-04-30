@@ -1,0 +1,40 @@
+class Configuration
+!!!280322.php!!!	getId() : int
+
+				return $this->id;
+!!!280450.php!!!	getId_user() : int
+
+				return $this->id_user;
+!!!280578.php!!!	getName() : string
+
+				return $this->name;
+!!!280706.php!!!	getValue() : mixed
+
+				return $this->value;
+!!!280834.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!280962.php!!!	setId_user(in id_user : int) : void
+
+				$this->id_user=(int)$id_user;
+!!!281090.php!!!	setName(in name : string) : void
+
+				$this->name=(string)$name;
+!!!281218.php!!!	setValue(in value : mixed) : void
+
+				$this->value=$value;
+!!!281346.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!281474.php!!!	displayId_user() : string
+
+				return htmlspecialchars((string)$this->id_user);
+!!!281602.php!!!	displayName() : string
+
+				return htmlspecialchars((string)$this->name);
+!!!281730.php!!!	displayValue() : string
+
+				return htmlspecialchars((string)$this->value);
+!!!281858.php!!!	display() : string
+
+			return $this->displayName().':'.$this->displayValue();
