@@ -19,7 +19,7 @@ class Header extends \content\PageElement
 		*/
 		public function __construct()
 		{
-			global $Router;
+			global $Router, $Visitor;
 			$li=array();
 			$li[]=new \content\PageElement(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/html/header/li.html',
@@ -39,6 +39,20 @@ class Header extends \content\PageElement
 						'link'  => $element['link'],
 					),
 				));
+			}
+			foreach ($GLOBALS['config']['general_langs'] as $key => $language)
+			{
+				if ($key!==$Visitor->getConfiguration('lang'))
+				{
+					$li[]=new \content\PageElement(array(
+						'template' => $GLOBALS['config']['path_template'].'pageelement/html/header/li.html',
+						'elements' => array(
+							'href'  => $Router->createLink(array_merge($Router->decodeRoute($_SERVER['REQUEST_URI']),array($GLOBALS['config']['route_parameter'] => array('lang' => $key)))),
+							'title' => $language['full'],
+							'link'  => $language['abbr'],
+						),
+					));
+				}
 			}
 			parent::__construct(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/html/header/template.html',

@@ -1,26 +1,36 @@
-body
+#main
 {
-	margin-top: 80px;
+	top: 120px;
+	position: fixed;
+	overflow-wrap: break-word;
+	overflow-y: auto;
+	height: 100%;
+	width: 100%;
+}
+img
+{
+	max-width: 100%;
 }
 header
 {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	height: 80px;
 	width: 100%;
-	background-color: white;
 	border: solid 1px black;
 	display: flex;
+	overflow-x: auto;
+	max-height: 120px;
 }
 header nav ul
 {
-	height: 70%;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
+	max-height: 100px;
 }
 header nav ul li
 {
+	padding: 5px;
 	padding-right: 20px;
 }
