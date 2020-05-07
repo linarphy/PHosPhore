@@ -60,7 +60,7 @@ see [here](https://thelinuxos.com/how-to-setup-apache-virtual-hosts-on-ubuntu-18
 
 ## How to use
 
-You will see examples in the "examples" directory soon
+You will see examples in the "examples" directory soon.
 The doc is [here](https://www.phosphore.org).
 
 ## Authors
