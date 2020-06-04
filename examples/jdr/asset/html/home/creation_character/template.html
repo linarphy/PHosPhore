@@ -1,0 +1,25 @@
+<form action="|action|" method="POST" accept-charset="utf-8" class="mb-3">
+	<fieldset>
+		<legend>|legend|</legend>
+		<div class="form-group row">
+			<label for="name" class="col-md-1 col-form-label">|name|</label>
+			<input type="text" name="name" class="form-control col-md-3">
+			<label for="race" class="col-md-1 col-form-label">|race|</label>
+			<select name="race" class="custom-select col-md-2">
+				|options_race|
+			</select>
+			<label for="class" class="col-md-1 col-form-label">|class|</label>
+			<select name="class" class="custom-select col-md-2">
+				|options_class|
+			</select>
+		</div>
+		<fieldset>
+			<legend>|legend_attributes|</legend>
+			<div class="form-group row row-cols-1 row-cols-sm-2 row-cols-md-4">
+				|attributes|
+			</div>
+		</fieldset>
+		<button id="btn_preview" type="button" class="btn btn-success">|preview|</button>
+		<button id="btn_submit" type="submit" class="btn btn-primary">|submit|</button>
+	</fieldset>
+</form>

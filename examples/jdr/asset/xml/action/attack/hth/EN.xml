@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<action lang="en">
+	<ap>2</ap>
+	<name>Hand-to-hand attack</name>
+	<operation>
+		<turn type="choice">
+			<player>You</player>
+			<description>Decides on the victim</description>
+			<limit>
+				<close>5m radius</close>
+			</limit>
+		</turn>
+		<turn type="roll">
+			<player>You</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>STR</attribute>
+				<consequences>
+					<criticalsuccess>damage sent *2</criticalsuccess>
+					<success>success</success>
+					<failure>damage sent /2</failure>
+					<criticalfailure>failure</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Hit</description>
+		</turn>
+		<turn type="roll">
+			<player>Victim</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>AGI</attribute>
+				<consequences>
+					<criticalsuccess>success</criticalsuccess>
+					<success>damage received /2</success>
+					<failure>failure</failure>
+					<criticalfailure>damage received *2</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Dodge</description>
+		</turn>
+		<turn type="calc">
+			<player>GM</player>
+			<calc>STR (you)/10 (bottom rounding) + weapon damage (you) - physic defense (victim)</calc>
+			<description>Damage calculation</description>
+		</turn>
+	</operation>
+</action>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<action lang="en">
+	<ap>2</ap>
+	<name>Magical healing</name>
+	<operation>
+		<turn type="choice">
+			<player>You</player>
+			<description>Decides on the victim</description>
+			<limit>
+				<close>Within range of the chosen spell</close>
+			</limit>
+		</turn>
+		<turn type="roll">
+			<player>You</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>INT</attribute>
+				<consequences>
+					<criticalsuccess>heal sent *2</criticalsuccess>
+					<success>success</success>
+					<failure>heal sent /2</failure>
+					<criticalfailure>failure</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Cast the spell</description>
+		</turn>
+		<turn type="calc">
+			<player>GM</player>
+			<calc>MAG (you)/10 (bottom rounding) + spell heal (you) + weapon heal (you)</calc>
+			<description>Healing calculation</description>
+		</turn>
+	</operation>
+</action>

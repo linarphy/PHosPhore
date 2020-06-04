@@ -1,0 +1,22 @@
+<form action="|action|" method="POST" accept-charset="utf-8" class="mb-3">
+	<fieldset>
+		<legend>|legend|</legend>
+		<div class="form-group">
+			<div class="row">
+				<label for="stat" class="col-md-1 col-form-label">|stat|</label>
+				<select name="stat" class="custom-select col-md-2">
+					|options_stat|
+				</select>
+			</div>
+			<div class="row">
+				<label for="value" class="col-md-1 col-form-label">|value|</label>
+				<input type="text" name="value" class="form-control col-md-3">
+			</div>
+			<div class="custom-control custom-checkbox">
+				<input type="checkbox" name="strict" class="custom-control-input" id="strict">
+				<label for="strict" class="custom-control-label">|strict|</label>
+			</div>
+		</div>
+		<button id="btn_submit" type="submit" class="btn btn-primary">|submit|</button>
+	</fieldset>
+</form>

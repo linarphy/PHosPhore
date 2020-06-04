@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<action lang="fr">
+	<ap>2</ap>
+	<name>Attaque au corps à corps</name>
+	<operation>
+		<turn type="choice">
+			<player>Vous</player>
+			<description>Décide de la victime</description>
+			<limit>
+				<close>Rayon de 5m</close>
+			</limit>
+		</turn>
+		<turn type="roll">
+			<player>Vous</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>FOR</attribute>
+				<consequences>
+					<criticalsuccess>dégâts envoyé *2</criticalsuccess>
+					<success>réussi</success>
+					<failure>dégâts envoyé /2</failure>
+					<criticalfailure>échec</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Coup</description>
+		</turn>
+		<turn type="roll">
+			<player>Victime</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>AGI</attribute>
+				<consequences>
+					<criticalsuccess>réussi</criticalsuccess>
+					<success>dégâts reçu /2</success>
+					<failure>échec</failure>
+					<criticalfailure>dégâts reçu *2</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Esquive</description>
+		</turn>
+		<turn type="calc">
+			<player>MdJ</player>
+			<calc>FOR (vous)/10 (arrondi inférieur) + dégats arme (vous) - défense physique (victime)</calc>
+			<description>Calcul des dégâts</description>
+		</turn>
+	</operation>
+</action>

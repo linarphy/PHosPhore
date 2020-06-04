@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<action lang="fr">
+	<ap>2</ap>
+	<name>Attaque magique</name>
+	<operation>
+		<turn type="choice">
+			<player>Vous</player>
+			<description>Décide de la victime</description>
+			<limit>
+				<close>À portée du sort choisi</close>
+			</limit>
+		</turn>
+		<turn type="roll">
+			<player>Victime</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>MAG</attribute>
+				<consequences>
+					<criticalsuccess>réussi</criticalsuccess>
+					<success>dégâts reçu /2</success>
+					<failure>échec</failure>
+					<criticalfailure>dégâts reçu *2</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Defense</description>
+		</turn>
+		<turn type="roll">
+			<player>Vous</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>INT</attribute>
+				<consequences>
+					<criticalsuccess>dégâts envoyé *2</criticalsuccess>
+					<success>réussi</success>
+					<failure>dégâts envoyé /2</failure>
+					<criticalfailure>échec</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Lancement du sort</description>
+		</turn>
+		<turn type="calc">
+			<player>MdJ</player>
+			<calc>MAG (vous)/10 (arrondi inférieur) + dégats sort (vous) + dégâts arme (vous) - défense magique (victime)</calc>
+			<description>Calcul des dégâts</description>
+		</turn>
+	</operation>
+</action>

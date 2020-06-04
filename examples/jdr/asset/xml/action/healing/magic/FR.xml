@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<action lang="fr">
+	<ap>2</ap>
+	<name>Soin magique</name>
+	<operation>
+		<turn type="choice">
+			<player>Vous</player>
+			<description>Décide de la victime</description>
+			<limit>
+				<close>À portée du sort choisi</close>
+			</limit>
+		</turn>
+		<turn type="roll">
+			<player>Vous</player>
+			<roll>
+				<value>1d100</value>
+				<attribute>INT</attribute>
+				<consequences>
+					<criticalsuccess>soin envoyé *2</criticalsuccess>
+					<success>réussi</success>
+					<failure>soin envoyé /2</failure>
+					<criticalfailure>échec</criticalfailure>
+				</consequences>
+			</roll>
+			<description>Lancement du sort</description>
+		</turn>
+		<turn type="calc">
+			<player>MdJ</player>
+			<calc>MAG (vous)/10 (arrondi inférieur) + soin sort (vous) + soin arme (vous)</calc>
+			<description>Calcul de soins</description>
+		</turn>
+	</operation>
+</action>
