@@ -295,13 +295,14 @@ class Manager
 		*
 		* @param array $values Array containing the name and value of each attribute
 		*
-		* @return void
+		* @return int
 		*/
 		public function add($values)
 		{
 			$values=$this->testAttributes($values);
 			$requete=$this->getBdd()->prepare('INSERT INTO '.$this::TABLE.'('.implode(',', array_keys($values)).') VALUES ('.implode(',', array_fill(0, count($values), '?')).')');
 			$requete->execute(array_values($values));
+			return $this->getBdd()->lastInsertId();
 		}
 		/**
 		* Updates an element in the database
@@ -419,7 +420,7 @@ class Manager
 		*/
 		public function getBy($values=null, $operations=null, $bounds=null)
 		{
-			if (!empty($values) && $values!=null)
+			if (!empty($values) && $values!==null)
 			{	
 				$conditionCreator=$this->conditionCreator($values, $operations);
 				$attributesWithOperators=$conditionCreator[0];
@@ -428,7 +429,7 @@ class Manager
 			}
 			else
 			{
-				$where='';
+				$where=' ';
 			}
 			if ($bounds!==null)
 			{
@@ -439,7 +440,14 @@ class Manager
 				$limit='';
 			}
 			$requete=$this->getBdd()->prepare('SELECT '.implode(',', $this::ATTRIBUTES).' FROM '.$this::TABLE.$where.$limit);
-			$requete->execute(array_values($values));
+			if (!empty($values) && $values!==null)
+			{
+				$requete->execute(array_values($values));
+			}
+			else
+			{
+				$requete->execute(array());
+			}
 			return $requete->fetchAll();
 		}
 		/**

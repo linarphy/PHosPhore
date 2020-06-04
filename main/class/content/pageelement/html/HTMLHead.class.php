@@ -131,6 +131,8 @@ class HTMLHead extends \content\PageElement
 					'metas' => $Metas,
 				),
 			));
+			$metas[]=$Meta;
+			$this->setElement('metas', $metas);
 		}
 		/**
 		* Add a css file to the page

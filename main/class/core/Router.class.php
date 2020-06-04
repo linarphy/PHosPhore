@@ -93,6 +93,7 @@ class Router
 						'action'      => $GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'],
 					);
 			}
+			$this->__construct(init_router());
 		}
 		/**
 		* Returns an array containing application, action and parameters transmitted by the url from GET
@@ -132,7 +133,7 @@ class Router
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
-						include($GLOBALS['config']['path_config'].$application.'/config.php');
+						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
 					}
 				}
 				$action=$GLOBALS['config'][$application]['default_action'];
@@ -192,7 +193,7 @@ class Router
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
-						include($GLOBALS['config']['path_config'].$application.'/config.php');
+						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
 					}
 				}
 				$action=$GLOBALS['config'][$application]['default_action'];
@@ -251,7 +252,7 @@ class Router
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
-						include($GLOBALS['config']['path_config'].$application.'/config.php');
+						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
 					}
 				}
 				$action=$GLOBALS['config'][$application]['default_action'];
@@ -282,13 +283,21 @@ class Router
 			{
 				$expected_parameters=$GLOBALS['config']['general_parameters'];
 			}
-			if (isset($GLOBALS['config'][$application.'_parameters']))
+			if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 			{
-				$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application.'_parameters']);
+				include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+				if (isset($GLOBALS['config'][$application]['parameters']))
+				{
+					$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application]['parameters']);
+				}
 			}
-			if (isset($GLOBALS['config'][$application.'_'.$action.'_parameters']))
+			if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/'.$action.'/config.php'))
 			{
-				$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application.'_'.$action.'_parameters']);
+				include_once($GLOBALS['config']['path_config'].$application.'/'.$action.'/config.php');
+				if (isset($GLOBALS['config'][$application][$action]['parameters']))
+				{
+					$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application][$action]['parameters']);
+				}
 			}
 			$keys=array_keys($possible_parameters);
 			foreach ($expected_parameters as $name => $params)
@@ -408,7 +417,7 @@ class Router
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
 					{
-						include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+						include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
 					}
 					return '?application='.$parameters['application'].'&action='.$GLOBALS['config'][$parameters['application']]['default_action'].$additionnal_parameters;
 				}
@@ -417,7 +426,7 @@ class Router
 			{
 				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
 				{
-					include($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
+					include_once($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
 				}
 				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].$additionnal_parameters;
 			}
@@ -454,7 +463,7 @@ class Router
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
 					{
-						include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+						include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
 					}
 					return '/'.$parameters['application'].'/'.$GLOBALS['config'][$parameters['application']]['default_action'].'/'.$additionnal_parameters;
 				}
@@ -463,7 +472,7 @@ class Router
 			{
 				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
 				{
-					include($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
+					include_once($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
 				}
 				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].'/'.$additionnal_parameters;
 			}
@@ -493,7 +502,7 @@ class Router
 			{
 				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 				{
-					include($GLOBALS['config']['path_config'].$application.'/config.php');
+					include_once($GLOBALS['config']['path_config'].$application.'/config.php');
 				}
 				$action=$GLOBALS['config'][$application]['default_action'];
 			}
@@ -532,7 +541,7 @@ class Router
 			{
 				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
 				{
-					include($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
+					include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
 				}
 				$parameters['action']=$GLOBALS['config'][$parameters['application']]['default_action'];
 			}

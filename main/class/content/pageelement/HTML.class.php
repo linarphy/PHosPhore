@@ -18,6 +18,7 @@ class HTML extends \content\PageElement
 		*/
 		public function __construct()
 		{
+			header('Content-Type: text/html;charset=utf-8');
 			parent::__construct(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/html/template.html',
 				'elements' => array(
@@ -32,6 +33,11 @@ class HTML extends \content\PageElement
 		*/
 		public function display()
 		{
+			global $Visitor;
+			if (!$this->getElement('lang'))
+			{
+				$this->addElement('lang', $Visitor->getConfiguration('lang'));
+			}
 			if (!$this->getElement('notifications'))
 			{
 				$this->addElement('notifications', '');

@@ -18,6 +18,7 @@ $GLOBALS['config']=array(
 	/* path config */
 		'path_lang'   => './lang/',			// Directory where lang definitions are
 		'path_config' => './config/',		// Directory where config files are
+		'path_asset'  => './asset/',		// Directory where assets are
 		/* template */
 			'path_template'          => './asset/html/',			// Directory where templates are
 			'path_template_filename' => 'template.html',			// Default name of template file
@@ -30,7 +31,7 @@ $GLOBALS['config']=array(
 		'general_parameters' => array(						// parameters which can be used in every page of this website
 			'lang' => array(
 				'necessary' => false,
-				'regex'     => 'EN|FR',
+				'regex'     => '^(EN|FR)$',
 			),
 		),
 		'general_langs'      => array(						// available languages
@@ -63,7 +64,7 @@ $GLOBALS['config']=array(
 				),
 				array(
 					'name'    => 'viewport',
-					'content' => 'width=device-width, initial-scale=1',
+					'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no',
 				),
 			),
 			'default_head_css'         => array(),		// Css which will be in each html page
