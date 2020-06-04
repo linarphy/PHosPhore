@@ -66,7 +66,7 @@ class Managed
 		* 
 		* @return string
 		*/
-		public function setDisplay($attribute)
+		public function setAffichage($attribute)
 		{
 			return htmlspecialchars((string)$this->$attribute);
 		}
@@ -122,10 +122,10 @@ class Managed
 		*/
 		public function identical($object)
 		{
-			foreach ($this::SIMILAR_CRITERION as $critere)
+			foreach ($this::CRITERES_SIMILAIRE as $critere)
 			{
 				$accessor=$this->getGet($critere);
-				if (!$this->$accessor()==$object->$accessor())
+				if (!$this->$accessor()==$objet->$accessor())
 				{
 					return false;
 				}
@@ -145,7 +145,7 @@ class Managed
 				$accessor=$this->getGet($attribute);
 				if (method_exists($this, $accessor))
 				{
-					if ($this->$accessor()!==null)
+					if ($this->$accessor()!=null)
 					{
 						$array[$attribute]=$this->$accessor();
 					}
@@ -170,11 +170,11 @@ class Managed
 		*/
 		public function create()
 		{
-			$id=$this->Manager()->add($this->table());
+			$this->Manager()->add($this->table());
 			$method=$this->getSet($this::INDEX);
 			if (method_exists($this, $method))
 			{
-				$this->$method($id);
+				$this->$method($this->Manager()->getIdBy($this->table()));
 			}
 		}
 		/**
@@ -198,16 +198,6 @@ class Managed
 			$this->Manager()->delete($this->$getter());
 		}
 		/**
-		* Clone a managed object
-		* 
-		* @return core\Managed
-		*/
-		public function clone()
-		{
-			$class=get_class($this);
-			return new $class($this->table());
-		}
-		/**
 		* Create a \core\Managed instance
 		*
 		* @param array $attributes Object attributes
@@ -217,51 +207,6 @@ class Managed
 		public function __construct($attributes=array())
 		{
 			$this->hydrate($attributes);
-		}
-		/**
-		* Object to array
-		*
-		* @param bool rec Recursive mode?
-		* 
-		* @return array
-		*/
-		public function obj2arr($rec=False)
-		{
-			$arr = get_object_vars($this);
-			if ($rec)
-			{
-				return $this->obj2arrRec($arr);
-			}
-			return $arr;
-		}
-		/**
-		* Array of obj to arr
-		*
-		* @param array arr Array (of object?)
-		* 
-		* @return array
-		*/
-		public function obj2arrRec($arr)
-		{
-			foreach ($arr as $key => $val)
-			{
-				if (is_object($val))
-				{
-					if (method_exists($val, 'obj2arr'))
-					{
-						$arr[$key] = $val->obj2arr();
-					}
-					else
-					{
-						$arr[$key] = (array) $val;
-					}
-				}
-				if (is_array($val))
-				{
-					$arr[$key] = $this->obj2arrRec($val);
-				}
-			}
-			return $arr;
 		}
 } // END class Manager
 

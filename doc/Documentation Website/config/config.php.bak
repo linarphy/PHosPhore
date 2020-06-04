@@ -69,7 +69,7 @@ $GLOBALS['config']=array(
 				),
 				array(
 					'name'    => 'viewport',
-					'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no',
+					'content' => 'width=device-width, initial-scale=1',
 				),
 			),
 			'default_head_css'         => array(),		// Css which will be in each html page

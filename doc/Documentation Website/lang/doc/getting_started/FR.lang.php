@@ -82,6 +82,20 @@ $GLOBALS['lang']['doc']['getting_started']=array(
 				),
 			),
 		),
+		array(
+			'title'       => 'Création d\'un blogue avec PHosPhore',
+			'content'     => 'Pour une application pratique au fonctionnement de PHosPhore, cette partie expliquera la mise en place d\'un site de blogging à l\'aide du framework.',
+			'subsections' => array(
+				array(
+					'title'   => 'Création de la base de donnée',
+					'content' => file_get_contents('blog_1_FR.html', true),
+				),
+				array(
+					'title'   => 'Création du système de connexion',
+					'content' => file_get_contents('blog_2_FR.html', true),
+				),
+			),
+		),
 	),
 );
 

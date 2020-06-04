@@ -1,6 +1,6 @@
-<p>Dans PHosPhore, chaque page est une "action" contenu dans une "application". Une même application peut contenir plusieurs actions, à l'image d'un dossier contenant plusieurs fichiers. La position des fichiers du site dépendent de ce couple. Ainsi, la définition de la page se fait toujours dans <code>page/application/action/page.php</code>. Dans les paramètre, il est nécessaire de définir l'application par défaut si ni l'application, ni l'action est chargé, et de définir, pour chaque application, l'action par défaut si aucune n'est précisé. Pour une application "a" et une action "b":
+<p>Dans PHosPhore, chaque page est une "action" contenu dans une "application". Une même application peut contenir plusieurs actions, à l'image d'un dossier contenant plusieurs fichiers. La position des fichiers du site dépendent de ce couple. Ainsi, la définition de la page se fait toujours dans <code>page/application/action/page.php</code>. Dans les paramètre, il est nécessaire de définir l'application par défaut si ni l'application, ni l'action est chargé, et de définir, pour chaque application, l'action par défaut si aucune n'est précisé. Pour une application "a" et une action "b":</p>
 <ul>
-	<li>Définir <code>default_application</code> à "a" va permettre que l'application utilisée par défaut soit "a".</li>
-	<li>Définir <code>a_default_action</code> à "b" va permettre qu'une utilisation de l'application "a" sans précision d'action va utiliser l'action "b".</li>
+	<li>Définir <code>default_application</code> à "a" dans lel fichier conf global va permettre que l'application utilisée par défaut soit "a".</li>
+	<li>Définir <code>default_action</code> à "b" dans le fichier conf de l'application "a" va permettre qu'une utilisation de l'application "a" sans précision d'action va utiliser l'action "b".</li>
 	Ces deux paramètres sont nécessaires. Et ce, pour le dernier, pour chaque application existante.
-</ul></p>
+</ul>

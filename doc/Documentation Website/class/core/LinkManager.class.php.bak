@@ -185,7 +185,7 @@ class LinkManager extends \core\Manager
 		* 
 		* @return array
 		*/
-		public function retrieveBy($attributes=null, $operations=null, $name_class=null, $name_id=null, $recovery=1)
+		public function retrieveBy($attributes=null, $operations=null, $name_class=null, $name_id=null, $recovey=1)
 		{
 			if ($name_class===null)
 			{
@@ -202,7 +202,7 @@ class LinkManager extends \core\Manager
 				);
 			}
 			$results=$this->getBy($attributes, $operations);
-			switch ($recovery)
+			switch ($recovey)
 			{
 				case 0:
 					$Objects=array();
@@ -231,7 +231,7 @@ class LinkManager extends \core\Manager
 					}
 					return $Objects;
 					break;
-				default:			// Ipossible (logically)
+				defaut:			// Ne devrait jamais arriver
 					$Objects=array();
 					foreach ($results as $result)
 					{
