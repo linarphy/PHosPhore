@@ -1,31 +1,46 @@
 <?php
 
-$GLOBALS['lang']=array(
-	/* class */
-		/* content */
-			'class_content_content_no_result'            => 'Aucun résultat pour cet id de contenu',
-			'class_content_pageelement_cannot_add_value' => 'Ne peut pas ajouter un autre élément à un élément qui n\'est ni un tableau ni une chaîne',
-		/* core */
-			/* manager */
-				'class_core_manager_unknown_operator'  => 'Opérateur inconnue',
-				'class_core_manager_unknown_attribute' => 'Attribut inconnue',
-				'class_core_manager_unknown_direction' => 'Direction Inconnue',
-			/* router */
-				'class_router_argument_content_mismatch' => 'Inadéquation entre le contenu attendu d\'un paramètre et son contenu réel',
-				'class_core_router_missing_parameter'    => 'Il manque au moins un paramètre',
-				'class_core_router_too_much_parameters'  => 'Trop de paramètres ont été donnés',
-			/* managed */
-				'class_core_managed_no_attributes' => 'Pas d\'attribut à hydrater',
-		/* user */
-			/* visitor */
-				'class_user_visitor_no_file' => 'Le fichier ne peut pas être trouvé',
-				'class_user_visitor_no_perm' => 'Vous n\'avez pas la permission de voir cette page',
-	/* html */
-		'html_title_prefix' => ' | '.$GLOBALS['config']['general_name'],
-	/* general */
-		/* error */
-			'general_error_not_numeric' => 'Valeur non numérique',
-			'general_error_connection'  => 'Erreur lors de la connexion : mauvais mot de passe ou pseudo',
-);
+/* The expected value is numeric */
+$GLOBALS['lang']['error_not_numeric']='Valeur non numérique';
+/* User connection error */
+$GLOBALS['lang']['error_connection']='Erreur lors de la connexion : mauvais mot de passe ou pseudo';
+/* Global configuration loaded */
+$GLOBALS['lang']['init_conf']='Configuration global chargé';
+/* Router created and configured */
+$GLOBALS['lang']['init_router']='Routeur prêt';
+/* Visitor created and configured */
+$GLOBALS['lang']['init_visitor']='Visiteur prêt';
+/* Visitor well connected */
+$GLOBALS['lang']['connected']='Visiteur bien connecté';
+/* End of the script */
+$GLOBALS['lang']['end']='Fin du script';
+/* Mod added */
+$GLOBALS['lang']['mod_added']='Mod ajouté:';
+/* Try to load a class */
+$GLOBALS['lang']['load_class']='Tentative de chargement de la classe:';
+/* Successfully loaded the class */
+$GLOBALS['lang']['class_loaded']='a correctement été chargé';
+/* Successfully loaded the class */
+$GLOBALS['lang']['config_file_loaded']='fichier config correctement chargé';
+/* Successfuly loaded lang file */
+$GLOBALS['lang']['lang_file_loaded']='fichier  lang correctement chargé:';
+/* The class doesn't exist */
+$GLOBALS['lang']['class_not_exist']='n\'existe pas';
+/* Custom route mode in the $_GET */
+$GLOBALS['lang']['router_get']='Mode de router personnalisé à partir de l\'URL:';
+/* Custom route mode stored */
+$GLOBALS['lang']['router_set_session']='Mode de router personnalisé définie stocké dans la session';
+/* Custom route mode deleted */
+$GLOBALS['lang']['router_unset_session']='Mode de router personnalisé définie supprimé de la session';
+/* Custom route mode stored in the session used */
+$GLOBALS['lang']['router_use_session']='Utilisation du mode de router personnalisé stocké dans la session:';
+/* Visitor is already connected with his session (start of the string) */
+$GLOBALS['lang']['visitor_connected_session_start']='Le visiteur';
+/* Visitor is already connected with his session (end of the string) */
+$GLOBALS['lang']['visitor_connected_session_end']='s\'est connecté avec sa session';
+/* Visitor is logged on as a guest because he doesn't have any credentials stored in his session */
+$GLOBALS['lang']['visitor_guest']='Le visiteur s\'est connecté en tant qu\'invité (guest): sa session ne contient pas ses identifiants';
+/* File loaded */
+$GLOBALS['lang']['load_file']='Fichier chargé';
 
 ?>

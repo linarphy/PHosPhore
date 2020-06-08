@@ -167,7 +167,7 @@ class Role extends \core\Managed
 		*/
 		public function displayPermission($index)
 		{
-			return htmlspecialchars((string)$this->permissions[$index]->afficher());
+			return htmlspecialchars((string)$this->permissions[$index]->display());
 		}
 		/**
 		* Role display
@@ -185,6 +185,7 @@ class Role extends \core\Managed
 		*/
 		public function retrievePermissions()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['retrievespermissions'], 'role');
 			if ($this->getRole_name())
 			{
 				$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
@@ -200,6 +201,11 @@ class Role extends \core\Managed
 					$Permissions[]=$Permission;
 				}
 				$this->setPermissions($Permissions);
+				new \exception\Notice($GLOBALS['lang']['class']['user']['role']['retrievespermissions_end'], 'role');
+			}
+			else
+			{
+				new \exception\FatalError($GLOBALS['lang']['class']['user']['role']['error_retrievespermissions'], 'role');
 			}
 		}
 		/**
@@ -211,6 +217,7 @@ class Role extends \core\Managed
 		*/
 		public function existPermission($link)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['existpermission'], 'role');
 			global $Router;
 			$link=$Router->fill($link);
 			$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
@@ -223,6 +230,7 @@ class Role extends \core\Managed
 				'application' => '=',
 				'action'      => '=',
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['existpermission_end'], 'role');
 		}
 		/**
 		* Retrieves the role from its id

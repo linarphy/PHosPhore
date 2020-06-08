@@ -48,12 +48,14 @@ class LinkManager extends \core\Manager
 		*/
 		public function getByGroup($attributes, $operations, $group, $strict=False)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['getbygroup_start'], 'linkmanager');
 			if (in_array($group, $this::ATTRIBUTES))
 			{
 				$attributes_operators=array();
 				$true_attributes=array();
 				if ($strict)
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['getbygroup_strict'], 'linkmanager');
 					$attributes_count=array();
 				}
 				foreach ($attributes as $index => $condition)
@@ -97,9 +99,14 @@ class LinkManager extends \core\Manager
 					$where_equalities_join=' WHERE '.implode(' AND ', $equalitiess_join_with_table_name);
 				}
 				$select='SELECT '.$group_with_table_name.' FROM '.implode(' JOIN ', $selects_with_table_name).$where_equalities_join.' GROUP BY '.$group_with_table_name;
+				new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['getbygroup_request'].' '.$select, 'linkmanager');
 				$requete=$this->getBdd()->prepare($select);
 				$requete->execute(array_values_recursive($true_attributes));
 				return $requete->fetchAll();
+			}
+			else
+			{
+				new \exception\Error($GLOBALS['lang']['class']['core']['linkmanager']['getbygroup_bad_group'], 'linkmanager');
 			}
 			return False;
 		}
@@ -114,6 +121,7 @@ class LinkManager extends \core\Manager
 		*/
 		public function addBy($variants, $invariants)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['addby'], 'linkmanager');
 			foreach ($variants as $variant)
 			{
 				$variant=array_intersect_key($variant, array_flip($this::ATTRIBUTES));
@@ -136,6 +144,7 @@ class LinkManager extends \core\Manager
 			}
 			foreach ($data as $datum)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['addby_requests'].' '.'INSERT INTO '.$this::TABLE.'('.implode(',', $attributes).') VALUES ('.implode(',', array_fill(0, count($attributes), '?')).')', 'linkmanager');
 				$requete=$this->getBdd()->prepare('INSERT INTO '.$this::TABLE.'('.implode(',', $attributes).') VALUES ('.implode(',', array_fill(0, count($attributes), '?')).')');
 				$requete->execute(array_values($datum));
 			}
@@ -187,15 +196,19 @@ class LinkManager extends \core\Manager
 		*/
 		public function retrieveBy($attributes=null, $operations=null, $name_class=null, $name_id=null, $recovery=1)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby'], 'linkmanager');
 			if ($name_class===null)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_name_class'], 'linkmanager');
 				preg_match('/[A-Z]+[a-z]+$/', get_class($this), $matches);
 				$name_class=$matches[0];
 				preg_match('/^((\w+\\\)+)/', get_class($this), $matches);
 				$name_class='\\'.$matches[0].$name_class;
+				new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_name_class_result'].' '.$name_class, 'linkmanager');
 			}
 			if ($name_id===null)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_name_id'], 'linkmanager');
 				$name_id=array(
 					'db' => 'id_'.strtolower(get_class_name($name_class)),
 					'obj' => 'id',
@@ -205,6 +218,7 @@ class LinkManager extends \core\Manager
 			switch ($recovery)
 			{
 				case 0:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_no_recovery'], 'linkmanager');
 					$Objects=array();
 					foreach ($results as $result)
 					{
@@ -213,6 +227,7 @@ class LinkManager extends \core\Manager
 					return $Objects;
 					break;
 				case 1:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_grouped_recovery'], 'linkmanager');
 					$name_manager=$name_class.'Manager';
 					$Manager=new $name_manager(\core\DBFactory::MysqlConnection());
 					return $Manager->retrieveBy(array(
@@ -222,6 +237,7 @@ class LinkManager extends \core\Manager
 					));
 					break;
 				case 2:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_one_recovery'], 'linkmanager');
 					$Objects=array();
 					foreach ($results as $result)
 					{
@@ -231,7 +247,8 @@ class LinkManager extends \core\Manager
 					}
 					return $Objects;
 					break;
-				default:			// Ipossible (logically)
+				default:			// Impossible (logically)
+					new \exception\FatalError($GLOBALS['lang']['class']['core']['linkmanager']['retrieveby_impossible'], 'linkmanager');
 					$Objects=array();
 					foreach ($results as $result)
 					{

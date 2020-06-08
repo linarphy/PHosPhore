@@ -345,7 +345,7 @@ class User extends \core\Managed
 		*
 		* @return string
 		*/
-		public function afficherDate_registrationFormat($format)
+		public function displayDate_registrationFormat($format)
 		{
 			return date($format, strtotime($this->date_registration));
 		}
@@ -356,7 +356,7 @@ class User extends \core\Managed
 		*
 		* @return string
 		*/
-		public function afficherDate_loginFormat($format)
+		public function displayDate_loginFormat($format)
 		{
 			return date($format, strtotime($this->date_login));
 		}
@@ -378,6 +378,7 @@ class User extends \core\Managed
 		*/
 		public function isConnected($interval='PT5M')
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected'].' '.$interval, 'user');
 			$Manager=$this->Manager();
 			$date=new \DateTime(date($GLOBALS['config']['db_date_format']));
 			$date->sub(new \DateInterval($interval));
@@ -388,6 +389,7 @@ class User extends \core\Managed
 				'date_login' => '>=',
 				'id'         => '=',
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected_end'], 'user');
 			return (bool)$data;
 		}
 		/**
@@ -397,6 +399,7 @@ class User extends \core\Managed
 		*/
 		public function retrievePassword()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword'], 'user');
 			if ($this->getId())
 			{
 				$Password=new \user\Password(array(
@@ -405,6 +408,7 @@ class User extends \core\Managed
 				$Password->retrieve();
 				$this->setPassword($Password);
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword_end'], 'user');
 		}
 		/**
 		* Retrieve the role of the user
@@ -413,6 +417,7 @@ class User extends \core\Managed
 		*/
 		public function retrieveRole()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole'], 'user');
 			if ($this->getId())
 			{
 				$Role=new \user\Role(array(
@@ -421,6 +426,7 @@ class User extends \core\Managed
 				$Role->retrieve();
 				$this->setRole($Role);
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole_end'], 'user');
 		}
 		/**
 		* Retrieve a user with his id or nickname
@@ -429,6 +435,7 @@ class User extends \core\Managed
 		*/
 		public function retrieve()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve'], 'user');
 			$UserManager=$this->Manager();
 			if ($this->getId())
 			{
@@ -443,6 +450,7 @@ class User extends \core\Managed
 			}
 			$this->retrieveRole();
 			$this->retrievePassword();
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve_end'], 'user');
 		}
 		/**
 		* Retrieves notifications to be seen by the user
@@ -451,6 +459,7 @@ class User extends \core\Managed
 		*/
 		public function retrieveNotifications()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications'], 'user');
 			$Linked=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
 			$results=$Linked->get('id_user', $this->getId());
 			$notifications=array();
@@ -462,6 +471,7 @@ class User extends \core\Managed
 				$notification->retrieve();
 				$notifications[]=$notification;
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications_end'], 'user');
 			return $notifications;
 		}
 } // END class User extends \core\Managed
