@@ -1,5 +1,3 @@
-
-
 # PHosPhore
  
  A simple PHP framework
@@ -39,8 +37,8 @@ See [here](https://jasonmccreary.me/articles/configure-apache-virtualhost-mac-os
 
 ## How to use
 
-The doc is available [here](https://documentation.phosphore.org).
-You can use examples to help you to understanding how this framework works.
+The doc is available [here](https://www.phosphore.org).
+You can use examples website (in the examples folder) to help you to understand how this framework works.
 
 ## Authors
 
