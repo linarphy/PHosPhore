@@ -1,7 +1,6 @@
 <?php
 
-$GLOBALS['config']['page']['home']=array(
-	'default_action' => 'hub',		// Default action for home application
-);
+/* Default action for home application */
+$GLOBALS['config']['page']['home']['default_action']='hub';
 
 ?>
