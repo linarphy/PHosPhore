@@ -21,7 +21,7 @@ $GLOBALS['lang']['load_class']='Tentative de chargement de la classe:';
 /* Successfully loaded the class */
 $GLOBALS['lang']['class_loaded']='a correctement été chargé';
 /* Successfully loaded the class */
-$GLOBALS['lang']['config_file_loaded']='fichier config correctement chargé';
+$GLOBALS['lang']['config_file_loaded']='fichier config correctement chargé (et ./config/config.php rechargé après)';
 /* Successfuly loaded lang file */
 $GLOBALS['lang']['lang_file_loaded']='fichier  lang correctement chargé:';
 /* The class doesn't exist */

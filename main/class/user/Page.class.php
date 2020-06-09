@@ -271,6 +271,7 @@ class Page
 				if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php'))
 				{
 					include_once($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php');
+					include($GLOBALS['config']['path_config'].'config.php');
 					new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php', 'page');
 				}
 				if (stream_resolve_include_path($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
@@ -283,6 +284,7 @@ class Page
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 						new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php', 'page');
 					}
 					if (stream_resolve_include_path($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php'))

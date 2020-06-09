@@ -148,6 +148,7 @@ class Router
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
 				$action=$GLOBALS['config']['page'][$application]['default_action'];
@@ -227,6 +228,7 @@ class Router
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
 				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
@@ -290,6 +292,7 @@ class Router
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].'page/'.$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
 				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
@@ -603,6 +606,7 @@ class Router
 						if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/config.php'))
 						{
 							include_once($GLOBALS['config']['path_config'].'page/'.$application.'/config.php');
+							include($GLOBALS['config']['path_config'].'config.php');
 							new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$application.'/config.php', 'router');
 						}
 						if (!empty($action))
@@ -610,6 +614,7 @@ class Router
 							if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php'))
 							{
 								include_once($GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php');
+								include($GLOBALS['config']['path_config'].'config.php');
 								new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php', 'router');
 							}
 						}

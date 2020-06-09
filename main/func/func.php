@@ -66,6 +66,7 @@ function loadClass($className)
 		if (file_exists($fullFileNameConfig))
 		{
 			require_once($fullFileNameConfig);
+			require($GLOBALS['config']['path_config'].'config.php');
 			if (class_exists('\exception\Notice'))
 			{
 				new \Exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['config_file_loaded'], 'loadclass');
