@@ -9,7 +9,8 @@ You can copy and edit these configurations in ``config.php``, which will overrid
 
 ## class
 
-Class configuration, you can edit this for now.
+Mod configuration , same as core: you should not edit this.
+You can still edit these in ``config.php``
 
 ## mod
 
@@ -18,7 +19,8 @@ You can still edit these in ``config.php`` (explanations are in ``mod`` folder).
 
 ## page
 
-Page configuration, you can edit this for now.
+Mod configuration , same as core: you should not edit this.
+You can still edit these in ``config.php``
 
 ## config.php
 
