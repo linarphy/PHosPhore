@@ -1,9 +1,5 @@
 # TODO
 
-## Configuration
-
-- ``config/config.php`` override class and page configurations
-
 ## Language
 
 - Use lang at the start of the script (with a init_lang function ?)
