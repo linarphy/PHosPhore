@@ -1,0 +1,73 @@
+format 222
+"config" // main::config
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/config/"
+  deploymentview 161794 "config"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 180354 "config"
+      stereotype "source"
+      php_src "<?php
+
+/* [DATABASE] */
+/* The hostname on which the Mysql database server resides */
+$GLOBALS['config']['db_host']='localhost';
+/* The name of the Mysql database */
+$GLOBALS['config']['db_name']='example';
+/* The username for Mysql */
+$GLOBALS['config']['db_username']='root';
+/* The password for Mysql */
+$GLOBALS['config']['db_passwd']='';
+
+/* [IDENTITY] */
+/* Name of the website */
+$GLOBALS['config']['general_name']='PHosPhore';
+/* Email of the website administrator */
+$GLOBALS['config']['general_email']='gugus2000@phosphore.org';
+
+/* [LOG] */
+/* Define the logging level */
+$GLOBALS['config']['log_level']=0;
+
+?>"
+      associated_elems
+      end
+    end
+  end
+
+  package_ref 164866 // class
+
+  package_ref 165634 // core
+
+  package_ref 165762 // page
+end

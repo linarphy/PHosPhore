@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Documentation produced by the Html generator of Bouml (http://www.bouml.fr) -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Class Managed</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">Class Managed</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<a name="ref4_171778"></a>
+<p>Object managed by a Manager<br /><br />@author gugus2000<br /><br /></p>
+<p>Declaration :</p><ul>
+<li>Php : class Managed </li></ul><p>Directly inherited by : <a href="class173954.html#ref4_173954"><b>Configuration</b></a> <a href="class171650.html#ref4_171650"><b>Content</b></a> <a href="class174338.html#ref4_174338"><b>Notification</b></a> <a href="class174722.html#ref4_174722"><b>Password</b></a> <a href="class174978.html#ref4_174978"><b>Permission</b></a> <a href="class175234.html#ref4_175234"><b>Role</b></a> <a href="class175490.html#ref4_175490"><b>User</b></a> </p>
+<p>Artifact : <a href="index.html#ref8_177410"><b>Managed.class</b></a></p>
+<div class="sub">
+<a name="ref1_200578"></a>
+<table><tr><td><div class="element">Attribute <b>SIMILAR_CRITERION</b></div></td></tr></table>
+<p>Constant <br /><br />Criteria (attributes) for checking similarity<br /><br />@var array<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ SIMILAR_CRITERION : array = array('id'), read only</li><li>Php :  const SIMILAR_CRITERION</li></ul><a name="ref1_200706"></a>
+<table><tr><td><div class="element">Attribute <b>INDEX</b></div></td></tr></table>
+<p>Index<br /><br />@var mixed<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ INDEX : mixed = 'id', read only</li><li>Php :  const INDEX</li></ul><a name="ref2_311298"></a>
+<table><tr><td><div class="element">Operation <b>getGet</b></div></td></tr></table><p>Method <br /><br />Gives the name of the accessor function of an attribute<br /><br />@param string $attribute Attribute to be accessed<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getGet(in attribute : string) : string</li><li>Php : public function getGet($attribute): string </li></ul><a name="ref2_311426"></a>
+<table><tr><td><div class="element">Operation <b>getSet</b></div></td></tr></table><p>Gives the name of the function that defines an attribute<br /><br />@param ??? $attribut Attribute for which we want the definitor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getSet(in attribute : ) : string</li><li>Php : public function getSet($attribute): string </li></ul><a name="ref2_311554"></a>
+<table><tr><td><div class="element">Operation <b>getDisp</b></div></td></tr></table><p>Gives the name of the function displaying an attribute<br /><br />@param string $attribute Attribute whose display is wanted<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getDisp(in attribute : string) : string</li><li>Php : public function getDisp($attribute): string </li></ul><a name="ref2_311682"></a>
+<table><tr><td><div class="element">Operation <b>setDisplay</b></div></td></tr></table><p>Define the display of an attribute<br /><br />@param string $attribute Name of the attribute<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + setDisplay(in attribute : string) : string</li><li>Php : public function setDisplay($attribute): string </li></ul><a name="ref2_311810"></a>
+<table><tr><td><div class="element">Operation <b>hydrate</b></div></td></tr></table><p>Hydrates the object<br /><br />@param array $attributes Array containing the name and value of each attribute of the object<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # hydrate(in attributes : array) : void</li><li>Php : protected function hydrate($attributes): void </li></ul><a name="ref2_311938"></a>
+<table><tr><td><div class="element">Operation <b>Manager</b></div></td></tr></table><p>Creates an instance of the Manager class of the managed object<br /><br />@return \core\Manager<br /><br /></p><p>Declaration :</p><ul><li>Uml : + Manager() : \core\Manager</li><li>Php : public function Manager(): \core\Manager </li></ul><a name="ref2_312066"></a>
+<table><tr><td><div class="element">Operation <b>get</b></div></td></tr></table><p>Fill the managed object<br /><br />@param mixed $index Index of the managed object<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + get(in index : mixed) : void</li><li>Php : public function get($index): void </li></ul><a name="ref2_312194"></a>
+<table><tr><td><div class="element">Operation <b>identical</b></div></td></tr></table><p>Checks whether two managed objects are identical<br /><br />@param \core\Managed $object The object that checks for similarity<br /><br />@return bool<br /><br /></p><p>Declaration :</p><ul><li>Uml : + identical(in object : \core\Managed) : bool</li><li>Php : public function identical($object): bool </li></ul><a name="ref2_312322"></a>
+<table><tr><td><div class="element">Operation <b>table</b></div></td></tr></table><p>Returns an array representing the managed object.<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + table() : array</li><li>Php : public function table(): array </li></ul><a name="ref2_312450"></a>
+<table><tr><td><div class="element">Operation <b>retrieve</b></div></td></tr></table><p>Retrieve an object in the database<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieve() : void</li><li>Php : public function retrieve(): void </li></ul><a name="ref2_312578"></a>
+<table><tr><td><div class="element">Operation <b>create</b></div></td></tr></table><p>Insert the object in the database<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + create() : void</li><li>Php : public function create(): void </li></ul><a name="ref2_312706"></a>
+<table><tr><td><div class="element">Operation <b>change</b></div></td></tr></table><p>Change th object in the database<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + change() : void</li><li>Php : public function change(): void </li></ul><a name="ref2_312834"></a>
+<table><tr><td><div class="element">Operation <b>delete</b></div></td></tr></table><p>Delete the object in the database<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + delete() : void</li><li>Php : public function delete(): void </li></ul><a name="ref2_312962"></a>
+<table><tr><td><div class="element">Operation <b>clone</b></div></td></tr></table><p>Clone a managed object<br /><br />@return core\Managed<br /><br /></p><p>Declaration :</p><ul><li>Uml : + clone() : core\Managed</li><li>Php : public function clone(): core\Managed </li></ul><a name="ref2_313090"></a>
+<table><tr><td><div class="element">Operation <b>__construct</b></div></td></tr></table><p>Create a \core\Managed instance<br /><br />@param array $attributes Object attributes<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + __construct(in attributes : array = array()) : void</li><li>Php : public function __construct($attributes = array()): void </li></ul><a name="ref2_313218"></a>
+<table><tr><td><div class="element">Operation <b>obj2arr</b></div></td></tr></table><p>Object to array<br /><br />@param bool rec Recursive mode?<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + obj2arr(in rec : bool = False) : array</li><li>Php : public function obj2arr($rec = False): array </li></ul><a name="ref2_313346"></a>
+<table><tr><td><div class="element">Operation <b>obj2arrRec</b></div></td></tr></table><p>Array of obj to arr<br /><br />@param array arr Array (of object?)<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + obj2arrRec(in arr : array) : array</li><li>Php : public function obj2arrRec($arr): array </li></ul></div>
+<p>All public operations : <a href="class171778.html#ref2_313090"><b>__construct</b></a> , <a href="class171778.html#ref2_312706"><b>change</b></a> , <a href="class171778.html#ref2_312962"><b>clone</b></a> , <a href="class171778.html#ref2_312578"><b>create</b></a> , <a href="class171778.html#ref2_312834"><b>delete</b></a> , <a href="class171778.html#ref2_312066"><b>get</b></a> , <a href="class171778.html#ref2_311554"><b>getDisp</b></a> , <a href="class171778.html#ref2_311298"><b>getGet</b></a> , <a href="class171778.html#ref2_311426"><b>getSet</b></a> , <a href="class171778.html#ref2_312194"><b>identical</b></a> , <a href="class171778.html#ref2_311938"><b>Manager</b></a> , <a href="class171778.html#ref2_313218"><b>obj2arr</b></a> , <a href="class171778.html#ref2_313346"><b>obj2arrRec</b></a> , <a href="class171778.html#ref2_312450"><b>retrieve</b></a> , <a href="class171778.html#ref2_311682"><b>setDisplay</b></a> , <a href="class171778.html#ref2_312322"><b>table</b></a> </p>
+</body>
+</html>

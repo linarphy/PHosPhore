@@ -1,0 +1,90 @@
+format 222
+"main" // main
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/"
+  deploymentview 160898 "main"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 176002 "index"
+      stereotype "source"
+      php_src "<?php
+
+session_start();
+date_default_timezone_set('UTC');
+
+require('./func/func.php');
+spl_autoload_register('loadClass');
+
+init_conf();
+new \\exception\\Notice($GLOBALS['lang']['init_conf']);
+$Router=new \\core\\Router(init_router());
+new \\exception\\Notice($GLOBALS['lang']['init_router']);
+$Visitor=new \\user\\Visitor(init_visitor());
+new \\exception\\Notice($GLOBALS['lang']['init_visitor']);
+
+try
+{
+	if ($Visitor->connection($_SESSION['password']))
+	{
+		new \\exception\\Notice($GLOBALS['lang']['connected']);
+		echo $Visitor->loadPage($Router->decodeRoute($_SERVER['REQUEST_URI']));
+	}
+	else
+	{
+		new \\exception\\FatalError($GLOBALS['lang']['error_connection']);
+	}
+}
+catch (Exception $e)
+{
+	echo $Visitor->loadPage($GLOBALS['config']['error_page']);
+}
+
+new \\exception\\Notice($GLOBALS['lang']['end']);
+exit();
+
+?>"
+      associated_elems
+      end
+    end
+  end
+
+  package_ref 163714 // class
+
+  package_ref 164738 // config
+
+  package_ref 166018 // func
+
+  package_ref 166146 // lang
+
+  package_ref 169090 // page
+end

@@ -1,0 +1,492 @@
+format 222
+"exception" // main::class::exception
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/class/exception/"
+  php_namespace "exception"
+  deploymentview 161538 "exception"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 177794 "Error.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 173314 // Error
+      end
+    end
+
+    artifact 177922 "FatalError.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 173570 // FatalError
+      end
+    end
+
+    artifact 178050 "Notice.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 173698 // Notice
+      end
+    end
+
+    artifact 178178 "Warning.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 173442 // Warning
+      end
+    end
+  end
+
+  classview 157442 "exception"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 173314 "Error"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Error exception
+
+@author gugus2000
+"
+      classrelation 168706 // <generalisation>
+	relation 168706 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 168706 // <generalisation>
+	  b parent class_ref 173442 // Warning
+      end
+
+      attribute 201858 "LEVEL"
+	const_attribute package explicit_type "int"
+	init_value "2"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " constant 
+
+Level of the exception
+
+@var ${type}
+"
+      end
+
+      attribute 201986 "NOTIFICATION_TYPE"
+	const_attribute package explicit_type "string"
+	init_value "\\user\\Notification::TYPE_WARNING"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Type of the notification created with the error
+
+@var ${type}
+"
+      end
+
+      operation 318082 "__construct"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "message" explicit_type "string"
+	    defaultvalue "null"
+	  param in name "channel" explicit_type "int"
+	    defaultvalue "'CORE'"
+	  param in name "code" explicit_type "\\Exception"
+	    defaultvalue "0"
+	  param in name "previous" explicit_type "\\Exception"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${t3} ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " method 
+
+Constructor of an instance of \\exception\\Error
+
+@param ${t0} message Exception message
+@param ${t1} code User defined exception code
+@param ${t2} previous Previous exception if nested exception
+
+@return ${type}
+"
+      end
+    end
+
+    class 173442 "Warning"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Warning exception
+
+@author gugus2000
+"
+      classrelation 169090 // <generalisation>
+	relation 169090 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 169090 // <generalisation>
+	  b parent class_ref 173698 // Notice
+      end
+
+      attribute 202626 "LEVEL"
+	const_attribute package explicit_type "int"
+	init_value "1"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " constant 
+
+Level of the exception
+
+@var ${type}
+"
+      end
+
+      operation 318594 "__construct"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "message" explicit_type "string"
+	    defaultvalue "null"
+	  param in name "channel" explicit_type "int"
+	    defaultvalue "'CORE'"
+	  param in name "code" explicit_type "\\Exception"
+	    defaultvalue "0"
+	  param in name "previous" type class_ref 173826 // \Exception
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${t3} ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " method 
+
+Constructor of an instance of \\exception\\Warning
+
+@param ${t0} message Exception message
+@param ${t1} code User defined exception code
+@param ${t2} previous Previous exception if nested exception
+
+@return ${type}
+"
+      end
+    end
+
+    class 173570 "FatalError"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+FatalError exception
+
+@author gugus2000
+"
+      classrelation 168834 // <generalisation>
+	relation 168834 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 168834 // <generalisation>
+	  b parent class_ref 173442 // Warning
+      end
+
+      attribute 202114 "LEVEL"
+	const_attribute package explicit_type "int"
+	init_value "3"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " constant 
+
+Level of the exception
+
+@var ${type}
+"
+      end
+
+      attribute 202242 "NOTIFICATION_TYPE"
+	const_attribute package explicit_type "string"
+	init_value "\\user\\Notification::TYPE_ERROR"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Type of the notification created with the error
+
+@var ${type}
+"
+      end
+
+      operation 318210 "__construct"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "message" explicit_type "string"
+	    defaultvalue "null"
+	  param in name "channel" explicit_type "int"
+	    defaultvalue "'CORE'"
+	  param in name "code" explicit_type "\\Exception"
+	    defaultvalue "0"
+	  param in name "previous" explicit_type "\\Exception"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${t3} ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " method 
+
+Constructor of an instance of \\exception\\FatalError
+
+@param ${t0} message Exception message
+@param ${t1} code User defined exception code
+@param ${t2} previous Previous exception if nested exception
+
+@return ${type}
+"
+      end
+    end
+
+    class 173698 "Notice"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Notice exception
+
+@author gugus2000
+"
+      classrelation 168962 // <generalisation>
+	relation 168962 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 168962 // <generalisation>
+	  b parent class_ref 173826 // \Exception
+      end
+
+      attribute 202370 "LEVEL"
+	const_attribute package explicit_type "int"
+	init_value "0"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " constant 
+
+Level of the exception
+
+@var ${type}
+"
+      end
+
+      attribute 202498 "channel"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " attribute 
+
+Channel of the notice
+
+@var ${type}
+"
+      end
+
+      operation 318338 "__construct"
+	public explicit_return_type "void"
+	nparams 4
+	  param in name "message" explicit_type "string"
+	    defaultvalue "null"
+	  param in name "channel" explicit_type "int"
+	    defaultvalue "'CORE'"
+	  param in name "code" explicit_type "\\Exception"
+	    defaultvalue "0"
+	  param in name "previous" type class_ref 173826 // \Exception
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${t3} ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " method 
+
+Constructor of an instance of \\exception\\Notice
+
+@param ${t0} message Exception message
+@param ${t1} code User defined exception code
+@param ${t2} previous Previous exception if nested exception
+
+@return ${type}
+"
+      end
+
+      operation 318466 "log"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Log the exception into the the log file
+
+@return ${type}
+"
+      end
+    end
+  end
+end

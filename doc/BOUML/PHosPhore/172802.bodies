@@ -1,0 +1,23 @@
+class HTMLNotification
+!!!310146.php!!!	__construct() : void
+
+			parent::__construct(array(
+				'template' => $GLOBALS['config']['path_template'].'pageelement/html/htmlnotification/template.html',
+				'elements' => array(),
+			));
+!!!310274.php!!!	setHead(in PageElement : \content\PageElement) : void
+
+			if (isset($GLOBALS['config']['notification_css']))
+			{
+				foreach ($GLOBALS['config']['notification_css'] as $notification_css)
+				{
+					$PageElement->getElement('head')->addValueElement('css', $notification_css);
+				}
+			}
+			if (isset($GLOBALS['config']['notification_js']))
+			{
+				foreach ($GLOBALS['config']['notification_js'] as $notification_js)
+				{
+					$PageElement->getElement('head')->addValueElement('javascripts', $notification_js);
+				}
+			}

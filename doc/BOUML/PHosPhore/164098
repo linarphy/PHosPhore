@@ -1,0 +1,221 @@
+format 222
+"pageelement" // main::class::content::pageelement
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/class/content/pageelement/"
+  php_namespace "content\\pageelement"
+  deploymentview 161154 "pageelement"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 176514 "HTML.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 172290 // HTML
+      end
+    end
+
+    artifact 176642 "Notification.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 172418 // Notification
+      end
+    end
+
+    artifact 176770 "Page.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 172546 // Page
+      end
+    end
+  end
+
+  classview 157186 "pageelement"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 172290 "HTML"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+An HTML webpage
+
+@author gugus2000
+"
+      classrelation 167938 // <generalisation>
+	relation 167938 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 167938 // <generalisation>
+	  b parent class_ref 172162 // PageElement
+      end
+
+      operation 309122 "__construct"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+
+Create a \\content\\pageelement\\HTML instance
+
+@return ${type}
+"
+      end
+
+      operation 309250 "display"
+	public explicit_return_type "string"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Display \\content\\pageelement\\HTML
+
+@return ${type}
+"
+      end
+    end
+
+    class 172418 "Notification"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+A Notification
+
+@author gugus2000
+
+"
+      classrelation 168066 // <generalisation>
+	relation 168066 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 168066 // <generalisation>
+	  b parent class_ref 172162 // PageElement
+      end
+    end
+
+    class 172546 "Page"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+A Page
+
+@author gugus2000
+
+"
+      classrelation 168194 // <generalisation>
+	relation 168194 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 168194 // <generalisation>
+	  b parent class_ref 172162 // PageElement
+      end
+    end
+  end
+
+  package_ref 164226 // html
+end

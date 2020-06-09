@@ -1,0 +1,110 @@
+format 222
+"notification" // main::lang::class::user::notification
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/class/user/notification/"
+  deploymentview 163714 "notification"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 183426 "EN.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Display a notification content */
+$GLOBALS['lang']['class']['user']['notification']['displaycontent']='Display the content of the notification';
+/* The notification came from the session */
+$GLOBALS['lang']['class']['user']['notification']['from_session']='The notification came from the session';
+/* Start to send a notification */
+$GLOBALS['lang']['class']['user']['notification']['sendnotification']='Start to send a notification';
+/* Delete from the database the sent notification */
+$GLOBALS['lang']['class']['user']['notification']['delete_trace']='Delete from the database the sent notification';
+/* Notification sent */
+$GLOBALS['lang']['class']['user']['notification']['sendnotification_end']='Notification sent';
+/* Create a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['create']='Create a notification in the database';
+/* Notification created */
+$GLOBALS['lang']['class']['user']['notification']['created']='Notification created';
+/* Change a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['change']='Change a notification in the database';
+/* Some user will be removed from the list of user affected by the notification */
+$GLOBALS['lang']['class']['user']['notification']['change_leave']='Some user will be removed from the list of user affected by the notification';
+/* There are only more people which will see this notification */
+$GLOBALS['lang']['class']['user']['notification']['change_come']='There are only more people which will see this notification';
+/* Notification has changed */
+$GLOBALS['lang']['class']['user']['notification']['change_end']='Notification has changed';
+/* Delete a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['delete']='Delete a notification in the database';
+/* Notification deleted */
+$GLOBALS['lang']['class']['user']['notification']['deleted']='Notification deleted';
+
+?>"
+      associated_elems
+      end
+    end
+
+    artifact 183554 "FR.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Display a notification content */
+$GLOBALS['lang']['class']['user']['notification']['displaycontent']='Affichage du contenu de la notification';
+/* The notification came from the session */
+$GLOBALS['lang']['class']['user']['notification']['from_session']='La notification vient de la session';
+/* Start to send a notification */
+$GLOBALS['lang']['class']['user']['notification']['sendnotification']='Début de l\\'envoi de la notification';
+/* Delete from the database the sent notification */
+$GLOBALS['lang']['class']['user']['notification']['delete_trace']='Supression de la notification envoyé de la base de donnée';
+/* Notification sent */
+$GLOBALS['lang']['class']['user']['notification']['sendnotification_end']='Notification envoyé';
+/* Create a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['create']='Création d\\'une notification dans la base de donéee';
+/* Notification created */
+$GLOBALS['lang']['class']['user']['notification']['created']='Notification créé';
+/* Change a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['change']='Modifie une notification dans la base de donnée';
+/* Some user will be removed from the list of user affected by the notification */
+$GLOBALS['lang']['class']['user']['notification']['change_leave']='Certains utilisateurs vont être supprimé de la liste des lecteur de la notification';
+/* There are only more people which will see this notification */
+$GLOBALS['lang']['class']['user']['notification']['change_come']='Il n\\'y a que des nouveeaux utilisateurs qui s\\'ajoutent aux lecteurs de cette notification';
+/* Notification has changed */
+$GLOBALS['lang']['class']['user']['notification']['change_end']='La notification a été modifié';
+/* Delete a notification in the database */
+$GLOBALS['lang']['class']['user']['notification']['delete']='Supression de la notification dans la base de donnée';
+/* Notification deleted */
+$GLOBALS['lang']['class']['user']['notification']['deleted']='Notification suprimmée';
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end
