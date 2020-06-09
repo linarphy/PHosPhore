@@ -1,5 +1,9 @@
 <?php
 
+/* Langage name (in this lanagage) */
+$GLOBALS['lang']['self_full']='English';
+/* Abbreviate langage name */
+$GLOBALS['lang']['self']='EN';
 /* The expected value is numeric */
 $GLOBALS['lang']['error_not_numeric']='Value not numeric';
 /* User connection error */

@@ -1,9 +1,5 @@
 # TODO
 
-## Language
-
-- Use lang at the start of the script (with a init_lang function ?)
-
 ## Mod
 
 - Easily manage (add, update and delete) mods cleanly

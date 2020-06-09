@@ -46,15 +46,9 @@ function loadClass($className)
 
 	global $Visitor;
 	$lang = $GLOBALS['config']['user_config']['lang'];
-	if (isset($Visitor))
+	if (isset($GLOBALS['lang']['self']))
 	{
-		if ($Visitor->getConfigurations()!==null)
-		{
-			if (isset($Visitor->getConfigurations()['lang']))
-			{
-				$lang = $Visitor->getConfiguration('lang');
-			}
-		}
+		$lang = $GLOBALS['lang']['self'];
 	}
 	$lang_len = strlen($lang);
 	$fullFileNameConfig = 'config' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'config.php';
@@ -94,12 +88,12 @@ function loadClass($className)
 	new \exception\Notice($real_className.' '.$GLOBALS['lang']['class_loaded'], 'loadclass');
 }
 /**
- * Initializes confifuration files
+ * Initializes configuration and langage files
  *
  * @return void
  * @author gugus2000
  **/
-function init_conf()
+function init()
 {
 	require('./config/core/config.php');
 	$mods=array();
@@ -112,11 +106,37 @@ function init_conf()
 		}
 	}
 	require('./config/config.php');
-	require($GLOBALS['config']['path_lang'].$GLOBALS['config']['user_config']['lang'].'.lang.php');
+	$lang = init_lang();
+	require($GLOBALS['config']['path_lang'].$lang.'.lang.php');
 	foreach ($mods as $mod)
 	{
 		new \exception\Notice($GLOBALS['lang']['mod_added'].' '.$mod, 'init');
 	}
+}
+/**
+ * Find langage abbr
+ *
+ * @return string
+ * @author gugus2000
+ **/
+function init_lang()
+{
+	if (isset($_GET['lang']))
+	{
+		if (in_array($_GET['lang'], array_keys($GLOBALS['config']['lang_available'])))
+		{
+			return $_GET['lang'];
+		}
+	}
+	$list=$list=explode('/', trim(strtok($_SERVER['REQUEST_URI'], '?'), '/'));
+	foreach ($list as $part)
+	{
+		if (in_array($part, array_keys($GLOBALS['config']['lang_available'])))
+		{
+			return $part;
+		}
+	}
+	return $GLOBALS['config']['user_config']['lang'];
 }
 /**
  * Initiates routing with the session and $_GET
