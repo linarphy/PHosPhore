@@ -15,9 +15,9 @@
 						<xmlemptynode>
 							<template.html />
 						</xmlemptynode>
-						<cmlnode>
+						<xmlnode>
 							<template.html />
-						</cmlnode>
+						</xmlnode>
 						<xmlnotification>
 							<template.html />
 						</xmlnotification>
