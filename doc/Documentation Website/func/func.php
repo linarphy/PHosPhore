@@ -23,6 +23,11 @@ function get_class_name($className)
  **/
 function loadClass($className)
 {
+	$real_className=$className;
+	if (class_exists('\exception\Notice'))
+	{
+		new \exception\Notice($GLOBALS['lang']['load_class'].' '.$real_className, 'loadclass');
+	}
 	$fileName = '';
 	$namespace = '';
 
@@ -34,30 +39,104 @@ function loadClass($className)
 			$className = substr($className, $lastNsPos + 1);
 			$fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
 	}
-	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.class.php';
+	$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className);
+	$directories=explode(DIRECTORY_SEPARATOR, $fileName);
+	$fileName .= '.class.php';
 	$fullFileName = $includePath . DIRECTORY_SEPARATOR . $fileName;
+
+	global $Visitor;
+	$lang = $GLOBALS['config']['user_config']['lang'];
+	if (isset($GLOBALS['lang']['self']))
+	{
+		$lang = $GLOBALS['lang']['self'];
+	}
+	$lang_len = strlen($lang);
+	$fullFileNameConfig = 'config' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'config.php';
+	$fullFileNameLang = 'lang' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . $lang . '.lang.php';
+	foreach ($directories as $directory)
+	{
+		$fullFileNameConfig = substr_replace($fullFileNameConfig, strtolower($directory) . DIRECTORY_SEPARATOR, -10, 0);
+		$fullFileNameLang = substr_replace($fullFileNameLang, strtolower($directory) . DIRECTORY_SEPARATOR, - ( 9 + $lang_len ), 0);
+		if (file_exists($fullFileNameConfig))
+		{
+			require_once($fullFileNameConfig);
+			require($GLOBALS['config']['path_config'].'config.php');
+			if (class_exists('\exception\Notice'))
+			{
+				new \Exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['config_file_loaded'], 'loadclass');
+			}
+		}
+		if (file_exists($fullFileNameLang))
+		{
+			require_once($fullFileNameLang);
+			if (class_exists('\exception\Notice'))
+			{
+				new \Exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['lang_file_loaded'], 'loadclass');
+			}
+		}
+	}
 
 	if (file_exists($fullFileName))
 	{
-		require_once $fullFileName;
+		require_once$fullFileName;
 	}
 	else
 	{
-		throw new \Exception('Class "'.$className.'" does not exist.');
+		throw new \exception\Error($real_className.' '.$GLOBALS['lang']['class_not_exist'], 'loadclass');
+	}
+
+	new \exception\Notice($real_className.' '.$GLOBALS['lang']['class_loaded'], 'loadclass');
+}
+/**
+ * Initializes configuration and langage files
+ *
+ * @return void
+ * @author gugus2000
+ **/
+function init()
+{
+	require('./config/core/config.php');
+	$mods=array();
+	foreach (scandir('./config/mod') as $filename)
+	{
+		if (substr($filename, -4)==='.php')
+		{
+			require('./config/mod/'.$filename);
+			$mods[]=substr($filename,0,-4);
+		}
+	}
+	require('./config/config.php');
+	$lang = init_lang();
+	require($GLOBALS['config']['path_lang'].$lang.'.lang.php');
+	foreach ($mods as $mod)
+	{
+		new \exception\Notice($GLOBALS['lang']['mod_added'].' '.$mod, 'init');
 	}
 }
 /**
- * Polyfill of array_key_first
+ * Find langage abbr
  *
- * @author PHP (PHP.net)
+ * @return string
+ * @author gugus2000
  **/
-if (!function_exists('array_key_first')) {
-    function array_key_first(array $arr) {
-        foreach($arr as $key => $unused) {
-            return $key;
-        }
-        return NULL;
-    }
+function init_lang()
+{
+	if (isset($_GET['lang']))
+	{
+		if (in_array($_GET['lang'], array_keys($GLOBALS['config']['lang_available'])))
+		{
+			return $_GET['lang'];
+		}
+	}
+	$list=$list=explode('/', trim(strtok($_SERVER['REQUEST_URI'], '?'), '/'));
+	foreach ($list as $part)
+	{
+		if (in_array($part, array_keys($GLOBALS['config']['lang_available'])))
+		{
+			return $part;
+		}
+	}
+	return $GLOBALS['config']['user_config']['lang'];
 }
 /**
  * Initiates routing with the session and $_GET
@@ -68,26 +147,33 @@ if (!function_exists('array_key_first')) {
 function init_router()
 {
 	$route_mode=$GLOBALS['config']['route_mode'];
-	if (isset($_GET['custom_route_mode']))
+	if (!$GLOBALS['config']['route_mode_strict'])
 	{
-		if (isset($_GET['custom_route_mode_session']))
+		if (isset($_GET['custom_route_mode']))
 		{
-			if ((bool)$_GET['custom_route_mode_session'])
+			if (isset($_GET['custom_route_mode_session']))
 			{
-				$_SESSION['custom_route_mode']=$_GET['custom_route_mode'];
+				if ($_GET['custom_route_mode_session'])
+				{
+					$_SESSION['custom_route_mode']=$_GET['custom_route_mode'];
+					new \exception\Notice($GLOBALS['lang']['router_set_session'], 'init');
+				}
+				else
+				{
+					unset($_SESSION['custom_route_mode']);
+					new \exception\Notice($GLOBALS['lang']['router_unset_session'], 'init');
+				}
+				unset($_GET['custom_route_mode_session']);
 			}
-			else
-			{
-				unset($_SESSION['custom_route_mode']);
-			}
-			unset($_GET['custom_route_mode_session']);
+			$route_mode=$_GET['custom_route_mode'];
+			new \exception\Notice($GLOBALS['lang']['router_get'].' '.$route_mode, 'init');
+			unset($_GET['custom_route_mode']);
 		}
-		$route_mode=$_GET['custom_route_mode'];
-		unset($_GET['custom_route_mode']);
-	}
-	if (isset($_SESSION['custom_route_mode']))
-	{
-		$route_mode=$_SESSION['custom_route_mode'];
+		if (isset($_SESSION['custom_route_mode']))
+		{
+			$route_mode=$_SESSION['custom_route_mode'];
+			new \exception\Notice($GLOBALS['lang']['router_use_session'].' '.$route_mode, 'init');
+		}
 	}
 	return $route_mode;
 }
@@ -101,12 +187,14 @@ function init_visitor()
 {
 	if (isset($_SESSION['nickname']) && isset($_SESSION['password']) && isset($_SESSION['id']))
 	{
+		new \exception\Notice($GLOBALS['lang']['visitor_connected_session_start'].' '.$_SESSION['nickname'].' '.$GLOBALS['lang']['visitor_connected_session_end'], 'init');
 		return array(
 			'id'       => $_SESSION['id'],
 			'nickname' => $_SESSION['nickname'],
 		);
 	}
 	$_SESSION['password']=$GLOBALS['config']['guest_password'];
+	new \exception\Notice($GLOBALS['lang']['visitor_guest'], 'init');
 	return array(
 		'id'       => $GLOBALS['config']['guest_id'],
 		'nickname' => $GLOBALS['config']['guest_nickname'],

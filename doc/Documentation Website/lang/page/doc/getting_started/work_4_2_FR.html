@@ -1,0 +1,8 @@
+<p>
+	Une classe héritant de <code>\core\Managed</code> doit contenir certaines méthodes particulières pour chaque attribut existant. Pour un attribut "abcd" du type "type", il doit exister:
+</p>
+<ul>
+	<li>La méthode <code>public : getAbcd( void ) : type</code> qui renvoie la valeur de "abcd".</li>
+	<li>La méthode <code>protected : setAbcd( type : $abcd ) : void</code> qui permet de définir "abcd".</li>
+	<li>La méthode <code>public : displayAbcd( void ) : string</code> qui permet l'affichage sécurisé de "abcd" en un string lisible pour l'être humain (n'oubliez pas d'utiliser <code>htmlspecialchars( string )</code> ).</li>
+</ul>

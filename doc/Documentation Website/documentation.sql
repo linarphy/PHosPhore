@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 26 mars 2020 à 15:14
+-- Généré le : jeu. 25 juin 2020 à 00:17
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP : 7.4.3
 
@@ -91,7 +91,9 @@ CREATE TABLE `permission` (
 
 INSERT INTO `permission` (`id`, `role_name`, `application`, `action`) VALUES
 (1, 'guest', 'error', 'error'),
-(2, 'guest', 'home', 'hub');
+(2, 'guest', 'doc', 'home'),
+(3, 'guest', 'doc', 'getting_started'),
+(4, 'guest', 'doc', 'bouml');
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nickname`, `password_hashed`, `avatar`, `role_name`, `date_registration`, `date_login`, `banned`, `email`) VALUES
-(1, 'guest', '$2y$06$kpHc9c/j9mseVAI/XgUNg.9uwuMAE1ra9v4oatz2Z0xtV54HYD/1e', 'default.png', 'guest', '2000-01-01 00:00:00', '2020-03-26 14:13:40', 0, '');
+(1, 'guest', '$2y$06$kpHc9c/j9mseVAI/XgUNg.9uwuMAE1ra9v4oatz2Z0xtV54HYD/1e', 'default.png', 'guest', '2000-01-01 00:00:00', '2020-06-24 22:09:34', 0, '');
 
 --
 -- Index pour les tables déchargées
@@ -166,7 +168,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `user`

@@ -6,7 +6,6 @@
 
 ## Doc
 
-- Update the documentation website with the new PHospHore update
 - Translate the documentation in english
 - Use a database to generate documentation faster and to search throught it
 

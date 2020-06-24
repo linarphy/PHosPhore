@@ -1,7 +1,7 @@
 <?php
 
 $Element=$Visitor->getPage()->getPageElement();
-$lang=$GLOBALS['lang']['doc']['bouml'];
+$lang=$GLOBALS['lang']['page']['doc']['bouml'];
 
 $Element->getElement('head')->addElement('title', $lang['title']);
 
@@ -22,7 +22,7 @@ function displaySection($sections, $lvl)
 			$subsections='';
 		}
 		$Sections[]=new \content\PageElement(array(
-			'template' => $GLOBALS['config']['path_template'].'doc/bouml/section.html',
+			'template' => $GLOBALS['config']['path_template'].'page/doc/bouml/section.html',
 			'elements' => array(
 				'lvl'         => (string)$lvl,
 				'title'       => $section['title'],
@@ -37,7 +37,7 @@ function displaySection($sections, $lvl)
 $Sections=displaySection($lang['sections'], 2);
 
 $Content=new \content\PageElement(array(
-	'template' => $GLOBALS['config']['path_template'].'doc/bouml/template.html',
+	'template' => $GLOBALS['config']['path_template'].'page/doc/bouml/template.html',
 	'elements' => array(
 		'title'    => $lang['title'],
 		'content'  => $lang['content'],
