@@ -1,0 +1,37 @@
+format 222
+"content" // main::lang::class::content
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/class/content/"
+  package_ref 179074 // content
+
+  package_ref 179202 // pageelement
+end

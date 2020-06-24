@@ -1,0 +1,50 @@
+format 222
+"home" // main::config::page::home
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/config/page/home/"
+  deploymentview 172674 "home"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 196738 "config"
+      stereotype "source"
+      php_src "<?php
+
+/* Default action for home application */
+$GLOBALS['config']['page']['home']['default_action']='hub';
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end

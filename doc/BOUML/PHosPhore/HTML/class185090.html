@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Documentation produced by the Html generator of Bouml (http://www.bouml.fr) -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Class Notification</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">Class Notification</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<a name="ref4_185090"></a>
+<p>Notification for a visitor<br /><br />@author gugus2000<br /><br /></p>
+<p>Declaration :</p><ul>
+<li>Php : class Notification extends <a href="class182530.html#ref4_182530"><b>Managed</b></a> </li></ul><p>Artifact : <a href="index.html#ref8_194562"><b>Notification.class</b></a></p>
+<div class="sub">
+<a name="ref1_220162"></a>
+<table><tr><td><div class="element">Attribute <b>TYPE_SUCCESS</b></div></td></tr></table>
+<p>Constant <br /><br />Notification type: success<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ TYPE_SUCCESS : string = 'success', read only</li><li>Php :  const TYPE_SUCCESS</li></ul><a name="ref1_220290"></a>
+<table><tr><td><div class="element">Attribute <b>TYPE_WARNING</b></div></td></tr></table>
+<p>Notification type: warning<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ TYPE_WARNING : string = 'warning', read only</li><li>Php :  const TYPE_WARNING</li></ul><a name="ref1_220418"></a>
+<table><tr><td><div class="element">Attribute <b>TYPE_ERROR</b></div></td></tr></table>
+<p>Notification type: error<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ TYPE_ERROR : string = 'error', read only</li><li>Php :  const TYPE_ERROR</li></ul><a name="ref1_220546"></a>
+<table><tr><td><div class="element">Attribute <b>id</b></div></td></tr></table>
+<p>Attribute <br /><br />Notification id<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : # id : int</li><li>Php : protected $id</li></ul><a name="ref1_220674"></a>
+<table><tr><td><div class="element">Attribute <b>type</b></div></td></tr></table>
+<p>Notification type<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # type : string</li><li>Php : protected $type</li></ul><a name="ref1_220802"></a>
+<table><tr><td><div class="element">Attribute <b>date_release</b></div></td></tr></table>
+<p>Date of notification release<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # date_release : string</li><li>Php : protected $date_release</li></ul><a name="ref1_220930"></a>
+<table><tr><td><div class="element">Attribute <b>id_content</b></div></td></tr></table>
+<p>Notification Content Id<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : # id_content : int</li><li>Php : protected $id_content</li></ul><a name="ref1_221058"></a>
+<table><tr><td><div class="element">Attribute <b>content</b></div></td></tr></table>
+<p>Notification content<br /><br />@var string<br /><br /></p><p>Declaration :</p><ul><li>Uml : # content : string</li><li>Php : protected $content</li></ul><a name="ref2_358658"></a>
+<table><tr><td><div class="element">Operation <b>getId</b></div></td></tr></table><p>Method <br /> Getter <br /><br />id accessor<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getId() : int</li><li>Php : public function getId(): int </li></ul><a name="ref2_358786"></a>
+<table><tr><td><div class="element">Operation <b>getType</b></div></td></tr></table><p>type accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getType() : string</li><li>Php : public function getType(): string </li></ul><a name="ref2_358914"></a>
+<table><tr><td><div class="element">Operation <b>getDate_release</b></div></td></tr></table><p>date_release accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getDate_release() : string</li><li>Php : public function getDate_release(): string </li></ul><a name="ref2_359042"></a>
+<table><tr><td><div class="element">Operation <b>getId_content</b></div></td></tr></table><p>id_content accessor<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getId_content() : int</li><li>Php : public function getId_content(): int </li></ul><a name="ref2_359170"></a>
+<table><tr><td><div class="element">Operation <b>getContent</b></div></td></tr></table><p>content accessor<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getContent() : string</li><li>Php : public function getContent(): string </li></ul><a name="ref2_359298"></a>
+<table><tr><td><div class="element">Operation <b>setId</b></div></td></tr></table><p>Setter <br /><br />id setter<br /><br />@param int $id Notification id<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setId(in id : int) : void</li><li>Php : protected function setId($id): void </li></ul><a name="ref2_359426"></a>
+<table><tr><td><div class="element">Operation <b>setType</b></div></td></tr></table><p>type setter<br /><br />@param string $type Notification type<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setType(in type : string) : void</li><li>Php : protected function setType($type): void </li></ul><a name="ref2_359554"></a>
+<table><tr><td><div class="element">Operation <b>setDate_release</b></div></td></tr></table><p>date_release setter<br /><br />@param string $date_release Date of notification release<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setDate_release(in date_release : string) : void</li><li>Php : protected function setDate_release($date_release): void </li></ul><a name="ref2_359682"></a>
+<table><tr><td><div class="element">Operation <b>setId_content</b></div></td></tr></table><p>id_content setter<br /><br />@param int $id_content Notification Content Id<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setId_content(in id_content : int) : void</li><li>Php : protected function setId_content($id_content): void </li></ul><a name="ref2_359810"></a>
+<table><tr><td><div class="element">Operation <b>setContent</b></div></td></tr></table><p>content setter<br /><br />@param string $content Notification content<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setContent(in content : string) : void</li><li>Php : protected function setContent($content): void </li></ul><a name="ref2_359938"></a>
+<table><tr><td><div class="element">Operation <b>displayId</b></div></td></tr></table><p>Display <br /><br />id display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayId() : string</li><li>Php : public function displayId(): string </li></ul><a name="ref2_360066"></a>
+<table><tr><td><div class="element">Operation <b>displayType</b></div></td></tr></table><p>type display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayType() : string</li><li>Php : public function displayType(): string </li></ul><a name="ref2_360194"></a>
+<table><tr><td><div class="element">Operation <b>displayDate_release</b></div></td></tr></table><p>date_release display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayDate_release() : string</li><li>Php : public function displayDate_release(): string </li></ul><a name="ref2_360322"></a>
+<table><tr><td><div class="element">Operation <b>displayId_content</b></div></td></tr></table><p>id_content display<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayId_content() : int</li><li>Php : public function displayId_content(): int </li></ul><a name="ref2_360450"></a>
+<table><tr><td><div class="element">Operation <b>displayContent</b></div></td></tr></table><p>Content display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + displayContent() : string</li><li>Php : public function displayContent(): string </li></ul><a name="ref2_360578"></a>
+<table><tr><td><div class="element">Operation <b>display</b></div></td></tr></table><p>Notification display<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + display() : string</li><li>Php : public function display(): string </li></ul><a name="ref2_360706"></a>
+<table><tr><td><div class="element">Operation <b>retrieveContents</b></div></td></tr></table><p>retrieves all contents in all languages<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieveContents() : array</li><li>Php : public function retrieveContents(): array </li></ul><a name="ref2_360834"></a>
+<table><tr><td><div class="element">Operation <b>sendNotification</b></div></td></tr></table><p>Send notification on the pageElement<br /><br />@param ??? $pageElement PageElement which will be changed<br /><br />@param \content\pageelement\Notification $Notification Notification which will be inserted into the pageElement<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + sendNotification(in PageElement : , in Notification : \content\pageelement\Notification) : void</li><li>Php : public function sendNotification($PageElement, $Notification): void </li></ul><a name="ref2_360962"></a>
+<table><tr><td><div class="element">Operation <b>create</b></div></td></tr></table><p>Create a notification<br /><br />@param array $id_users List of user ids that will receive the notification<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + create(in id_users : array = array()) : void</li><li>Php : public function create($id_users = array()): void </li></ul><a name="ref2_361090"></a>
+<table><tr><td><div class="element">Operation <b>change</b></div></td></tr></table><p>Change a notification<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + change() : void</li><li>Php : public function change(): void </li></ul><a name="ref2_361218"></a>
+<table><tr><td><div class="element">Operation <b>delete</b></div></td></tr></table><p>Delete a notification<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + delete() : void</li><li>Php : public function delete(): void </li></ul><a name="ref2_361346"></a>
+<table><tr><td><div class="element">Operation <b>retrieveUsers</b></div></td></tr></table><p>Fetches users who need to see the notification<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieveUsers() : array</li><li>Php : public function retrieveUsers(): array </li></ul></div>
+<p>All public operations : <a href="class182530.html#ref2_351362"><b>__construct</b></a> , <a href="class182530.html#ref2_350978"><b>change</b></a> , <a href="class185090.html#ref2_361090"><b>change</b></a> , <a href="class182530.html#ref2_351234"><b>clone</b></a> , <a href="class182530.html#ref2_350850"><b>create</b></a> , <a href="class185090.html#ref2_360962"><b>create</b></a> , <a href="class182530.html#ref2_351106"><b>delete</b></a> , <a href="class185090.html#ref2_361218"><b>delete</b></a> , <a href="class185090.html#ref2_360578"><b>display</b></a> , <a href="class185090.html#ref2_360450"><b>displayContent</b></a> , <a href="class185090.html#ref2_360194"><b>displayDate_release</b></a> , <a href="class185090.html#ref2_359938"><b>displayId</b></a> , <a href="class185090.html#ref2_360322"><b>displayId_content</b></a> , <a href="class185090.html#ref2_360066"><b>displayType</b></a> , <a href="class182530.html#ref2_350338"><b>get</b></a> , <a href="class185090.html#ref2_359170"><b>getContent</b></a> , <a href="class185090.html#ref2_358914"><b>getDate_release</b></a> , <a href="class182530.html#ref2_349826"><b>getDisp</b></a> , <a href="class182530.html#ref2_349570"><b>getGet</b></a> , <a href="class185090.html#ref2_358658"><b>getId</b></a> , <a href="class185090.html#ref2_359042"><b>getId_content</b></a> , <a href="class182530.html#ref2_349698"><b>getSet</b></a> , <a href="class185090.html#ref2_358786"><b>getType</b></a> , <a href="class182530.html#ref2_350466"><b>identical</b></a> , <a href="class182530.html#ref2_350210"><b>Manager</b></a> , <a href="class182530.html#ref2_351490"><b>obj2arr</b></a> , <a href="class182530.html#ref2_351618"><b>obj2arrRec</b></a> , <a href="class182530.html#ref2_350722"><b>retrieve</b></a> , <a href="class185090.html#ref2_360706"><b>retrieveContents</b></a> , <a href="class185090.html#ref2_361346"><b>retrieveUsers</b></a> , <a href="class185090.html#ref2_360834"><b>sendNotification</b></a> , <a href="class182530.html#ref2_349954"><b>setDisplay</b></a> , <a href="class182530.html#ref2_350594"><b>table</b></a> </p>
+</body>
+</html>

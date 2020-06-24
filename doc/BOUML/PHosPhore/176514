@@ -1,0 +1,1756 @@
+format 222
+"core" // main::class::core
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/class/core/"
+  php_namespace "core"
+  classview 164354 "core"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 182530 "Managed"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Object managed by a Manager
+
+@author gugus2000
+"
+      attribute 216962 "SIMILAR_CRITERION"
+	const_attribute package explicit_type "array"
+	init_value "array('id')"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Constant 
+
+Criteria (attributes) for checking similarity
+
+@var ${type}
+"
+      end
+
+      attribute 217090 "INDEX"
+	const_attribute package explicit_type "mixed"
+	init_value "'id'"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Index
+
+@var ${type}
+"
+      end
+
+      operation 349570 "getGet"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "attribute" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+
+Gives the name of the accessor function of an attribute
+
+@param ${t0} ${p0} Attribute to be accessed
+
+@return ${type}
+"
+      end
+
+      operation 349698 "getSet"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "attribute" explicit_type ""
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Gives the name of the function that defines an attribute
+
+@param ${t1} $attribut Attribute for which we want the definitor
+
+@return ${type}
+"
+      end
+
+      operation 349826 "getDisp"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "attribute" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Gives the name of the function displaying an attribute
+
+@param ${t0} ${p0} Attribute whose display is wanted
+
+@return ${type}
+"
+      end
+
+      operation 349954 "setDisplay"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "attribute" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Define the display of an attribute
+
+@param ${t0} ${p0} Name of the attribute
+
+@return ${type}
+"
+      end
+
+      operation 350082 "hydrate"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "attributes" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Hydrates the object
+
+@param ${t0} ${p0} Array containing the name and value of each attribute of the object
+
+@return ${type}
+"
+      end
+
+      operation 350210 "Manager"
+	public explicit_return_type "\\core\\Manager"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Creates an instance of the Manager class of the managed object
+
+@return ${type}
+"
+      end
+
+      operation 350338 "get"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Fill the managed object
+
+@param ${t0} ${p0} Index of the managed object
+
+@return ${type}
+"
+      end
+
+      operation 350466 "identical"
+	public explicit_return_type "bool"
+	nparams 1
+	  param in name "object" explicit_type "\\core\\Managed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks whether two managed objects are identical
+
+@param ${t0} ${p0} The object that checks for similarity
+
+@return ${type}
+"
+      end
+
+      operation 350594 "table"
+	public explicit_return_type "array"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Returns an array representing the managed object.
+
+@return ${type}
+"
+      end
+
+      operation 350722 "retrieve"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Retrieve an object in the database
+
+@return ${type}
+"
+      end
+
+      operation 350850 "create"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Insert the object in the database
+
+@return ${type}
+"
+      end
+
+      operation 350978 "change"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Change th object in the database
+
+@return ${type}
+"
+      end
+
+      operation 351106 "delete"
+	public explicit_return_type "void"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Delete the object in the database
+
+@return ${type}
+"
+      end
+
+      operation 351234 "clone"
+	public explicit_return_type "core\\Managed"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Clone a managed object
+
+@return ${type}
+"
+      end
+
+      operation 351362 "__construct"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "attributes" explicit_type "array"
+	    defaultvalue "array()"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a \\core\\Managed instance
+
+@param ${t0} ${p0} Object attributes
+
+@return ${type}
+"
+      end
+
+      operation 351490 "obj2arr"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "rec" explicit_type "bool"
+	    defaultvalue "False"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Object to array
+
+@param ${t0} rec Recursive mode?
+
+@return ${type}
+"
+      end
+
+      operation 351618 "obj2arrRec"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "arr" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Array of obj to arr
+
+@param ${t0} arr Array (of object?)
+
+@return ${type}
+"
+      end
+    end
+
+    class 182786 "Manager"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Connection between a \\core\\Managed object and its characteristic database
+
+@author gugus2000
+"
+      attribute 217218 "bdd"
+	protected explicit_type "\\PDO"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Attribute 
+
+PDO database connection
+
+@var ${type}
+"
+      end
+
+      attribute 217346 "TABLE"
+	const_attribute package explicit_type "string"
+	init_value "''"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Constant 
+
+Name of the table linked to the object
+
+@var ${type}
+"
+      end
+
+      attribute 217474 "ATTRIBUTES"
+	const_attribute package explicit_type "array"
+	init_value "array()"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+List of all table attributes
+
+@var ${type}
+"
+      end
+
+      attribute 217602 "INDEX"
+	const_attribute package explicit_type "string"
+	init_value "'id'"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Index used (primary key)
+
+@var ${type}
+"
+      end
+
+      operation 351746 "getBdd"
+	public explicit_return_type "\\PDO"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+ Getter 
+
+bdd accessor
+
+@return ${type}
+"
+      end
+
+      operation 351874 "setBdd"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "bdd" explicit_type "\\PDO"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Setter 
+
+bdd setter
+
+@param ${t0} ${p0} PDO database connection
+
+@return ${type}
+"
+      end
+
+      operation 352002 "testAttributes"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "array" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks the existence of each attribute in the list as an attribute of the selected table
+
+@param ${t0} ${p0} Array to be checked with attributes as key
+
+@return ${type}
+"
+      end
+
+      operation 352130 "conditionCreator"
+	public explicit_return_type "array"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	  param in name "operations" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Associations between values and operations
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
+
+@return ${type}
+"
+      end
+
+      operation 352258 "boundaryInterpreter"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "bounds" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Allows to generate the limit clause from a complex array for a mysql query
+
+@param ${t0} ${p0} Bounds
+
+@return ${type}
+"
+      end
+
+      operation 352386 "get"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Retrieves the result of a Mysql query on an element
+
+@param ${t0} ${p0} Index of the element
+
+@return ${type}
+"
+      end
+
+      operation 352514 "add"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "values" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Adds an element to the database
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@return ${type}
+"
+      end
+
+      operation 352642 "update"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Updates an element in the database
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Index of the element to be modified
+
+@return ${type}
+"
+      end
+
+      operation 352770 "updateBy"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "values_get" explicit_type "array"
+	  param in name "operations" explicit_type "array"
+	  param in name "values_update" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Update an element from the database according to several parameters
+
+@param ${t0} values_get Attributes value to get the element
+
+@param ${t1} operations Attributes operations for values_get
+
+@param ${t2} values_update Attributes to update 
+
+@return ${type}
+"
+      end
+
+      operation 352898 "delete"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Deletes an element from the database
+
+@param ${t0} ${p0} Index of the element to be deleted
+
+@return ${type}
+"
+      end
+
+      operation 353026 "deleteBy"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	  param in name "operations" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Removes an element from the database according to several parameters
+
+@param ${t0} ${p0} Attributes values
+
+@param ${t1} ${p1} Attributes operations
+
+@return ${type}
+"
+      end
+
+      operation 353154 "getIdBy"
+	public explicit_return_type "string"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	  param in name "operations" explicit_type "array"
+	    defaultvalue "'='"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Gets the index of the element
+
+@param ${t0} ${p0} Array containing the name and value of each attribute to determine the index of the element
+
+@param ${t1} ${p1} Attributes operations
+
+@return ${type}
+"
+      end
+
+      operation 353282 "getIdByPos"
+	public explicit_return_type "mixed"
+	nparams 2
+	  param in name "position" explicit_type "int"
+	  param in name "attribute" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Gets the index of the element from its position relative to an attribute
+
+@param ${t0} ${p0} Element position (0=first)
+
+@param ${t1} ${p1} Attribute on which the element is positioned
+
+@return ${type}
+"
+      end
+
+      operation 353410 "getBy"
+	public explicit_return_type "array"
+	nparams 3
+	  param in name "values" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "operations" explicit_type "mixed"
+	    defaultvalue "null"
+	  param in name "bounds" explicit_type "array"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Retrieves the result of the MYSQL query created from the parameters
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
+
+@param ${t2} ${p2} Array containing the bounds in which to search
+
+@return ${type}
+"
+      end
+
+      operation 353538 "existId"
+	public explicit_return_type "bool"
+	nparams 1
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks for the existence of an element with his id
+
+@param ${t0} ${p0} Index of the element to be checked
+
+@return ${type}
+"
+      end
+
+      operation 353666 "existBy"
+	public explicit_return_type "bool"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "operations" explicit_type "mixed"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks for the existence of an element
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
+
+@return ${type}
+"
+      end
+
+      operation 353794 "retrieveBy"
+	public explicit_return_type "array"
+	nparams 3
+	  param in name "values" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "operations" explicit_type "mixed"
+	    defaultvalue "null"
+	  param in name "bounds" explicit_type "array"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Allows faster object retrieval
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
+
+@param ${t2} ${p2} Array containing the bounds in which to search
+
+@return ${type}
+"
+      end
+
+      operation 353922 "countBy"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "values" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "operations" explicit_type "mixed"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Counts the number of elements in the database that comply with a specific clause.
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
+
+@return ${type}
+"
+      end
+
+      operation 354050 "count"
+	public explicit_return_type "int"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Counts the number of items in the database
+
+@return ${type}
+"
+      end
+
+      operation 354178 "Managed"
+	public explicit_return_type "\\core\\Managed"
+	nparams 1
+	  param in name "table" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Creates an instance of the managed class of the selected object.
+
+@param ${t0} ${p0} Table of attributes of the object to be hydrated
+
+@return ${type}
+"
+      end
+
+      operation 354306 "__construct"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "bdd" explicit_type "\\PDO"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Creates a \\core\\Manager instance
+
+@param ${t0} ${p0} PDO database connection
+
+@return ${type}
+"
+      end
+    end
+
+    class 183682 "DBFactory"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Allows quick connection to the database
+
+@author gugus2000
+"
+      operation 348674 "MysqlConnection"
+	class_operation public explicit_return_type "\\PDO"
+	nparams 1
+	  param in name "dbname" explicit_type "string"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Creation of a database connexion
+
+@param ${t0} ${p0} Name of the database to be connected to
+
+@return ${type}
+"
+      end
+    end
+
+    class 183810 "LinkManager"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Manager of a linking table bteween two tables
+
+@author gugus2000
+"
+      classrelation 178434 // <generalisation>
+	relation 178434 ---|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 178434 // <generalisation>
+	  b parent class_ref 182786 // Manager
+      end
+
+      operation 348802 "get"
+	public explicit_return_type "mixed"
+	nparams 2
+	  param in name "attribute" explicit_type "string"
+	  param in name "index" explicit_type "mixed"
+	    defaultvalue "null"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+
+Retrieves entries with a given index in a given column
+
+@param ${t0} ${p0} Attribute for the given index
+
+@param ${t1} ${p1} Index of the element
+
+@return ${type}
+"
+      end
+
+      operation 348930 "getByGroup"
+	public explicit_return_type "mixed"
+	nparams 4
+	  param in name "attributes" explicit_type "array"
+	  param in name "operations" explicit_type "array"
+	  param in name "group" explicit_type "string"
+	  param in name "strict" explicit_type "bool"
+	    defaultvalue "False"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Retrieves entries with several other same attributes with particular values
+
+@param ${t0} ${p0} Array of attribute tables with their values
+
+@param ${t1} ${p1} Array of array of operations
+
+@param ${t2} ${p2} Name of the attribute used for grouping
+
+@param ${t3} ${p3} Whether the strict mode is activated or not (if the number of attributes in this group must match exactly)
+
+@return ${type}
+"
+      end
+
+      operation 349058 "addBy"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "variants" explicit_type "array"
+	  param in name "invariants" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Adds elements in the table with varying and invariant parameters
+
+@param ${t0} ${p0} Variant values for each element
+
+@param ${t1} ${p1} Invariant values common to all elements to be added
+
+@return ${type}
+"
+      end
+
+      operation 349186 "exist"
+	public explicit_return_type "bool"
+	nparams 2
+	  param in name "attribute" explicit_type "string"
+	  param in name "index" explicit_type "mixed"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks for the existence of at least one element having an attribute with a particular value
+
+@param ${t0} ${p0} Name of the given attribute
+
+@param ${t1} ${p1} Attribut value
+
+@return ${type}
+"
+      end
+
+      operation 349314 "existByGroup"
+	public explicit_return_type "bool"
+	nparams 4
+	  param in name "attributes" explicit_type "array"
+	  param in name "operations" explicit_type "array"
+	  param in name "group" explicit_type "string"
+	  param in name "strict" explicit_type "bool"
+	    defaultvalue "False"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${p3}${v3}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Checks for the existence of at least one entry with several other entries having the same attributes with particular values
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array of array of operations
+
+@param ${t2} ${p2} Name of the attribute used for grouping
+
+@param ${t3} ${p3} Whether the strict mode is activated or not (if the number of attributes in this group must match exactly)
+
+@return ${type}
+"
+      end
+
+      operation 349442 "retrieveBy"
+	public explicit_return_type "array"
+	nparams 5
+	  param in name "attributes" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "operations" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "name_class" explicit_type "string"
+	    defaultvalue "null"
+	  param in name "name_id" explicit_type "array"
+	    defaultvalue "null"
+	  param in name "recovery" explicit_type "int"
+	    defaultvalue "1"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}, ${p3}${v3}, ${p4}${v4}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Retrieves objects quickly
+
+@param ${t0} ${p0} Array containing the name and value of each attribute
+
+@param ${t1} ${p1} Array of array of operations
+
+@param ${t2} ${p2} Name of the class of the objects to be retrieved
+
+@param ${t3} ${p3} Array containing 'db' the name of the index used to retrieve the object and 'obj' the name of the attribute used as index.
+
+@param ${t4} ${p4} 0 no recovery, 1 grouped recovery, 2 one-by-one recovery
+
+@return ${type}
+"
+      end
+    end
+
+    class 183938 "Router"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Router that manages internal url generation and recovery
+
+@author gugus2000
+"
+      attribute 217730 "mode"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Attribute 
+
+Operating mode of the router
+
+@var ${type}
+"
+      end
+
+      attribute 217858 "MODE_GET"
+	const_attribute package explicit_type "int"
+	init_value "0"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Constant 
+
+Operating mode of the router with GET
+
+@var ${type}
+"
+      end
+
+      attribute 217986 "MODE_ROUTE"
+	const_attribute package explicit_type "int"
+	init_value "1"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Operating mode of the router with /
+
+@var ${type}
+"
+      end
+
+      attribute 218114 "MODE_FULL_ROUTE"
+	const_attribute package explicit_type "int"
+	init_value "2"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
+Operating mode of the router with / only
+
+@var ${type}
+"
+      end
+
+      operation 354434 "getMode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Method 
+ Getter 
+
+mode accessor
+
+@return ${type}
+"
+      end
+
+      operation 354562 "setMode"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "mode" explicit_type "int"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment " Setter 
+
+mode setter
+
+@param ${t0} ${p0} Operating mode of the router
+
+@return ${type}
+"
+      end
+
+      operation 354690 "decodeRoute"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "url" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Returns an array containing application, action and parameters transmitted by the url
+
+@param ${t0} ${p0} Page URL
+
+@return ${type}
+"
+      end
+
+      operation 354818 "retrieveWithGet"
+	public explicit_return_type "array"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Returns an array containing application, action and parameters transmitted by the url from GET
+
+@return ${type}
+"
+      end
+
+      operation 354946 "retrieveWithRoute"
+	public explicit_return_type "mixed"
+	nparams 1
+	  param in name "url" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Returns an array containing application, action and parameters transmitted by the url from classic route with get
+
+@param ${t0} ${p0} Page URL
+
+@return ${type}
+"
+      end
+
+      operation 355074 "retrieveWithFullRoute"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "url" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Returns an array containing application, action and parameters transmitted by the url from classic route only
+
+@param ${t0} ${p0} Url de la page
+
+@return ${type}
+"
+      end
+
+      operation 355202 "manageParameters"
+	public explicit_return_type "mixed"
+	nparams 3
+	  param in name "possible_parameters" explicit_type "array"
+	  param in name "application" explicit_type "string"
+	  param in name "action" explicit_type "string"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}, ${p1}${v1}, ${p2}${v2}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Manage additionnal parameters
+
+@param ${t0} ${p0} Possible parameters usefull in this page
+
+@param ${t1} ${p1} Application
+
+@param ${t2} ${p2} Action
+
+@return ${type}
+"
+      end
+
+      operation 355330 "generateApplicationAndAction"
+	public explicit_return_type "array"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Generate applications and actions lists
+
+@return ${type}
+"
+      end
+
+      operation 355458 "createLink"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "parameters" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a link with an array containing an application, action and parameters
+
+@param ${t0} ${p0} array containing an application, action and parameters
+
+@return ${type}
+"
+      end
+
+      operation 355586 "createLinkGet"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "parameters" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a link with an array containing an application, action and parameters in GET mode
+
+@param ${t0} ${p0} array containing an application, action and parameters
+
+@return ${type}
+"
+      end
+
+      operation 355714 "createLinkRoute"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "parameters" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a link with an array containing an application, action and parameters in classic route mode with GET
+
+@param ${t0} ${p0} array containing an application, action and parameters
+
+@return ${type}
+"
+      end
+
+      operation 355842 "createLinkFullRoute"
+	public explicit_return_type "string"
+	nparams 1
+	  param in name "parameters" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a link with an array containing an application, action and parameters in classic route mode
+
+@param ${t0} ${p0} array containing an application, action and parameters
+
+@return ${type}
+"
+      end
+
+      operation 355970 "fill"
+	public explicit_return_type "array"
+	nparams 1
+	  param in name "parameters" explicit_type "array"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Fills incomplete parameters of a link if necessary
+
+@param ${t0} ${p0} array containing an application, action and parameters
+
+@return ${type}
+"
+      end
+
+      operation 356098 "loadFrom"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "application" explicit_type "string"
+	  param in name "action" explicit_type "string"
+	    defaultvalue "''"
+	  param in name "file" explicit_type "string"
+	    defaultvalue "'config'"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Load config or lang files for a specific application and action
+
+@param ${t0} application Application
+
+@param ${t1} action Action
+
+@return ${type}
+"
+      end
+
+      operation 356226 "__construct"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "mode" explicit_type "int"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${p0}${v0}${)}${type}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Create a \\core\\Router instance
+
+@param ${t0} ${p0} Router mode
+
+@return ${type}
+"
+      end
+    end
+  end
+
+  deploymentview 171778 "core"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 193026 "DBFactory.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 183682 // DBFactory
+      end
+    end
+
+    artifact 193154 "LinkManager.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 183810 // LinkManager
+      end
+    end
+
+    artifact 193282 "Managed.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 182530 // Managed
+      end
+    end
+
+    artifact 193410 "Manager.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 182786 // Manager
+      end
+    end
+
+    artifact 193538 "Router.class"
+      stereotype "source"
+      php_src "<?php
+
+${namespace}
+${definition}
+
+
+?>"
+      associated_elems
+	class_ref 183938 // Router
+      end
+    end
+  end
+end

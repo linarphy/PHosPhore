@@ -1,0 +1,26 @@
+class HTML
+!!!347394.php!!!	__construct() : void
+
+			header('Content-Type: text/html;charset=utf-8');
+			parent::__construct(array(
+				'template' => $GLOBALS['config']['path_template'].'pageelement/html/template.html',
+				'elements' => array(
+					'head' => new \content\pageelement\html\HTMLHead(),
+				),
+			));
+!!!347522.php!!!	display() : string
+
+			global $Visitor;
+			if (!$this->getElement('lang'))
+			{
+				$this->addElement('lang', $Visitor->getConfiguration('lang'));
+			}
+			if (!$this->getElement('notifications'))
+			{
+				$this->addElement('notifications', '');
+			}
+			if (!$this->getElement('body'))
+			{
+				$this->addElement('body', '');
+			}
+			return parent::display();

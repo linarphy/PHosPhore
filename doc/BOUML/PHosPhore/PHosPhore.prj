@@ -1,6 +1,6 @@
 format 222
 "PHosPhore"
-  revision 5
+  revision 6
   modified_by 2 "gugus.demagny"
 
 
@@ -46,7 +46,7 @@ format 222
   
   ncouples 1
   key "html dir" value "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\doc\\BOUML\\PHosPhore\\HTML/"
-  package_ref 163586 // main
+  package_ref 176130 // main
 
-  package_ref 164482 // unknown
+  package_ref 177026 // unknown
 end

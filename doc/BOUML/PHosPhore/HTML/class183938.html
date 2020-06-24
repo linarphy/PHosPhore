@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Documentation produced by the Html generator of Bouml (http://www.bouml.fr) -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Class Router</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class = "title">Class Router</div>
+<p></p>
+
+<!-- ============================================================= -->
+
+<a name="ref4_183938"></a>
+<p>Router that manages internal url generation and recovery<br /><br />@author gugus2000<br /><br /></p>
+<p>Declaration :</p><ul>
+<li>Php : class Router </li></ul><p>Artifact : <a href="index.html#ref8_193538"><b>Router.class</b></a></p>
+<div class="sub">
+<a name="ref1_217730"></a>
+<table><tr><td><div class="element">Attribute <b>mode</b></div></td></tr></table>
+<p>Attribute <br /><br />Operating mode of the router<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : # mode : int</li><li>Php : protected $mode</li></ul><a name="ref1_217858"></a>
+<table><tr><td><div class="element">Attribute <b>MODE_GET</b></div></td></tr></table>
+<p>Constant <br /><br />Operating mode of the router with GET<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ MODE_GET : int = 0, read only</li><li>Php :  const MODE_GET</li></ul><a name="ref1_217986"></a>
+<table><tr><td><div class="element">Attribute <b>MODE_ROUTE</b></div></td></tr></table>
+<p>Operating mode of the router with /<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ MODE_ROUTE : int = 1, read only</li><li>Php :  const MODE_ROUTE</li></ul><a name="ref1_218114"></a>
+<table><tr><td><div class="element">Attribute <b>MODE_FULL_ROUTE</b></div></td></tr></table>
+<p>Operating mode of the router with / only<br /><br />@var int<br /><br /></p><p>Declaration :</p><ul><li>Uml : ~ MODE_FULL_ROUTE : int = 2, read only</li><li>Php :  const MODE_FULL_ROUTE</li></ul><a name="ref2_354434"></a>
+<table><tr><td><div class="element">Operation <b>getMode</b></div></td></tr></table><p>Method <br /> Getter <br /><br />mode accessor<br /><br />@return int<br /><br /></p><p>Declaration :</p><ul><li>Uml : + getMode() : int</li><li>Php : public function getMode(): int </li></ul><a name="ref2_354562"></a>
+<table><tr><td><div class="element">Operation <b>setMode</b></div></td></tr></table><p>Setter <br /><br />mode setter<br /><br />@param int $mode Operating mode of the router<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : # setMode(in mode : int) : void</li><li>Php : protected function setMode($mode): void </li></ul><a name="ref2_354690"></a>
+<table><tr><td><div class="element">Operation <b>decodeRoute</b></div></td></tr></table><p>Returns an array containing application, action and parameters transmitted by the url<br /><br />@param string $url Page URL<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + decodeRoute(in url : string) : array</li><li>Php : public function decodeRoute($url): array </li></ul><a name="ref2_354818"></a>
+<table><tr><td><div class="element">Operation <b>retrieveWithGet</b></div></td></tr></table><p>Returns an array containing application, action and parameters transmitted by the url from GET<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieveWithGet() : array</li><li>Php : public function retrieveWithGet(): array </li></ul><a name="ref2_354946"></a>
+<table><tr><td><div class="element">Operation <b>retrieveWithRoute</b></div></td></tr></table><p>Returns an array containing application, action and parameters transmitted by the url from classic route with get<br /><br />@param string $url Page URL<br /><br />@return mixed<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieveWithRoute(in url : string) : mixed</li><li>Php : public function retrieveWithRoute($url): mixed </li></ul><a name="ref2_355074"></a>
+<table><tr><td><div class="element">Operation <b>retrieveWithFullRoute</b></div></td></tr></table><p>Returns an array containing application, action and parameters transmitted by the url from classic route only<br /><br />@param string $url Url de la page<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + retrieveWithFullRoute(in url : string) : array</li><li>Php : public function retrieveWithFullRoute($url): array </li></ul><a name="ref2_355202"></a>
+<table><tr><td><div class="element">Operation <b>manageParameters</b></div></td></tr></table><p>Manage additionnal parameters<br /><br />@param array $possible_parameters Possible parameters usefull in this page<br /><br />@param string $application Application<br /><br />@param string $action Action<br /><br />@return mixed<br /><br /></p><p>Declaration :</p><ul><li>Uml : + manageParameters(in possible_parameters : array, in application : string, in action : string) : mixed</li><li>Php : public function manageParameters($possible_parameters, $application, $action): mixed </li></ul><a name="ref2_355330"></a>
+<table><tr><td><div class="element">Operation <b>generateApplicationAndAction</b></div></td></tr></table><p>Generate applications and actions lists<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + generateApplicationAndAction() : array</li><li>Php : public function generateApplicationAndAction(): array </li></ul><a name="ref2_355458"></a>
+<table><tr><td><div class="element">Operation <b>createLink</b></div></td></tr></table><p>Create a link with an array containing an application, action and parameters<br /><br />@param array $parameters array containing an application, action and parameters<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + createLink(in parameters : array) : string</li><li>Php : public function createLink($parameters): string </li></ul><a name="ref2_355586"></a>
+<table><tr><td><div class="element">Operation <b>createLinkGet</b></div></td></tr></table><p>Create a link with an array containing an application, action and parameters in GET mode<br /><br />@param array $parameters array containing an application, action and parameters<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + createLinkGet(in parameters : array) : string</li><li>Php : public function createLinkGet($parameters): string </li></ul><a name="ref2_355714"></a>
+<table><tr><td><div class="element">Operation <b>createLinkRoute</b></div></td></tr></table><p>Create a link with an array containing an application, action and parameters in classic route mode with GET<br /><br />@param array $parameters array containing an application, action and parameters<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + createLinkRoute(in parameters : array) : string</li><li>Php : public function createLinkRoute($parameters): string </li></ul><a name="ref2_355842"></a>
+<table><tr><td><div class="element">Operation <b>createLinkFullRoute</b></div></td></tr></table><p>Create a link with an array containing an application, action and parameters in classic route mode<br /><br />@param array $parameters array containing an application, action and parameters<br /><br />@return string<br /><br /></p><p>Declaration :</p><ul><li>Uml : + createLinkFullRoute(in parameters : array) : string</li><li>Php : public function createLinkFullRoute($parameters): string </li></ul><a name="ref2_355970"></a>
+<table><tr><td><div class="element">Operation <b>fill</b></div></td></tr></table><p>Fills incomplete parameters of a link if necessary<br /><br />@param array $parameters array containing an application, action and parameters<br /><br />@return array<br /><br /></p><p>Declaration :</p><ul><li>Uml : + fill(in parameters : array) : array</li><li>Php : public function fill($parameters): array </li></ul><a name="ref2_356098"></a>
+<table><tr><td><div class="element">Operation <b>loadFrom</b></div></td></tr></table><p>Load config or lang files for a specific application and action<br /><br />@param string application Application<br /><br />@param string action Action<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + loadFrom(in application : string, in action : string = '', in file : string = 'config') : void</li><li>Php : public function loadFrom(string $application, string $action = '', string $file = 'config'): void </li></ul><a name="ref2_356226"></a>
+<table><tr><td><div class="element">Operation <b>__construct</b></div></td></tr></table><p>Create a \core\Router instance<br /><br />@param int $mode Router mode<br /><br />@return void<br /><br /></p><p>Declaration :</p><ul><li>Uml : + __construct(in mode : int) : void</li><li>Php : public function __construct($mode): void </li></ul></div>
+<p>All public operations : <a href="class183938.html#ref2_356226"><b>__construct</b></a> , <a href="class183938.html#ref2_355458"><b>createLink</b></a> , <a href="class183938.html#ref2_355842"><b>createLinkFullRoute</b></a> , <a href="class183938.html#ref2_355586"><b>createLinkGet</b></a> , <a href="class183938.html#ref2_355714"><b>createLinkRoute</b></a> , <a href="class183938.html#ref2_354690"><b>decodeRoute</b></a> , <a href="class183938.html#ref2_355970"><b>fill</b></a> , <a href="class183938.html#ref2_355330"><b>generateApplicationAndAction</b></a> , <a href="class183938.html#ref2_354434"><b>getMode</b></a> , <a href="class183938.html#ref2_356098"><b>loadFrom</b></a> , <a href="class183938.html#ref2_355202"><b>manageParameters</b></a> , <a href="class183938.html#ref2_355074"><b>retrieveWithFullRoute</b></a> , <a href="class183938.html#ref2_354818"><b>retrieveWithGet</b></a> , <a href="class183938.html#ref2_354946"><b>retrieveWithRoute</b></a> </p>
+</body>
+</html>

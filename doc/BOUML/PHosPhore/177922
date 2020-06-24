@@ -1,0 +1,61 @@
+format 222
+"htmlhead" // main::config::class::content::pageelement::html::htmlhead
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/config/class/content/pageelement/html/htmlhead/"
+  deploymentview 172290 "htmlhead"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 196354 "config"
+      stereotype "source"
+      php_src "<?php
+
+/* List of path to css which will be in each html page */
+/*$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_css'][]=;*/
+/* List of path to javascripts which will be in each html page */
+/*$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_js'][]=;*/
+/* List of \"meta array\" array to meta which will be in each html page */
+$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_metas'][]=array(
+	'http-equiv' => 'X-UA-Compatible',
+	'content'    => 'IE=edge',
+);
+$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_metas'][]=array(
+	'name'    => 'viewport',
+	'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no',
+);
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end
