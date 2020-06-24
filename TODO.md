@@ -2,7 +2,6 @@
 
 ## Mod
 
-- Easily manage (add, update and delete) mods cleanly
 - Simple login mod
 
 ## Doc
