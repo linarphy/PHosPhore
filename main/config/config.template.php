@@ -12,12 +12,8 @@ $GLOBALS['config']['db_passwd']='';
 
 /* [IDENTITY] */
 /* Name of the website */
-$GLOBALS['config']['general_name']='PHosPhore';
+$GLOBALS['config']['general_name']='';
 /* Email of the website administrator */
-$GLOBALS['config']['general_email']='gugus2000@phosphore.org';
-
-/* [LOG] */
-/* Define the logging level */
-$GLOBALS['config']['log_level']=0;
+$GLOBALS['config']['general_email']='';
 
 ?>
