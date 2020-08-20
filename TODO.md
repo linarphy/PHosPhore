@@ -1,9 +1,5 @@
 # TODO
 
-## Mod
-
-- Simple login mod
-
 ## Doc
 
 - Translate the documentation in english
