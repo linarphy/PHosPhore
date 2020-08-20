@@ -181,6 +181,18 @@ class Password extends \core\Managed
 			}
 			return False;
 		}
+		/**
+		 * Hash the clear password and set it as hashed password
+		 *
+		 * @return void
+		 */
+		public function hash()
+		{
+			$options=array(
+				'cost' => $GLOBALS['config']['hash_cost'],
+			);
+			$this->setPassword_hashed(password_hash($this->getPassword_clear(), PASSWORD_DEFAULT, $options));
+		}
 } // END class Password extends \core\Managed
 
 ?>
