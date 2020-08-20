@@ -22,7 +22,7 @@ class Notice extends \Exception
 
 		/**
 		* Channel of the notice
-		* 
+		*
 		* @var string
 		*/
 		protected $channel;
@@ -34,7 +34,7 @@ class Notice extends \Exception
 		* @param string message Exception message
 		* @param int code User defined exception code
 		* @param \Exception previous Previous exception if nested exception
-		* 
+		*
 		* @return void
 		*/
 		public function __construct($message=null, $channel='CORE', $code=0, \Exception $previous=null)
@@ -48,7 +48,7 @@ class Notice extends \Exception
 		}
 		/**
 		* Log the exception into the the log file
-		* 
+		*
 		* @return void
 		*/
 		public function log()

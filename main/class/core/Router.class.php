@@ -13,11 +13,11 @@ class Router
 
 		/**
 		* Operating mode of the router
-		* 
+		*
 		* @var int
 		*/
 		protected $mode;
-	
+
 	/* Constant */
 
 		/**
@@ -45,7 +45,7 @@ class Router
 
 			/**
 			* mode accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getMode()
@@ -71,7 +71,7 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url
 		*
 		* @param string $url Page URL
-		* 
+		*
 		* @return array
 		*/
 		public function decodeRoute($url)
@@ -101,7 +101,7 @@ class Router
 		}
 		/**
 		* Returns an array containing application, action and parameters transmitted by the url from GET
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveWithGet()
@@ -166,7 +166,7 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url from classic route with get
 		*
 		* @param string $url Page URL
-		* 
+		*
 		* @return mixed
 		*/
 		public function retrieveWithRoute($url)
@@ -246,7 +246,7 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url from classic route only
 		*
 		* @param string $url Url de la page
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveWithFullRoute($url)
@@ -314,7 +314,7 @@ class Router
 		* @param string $application Application
 		*
 		* @param string $action Action
-		* 
+		*
 		* @return mixed
 		*/
 		public function manageParameters($possible_parameters, $application, $action)
@@ -385,7 +385,7 @@ class Router
 		}
 		/**
 		* Generate applications and actions lists
-		* 
+		*
 		* @return array
 		*/
 		public function generateApplicationAndAction()
@@ -413,7 +413,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLink($parameters)
@@ -441,7 +441,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters in GET mode
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkGet($parameters)
@@ -478,7 +478,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters in classic route mode with GET
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkRoute($parameters)
@@ -520,7 +520,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters in classic route mode
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkFullRoute($parameters)
@@ -540,7 +540,7 @@ class Router
 			}
 			else
 			{
-				$this->loadFrom($parameters['application']);
+				$this->loadFrom($application);
 				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
 				$action=$GLOBALS['config']['page'][$application]['default_action'];
 			}
@@ -558,7 +558,7 @@ class Router
 		* Fills incomplete parameters of a link if necessary
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return array
 		*/
 		public function fill($parameters)
@@ -569,7 +569,7 @@ class Router
 			{
 				if (isset($parameters['action']))
 				{
-					$parameters['application']=$lists[2][$parameters['action']];				
+					$parameters['application']=$lists[2][$parameters['action']];
 					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['action_without_application'], 'router');
 				}
 				else
@@ -592,7 +592,7 @@ class Router
 		* @param string application Application
 		*
 		* @param string action Action
-		* 
+		*
 		* @return void
 		*/
 		public function loadFrom(string $application, string $action='', string $file='config')
@@ -648,7 +648,7 @@ class Router
 		* Create a \core\Router instance
 		*
 		* @param int $mode Router mode
-		* 
+		*
 		* @return void
 		*/
 		public function __construct($mode)

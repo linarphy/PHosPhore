@@ -34,31 +34,31 @@ class Notification extends \core\Managed
 
 		/**
 		* Notification id
-		* 
+		*
 		* @var int
 		*/
 		protected $id;
 		/**
 		* Notification type
-		* 
+		*
 		* @var string
 		*/
 		protected $type;
 		/**
 		* Date of notification release
-		* 
+		*
 		* @var string
 		*/
 		protected $date_release;
 		/**
 		* Notification Content Id
-		* 
+		*
 		* @var int
 		*/
 		protected $id_content;
 		/**
 		* Notification content
-		* 
+		*
 		* @var string
 		*/
 		protected $content;
@@ -69,7 +69,7 @@ class Notification extends \core\Managed
 
 			/**
 			* id accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getId()
@@ -78,7 +78,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* type accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getType()
@@ -87,7 +87,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* date_release accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getDate_release()
@@ -96,7 +96,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* id_content accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getId_content()
@@ -119,7 +119,7 @@ class Notification extends \core\Managed
 			* id setter
 			*
 			* @param int $id Notification id
-			* 
+			*
 			* @return void
 			*/
 			protected function setId($id)
@@ -130,7 +130,7 @@ class Notification extends \core\Managed
 			* type setter
 			*
 			* @param string $type Notification type
-			* 
+			*
 			* @return void
 			*/
 			protected function setType($type)
@@ -141,7 +141,7 @@ class Notification extends \core\Managed
 			* date_release setter
 			*
 			* @param string $date_release Date of notification release
-			* 
+			*
 			* @return void
 			*/
 			protected function setDate_release($date_release)
@@ -152,7 +152,7 @@ class Notification extends \core\Managed
 			* id_content setter
 			*
 			* @param int $id_content Notification Content Id
-			* 
+			*
 			* @return void
 			*/
 			protected function setId_content($id_content)
@@ -175,7 +175,7 @@ class Notification extends \core\Managed
 
 			/**
 			* id display
-			* 
+			*
 			* @return string
 			*/
 			public function displayId()
@@ -184,7 +184,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* type display
-			* 
+			*
 			* @return string
 			*/
 			public function displayType()
@@ -193,7 +193,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* date_release display
-			* 
+			*
 			* @return string
 			*/
 			public function displayDate_release()
@@ -202,7 +202,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* id_content display
-			* 
+			*
 			* @return int
 			*/
 			public function displayId_content()
@@ -212,7 +212,7 @@ class Notification extends \core\Managed
 
 		/**
 		* Content display
-		* 
+		*
 		* @return string
 		*/
 		public function displayContent()
@@ -232,7 +232,7 @@ class Notification extends \core\Managed
 		}
 		/**
 		* Notification display
-		* 
+		*
 		* @return string
 		*/
 		public function display()
@@ -241,7 +241,7 @@ class Notification extends \core\Managed
 		}
 		/**
 		* retrieves all contents in all languages
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveContents()
@@ -259,7 +259,7 @@ class Notification extends \core\Managed
 		* @param \content\PageElement $pageElement PageElement which will be changed
 		*
 		* @param \content\pageelement\Notification $Notification Notification which will be inserted into the pageElement
-		* 
+		*
 		* @return void
 		*/
 		public function sendNotification($PageElement, $Notification)
@@ -402,7 +402,7 @@ class Notification extends \core\Managed
 		}
 		/**
 		* Fetches users who need to see the notification
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveUsers()
