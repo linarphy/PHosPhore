@@ -6,7 +6,7 @@ date_default_timezone_set('UTC');
 require('./func/func.php');
 spl_autoload_register('loadClass');
 
-init_conf();
+init();
 new \exception\Notice($GLOBALS['lang']['init_conf']);
 $Router=new \core\Router(init_router());
 new \exception\Notice($GLOBALS['lang']['init_router']);

@@ -1,0 +1,66 @@
+format 222
+"hub" // main::lang::page::home::hub
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/page/home/hub/"
+  deploymentview 185730 "hub"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 217218 "EN.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Title of the page */
+$GLOBALS['lang']['page']['home']['hub']['title']='Welcome';
+/* Content of the page */
+$GLOBALS['lang']['page']['home']['hub']['content']='It works!';
+
+?>"
+      associated_elems
+      end
+    end
+
+    artifact 217346 "FR.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Title of the page */
+$GLOBALS['lang']['page']['home']['hub']['title']='Bienvenue';
+/* Content of the page */
+$GLOBALS['lang']['page']['home']['hub']['content']='Ça fonctionne !';
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end

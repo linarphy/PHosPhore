@@ -217,9 +217,11 @@ class Notification extends \core\Managed
 		*/
 		public function displayContent()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['displaycontent'], 'notification');
 			global $Visitor;
 			if ($this->getId_content()===null)		// From session
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['from_session'], 'notification');
 				return $this->getContent();
 			}
 			$Content=new \content\Content(array(
@@ -262,6 +264,7 @@ class Notification extends \core\Managed
 		*/
 		public function sendNotification($PageElement, $Notification)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['sendnotification'], 'notification');
 			global $Visitor;
 			$Notification=clone $Notification;
 			if (method_exists($Notification, 'setHead'))
@@ -277,6 +280,7 @@ class Notification extends \core\Managed
 			$PageElement->addValueElement('notifications', $Notification);
 			if ($this->getId_content()!==null)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['delete_trace'], 'notification');
 				$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
 				$LinkNotificationUser->deleteBy(array(
 					'id_notification' => $this->getId(),
@@ -286,6 +290,7 @@ class Notification extends \core\Managed
 					'id_user'         => '=',
 				));
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['sendnotification_end'], 'notification');
 		}
 		/**
 		* Create a notification
@@ -296,6 +301,7 @@ class Notification extends \core\Managed
 		*/
 		public function create($id_users=array())
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['create'], 'notification');
 			$Manager=$this->Manager();
 			$Manager->add(array(
 				'type'         => $this->getType(),
@@ -315,6 +321,7 @@ class Notification extends \core\Managed
 			$LinkNotificationUser->addBy($id_user, array(
 				'id_notification' => $this->getId(),
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['created'], 'notification');
 		}
 		/**
 		* Change a notification
@@ -323,6 +330,7 @@ class Notification extends \core\Managed
 		*/
 		public function change()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change'], 'notification');
 			$Manager=$this->Manager();
 			$Manager->update(array(
 				'type'         => $this->getType(),
@@ -343,6 +351,7 @@ class Notification extends \core\Managed
 			$id_users_not_changed=array_intersect($id_users_already_in, $id_users);
 			if(array_diff($id_users_not_changed, $id_users_already_in))
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_leave'], 'notification');
 				$LinkNotificationUser->deleteBy(array(
 					'id_notification' => $this->getId(),
 				), array(
@@ -356,6 +365,7 @@ class Notification extends \core\Managed
 			}
 			else
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_come'], 'notification');
 				$id_users_to_add=array_diff($id_users, $id_users_not_changed);
 				$LinkNotificationUser->addBy(array(array(
 					'id_user' => $id_users_to_add,
@@ -363,6 +373,7 @@ class Notification extends \core\Managed
 					'id_notification' => $this->getId(),
 				));
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_end'], 'notification');
 		}
 		/**
 		* Delete a notification
@@ -371,6 +382,7 @@ class Notification extends \core\Managed
 		*/
 		public function delete()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['delete'], 'notification');
 			$Manager=$this->Manager();
 			$this->retrieve();
 			$Manager->delete($this->getId());
@@ -386,6 +398,7 @@ class Notification extends \core\Managed
 			), array(
 				'id_content' => '=',
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['deleted'], 'notification');
 		}
 		/**
 		* Fetches users who need to see the notification

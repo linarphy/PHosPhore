@@ -9,7 +9,9 @@ $GLOBALS['lang']['class']['core']['managed']['not_identical']='Les deux objets s
 /* The two objects are identical */
 $GLOBALS['lang']['class']['core']['managed']['is_identical']='Les deux objets sont identiques';
 /* Retrieving of this object */
-$GLOBALS['lang']['class']['core']['managed']['retrieve']='Récupération de l\'objet';
+$GLOBALS['lang']['class']['core']['managed']['retrieve']='Récupération de l\'objet: ';
+/* Cannot retrieve this object because it doesn't exist */
+$GLOBALS['lang']['class']['core']['managed']['error_retrieve']='Impossible de récupérer l\'objet car il n\'existe pas: ';
 /* Creation of this object (in the db) */
 $GLOBALS['lang']['class']['core']['managed']['create']='Création de l\'objet dans la base de donnée';
 /* The index was set after the creation */

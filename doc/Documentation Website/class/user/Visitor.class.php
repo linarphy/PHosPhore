@@ -120,7 +120,21 @@ class Visitor extends \user\User
 		*/
 		public function getConfiguration($index)
 		{
-			return $this->configurations[$index];
+			if (isset($this->configurations))
+			{
+				if (isset($this->configurations[$index]))
+				{
+					return $this->configurations[$index];
+				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['user']['visitor']['error_configuration_undefined']);
+				}
+			}
+			else
+			{
+				new \exception\Warning($GLOBALS['lang']['class']['user']['visitor']['error_configurations_undefined']);
+			}
 		}
 		/**
 		* Verifies that the user has permission to view the page
@@ -140,6 +154,7 @@ class Visitor extends \user\User
 		*/
 		public function connection($password)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['connection'], 'visitor');
 			if ($this->getPassword()->verif($password))
 			{
 				$utilisateurManager=$this->Manager();
@@ -151,10 +166,12 @@ class Visitor extends \user\User
 				$_SESSION['password']=$this->getPassword()->getPassword_clear();
 				$_SESSION['nickname']=$this->getNickname();
 				$_SESSION['id']=$this->getId();
+				new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['connection_end'], 'visitor');
 				return True;
 			}
 			else
 			{
+				new \exception\Error($GLOBALS['lang']['class']['user']['visitor']['connection_error'], 'visitor');
 				return False;
 			}
 		}
@@ -165,6 +182,7 @@ class Visitor extends \user\User
 		*/
 		public function disconnection()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['disconnection'], 'visitor');
 			if ($this->getPassword()->verif($this->getPassword()->getPassword_clear()))
 			{
 				$utilisateurManager=$this->Manager();
@@ -175,6 +193,11 @@ class Visitor extends \user\User
 				unset($_SESSION['password']);
 				unset($_SESSION['nickname']);
 				unset($_SESSION['id']);
+				new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['disconnection_end'], 'visitor');
+			}
+			else
+			{
+				new \exception\Error($GLOBALS['lang']['class']['user']['visitor']['disconnection_error'], 'visitor');
 			}
 		}
 		/**
@@ -188,6 +211,7 @@ class Visitor extends \user\User
 		*/
 		public function registration($password, $role_name)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['registration'], 'visitor');
 			$VisitorManager=$this->Manager();
 			$VisitorManager->add(array(
 				'nickname'          => $this->getNickname(),
@@ -223,6 +247,7 @@ class Visitor extends \user\User
 			$PasswordManager->update(array(
 				'password_hashed' => $this->getPassword()->getPassword_hashed(),
 			), $this->getId());
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['registration_end'], 'visitor');
 		}
 		/**
 		* Updates the user
@@ -231,12 +256,14 @@ class Visitor extends \user\User
 		*/
 		public function update()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['update'], 'visitor');
 			$Manager=$this->Manager();
 			$Manager->update(array(
 				'avatar' => $this->getAvatar(),
 				'banned' => (int)$this->getBanned(),
 				'email'  => $this->getEmail(),
 			), $this->getId());
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['updated'], 'visitor');
 		}
 		/**
 		* Deletes the user /!\ USE WITH CAUTION
@@ -245,8 +272,10 @@ class Visitor extends \user\User
 		*/
 		public function delete()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['delete'], 'visitor');
 			$Manager=$this->Manager();
 			$Manager->delete($this->getId());
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['deleted'], 'visitor');
 		}
 		/**
 		* Load page
@@ -257,24 +286,29 @@ class Visitor extends \user\User
 		*/
 		public function loadPage($parameters)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['loadpage'], 'visitor');
 			global $Visitor, $Router;
 			$this->setConfigurations($GLOBALS['config']['user_config']);
 			$ConfigurationManager=new \user\ConfigurationManager(\core\DBFactory::MysqlConnection());
 			if (isset($parameters[$GLOBALS['config']['route_parameter']]['lang']))
 			{
-				if (in_array($parameters[$GLOBALS['config']['route_parameter']]['lang'],array_keys($GLOBALS['config']['general_langs'])))
+				if (in_array($parameters[$GLOBALS['config']['route_parameter']]['lang'],array_keys($GLOBALS['config']['lang_available'])))
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['recognized_lang'].' '.$parameters[$GLOBALS['config']['route_parameter']]['lang'], 'visitor');
 					if ($this->getId()==$GLOBALS['config']['guest_id'])
 					{
+						new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['lang_guest'], 'visitor');
 						$_SESSION['lang']=$parameters[$GLOBALS['config']['route_parameter']]['lang'];
 					}
 					else
 					{
+						new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['lang_register'], 'visitor');
 						if ($ConfigurationManager->existBy(array(
 							'id_user' => $this->getId(),
 							'name'    => 'lang',
 						)))
 						{
+							new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['already_exist'], 'visitor');
 							$id=$ConfigurationManager->getIdBy(array(
 								'id_user' => $this->getId(),
 								'name'    => 'lang',
@@ -285,6 +319,7 @@ class Visitor extends \user\User
 						}
 						else
 						{
+							new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['add'], 'visitor');
 							$ConfigurationManager->add(array(
 								'id_user' => $this->getId(),
 								'name'    => 'lang',
@@ -317,23 +352,25 @@ class Visitor extends \user\User
 					$this->setConfiguration($Configuration->getName(), $Configuration->getValue());
 				}
 			}
-			require $GLOBALS['config']['path_lang'].$this->getConfiguration('lang').'.lang.php';
+			$GLOBALS['config']['user_config']['lang']=$this->getConfiguration('lang');
+			$GLOBALS['lang']['self']=$GLOBALS['config']['user_config']['lang'];
 			if($this->getRole()->existPermission($parameters))	// Permission accordée
 			{
 				$this->setPage(new \user\Page($parameters));
 				if (stream_resolve_include_path($this->getPage()->getPath()))
 				{
 					include($this->getPage()->getPath());
+					new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['loadpage_end'], 'visitor');
 					return $this->getPage()->display();
 				}
 				else
 				{
-					throw new \Exception($GLOBALS['lang']['class_user_visitor_no_file']);
+					new \exception\FatalError($GLOBALS['lang']['class']['user']['visitor']['no_file']);
 				}
 			}
 			else
 			{
-				throw new \Exception($GLOBALS['lang']['class_user_visitor_no_perm']);
+				new \exception\FatalError($GLOBALS['lang']['class']['user']['visitor']['no_perm']);
 			}
 		}
 		/**
@@ -352,22 +389,6 @@ class Visitor extends \user\User
 				{
 					return True;
 				}
-			}
-			return False;
-		}
-
-		/**
-		* Checks if the visitor is the author or has permission to edit or delete an object.
-		*
-		* @param \core\Managed $Object Object to be checked for editability
-		* 
-		* @return bool
-		*/
-		public function authorizationModification($Object)
-		{
-			if (method_exists($Object, 'retrieveAuthor'))
-			{
-				return $this->identical($Object->retrieveAuthor()) || $this->getRole()->existPermission(array('application' => $GLOBALS['config']['application_modification'], 'action' => get_class($Object)));
 			}
 			return False;
 		}

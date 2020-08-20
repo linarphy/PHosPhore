@@ -24,6 +24,8 @@ $GLOBALS['config']['guest_id']=1;
 $GLOBALS['config']['guest_nickname']='guest';
 /* Password associated with the invited role */
 $GLOBALS['config']['guest_password']='guest';
+/* Role name associated with the invited role */
+$GLOBALS['config']['guest_role']='guest';
 
 /* [IDENTITY] */
 /* Name of the website */
@@ -75,10 +77,14 @@ $GLOBALS['config']['path_lang']='./lang/';
 $GLOBALS['config']['path_config']='./config/';
 /* Directory where log files are */
 $GLOBALS['config']['path_log']='./log/';
+/* Directory where mod files are */
+$GLOBALS['config']['path_mod']='./mod/';
 /* Directory where assets are */
 $GLOBALS['config']['path_asset']='./asset/';
 /* Directory where template are */
 $GLOBALS['config']['path_template']='./asset/html/';
+/* Directory where avatar are */
+$GLOBALS['config']['path_avatar']='./asset/img/avatar/';
 /* Default name of template file */
 $GLOBALS['config']['template_filename']='template.html';
 /* Directory where page are */

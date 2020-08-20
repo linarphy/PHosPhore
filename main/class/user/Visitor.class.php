@@ -19,7 +19,7 @@ class Visitor extends \user\User
 		protected $page;
 		/**
 		* User configurations
-		* 
+		*
 		* @var array
 		*/
 		protected $configurations;
@@ -39,7 +39,7 @@ class Visitor extends \user\User
 			}
 			/**
 			* configurations accessor
-			* 
+			*
 			* @return array
 			*/
 			public function getConfigurations()
@@ -64,7 +64,7 @@ class Visitor extends \user\User
 			* configurations setter
 			*
 			* @param array $configurations User configurations
-			* 
+			*
 			* @return void
 			*/
 			protected function setConfigurations($configurations)
@@ -85,7 +85,7 @@ class Visitor extends \user\User
 			}
 			/**
 			* configurations display
-			* 
+			*
 			* @return string
 			*/
 			public function displayConfigurations()
@@ -104,7 +104,7 @@ class Visitor extends \user\User
 		* @param string $index Index to insert
 		*
 		* @param mixed $value Value to be inserted
-		* 
+		*
 		* @return void
 		*/
 		public function setConfiguration($index, $value)
@@ -115,7 +115,7 @@ class Visitor extends \user\User
 		* Accessor of a configuration value associated with an index
 		*
 		* @param string $index Value Index
-		* 
+		*
 		* @return mixed
 		*/
 		public function getConfiguration($index)
@@ -147,7 +147,7 @@ class Visitor extends \user\User
 		}
 		/**
 		* Connects the visitor
-		* 
+		*
 		* @param string $password Visitor's password
 		*
 		* @return bool
@@ -155,24 +155,31 @@ class Visitor extends \user\User
 		public function connection($password)
 		{
 			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['connection'], 'visitor');
-			if ($this->getPassword()->verif($password))
+			if ($this->getPassword()!==null)
 			{
-				$utilisateurManager=$this->Manager();
-				$date=date($GLOBALS['config']['db_date_format']);
-				$utilisateurManager->update(array(
-					'date_login' => $date,
-				), $this->getId());
-				$this->setDate_login($date);
-				$_SESSION['password']=$this->getPassword()->getPassword_clear();
-				$_SESSION['nickname']=$this->getNickname();
-				$_SESSION['id']=$this->getId();
-				new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['connection_end'], 'visitor');
-				return True;
+				if ($this->getPassword()->verif($password))
+				{
+					$utilisateurManager=$this->Manager();
+					$date=date($GLOBALS['config']['db_date_format']);
+					$utilisateurManager->update(array(
+						'date_login' => $date,
+					), $this->getId());
+					$this->setDate_login($date);
+					$_SESSION['password']=$this->getPassword()->getPassword_clear();
+					$_SESSION['nickname']=$this->getNickname();
+					$_SESSION['id']=$this->getId();
+					new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['connection_end'], 'visitor');
+					return True;
+				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['user']['visitor']['connection_error'], 'visitor');
+					return False;
+				}
 			}
 			else
 			{
-				new \exception\Error($GLOBALS['lang']['class']['user']['visitor']['connection_error'], 'visitor');
-				return False;
+				new \exception\Warning($GLOBALS['lang']['class']['user']['visitor']['connection_error'], 'visitor');
 			}
 		}
 		/**
@@ -204,7 +211,7 @@ class Visitor extends \user\User
 		* Visitor Registration
 		*
 		* @param string $password Visitor's password
-		* 
+		*
 		* @param string $role_name Name of the visitor's role
 		*
 		* @return void
@@ -213,19 +220,11 @@ class Visitor extends \user\User
 		{
 			new \exception\Notice($GLOBALS['lang']['class']['user']['visitor']['registration'], 'visitor');
 			$VisitorManager=$this->Manager();
-			$VisitorManager->add(array(
+			$this->setId($VisitorManager->add(array(
 				'nickname'          => $this->getNickname(),
 				'avatar'            => $this->getAvatar(),
-				'date_registration' => $this->getDate_registration(),
-				'date_login'        => $this->getDate_login(),
-				'banned'            => (int)$this->getBanned(),
-				'email'             => $this->getEmail(),
-			));
-			$this->setId($VisitorManager->getIdBy(array(
-				'nickname'          => $this->getNickname(),
-				'avatar'            => $this->getAvatar(),
-				'date_registration' => $this->getDate_registration(),
-				'date_login'        => $this->getDate_login(),
+				'date_registration' => date($GLOBALS['config']['db_date_format']),
+				'date_login'        => date($GLOBALS['config']['db_date_format']),
 				'banned'            => (int)$this->getBanned(),
 				'email'             => $this->getEmail(),
 			)));
@@ -281,7 +280,7 @@ class Visitor extends \user\User
 		* Load page
 		*
 		* @param array $parameters Array page requested by the visitor
-		* 
+		*
 		* @return string
 		*/
 		public function loadPage($parameters)
@@ -352,6 +351,8 @@ class Visitor extends \user\User
 					$this->setConfiguration($Configuration->getName(), $Configuration->getValue());
 				}
 			}
+			$GLOBALS['config']['user_config']['lang']=$this->getConfiguration('lang');
+			$GLOBALS['lang']['self']=$GLOBALS['config']['user_config']['lang'];
 			if($this->getRole()->existPermission($parameters))	// Permission accordée
 			{
 				$this->setPage(new \user\Page($parameters));
@@ -394,13 +395,19 @@ class Visitor extends \user\User
 		* Create a \user\Visitor instance
 		*
 		* @param array $attributes Object attributes
-		* 
+		*
+		* @param bool $retrieve If the visitor must be retrieved
+		*
 		* @return mixed
 		*/
-		public function __construct($attributes)
+		public function __construct($attributes, $retrieve=true)
 		{
 			parent::__construct($attributes);
-			$this->retrieve();
+			if ($retrieve)
+			{
+				$this->retrieve();
+
+			}
 		}
 } // END class Visitor extends \user\User
 

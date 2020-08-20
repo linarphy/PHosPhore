@@ -81,7 +81,7 @@ class Managed
 		{
 			if (empty($attributes))
 			{
-				throw new \Exception($GLOBALS['lang']['class_core_managed_no_attributes']);
+				new \exception\Error($GLOBALS['lang']['class']['core']['managed']['no_attributes'], 'managed');
 			}
 			foreach ($attributes as $key => $value)
 			{
@@ -99,6 +99,7 @@ class Managed
 		*/
 		public function Manager()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['manager'].' '.get_class($this), 'managed');
 			$object=get_class($this).'Manager';
 			return new $object(\core\DBFactory::MysqlConnection());
 		}
@@ -127,9 +128,11 @@ class Managed
 				$accessor=$this->getGet($critere);
 				if (!$this->$accessor()==$object->$accessor())
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['not_identical'].' '.$critere, 'managed');
 					return false;
 				}
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['is_identical'], 'managed');
 			return true;
 		}
 		/**
@@ -160,6 +163,7 @@ class Managed
 		*/
 		public function retrieve()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['retrieve'].' '.get_class($this), 'managed');
 			$getter=$this->getGet($this::INDEX);
 			$this->get($this->$getter());
 		}
@@ -170,10 +174,12 @@ class Managed
 		*/
 		public function create()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['create'].' '.get_class($this), 'managed');
 			$id=$this->Manager()->add($this->table());
 			$method=$this->getSet($this::INDEX);
 			if (method_exists($this, $method))
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['create_set_id'], 'managed');
 				$this->$method($id);
 			}
 		}
@@ -184,6 +190,7 @@ class Managed
 		*/
 		public function change()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['change'].' '.get_class($this), 'managed');
 			$getter=$this->getGet($this::INDEX);
 			$this->Manager()->update($this->table(), $this->$getter());
 		}
@@ -194,6 +201,7 @@ class Managed
 		*/
 		public function delete()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['delete'].' '.get_class($this), 'managed');
 			$getter=$this->getGet($this::INDEX);
 			$this->Manager()->delete($this->$getter());
 		}
@@ -204,6 +212,7 @@ class Managed
 		*/
 		public function clone()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['clone'].' '.get_class($this), 'managed');
 			$class=get_class($this);
 			return new $class($this->table());
 		}
@@ -217,6 +226,7 @@ class Managed
 		public function __construct($attributes=array())
 		{
 			$this->hydrate($attributes);
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['construct'].' '.get_class($this), 'managed');
 		}
 		/**
 		* Object to array
@@ -227,6 +237,7 @@ class Managed
 		*/
 		public function obj2arr($rec=False)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['obj2arr'].' '.get_class($this), 'managed');
 			$arr = get_object_vars($this);
 			if ($rec)
 			{
@@ -243,6 +254,7 @@ class Managed
 		*/
 		public function obj2arrRec($arr)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['obj2arrrec'].' '.get_class($this), 'managed');
 			foreach ($arr as $key => $val)
 			{
 				if (is_object($val))

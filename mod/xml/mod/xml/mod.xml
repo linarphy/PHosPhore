@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<mod>
+	<name>xml</name>
+	<description>
+		A new content_type to write xml files
+	</description>
+	<version>1.0</version>
+	<dependencies>
+	</dependencies>
+	<content>
+		<asset>
+			<html>
+				<pageelement>
+					<xml>
+						<xmlemptynode>
+							<template.html />
+						</xmlemptynode>
+						<xmlnode>
+							<template.html />
+						</xmlnode>
+						<xmlnotification>
+							<template.html />
+						</xmlnotification>
+						<attributes.html />
+						<template.html />
+					</xml>
+				</pageelement>
+			</html>
+		</asset>
+		<class>
+			<content>
+				<pageelement>
+					<xml>
+						<XMLEmptyNode.class.php />
+						<XMLNode.class.php />
+						<XMLNotification.class.php />
+						<XMLSerializer.class.php />
+						<XMLUnserializer.class.php />
+					</xml>
+					<XML.class.php />
+				</pageelement>
+			</content>
+		</class>
+		<config>
+			<mod>
+				<xml.php />
+			</mod>
+		</config>
+		<mod>
+			<xml>
+				<mod.xml />
+				<README.md />
+			</xml>
+		</mod>
+	</content>
+</mod>

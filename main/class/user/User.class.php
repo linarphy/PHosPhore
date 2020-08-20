@@ -437,17 +437,13 @@ class User extends \core\Managed
 		{
 			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve'], 'user');
 			$UserManager=$this->Manager();
-			if ($this->getId())
-			{
-				$this->get($this->getId());
-			}
-			else if ($this->getNickname())
+			if ($this->getId()===null)
 			{
 				$this->setId($UserManager->getIdBy(array(
 					'nickname' => $this->getNickname(),
 				)));
-				$this->get($this->getId());
 			}
+			parent::retrieve();
 			$this->retrieveRole();
 			$this->retrievePassword();
 			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve_end'], 'user');
@@ -463,10 +459,10 @@ class User extends \core\Managed
 			$Linked=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
 			$results=$Linked->get('id_user', $this->getId());
 			$notifications=array();
-			foreach ($results as $key => $resultat)
+			foreach ($results as $key => $result)
 			{
 				$notification=new \user\Notification(array(
-					'id' => $resultat['id_notification'],
+					'id' => $result['id_notification'],
 				));
 				$notification->retrieve();
 				$notifications[]=$notification;

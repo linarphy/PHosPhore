@@ -13,7 +13,7 @@ $GLOBALS['lang']['class']['core']['manager']['condition_creator_start']='Début 
 /* Operations is an array so each attributes will have a different operation */
 $GLOBALS['lang']['class']['core']['manager']['operations_array']='Operations est un array: les operations seront liés aux attributs';
 /* Operations is a string so each attributes will have the same operation */
-$GLOBALS['lang']['class']['core']['manager']['operations_array']='Operations est un string: la même opération sera appliqué pour chaque attribut';
+$GLOBALS['lang']['class']['core']['manager']['operations_string']='Operations est un string: la même opération sera appliqué pour chaque attribut';
 /* Operations has a type uncovered */
 $GLOBALS['lang']['class']['core']['manager']['unknown_operations_type']='le type d\'operations n\'est pas pris en charge, is sera considéré comme un string contenant le signe égal';
 /* Start creating the boundary Mysql clause */
@@ -52,6 +52,8 @@ $GLOBALS['lang']['class']['core']['manager']['delete']='Requête delete:';
 $GLOBALS['lang']['class']['core']['manager']['deteleteby']='Requête deleteBy:';
 /* GetIdBy request */
 $GLOBALS['lang']['class']['core']['manager']['getidby']='Requête getIdBy';
+/* Error during the getIdBy request */
+$GLOBALS['lang']['class']['core']['manager']['error_getidby']='Erreur durant la requête getIdBy: aucun index associé à ces paramètres n\'a été trouvé';
 /* GetIdByPos request */
 $GLOBALS['lang']['class']['core']['manager']['getidbypos']='Requête getIdByPos:';
 /* Error during the getIdByPos request because position is not numeric or attribute is not in the table */

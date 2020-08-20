@@ -168,7 +168,7 @@ class Content extends \core\Managed
 		*
 		* @param string $lang Desired language
 		* 
-		* @return void
+		* @return bool
 		*/
 		public function retrieveLang($lang)
 		{
@@ -178,19 +178,21 @@ class Content extends \core\Managed
 			), array(
 				'id_content' => '=',
 			));
-			if (!(bool)$results)
+			if (!$results)
 			{
-				throw new \Exception($GLOBALS['lang']['class_content_content_no_result']);
+				new \exception\Error($GLOBALS['lang']['class']['content']['content']['no_result'], 'content');
 			}
 			foreach ($results as $result)
 			{
-				if ($result['lang']==$lang)
+				if ($result['lang']===$lang)
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['content']['good_result'], 'content');
 					$this->hydrate($result);
 					return True;
 				}
-				else if (!isset($this->texte) & $result['lang']==$GLOBALS['config']['user_config']['lang'])
+				else if (!isset($this->text) & $result['lang']===$GLOBALS['config']['user_config']['lang'])
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['content']['default_result'], 'content');
 					$this->hydrate($result);
 				}
 			}
@@ -216,6 +218,7 @@ class Content extends \core\Managed
 		*/
 		static public function determineNewId()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['content']['content']['determine_id'], 'content');
 			$Manager=new \content\ContentManager(\core\DBFactory::MysqlConnection());
 			if ((bool)$Manager->getBy(array(
 				'id_content' => '-1',

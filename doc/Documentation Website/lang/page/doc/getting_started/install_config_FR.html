@@ -1,0 +1,14 @@
+<p>
+	La première configuration du serveur se fait en copiant le fichier "config.template.php" du dossier "config" et en renommant la copie en "config.php". La configuration, représentée par une array, doit être édité dans ce fichier. Seuls quelques paramètres, nécessaires au fonctionnement du framework sur votre serveur, sont déjà rentrés sous des valeurs par défauts:
+</p>
+<ul>
+	<li><code>$GLOBALS['config']['db_host']</code> doit contenir le nom de l'hôte utilisé par le framework.</li>
+	<li><code>$GLOBALS['config']['db_name']</code> doit contenir le nom de la base de donnée dans laquelle vous avez importé "example.sql".</li>
+	<li><code>$GLOBALS['config']['db_username']</code> doit contenir un nom d'utilisateur ayant accès à la base de donnée <code>db_name</code>.</li>
+	<li><code>$GLOBALS['config']['db_passwd']</code> doit contenir le mot de passe de <code>db_username</code>.</li>
+	<li><code>$GLOBALS['config']['general_name']</code> doit contenir le nom de votre site.</li>
+	<li><code>$GLOBALS['config']['general_email']</code> doit contenir votre adresse mail pour le site.</li>
+</ul>
+<p>
+	Une fois ces valeurs rentrées, vous pouvez vérifier le bon fonctionnement de PHosPhore en chargeant le site. Si tout fonctionne, vous devez voir apparaître "It works!" dans votre navigateur. Sinon, le framework est mal configuré: vérifiez vos valeurs entrés dans le fichier de configuration. Dans tout les cas, vous pouvez vérifier les logs, enregistré automatiquement dans "log/log.txt".
+</p>

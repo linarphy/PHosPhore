@@ -1,0 +1,62 @@
+format 222
+"htmlhead" // main::lang::class::content::pageelement::html::htmlhead
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/class/content/pageelement/html/htmlhead/"
+  deploymentview 184194 "htmlhead"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 214146 "EN.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Prefix to display after the title defined in the pageelement */
+$GLOBALS['lang']['class']['content']['pageelement']['html']['htmlhead']['title_prefix']=' | '.$GLOBALS['config']['general_name'];
+
+?>"
+      associated_elems
+      end
+    end
+
+    artifact 214274 "FR.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Prefix to display after the title defined in the pageelement */
+$GLOBALS['lang']['class']['content']['pageelement']['html']['htmlhead']['title_prefix']=' | '.$GLOBALS['config']['general_name'];
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end

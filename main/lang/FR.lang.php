@@ -1,5 +1,9 @@
 <?php
 
+/* Langage name (in this lanagage) */
+$GLOBALS['lang']['self_full']='Français';
+/* Abbreviate langage name */
+$GLOBALS['lang']['self']='FR';
 /* The expected value is numeric */
 $GLOBALS['lang']['error_not_numeric']='Valeur non numérique';
 /* User connection error */
@@ -16,12 +20,16 @@ $GLOBALS['lang']['connected']='Visiteur bien connecté';
 $GLOBALS['lang']['end']='Fin du script';
 /* Mod added */
 $GLOBALS['lang']['mod_added']='Mod ajouté:';
+/* Mod installation process finished */
+$GLOBALS['lang']['mod_installation_process']='Processus d\'installation terminé:';
+/* Mod installed */
+$GLOBALS['lang']['mod_installed']='Mod installé:';
 /* Try to load a class */
 $GLOBALS['lang']['load_class']='Tentative de chargement de la classe:';
 /* Successfully loaded the class */
 $GLOBALS['lang']['class_loaded']='a correctement été chargé';
 /* Successfully loaded the class */
-$GLOBALS['lang']['config_file_loaded']='fichier config correctement chargé';
+$GLOBALS['lang']['config_file_loaded']='fichier config correctement chargé (et ./config/config.php rechargé après)';
 /* Successfuly loaded lang file */
 $GLOBALS['lang']['lang_file_loaded']='fichier  lang correctement chargé:';
 /* The class doesn't exist */

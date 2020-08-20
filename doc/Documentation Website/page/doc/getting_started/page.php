@@ -1,6 +1,6 @@
 <?php
 
-$lang=$GLOBALS['lang']['doc']['getting_started'];
+$lang=$GLOBALS['lang']['page']['doc']['getting_started'];
 
 $Element=$Visitor->getPage()->getPageElement();
 $Element->getElement('head')->addElement('title', $lang['title']);
@@ -22,7 +22,7 @@ function displaySection($sections, $lvl)
 			$subsections='';
 		}
 		$Sections[]=new \content\PageElement(array(
-			'template' => $GLOBALS['config']['path_template'].'doc/getting_started/section.html',
+			'template' => $GLOBALS['config']['path_template'].'page/doc/getting_started/section.html',
 			'elements' => array(
 				'lvl'         => (string)$lvl,
 				'title'       => $section['title'],
@@ -37,7 +37,7 @@ function displaySection($sections, $lvl)
 $Sections=displaySection($lang['sections'], 2);
 
 $Content=new \content\PageElement(array(
-	'template' => $GLOBALS['config']['path_template'].'doc/getting_started/template.html',
+	'template' => $GLOBALS['config']['path_template'].'page/doc/getting_started/template.html',
 	'elements' => array(
 		'title'    => $lang['title'],
 		'content'  => $lang['content'],

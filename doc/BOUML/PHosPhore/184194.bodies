@@ -1,0 +1,4 @@
+class Warning
+!!!356866.php!!!	__construct(in message : string = null, in channel : int = 'CORE', in code : \Exception = 0, in previous : \Exception = null) : void
+
+			parent::__construct($message, $channel, $code, $previous);
