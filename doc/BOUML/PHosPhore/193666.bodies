@@ -1,0 +1,133 @@
+class PageElement
+!!!384002.php!!!	getTemplate() : string
+
+				return $this->template;
+!!!384130.php!!!	getElements() : array
+
+				return $this->elements;
+!!!384258.php!!!	setTemplate(in template : string) : void
+
+				$this->template=$template;
+!!!384386.php!!!	setElements(in elements : array) : void
+
+				$this->elements=$elements;
+!!!384514.php!!!	displayTemplate() : string
+
+				return htmlspecialchars($this->template);
+!!!384642.php!!!	displayElements() : string
+
+				return print_r($this->elements);
+!!!384770.php!!!	displayArray(in list : array) : string
+
+			$display='';
+			foreach ($list as $element)
+			{
+				if (is_object($element))
+				{
+					$display.=$element->display();
+				}
+				else if (is_array($element))
+				{
+					$display.=$this->displayArray($element);
+				}
+				else
+				{
+					$display.=$element;
+				}
+			}
+			return $display;
+!!!384898.php!!!	display() : string
+
+			new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display'].' '.get_class($this), 'pageelement');
+			if ($this->getTemplate()!==null)
+			{
+				if (!isset($GLOBALS['cache_pageElement']))
+				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_cache_creation'], 'pageelement');
+					$GLOBALS['cache_pageElement']=array();
+				}
+				if (!isset($GLOBALS['cache_pageElement'][$this->getTemplate()]))
+				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_cache_pageelement'].' '.get_class($this), 'pageelement');
+					$GLOBALS['cache_pageElement'][$this->getTemplate()]=file_get_contents($this->getTemplate());
+				}
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_use_cache'].' '.get_class($this), 'pageelement');
+				$contentElement=$GLOBALS['cache_pageElement'][$this->getTemplate()];
+			}
+			else
+			{
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_no_template'].' '.get_class($this), 'pageelement');
+				$contentElement='';
+			}
+			if ($this->getElements()!==null)
+			{
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_elements'].' '.get_class($this), 'pageelement');
+				foreach ($this->getElements() as $name => $element)
+				{
+					if (is_object($element))
+					{
+						$value=$element->display();
+					}
+					else if (is_array($element))
+					{
+						$value=$this->displayArray($element);
+					}
+					else
+					{
+						$value=$element;
+					}
+					if ($this->getTemplate()!==null)
+					{
+						$contentElement=str_replace($this::SEPARATOR.$name.$this::SEPARATOR, $value, $contentElement);
+					}
+					else
+					{
+						$contentElement.=$value;
+					}
+				}
+			}
+			new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_end'], 'pageelement');
+			return $contentElement;
+!!!385026.php!!!	getElement(in index : mixed) : mixed
+
+			if (isset($this->elements[$index]))
+			{
+				return $this->elements[$index];
+			}
+			return False;
+!!!385154.php!!!	setElement(in index : mixed, in value : mixed) : void
+
+			if (isset($this->elements[$index]))
+			{
+				$this->elements[$index]=$value;
+			}
+!!!385282.php!!!	addElement(in name : string, in element : mixed) : void
+
+			$this->elements[$name]=$element;
+!!!385410.php!!!	addValueElement(in index : mixed, in value : mixed) : void
+
+			if (is_array($this->getElement($index)))
+			{
+				if (!in_array($value, $this->elements[$index], true))
+				{
+					$this->elements[$index][]=$value;
+				}
+			}
+			else if (is_string($this->getElement($index)))
+			{
+				$this->elements[$index].=(string)$value;
+			}
+			else
+			{
+				new \exception\Error($GLOBALS['lang']['class']['content']['pageelement']['cannot_add_value']);
+			}
+!!!385538.php!!!	__construct(in attributes : array) : void
+
+			foreach ($attributes as $key => $value)
+			{
+				$method='set'.ucfirst($key);
+				if (method_exists($this, $method))
+				{
+					$this->$method($value);
+				}
+			}

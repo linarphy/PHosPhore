@@ -1,0 +1,92 @@
+class Role
+!!!405378.php!!!	getRole_name() : string
+
+				return $this->role_name;
+!!!405506.php!!!	getId() : int
+
+				return $this->id;
+!!!405634.php!!!	getPermissions() : array
+
+				return $this->permissions;
+!!!405762.php!!!	setRole_name(in role_name : string) : void
+
+				$this->role_name=(string)$role_name;
+!!!405890.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!406018.php!!!	setPermissions(in permissions : array) : void
+
+				$this->permissions=$permissions;
+!!!406146.php!!!	displayRole_name() : string
+
+				return htmlspecialchars((string)$this->nom_role);
+!!!406274.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!406402.php!!!	displayPermissions() : string
+
+				$display=array();
+				foreach ($this->permissions as $permission)
+				{
+					array_push($display, $permission->display());
+				}
+				return htmlspecialchars((string)implode(', ', $affichage));
+!!!406530.php!!!	getPermission(in index : int) : \user\Permission
+
+			return $this->permissions[$index];
+!!!406658.php!!!	setPermission(in index : int, in permission : \user\Permission) : void
+
+			$this->permissions[$index]=$permission;
+!!!406786.php!!!	displayPermission(in index : int) : string
+
+			return htmlspecialchars((string)$this->permissions[$index]->display());
+!!!406914.php!!!	display() : string
+
+			return $this->displayRole_name();
+!!!407042.php!!!	retrievePermissions() : void
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['retrievespermissions'], 'role');
+			if ($this->getRole_name())
+			{
+				$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
+				$permissions=$PermissionManager->getBy(array(
+					'role_name' => $this->getRole_name(),
+				), array(
+					'role_name' => '=',
+				));
+				$Permissions=array();
+				foreach ($permissions as $key => $permission)
+				{
+					$Permission=new \user\Permission($permission);
+					$Permissions[]=$Permission;
+				}
+				$this->setPermissions($Permissions);
+				new \exception\Notice($GLOBALS['lang']['class']['user']['role']['retrievespermissions_end'], 'role');
+			}
+			else
+			{
+				new \exception\FatalError($GLOBALS['lang']['class']['user']['role']['error_retrievespermissions'], 'role');
+			}
+!!!407170.php!!!	existPermission(in link : array) : bool
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['existpermission'], 'role');
+			global $Router;
+			$link=$Router->fill($link);
+			$PermissionManager=new \user\PermissionManager(\core\DBFactory::MysqlConnection());
+			return $PermissionManager->getBy(array(
+				'role_name'   => $this->getRole_name(),
+				'application' => $link['application'],
+				'action'      => $link['action'],
+			), array(
+				'role_name'   => '=',
+				'application' => '=',
+				'action'      => '=',
+			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['role']['existpermission_end'], 'role');
+!!!407298.php!!!	retrieve() : void
+
+			if ($this->getId())
+			{
+				parent::retrieve();
+				$this->retrievePermissions();
+			}

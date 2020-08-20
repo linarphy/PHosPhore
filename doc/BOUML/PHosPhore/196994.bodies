@@ -1,0 +1,160 @@
+class User
+!!!407426.php!!!	getId() : int
+
+				return $this->id;
+!!!407554.php!!!	getNickname() : string
+
+				return $this->nickname;
+!!!407682.php!!!	getPassword() : \user\Password
+
+				return $this->password;
+!!!407810.php!!!	getAvatar() : string
+
+				return $this->avatar;
+!!!407938.php!!!	getDate_registration() : string
+
+				return $this->date_registration;
+!!!408066.php!!!	getDate_login() : string
+
+				return $this->date_login;
+!!!408194.php!!!	getBanned() : bool
+
+				return $this->banned;
+!!!408322.php!!!	getRole() : \user\Role
+
+				return $this->role;
+!!!408450.php!!!	getEmail() : string
+
+				return $this->email;
+!!!408578.php!!!	setId(in id : int) : void
+
+				$this->id=(int)$id;
+!!!408706.php!!!	setNickname(in nickname : string) : void
+
+				$this->nickname=(string)$nickname;
+!!!408834.php!!!	setPassword(in password : \user\Password) : void
+
+				$this->password=$password;
+!!!408962.php!!!	setAvatar(in avatar : string) : void
+
+				$this->avatar=(string)$avatar;
+!!!409090.php!!!	setDate_registration(in date_registration : string) : void
+
+				$this->date_registration=(string)$date_registration;
+!!!409218.php!!!	setDate_login(in date_login : string) : void
+
+				$this->date_login=(string)$date_login;
+!!!409346.php!!!	setBanned(in banned : ) : void
+
+				$this->banned=(bool)$banned;
+!!!409474.php!!!	setRole(in role : \user\Role) : void
+
+				$this->role=$role;
+!!!409602.php!!!	setEmail(in email : string) : void
+
+				$this->email=$email;
+!!!409730.php!!!	displayId() : string
+
+				return htmlspecialchars((string)$this->id);
+!!!409858.php!!!	displayNickname() : string
+
+				return htmlspecialchars((string)$this->nickname);
+!!!409986.php!!!	displayPassword() : string
+
+				return htmlspecialchars((string)$this->password->display());
+!!!410114.php!!!	displayAvatar() : string
+
+				return htmlspecialchars((string)$this->avatar);
+!!!410242.php!!!	displayDate_registration() : string
+
+				return htmlspecialchars((string)$this->date_registration);
+!!!410370.php!!!	displayDate_login() : string
+
+				return htmlspecialchars((string)$this->date_login);
+!!!410498.php!!!	displayBanned() : string
+
+				return htmlspecialchars((string)$this->banned);
+!!!410626.php!!!	displayRole() : string
+
+				return htmlspecialchars((string)$this->role->display());
+!!!410754.php!!!	displayEmail() : string
+
+				return htmlspecialchars((string)$this->email);
+!!!410882.php!!!	displayDate_registrationFormat(in format : string) : string
+
+			return date($format, strtotime($this->date_registration));
+!!!411010.php!!!	displayDate_loginFormat(in format : string) : string
+
+			return date($format, strtotime($this->date_login));
+!!!411138.php!!!	display() : string
+
+			return $this->displayNickname();
+!!!411266.php!!!	isConnected(in interval : string = 'PT5M') : bool
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected'].' '.$interval, 'user');
+			$Manager=$this->Manager();
+			$date=new \DateTime(date($GLOBALS['config']['db_date_format']));
+			$date->sub(new \DateInterval($interval));
+			$data=$Manager->getBy(array(
+				'date_login' => $date->format($GLOBALS['config']['db_date_format']),
+				'id'         => $this->getId(),
+			), array(
+				'date_login' => '>=',
+				'id'         => '=',
+			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected_end'], 'user');
+			return (bool)$data;
+!!!411394.php!!!	retrievePassword() : void
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword'], 'user');
+			if ($this->getId())
+			{
+				$Password=new \user\Password(array(
+					'id' => $this->getId(),
+				));
+				$Password->retrieve();
+				$this->setPassword($Password);
+			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword_end'], 'user');
+!!!411522.php!!!	retrieveRole() : void
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole'], 'user');
+			if ($this->getId())
+			{
+				$Role=new \user\Role(array(
+					'id' => $this->getId(),
+				));
+				$Role->retrieve();
+				$this->setRole($Role);
+			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole_end'], 'user');
+!!!411650.php!!!	retrieve() : void
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve'], 'user');
+			$UserManager=$this->Manager();
+			if ($this->getId()===null)
+			{
+				$this->setId($UserManager->getIdBy(array(
+					'nickname' => $this->getNickname(),
+				)));
+			}
+			parent::retrieve();
+			$this->retrieveRole();
+			$this->retrievePassword();
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve_end'], 'user');
+!!!411778.php!!!	retrieveNotifications() : array
+
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications'], 'user');
+			$Linked=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
+			$results=$Linked->get('id_user', $this->getId());
+			$notifications=array();
+			foreach ($results as $key => $result)
+			{
+				$notification=new \user\Notification(array(
+					'id' => $result['id_notification'],
+				));
+				$notification->retrieve();
+				$notifications[]=$notification;
+			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications_end'], 'user');
+			return $notifications;

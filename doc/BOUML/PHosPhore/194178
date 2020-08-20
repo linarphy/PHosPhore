@@ -1,0 +1,98 @@
+format 222
+"user" // main::lang::class::user::user
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/class/user/user/"
+  deploymentview 185474 "user"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 216706 "EN.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Check if the user is connected */
+$GLOBALS['lang']['class']['user']['user']['isconnected']='Check if the user is connected since';
+/* Checked if the user is connected */
+$GLOBALS['lang']['class']['user']['user']['isconnected_end']='Checked if the user is connected';
+/* Retrieve the password of the user */
+$GLOBALS['lang']['class']['user']['user']['retrievepassword']='Retrieve the password of the user';
+/* Password of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrievepassword_end']='Password of the user retrieved';
+/* Retrieve the role of the user */
+$GLOBALS['lang']['class']['user']['user']['retrieverole']='Retrieve the role of the user';
+/* Role of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrieverole_end']='Role of the user retrieved';
+/* Retrieve the notifications of the user */
+$GLOBALS['lang']['class']['user']['user']['retrievenotifications']='Retrieve the notifications of the user';
+/* Notifications of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrievenotifications_end']='Notifications of the user retrieved';
+/* Retrieve user data */
+$GLOBALS['lang']['class']['user']['user']['retrieve']='Retrieve user data';
+/* User data retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrieve_end']='User data retrieved';
+
+?>"
+      associated_elems
+      end
+    end
+
+    artifact 216834 "FR.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Check if the user is connected */
+$GLOBALS['lang']['class']['user']['user']['isconnected']='Vérifie si l\\'utilisateur est connecté depuis';
+/* Checked if the user is connected */
+$GLOBALS['lang']['class']['user']['user']['isconnected_end']='Vérfication de la connexion de l\\'utilisateur terminé';
+/* Retrieve the password of the user */
+$GLOBALS['lang']['class']['user']['user']['retrievepassword']='Récupération du mot de passe de l\\'utilisateur';
+/* Password of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrievepassword_end']='Mot de passe de l\\'utilisateur récupéré';
+/* Retrieve the role of the user */
+$GLOBALS['lang']['class']['user']['user']['retrieverole']='Récupération du rôle de l\\'utilisateur';
+/* Role of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrieverole_end']='Rôle de l\\'utilsiateur récupéré';
+/* Retrieve the notifications of the user */
+$GLOBALS['lang']['class']['user']['user']['retrievenotifications']='Récupération des notifications de l\\'utilisateur';
+/* Notifications of the user retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrievenotifications_end']='Notifications de l\\'utilisateur récupérées';
+/* Retrieve user data */
+$GLOBALS['lang']['class']['user']['user']['retrieve']='Récupération des données utilisateur';
+/* User data retrieved */
+$GLOBALS['lang']['class']['user']['user']['retrieve_end']='Données utilisateur récupéré';
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end

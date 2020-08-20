@@ -1,0 +1,76 @@
+format 222
+"login-validate" // main::lang::page::user::login-validate
+  revision 1
+  modified_by 2 "gugus.demagny"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  php_dir "C:\\xamppnew\\htdocs\\moi\\PHosPhore\\main/lang/page/user/login-validate/"
+  deploymentview 185986 "login-validate"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 217730 "EN.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Successfully logged in */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['success']='Successfully logged in';
+/* ERRORS */
+/* No credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['no_credential']='Cannot connect because there is no nickname or/and password';
+/* Empty credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['empty_credential']='Cannot connect because the password and/or the nickname is empty';
+/* Incorrect credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['incorrect_credential']='Cannot connect because the nickname and the password missmatch';
+
+?>"
+      associated_elems
+      end
+    end
+
+    artifact 217858 "FR.lang"
+      stereotype "source"
+      php_src "<?php
+
+/* Successfully logged in */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['success']='Connecté avec succès';
+/* ERRORS */
+/* No credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['no_credential']='Impossible de se connecter sans pseudo et/ou mot de passe';
+/* Empty credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['empty_credential']='Impossible de se connecter avec un pseudo et/ou mot de passe vide';
+/* Incorrect credentials (password or nickname) */
+$GLOBALS['lang']['page'][$GLOBALS['config']['mod']['login']['application']][$GLOBALS['config']['mod']['login']['login-validate']['action']]['error']['incorrect_credential']='Impossible de se connecter car le pseudo et le mot de passe ne correspondent pas';
+
+?>"
+      associated_elems
+      end
+    end
+  end
+end
