@@ -1,3 +1,3 @@
 # XML
 
-XML add a content_type which allows xml files creation
+XML add a content_type which allows xml files creation.

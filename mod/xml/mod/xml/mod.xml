@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <mod>
-	<name>XML</name>
+	<name>xml</name>
 	<description>
 		A new content_type to write xml files
 	</description>
