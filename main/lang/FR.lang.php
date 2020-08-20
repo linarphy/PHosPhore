@@ -20,6 +20,10 @@ $GLOBALS['lang']['connected']='Visiteur bien connecté';
 $GLOBALS['lang']['end']='Fin du script';
 /* Mod added */
 $GLOBALS['lang']['mod_added']='Mod ajouté:';
+/* Mod installation process finished */
+$GLOBALS['lang']['mod_installation_process']='Processus d\'installation terminé:';
+/* Mod installed */
+$GLOBALS['lang']['mod_installed']='Mod installé:';
 /* Try to load a class */
 $GLOBALS['lang']['load_class']='Tentative de chargement de la classe:';
 /* Successfully loaded the class */

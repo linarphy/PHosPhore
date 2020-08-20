@@ -4,7 +4,7 @@
  * Returns the class name without its namespace
  *
  * @param string $className Name of the class
- * 
+ *
  * @return string
  * @author pierstoval at gmail dot com
  **/
@@ -15,7 +15,7 @@ function get_class_name($className)
 }
 /**
  * Loads the class dynamically
- * 
+ *
  * @param string $className Name of the class
  *
  * @return void
@@ -63,7 +63,7 @@ function loadClass($className)
 			require($GLOBALS['config']['path_config'].'config.php');
 			if (class_exists('\exception\Notice'))
 			{
-				new \Exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['config_file_loaded'], 'loadclass');
+				new \exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['config_file_loaded'], 'loadclass');
 			}
 		}
 		if (file_exists($fullFileNameLang))
@@ -71,7 +71,7 @@ function loadClass($className)
 			require_once($fullFileNameLang);
 			if (class_exists('\exception\Notice'))
 			{
-				new \Exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['lang_file_loaded'], 'loadclass');
+				new \exception\Notice($fullFileNameLang.' '.$GLOBALS['lang']['lang_file_loaded'], 'loadclass');
 			}
 		}
 	}
@@ -82,7 +82,7 @@ function loadClass($className)
 	}
 	else
 	{
-		throw new \exception\Error($real_className.' '.$GLOBALS['lang']['class_not_exist'], 'loadclass');
+		new \exception\Error($real_className.' '.$GLOBALS['lang']['class_not_exist'], 'loadclass');
 	}
 
 	new \exception\Notice($real_className.' '.$GLOBALS['lang']['class_loaded'], 'loadclass');
@@ -96,22 +96,54 @@ function loadClass($className)
 function init()
 {
 	require('./config/core/config.php');
-	$mods=array();
-	foreach (scandir('./config/mod') as $filename)
-	{
-		if (substr($filename, -4)==='.php')
-		{
-			require('./config/mod/'.$filename);
-			$mods[]=substr($filename,0,-4);
-		}
-	}
 	require('./config/config.php');
 	$lang = init_lang();
 	require($GLOBALS['config']['path_lang'].$lang.'.lang.php');
-	foreach ($mods as $mod)
+	$mods=array();
+	if (!is_dir($GLOBALS['config']['path_mod']))
 	{
-		new \exception\Notice($GLOBALS['lang']['mod_added'].' '.$mod, 'init');
+		mkdir($GLOBALS['config']['path_mod']);
 	}
+	foreach (scandir($GLOBALS['config']['path_mod']) as $filename)
+	{
+		if (is_dir($GLOBALS['config']['path_mod'].$filename) && $filename!=='.' && $filename!=='..')
+		{
+			if (stream_resolve_include_path($GLOBALS['config']['path_config'].'mod/'.$filename.'/config.php'))
+			{
+				require($GLOBALS['config']['path_config'].'mod/'.$filename.'/config.php');
+				new \exception\Notice($GLOBALS['config']['path_config'].'mod/'.$filename.'/config.php '.$GLOBALS['lang']['config_file_loaded'], 'init');
+			}
+			if (stream_resolve_include_path($GLOBALS['config']['path_lang'].'mod/'.$filename.'/'.$lang.'.lang.php'))
+			{
+				require($GLOBALS['config']['path_lang'].'mod/'.$filename.'/'.$lang.'.lang.php');
+				new \exception\Notice($GLOBALS['config']['path_lang'].'mod/'.$filename.'/'.$lang.'.lang.php '.$GLOBALS['lang']['lang_file_loaded'], 'init');
+			}
+			$mods[]=$filename;
+		}
+	}
+	if (stream_resolve_include_path($GLOBALS['config']['path_mod'].'installed.txt'))
+	{
+		$installed=file($GLOBALS['config']['path_mod'].'installed.txt', FILE_IGNORE_NEW_LINES);
+	}
+	else
+	{
+		$installed=array();
+	}
+	$file=fopen($GLOBALS['config']['path_mod'].'installed.txt', 'a');
+	foreach ($mods as $mod)
+		{
+			new \exception\Notice($GLOBALS['lang']['mod_added'].' '.$mod, 'init');
+			if (!in_array($mod, $installed))
+			{
+				if (stream_resolve_include_path($GLOBALS['config']['path_mod'].$mod.'/install/install.php'))
+				{
+					require($GLOBALS['config']['path_mod'].$mod.'/install/install.php');
+					new \exception\Warning($GLOBALS['lang']['mod_installation_process'].' '.$mod, 'init');
+				}
+				fwrite($file, $mod.PHP_EOL);
+				new \exception\Notice($GLOBALS['lang']['mod_installed'].' '.$mod,'init');
+			}
+		}
 }
 /**
  * Find langage abbr
