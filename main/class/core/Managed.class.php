@@ -30,7 +30,7 @@ class Managed
 		* Gives the name of the accessor function of an attribute
 		*
 		* @param string $attribute Attribute to be accessed
-		* 
+		*
 		* @return string
 		*/
 		public function getGet($attribute)
@@ -41,7 +41,7 @@ class Managed
 		* Gives the name of the function that defines an attribute
 		*
 		* @param string $attribut Attribute for which we want the definitor
-		* 
+		*
 		* @return string
 		*/
 		public function getSet($attribute)
@@ -52,7 +52,7 @@ class Managed
 		* Gives the name of the function displaying an attribute
 		*
 		* @param string $attribute Attribute whose display is wanted
-		* 
+		*
 		* @return string
 		*/
 		public function getDisp($attribute)
@@ -63,7 +63,7 @@ class Managed
 		* Define the display of an attribute
 		*
 		* @param string $attribute Name of the attribute
-		* 
+		*
 		* @return string
 		*/
 		public function setDisplay($attribute)
@@ -118,7 +118,7 @@ class Managed
 		* Checks whether two managed objects are identical
 		*
 		* @param \core\Managed $object The object that checks for similarity
-		* 
+		*
 		* @return bool
 		*/
 		public function identical($object)
@@ -137,7 +137,7 @@ class Managed
 		}
 		/**
 		* Returns an array representing the managed object.
-		* 
+		*
 		* @return array
 		*/
 		public function table()
@@ -158,18 +158,26 @@ class Managed
 		}
 		/**
 		* Retrieve an object in the database
-		* 
+		*
 		* @return void
 		*/
 		public function retrieve()
 		{
 			new \exception\Notice($GLOBALS['lang']['class']['core']['managed']['retrieve'].' '.get_class($this), 'managed');
-			$getter=$this->getGet($this::INDEX);
-			$this->get($this->$getter());
+			$Manager=$this->Manager();
+			if ($Manager->existBy($this->table()))
+			{
+				$getter=$this->getGet($this::INDEX);
+				$this->get($this->$getter());
+			}
+			else
+			{
+				new \exception\Warning($GLOBALS['lang']['class']['core']['managed']['error_retrieve'].' '.get_class($this), 'managed');
+			}
 		}
 		/**
 		* Insert the object in the database
-		* 
+		*
 		* @return void
 		*/
 		public function create()
@@ -185,7 +193,7 @@ class Managed
 		}
 		/**
 		* Change th object in the database
-		* 
+		*
 		* @return void
 		*/
 		public function change()
@@ -196,7 +204,7 @@ class Managed
 		}
 		/**
 		* Delete the object in the database
-		* 
+		*
 		* @return void
 		*/
 		public function delete()
@@ -207,7 +215,7 @@ class Managed
 		}
 		/**
 		* Clone a managed object
-		* 
+		*
 		* @return core\Managed
 		*/
 		public function clone()
@@ -232,7 +240,7 @@ class Managed
 		* Object to array
 		*
 		* @param bool rec Recursive mode?
-		* 
+		*
 		* @return array
 		*/
 		public function obj2arr($rec=False)
@@ -249,7 +257,7 @@ class Managed
 		* Array of obj to arr
 		*
 		* @param array arr Array (of object?)
-		* 
+		*
 		* @return array
 		*/
 		public function obj2arrRec($arr)

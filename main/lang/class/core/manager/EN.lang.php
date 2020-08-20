@@ -13,7 +13,7 @@ $GLOBALS['lang']['class']['core']['manager']['condition_creator_start']='Start c
 /* Operations is an array so each attributes will have a different operation */
 $GLOBALS['lang']['class']['core']['manager']['operations_array']='Operations is an array: operations are linked to attributes';
 /* Operations is a string so each attributes will have the same operation */
-$GLOBALS['lang']['class']['core']['manager']['operations_array']='Operations is a string: the same operation will be created for every attributes';
+$GLOBALS['lang']['class']['core']['manager']['operations_string']='Operations is a string: the same operation will be created for every attributes';
 /* Operations has a type uncovered */
 $GLOBALS['lang']['class']['core']['manager']['unknown_operations_type']='Type of operations is not covered, it will be considered as a string containing the equal symbol';
 /* Start creating the boundary Mysql clause */
@@ -52,6 +52,8 @@ $GLOBALS['lang']['class']['core']['manager']['delete']='Delete request:';
 $GLOBALS['lang']['class']['core']['manager']['deteleteby']='DeleteBy request:';
 /* GetIdBy request */
 $GLOBALS['lang']['class']['core']['manager']['getidby']='GetIdBy request';
+/* Error during the getIdBy request */
+$GLOBALS['lang']['class']['core']['manager']['error_getidby']='Error during the getIdBy request: no index associated with these parameters found';
 /* GetIdByPos request */
 $GLOBALS['lang']['class']['core']['manager']['getidbypos']='GetIdByPos request:';
 /* Error during the getIdByPos request because position is not numeric or attribute is not in the table */

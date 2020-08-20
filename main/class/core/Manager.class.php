@@ -464,7 +464,13 @@ class Manager
 			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getidby'].' '.'SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where, 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where);
 			$requete->execute(array_values($values));
-			return $requete->fetch(\PDO::FETCH_ASSOC)[$this::INDEX];
+			$fetch_result=$requete->fetch(\PDO::FETCH_ASSOC);
+			if (isset($fetch_result[$this::INDEX]))
+			{
+				return $fetch_result[$this::INDEX];
+			}
+			new \exception\Warning($GLOBALS['lang']['class']['core']['manager']['error_getidby']);
+			return 'error';
 		}
 		/**
 		* Gets the index of the element from its position relative to an attribute
