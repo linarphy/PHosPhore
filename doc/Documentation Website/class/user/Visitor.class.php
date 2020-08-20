@@ -352,6 +352,8 @@ class Visitor extends \user\User
 					$this->setConfiguration($Configuration->getName(), $Configuration->getValue());
 				}
 			}
+			$GLOBALS['config']['user_config']['lang']=$this->getConfiguration('lang');
+			$GLOBALS['lang']['self']=$GLOBALS['config']['user_config']['lang'];
 			if($this->getRole()->existPermission($parameters))	// Permission accordée
 			{
 				$this->setPage(new \user\Page($parameters));
