@@ -140,6 +140,6 @@ $GLOBALS['config']['hash_cost']=6;
 
 /* [LOG] */
 /* Define the logging level */
-$GLOBALS['config']['log_level']=0;
+$GLOBALS['config']['log_level']=2;
 
 ?>

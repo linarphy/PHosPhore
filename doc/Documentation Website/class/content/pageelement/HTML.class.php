@@ -13,7 +13,7 @@ class HTML extends \content\PageElement
 
 		/**
 		* Create a \content\pageelement\HTML instance
-		* 
+		*
 		* @return void
 		*/
 		public function __construct()
@@ -28,7 +28,7 @@ class HTML extends \content\PageElement
 		}
 		/**
 		* Display \content\pageelement\HTML
-		* 
+		*
 		* @return string
 		*/
 		public function display()
