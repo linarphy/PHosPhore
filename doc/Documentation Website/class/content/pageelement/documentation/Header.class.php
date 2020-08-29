@@ -20,8 +20,8 @@ class Header extends \content\PageElement
 		public function __construct()
 		{
 			global $Router, $Visitor;
-			$lang=$GLOBALS['lang']['class']['content']['pageelement']['html']['header'];
-			$config=$GLOBALS['config']['class']['content']['pageelement']['html']['header'];
+			$lang=$GLOBALS['lang']['class']['content']['pageelement']['documentation']['header'];
+			$config=$GLOBALS['config']['class']['content']['pageelement']['documentation']['header'];
 			$li=array();
 			$li[]=new \content\PageElement(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/documentation/header/li.html',

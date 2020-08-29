@@ -22,9 +22,9 @@ class Documentation extends \content\pageelement\HTML
 			$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_css'][]=$GLOBALS['config']['path_asset'].'css/doc/header.css';
 			parent::__construct();
 			$this->addElement('body', new\content\PageElement(array(
-				'template' => $GLOBALS['config']['path_template'].'pageelement/html/documentation/template.html',
+				'template' => $GLOBALS['config']['path_template'].'pageelement/documentation/template.html',
 				'elements' => array(
-					'header' => new \content\pageelement\html\Header(),
+					'header' => new \content\pageelement\documentation\Header(),
 				)
 			)));
 		}

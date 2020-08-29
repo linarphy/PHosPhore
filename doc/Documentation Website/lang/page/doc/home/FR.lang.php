@@ -38,4 +38,3 @@ $GLOBALS['lang']['page']['doc']['home']['general_title']='Documentation';
 $GLOBALS['lang']['page']['doc']['home']['general_description']='Bienvenue dans la documentation de PHosPhore!';
 
 ?>
->>>>>>> Stashed changes
