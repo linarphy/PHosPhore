@@ -1,37 +1,41 @@
 <?php
 
-/* Title of the page */
+/* Title of this page */
 $GLOBALS['lang']['page']['doc']['home']['title']='Accueil';
-/* Title displayed in the content of the page */
-$GLOBALS['lang']['page']['doc']['home']['general_title'] ='Documentation';
-/* Description of this page displayed in the content of the page */
-$GLOBALS['lang']['page']['doc']['home']['general_description']='Bienvenue dans la documentation';
-/* List of the documentation page */
-$GLOBALS['lang']['page']['doc']['home']['sections']=array(
-	array(
-		'href'        => $GLOBALS['config']['page']['doc']['links']['link_getting_started'],
-		'title'       => 'Commencer avec PHosPhore',
-		'link'        => 'Pour Commencer',
-		'description' => 'Comment commencer à utiliser ce framework.',
-	),
-	array(
-		'href'        => $GLOBALS['config']['page']['doc']['links']['link_api'],
-		'title'       => 'L\'API général de PHosPhore',
-		'link'        => 'API',
-		'description' => 'Documentation complète de l\'API de PHosPhore.',
-	),
-	array(
-		'href'        => $GLOBALS['config']['page']['doc']['links']['link_bouml'],
-		'title'       => 'Comment utiliser BOUML',
-		'link'        => 'BOUML',
-		'description' => 'Comment utiliser la documentation de PHosPhore généré par BOUML.',
-	),
-	array(
-		'href'        => $GLOBALS['config']['page']['doc']['links']['link_search'],
-		'title'       => 'Recherche dans la documentation',
-		'link'        => 'Recherche',
-		'description' => 'Recherche les fonctions et les classes dans la documentation de PHosPhore.',
-	),
-);
+/* [SECTIONS] */
+/* Getting started */
+/* Title of the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['getting_started']['title']='Commencer avec PHosPhore';
+/* Value displayed in the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['getting_started']['link']='Pour Commencer';
+/* Detailed description of the section */
+$GLOBALS['lang']['page']['doc']['home']['sections']['getting_started']['description']='Brèves explications sur le fonctionnement général du framework afin d\'en comprendre le fonctionnement et les bases.';
+/* API */
+/* Title of the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['api']['title']='L\'API général de PHosPhore';
+/* Value displayed in the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['api']['link']='API';
+/* Detailed description of the section */
+$GLOBALS['lang']['page']['doc']['home']['sections']['api']['description']='Documentation complète de l\'API de PHosPhore (classes, attributs, méthodes, fonctions et variables).';
+/* BOUML */
+/* Title of the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['bouml']['title']='Comment utiliser BOUML';
+/* Value displayed in the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['bouml']['link']='BOUML';
+/* Detailed description of the section */
+$GLOBALS['lang']['page']['doc']['home']['sections']['bouml']['description']='Explications sur l\'utilisation de la documentation généré par BOUML et sur sa création.';
+/* Search */
+/* Title of the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['search']['title']='Recherche dans l\'API';
+/* Value displayed in the link */
+$GLOBALS['lang']['page']['doc']['home']['sections']['search']['link']='Recherche';
+/* Detailed description of the section */
+$GLOBALS['lang']['page']['doc']['home']['sections']['search']['description']='Permet la recherche dans l\'API de PHosPhore.';
+
+/* Displayed title at the beginning */
+$GLOBALS['lang']['page']['doc']['home']['general_title']='Documentation';
+/* Displayed description at the beginning */
+$GLOBALS['lang']['page']['doc']['home']['general_description']='Bienvenue dans la documentation de PHosPhore!';
 
 ?>
+>>>>>>> Stashed changes
