@@ -39,6 +39,6 @@ $GLOBALS['config']['default_config']['content_type']='DOC';
 
 /* [LOG] */
 /* Define the logging level */
-$GLOBALS['config']['log_level']=0;
+$GLOBALS['config']['log_level']=2;
 
 ?>
