@@ -18,6 +18,10 @@ $GLOBALS['lang']['class']['core']['manager']['operations_string']='Operations is
 $GLOBALS['lang']['class']['core']['manager']['unknown_operations_type']='Type of operations is not covered, it will be considered as a string containing the equal symbol';
 /* Start creating the boundary Mysql clause */
 $GLOBALS['lang']['class']['core']['manager']['boundary_interpreter_start']='Start creating the boundary Mysql clause';
+/* GROUP BY request */
+$GLOBALS['lang']['class']['core']['manager']['group_by']='Launch of an GROUP BY request';
+/* No attribute given in ORDER BY request */
+$GLOBALS['lang']['class']['core']['manager']['order_by_no_attribute']='No attribute given in GROUP BY request';
 /* ORDER BY request */
 $GLOBALS['lang']['class']['core']['manager']['order_by']='Launch of an ORDER BY request';
 /* LIMIT request with a DESC order */
