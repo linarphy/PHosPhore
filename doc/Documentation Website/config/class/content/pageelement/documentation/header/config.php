@@ -13,5 +13,7 @@ $GLOBALS['config']['class']['content']['pageelement']['documentation']['header']
 $GLOBALS['config']['class']['content']['pageelement']['documentation']['header']['links']['search']=array('application' => 'doc', 'action' => 'search');
 /* FAQ */
 $GLOBALS['config']['class']['content']['pageelement']['documentation']['header']['links']['faq']=array('application' => 'doc', 'action' => 'faq');
+/* LICENSE */
+$GLOBALS['config']['class']['content']['pageelement']['documentation']['header']['links']['license']=array('application' => 'doc', 'action' => 'license');
 
 ?>

@@ -38,5 +38,10 @@ $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['
 $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['page']['faq']['title']='FAQ de PHosPhore';
 /* Value displayed in the link */
 $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['page']['faq']['link']='FAQ';
+/* LICENSE */
+/* Title of the link */
+$GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['page']['license']['title']='License de PHosPhore';
+/* Value displayed in the link */
+$GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['page']['license']['link']='LICENSE';
 
 ?>

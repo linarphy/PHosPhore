@@ -33,5 +33,10 @@ $GLOBALS['config']['page']['doc']['links']['search']['action']='search';
 $GLOBALS['config']['page']['doc']['links']['faq']['application']='doc';
 /* Action */
 $GLOBALS['config']['page']['doc']['links']['faq']['action']='faq';
+/* LICENSE */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['license']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['license']['action']='license';
 
 ?>
