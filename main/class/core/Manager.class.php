@@ -286,7 +286,7 @@ class Manager
 						}
 						else
 						{
-							$offest=$value;
+							$offset=$value;
 						}
 						break;
 					case 'limit':
