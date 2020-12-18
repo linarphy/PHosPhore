@@ -53,7 +53,7 @@ $GLOBALS['lang']['class']['core']['manager']['updateby']='UpdateBy request:';
 /* Delete request */
 $GLOBALS['lang']['class']['core']['manager']['delete']='Delete request:';
 /* DeleteBy request */
-$GLOBALS['lang']['class']['core']['manager']['deteleteby']='DeleteBy request:';
+$GLOBALS['lang']['class']['core']['manager']['deleteby']='DeleteBy request:';
 /* GetIdBy request */
 $GLOBALS['lang']['class']['core']['manager']['getidby']='GetIdBy request';
 /* Error during the getIdBy request */
