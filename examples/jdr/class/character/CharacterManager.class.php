@@ -3,43 +3,43 @@
 namespace character;
 
 /**
- * A Manager of \character\Character
+ * Manager for \character\Character
  *
+ * @package jdr
  * @author gugus2000
  **/
 class CharacterManager extends \core\Manager
 {
-	/* constant */
+	/* Constant */
 
 		/**
-		* table used by character\Character
-		*
-		* @var string
-		*/
-		const TABLE='rpg_character';
+		 * Name of the table linked to the object
+		 *
+		 * @var string
+		 **/
+		const TABLE='character';
 		/**
-		* Attributes
-		*
-		* @var array
-		*/
+		 * List of all table attributes
+		 *
+		 * @var array
+		 **/
 		const ATTRIBUTES=array(
-			0  => 'id',
-			1  => 'name',
-			2  => 'id_race',
-			3  => 'id_class',
-			4  => 'hp',
-			5  => 'max_hp',
-			6  => 'mana',
-			7  => 'max_mana',
-			8  => 'ap',
-			9  => 'max_ap',
-			10 => 'level',
-			11 => 'xp',
-			12 => 'id_inventory',
-			13 => 'id_attributes',
-			14 => 'id_maxattributes',
-			15 => 'id_author',
+			'id',
+			'name',
+			'bio',
+			'experience',
+			'_class',
+			'race',
+			'state',
+			'registration_date',
+			'last_login_date',
+			'id_author',
+			'id_party',
+			'id_inventory',
+			'id_attributes'n
+			'id_effects',
+			'id_spells',
 		);
-} // END class CharacterManager extends \core\Manager
+}
 
 ?>

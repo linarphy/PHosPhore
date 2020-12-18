@@ -136,24 +136,30 @@ class PageElement
 		*/
 		public function display()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display'].' '.get_class($this), 'pageelement');
 			if ($this->getTemplate()!==null)
 			{
 				if (!isset($GLOBALS['cache_pageElement']))
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_cache_creation'], 'pageelement');
 					$GLOBALS['cache_pageElement']=array();
 				}
 				if (!isset($GLOBALS['cache_pageElement'][$this->getTemplate()]))
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_cache_pageelement'].' '.get_class($this), 'pageelement');
 					$GLOBALS['cache_pageElement'][$this->getTemplate()]=file_get_contents($this->getTemplate());
 				}
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_use_cache'].' '.get_class($this), 'pageelement');
 				$contentElement=$GLOBALS['cache_pageElement'][$this->getTemplate()];
 			}
 			else
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_no_template'].' '.get_class($this), 'pageelement');
 				$contentElement='';
 			}
 			if ($this->getElements()!==null)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_elements'].' '.get_class($this), 'pageelement');
 				foreach ($this->getElements() as $name => $element)
 				{
 					if (is_object($element))
@@ -178,6 +184,7 @@ class PageElement
 					}
 				}
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['content']['pageelement']['display_end'], 'pageelement');
 			return $contentElement;
 		}
 		/**
@@ -248,7 +255,7 @@ class PageElement
 			}
 			else
 			{
-				throw new \Exception($GLOBALS['lang']['class_content_pageelement_cannot_add_value']);
+				new \exception\Error($GLOBALS['lang']['class']['content']['pageelement']['cannot_add_value']);
 			}
 		}
 		/**

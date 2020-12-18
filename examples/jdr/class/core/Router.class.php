@@ -13,11 +13,11 @@ class Router
 
 		/**
 		* Operating mode of the router
-		* 
+		*
 		* @var int
 		*/
 		protected $mode;
-	
+
 	/* Constant */
 
 		/**
@@ -45,7 +45,7 @@ class Router
 
 			/**
 			* mode accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getMode()
@@ -71,7 +71,7 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url
 		*
 		* @param string $url Page URL
-		* 
+		*
 		* @return array
 		*/
 		public function decodeRoute($url)
@@ -79,25 +79,29 @@ class Router
 			switch ($this->getMode())
 			{
 				case $this::MODE_GET:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['decode_mode_get'].' '.$url, 'router');
 					return $this->retrieveWithGet();
 					break;
 				case $this::MODE_ROUTE:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['decode_mode_route'].' '.$url, 'router');
 					return $this->retrieveWithRoute($url);
 					break;
 				case $this::MODE_FULL_ROUTE:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['decode_mode_fullroute'].' '.$url, 'router');
 					return $this->retrieveWithFullRoute($url);
 					break;
 				default:
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknow_route_mode'], 'router');
 					return array(
 						'application' => $GLOBALS['config']['default_application'],
-						'action'      => $GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'],
+						'action'      => $GLOBALS['config']['page'][$GLOBALS['config']['default_application']]['default_action'],
 					);
 			}
 			$this->__construct(init_router());
 		}
 		/**
 		* Returns an array containing application, action and parameters transmitted by the url from GET
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveWithGet()
@@ -110,6 +114,10 @@ class Router
 					$application=$_GET['application'];
 					unset($_GET['application']);
 				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknwon_application'].' '.$_GET['application'], 'router');
+				}
 			}
 			if (isset($_GET['action']))
 			{
@@ -119,26 +127,35 @@ class Router
 					unset($_GET['action']);
 					if (!isset($application))
 					{
+						new \exception\Warning($GLOBALS['lang']['class']['core']['router']['action_without_application'], 'router');
 						$application=$lists[2][$action];
 					}
+				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknown_action'].' '.$_GET['action'], 'router');
 				}
 			}
 			if (!isset($application))
 			{
 				$application=$GLOBALS['config']['default_application'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
 			}
 			if (!isset($action))
 			{
-				if (!isset($GLOBALS['config'][$application]))
+				if (!isset($GLOBALS['config']['page'][$application]))
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
-				$action=$GLOBALS['config'][$application]['default_action'];
+				$action=$GLOBALS['config']['page'][$application]['default_action'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
 			}
 			$parameters=$this->manageParameters($_GET, $application, $action);
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['application_used'].' '.$application.' '.$GLOBALS['lang']['class']['core']['router']['action_used'].' '.$action, 'router');
 			return array(
 				'application'                         => $application,
 				'action'                              => $action,
@@ -149,7 +166,7 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url from classic route with get
 		*
 		* @param string $url Page URL
-		* 
+		*
 		* @return mixed
 		*/
 		public function retrieveWithRoute($url)
@@ -163,6 +180,10 @@ class Router
 				{
 					$application=$matches[1];
 				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknwon_application'], 'router');
+				}
 				if (in_array($matches[2], $lists[1]))
 				{
 					$action=$matches[2];
@@ -170,6 +191,14 @@ class Router
 					{
 						$application=$lists[2][$action];
 					}
+					else
+					{
+						new \exception\Warning($GLOBALS['lang']['class']['core']['router']['action_without_application'], 'router');
+					}
+				}
+				else
+				{
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknown_action'], 'router');
 				}
 			}
 			else
@@ -181,24 +210,32 @@ class Router
 					{
 						$application=$matches[1];
 					}
+					else
+					{
+						new \exception\Warning($GLOBALS['lang']['class']['core']['router']['unknwon_application'], 'router');
+					}
 				}
 			}
 			if (!isset($application))
 			{
 				$application=$GLOBALS['config']['default_application'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
 			}
 			if (!isset($action))
 			{
-				if (!isset($GLOBALS['config'][$application]))
+				if (!isset($GLOBALS['config']['page'][$application]))
 				{
 					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
 					{
 						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
-				$action=$GLOBALS['config'][$application]['default_action'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
+				$action=$GLOBALS['config']['page'][$application]['default_action'];
 			}
 			$parameters=$this->manageParameters($_GET, $application, $action);
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['application_used'].' '.$application.' '.$GLOBALS['lang']['class']['core']['router']['action_used'].' '.$action, 'router');
 			return array(
 				'application'                         => $application,
 				'action'                              => $action,
@@ -209,13 +246,13 @@ class Router
 		* Returns an array containing application, action and parameters transmitted by the url from classic route only
 		*
 		* @param string $url Url de la page
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveWithFullRoute($url)
 		{
 			$lists=$this->generateApplicationAndAction();
-			$list=explode('/', trim(strtok(getenv('REQUEST_URI'), '?'), '/'));
+			$list=explode('/', trim(strtok($url, '?'), '/'));
 			$possible_parameters=array();
 			foreach ($list as $element)
 			{
@@ -240,24 +277,29 @@ class Router
 				if (isset($action))
 				{
 					$application=$lists[2][$action];
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['action_without_application'], 'router');
 				}
 				else
 				{
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
 					$application=$GLOBALS['config']['default_application'];
 				}
 			}
 			if (!isset($action))
 			{
-				if (!isset($GLOBALS['config'][$application]))
+				if (!isset($GLOBALS['config']['page'][$application]))
 				{
-					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/config.php'))
 					{
-						include_once($GLOBALS['config']['path_config'].$application.'/config.php');
+						include_once($GLOBALS['config']['path_config'].'page/'.$application.'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
 					}
 				}
-				$action=$GLOBALS['config'][$application]['default_action'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
+				$action=$GLOBALS['config']['page'][$application]['default_action'];
 			}
 			$parameters=$this->manageParameters($possible_parameters, $application, $action);
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['application_used'].' '.$application.' '.$GLOBALS['lang']['class']['core']['router']['action_used'].' '.$action, 'router');
 			return array(
 				'application'                         => $application,
 				'action'                              => $action,
@@ -272,52 +314,53 @@ class Router
 		* @param string $application Application
 		*
 		* @param string $action Action
-		* 
+		*
 		* @return mixed
 		*/
 		public function manageParameters($possible_parameters, $application, $action)
 		{
 			$parameters=array();
 			$expected_parameters=array();
-			if (isset($GLOBALS['config']['general_parameters']))
+			$this->loadFrom($application, $action);
+			if (isset($GLOBALS['config']['page_general_parameters']))
 			{
-				$expected_parameters=$GLOBALS['config']['general_parameters'];
+				$expected_parameters=$GLOBALS['config']['page_general_parameters'];
+				new \exception\Notice($GLOBALS['lang']['class']['core']['router']['general_config_parameter_loaded'], 'router');
 			}
-			if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
+			if (isset($GLOBALS['config']['page'][$application]['parameters']))
 			{
-				include_once($GLOBALS['config']['path_config'].$application.'/config.php');
-				if (isset($GLOBALS['config'][$application]['parameters']))
-				{
-					$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application]['parameters']);
-				}
+				$expected_parameters=array_merge($expected_parameters, $GLOBALS['config']['page'][$application]['parameters']);
+				new \exception\Notice($GLOBALS['lang']['class']['core']['router']['application_config_parameter_loaded'], 'router');
 			}
-			if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/'.$action.'/config.php'))
+			if (isset($GLOBALS['config']['page'][$application][$action]['parameters']))
 			{
-				include_once($GLOBALS['config']['path_config'].$application.'/'.$action.'/config.php');
-				if (isset($GLOBALS['config'][$application][$action]['parameters']))
-				{
-					$expected_parameters=array_merge($expected_parameters, $GLOBALS['config'][$application][$action]['parameters']);
-				}
+				$expected_parameters=array_merge($expected_parameters, $GLOBALS['config']['page'][$application][$action]['parameters']);
+				new \exception\Notice($GLOBALS['lang']['class']['core']['router']['action_config_parameter_loaded'], 'router');
 			}
 			$keys=array_keys($possible_parameters);
 			foreach ($expected_parameters as $name => $params)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['core']['router']['try_parameter'].' '.$name, 'router');
 				if (in_array($name, $keys, true))
 				{
 					if (!preg_match('#'.$params['regex'].'#', $possible_parameters[$name]))
 					{
-						throw new \Exception($GLOBALS['lang']['class_router_argument_content_mismatch']);
+						new \exception\Error($GLOBALS['lang']['class']['core']['router']['content_mismatch'], 'router');
 					}
-					$parameters[$name]=$possible_parameters[$name];
-					unset($possible_parameters[$name]);
+					else
+					{
+						$parameters[$name]=$possible_parameters[$name];
+						unset($possible_parameters[$name]);
+					}
 				}
-				else
+				else 		// Don't know the name of the parameters (full route mode only for now)
 				{
 					foreach ($possible_parameters as $key => $possible_parameter)
 					{
 						if (preg_match('#'.$params['regex'].'#', $possible_parameter))
 						{
 							$parameters[$name]=$possible_parameter;
+							new \exception\Notice($GLOBALS['lang']['class']['core']['router']['found_parameter_name'].' '.$name.' '.$GLOBALS['lang']['class']['core']['router']['found_parameter_value'].' '.$possible_parameter, 'router');
 							unset($possible_parameters[$key]);
 							break;
 						}
@@ -327,7 +370,7 @@ class Router
 				{
 					if (!isset($parameters[$name]))
 					{
-						throw new \Exception($GLOBALS['lang']['class_core_router_missing_parameter']);
+						new \exception\FatalError($GLOBALS['lang']['class']['core']['router']['missing_parameter'], 'router');
 					}
 				}
 			}
@@ -335,14 +378,14 @@ class Router
 			{
 				if (!empty($possible_parameters))
 				{
-					throw new \Exception($GLOBALS['lang']['class_core_router_too_much_parameters']);
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['too_much_parameters'], 'router');
 				}
 			}
 			return $parameters;
 		}
 		/**
 		* Generate applications and actions lists
-		* 
+		*
 		* @return array
 		*/
 		public function generateApplicationAndAction()
@@ -370,7 +413,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLink($parameters)
@@ -378,15 +421,19 @@ class Router
 			switch ($this->getMode())
 			{
 				case $this::MODE_GET:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['create_link_get'], 'router');
 					return $this->createLinkGet($parameters);
 					break;
 				case $this::MODE_ROUTE:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['create_link_route'], 'router');
 					return $this->createLinkRoute($parameters);
 					break;
 				case $this::MODE_FULL_ROUTE:
+					new \exception\Notice($GLOBALS['lang']['class']['core']['router']['create_link_fullroute'], 'router');
 					return $this->createLinkFullRoute($parameters);
 					break;
 				default:
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['create_link_unknown'], 'router');
 					return '/';
 			}
 		}
@@ -394,7 +441,7 @@ class Router
 		* Create a link with an array containing an application, action and parameters in GET mode
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkGet($parameters)
@@ -415,27 +462,23 @@ class Router
 				}
 				else
 				{
-					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
-					{
-						include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
-					}
-					return '?application='.$parameters['application'].'&action='.$GLOBALS['config'][$parameters['application']]['default_action'].$additionnal_parameters;
+					$this->loadFrom($parameters['application']);
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
+					return '?application='.$parameters['application'].'&action='.$GLOBALS['config']['page'][$parameters['application']]['default_action'].$additionnal_parameters;
 				}
 			}
 			else
 			{
-				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
-				{
-					include_once($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
-				}
-				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].$additionnal_parameters;
+				$this->loadFrom($GLOBALS['config']['default_application']);
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
+				return '?application='.$GLOBALS['config']['default_application'].'&action='.$GLOBALS['config']['page'][$GLOBALS['config']['default_application']]['default_action'].$additionnal_parameters;
 			}
 		}
 		/**
 		* Create a link with an array containing an application, action and parameters in classic route mode with GET
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkRoute($parameters)
@@ -461,27 +504,23 @@ class Router
 				}
 				else
 				{
-					if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
-					{
-						include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
-					}
-					return '/'.$parameters['application'].'/'.$GLOBALS['config'][$parameters['application']]['default_action'].'/'.$additionnal_parameters;
+					$this->loadFrom($parameters['application']);
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
+					return '/'.$parameters['application'].'/'.$GLOBALS['config']['page'][$parameters['application']]['default_action'].'/'.$additionnal_parameters;
 				}
 			}
 			else
 			{
-				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php'))
-				{
-					include_once($GLOBALS['config']['path_config'].$GLOBALS['config']['default_application'].'/config.php');
-				}
-				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config'][$GLOBALS['config']['default_application']]['default_action'].'/'.$additionnal_parameters;
+				$this->loadFrom($GLOBALS['config']['default_application']);
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
+				return '/'.$GLOBALS['config']['default_application'].'/'.$GLOBALS['config']['page'][$GLOBALS['config']['default_application']]['default_action'].'/'.$additionnal_parameters;
 			}
 		}
 		/**
 		* Create a link with an array containing an application, action and parameters in classic route mode
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return string
 		*/
 		public function createLinkFullRoute($parameters)
@@ -493,6 +532,7 @@ class Router
 			else
 			{
 				$application=$GLOBALS['config']['default_application'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
 			}
 			if (isset($parameters['action']))
 			{
@@ -500,11 +540,9 @@ class Router
 			}
 			else
 			{
-				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$application.'/config.php'))
-				{
-					include_once($GLOBALS['config']['path_config'].$application.'/config.php');
-				}
-				$action=$GLOBALS['config'][$application]['default_action'];
+				$this->loadFrom($application);
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
+				$action=$GLOBALS['config']['page'][$application]['default_action'];
 			}
 			if (isset($parameters[$GLOBALS['config']['route_parameter']]))
 			{
@@ -520,38 +558,97 @@ class Router
 		* Fills incomplete parameters of a link if necessary
 		*
 		* @param array $parameters array containing an application, action and parameters
-		* 
+		*
 		* @return array
 		*/
 		public function fill($parameters)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['fill'], 'router');
 			$lists=$this->generateApplicationAndAction();
 			if (!isset($parameters['application']))
 			{
 				if (isset($parameters['action']))
 				{
-					$parameters['application']=$lists[2][$parameters['action']];				
+					$parameters['application']=$lists[2][$parameters['action']];
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['action_without_application'], 'router');
 				}
 				else
 				{
 					$parameters['application']=$GLOBALS['config']['default_application'];
+					new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_application'], 'router');
 				}
 			}
 			if (!isset($parameters['action']))
 			{
-				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$parameters['application'].'/config.php'))
-				{
-					include_once($GLOBALS['config']['path_config'].$parameters['application'].'/config.php');
-				}
-				$parameters['action']=$GLOBALS['config'][$parameters['application']]['default_action'];
+				$this->loadFrom($parameters['application']);
+				$parameters['action']=$GLOBALS['config']['page'][$parameters['application']]['default_action'];
+				new \exception\Warning($GLOBALS['lang']['class']['core']['router']['default_action'], 'router');
 			}
 			return $parameters;
+		}
+		/**
+		* Load config or lang files for a specific application and action
+		*
+		* @param string application Application
+		*
+		* @param string action Action
+		*
+		* @return void
+		*/
+		public function loadFrom(string $application, string $action='', string $file='config')
+		{
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['load_from_start'].' '.$file, 'router');
+			switch ($file)
+			{
+				case 'config':
+					if (!empty($application))
+					{
+						if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/config.php'))
+						{
+							include_once($GLOBALS['config']['path_config'].'page/'.$application.'/config.php');
+							include($GLOBALS['config']['path_config'].'config.php');
+							new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$application.'/config.php', 'router');
+						}
+						if (!empty($action))
+						{
+							if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php'))
+							{
+								include_once($GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php');
+								include($GLOBALS['config']['path_config'].'config.php');
+								new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$application.'/'.$action.'/config.php', 'router');
+							}
+						}
+					}
+					break;
+				case 'lang':
+					global $Visitor;
+					if (!empty($application))
+					{
+						if (stream_resolve_include_path($GLOBALS['config']['path_lang'].''.$application.'/lang.'.$Visitor->getConfiguration('lang').'.php'))
+						{
+							include_once($GLOBALS['config']['path_lang'].''.$application.'/lang.'.$Visitor->getConfiguration('lang').'.php');
+							new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_lang'].''.$application.'/lang.'.$Visitor->getConfiguration('lang').'.php', 'router');
+						}
+						if (!empty($action))
+						{
+							if (stream_resolve_include_path($GLOBALS['config']['path_lang'].$application.'/'.$action.'/lang.'.$Visitor->getConfiguration('lang').'.php'))
+							{
+								include_once($GLOBALS['config']['path_lang'].$application.'/'.$action.'/lang.'.$Visitor->getConfiguration('lang').'.php');
+								new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_lang'].$application.'/'.$action.'/lang.'.$Visitor->getConfiguration('lang').'.php', 'router');
+							}
+						}
+					}
+					break;
+				default:
+					new \exception\Error($GLOBALS['lang']['class']['core']['router']['unknown_type'], 'router');
+			}
+			new \exception\Notice($GLOBALS['lang']['class']['core']['router']['load_from_end'], 'router');
 		}
 		/**
 		* Create a \core\Router instance
 		*
 		* @param int $mode Router mode
-		* 
+		*
 		* @return void
 		*/
 		public function __construct($mode)

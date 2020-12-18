@@ -170,6 +170,9 @@ class Page
 		*/
 		public function display()
 		{
+			global $Visitor;
+			new \exception\Notice($GLOBALS['lang']['class']['user']['page']['display'], 'page');
+			require_once($GLOBALS['config']['path_lang'].$Visitor->getConfiguration('lang').'.lang.php');
 			return $this->displayPageElement();
 		}
 		/**
@@ -181,12 +184,14 @@ class Page
 		*/
 		static public function addNotificationSession($Notification)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['page']['add_notification'], 'page');
 			if (isset($_SESSION['notifications']))
 			{
 				$_SESSION['notifications'][]=serialize($Notification);
 			}
 			else
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['session_creation'], 'page');
 				$_SESSION['notifications']=array(serialize($Notification));
 			}
 		}
@@ -197,7 +202,7 @@ class Page
 		*/
 		public function getPath()
 		{
-			return $GLOBALS['config']['path_page_definition_root'].$this->getApplication().'/'.$this->getAction().'/'.$GLOBALS['config']['path_page_definition_filename'];
+			return $GLOBALS['config']['path_page'].$this->getApplication().'/'.$this->getAction().'/'.$GLOBALS['config']['page_filename'];
 		}
 		/**
 		* Gives the path of the page template file
@@ -206,7 +211,7 @@ class Page
 		*/
 		public function getTemplatePath()
 		{
-			return $GLOBALS['config']['path_template'].$this->getApplication().'/'.$this->getAction().'/'.$GLOBALS['config']['path_template_filename'];
+			return $GLOBALS['config']['path_template'].$this->getApplication().'/'.$this->getAction().'/'.$GLOBALS['config']['template_filename'];
 		}
 		/**
 		* Add a parameter in the page
@@ -228,14 +233,17 @@ class Page
 		*/
 		public function loadPageConfig()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['page']['loadconfig_general'], 'page');
 			$array=$GLOBALS['config']['default_config'];
-			if (isset($GLOBALS['config'][$this->getApplication()]['config']))
+			if (isset($GLOBALS['config']['page'][$this->getApplication()]['config']))
 			{
-				$array=array_merge($array, $GLOBALS['config'][$this->getApplication()]['config']);
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['loadconfig_application'], 'page');
+				$array=array_merge($array, $GLOBALS['config']['page'][$this->getApplication()]['config']);
 			}
-			if (isset($GLOBALS['config'][$this->getApplication()][$this->getAction()]['config']))
+			if (isset($GLOBALS['config']['page'][$this->getApplication()][$this->getAction()]['config']))
 			{
-				$array=array_merge($array, $GLOBALS['config'][$this->getApplication()][$this->getAction()]['config']);
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['loadconfig_action'], 'page');
+				$array=array_merge($array, $GLOBALS['config']['page'][$this->getApplication()][$this->getAction()]['config']);
 			}
 			return $array;
 		}
@@ -248,6 +256,7 @@ class Page
 		*/
 		public function __construct($attributes)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['page']['construct'], 'page');
 			global $Visitor;
 			foreach ($attributes as $key => $value)
 			{
@@ -259,26 +268,29 @@ class Page
 			}
 			if ($this->getApplication()!==null)
 			{
-				if (stream_resolve_include_path($GLOBALS['config']['path_config'].$this->getApplication().'/config.php'))
+				if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php'))
 				{
-					include($GLOBALS['config']['path_config'].$this->getApplication().'/config.php');
-					if ($this->getAction()!==null)
-					{
-						if (stream_resolve_include_path($GLOBALS['config']['path_config'].$this->getApplication().'/'.$this->getAction().'/config.php'))
-						{
-							include($GLOBALS['config']['path_config'].$this->getApplication().'/'.$this->getAction().'/config.php');
-						}
-					}
+					include_once($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php');
+					include($GLOBALS['config']['path_config'].'config.php');
+					new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/config.php', 'page');
 				}
-				if (stream_resolve_include_path($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
+				if (stream_resolve_include_path($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
 				{
-					include($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php');
-					if ($this->getAction()!==null)
+					include_once($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php');
+					new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$Visitor->getConfiguration('lang').'.lang.php', 'page');
+				}
+				if ($this->getAction()!==null)
+				{
+					if (stream_resolve_include_path($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php'))
 					{
-						if (stream_resolve_include_path($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
-						{
-							include($GLOBALS['config']['path_lang'].$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php');
-						}
+						include_once($GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php');
+						include($GLOBALS['config']['path_config'].'config.php');
+						new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_config'].'page/'.$this->getApplication().'/'.$this->getAction().'/config.php', 'page');
+					}
+					if (stream_resolve_include_path($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php'))
+					{
+						include_once($GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php');
+						new \exception\Notice($GLOBALS['lang']['load_file'].' '.$GLOBALS['config']['path_lang'].'page/'.$this->getApplication().'/'.$this->getAction().'/'.$Visitor->getConfiguration('lang').'.lang.php', 'page');
 					}
 				}
 			}
@@ -286,15 +298,17 @@ class Page
 			$parameters=$this->getParameters();
 			if (isset($parameters['config_perso']))
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['configperso'], 'page');
 				$pageConfig=array_merge($parameters['config_perso'], $pageConfig);
 			}
 			$parameters['config_perso']=$pageConfig;
 			$this->setParameters($parameters);
-			$name_class='\content\pageelement\\';
+			$name_class='\\content\\pageelement\\';
 			foreach ($GLOBALS['config']['default_content_type'] as $content_type)
 			{
 				if (strtolower(trim($pageConfig['content_type'])) === $content_type['name'])
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['user']['page']['content_type'].' '.$content_type['name'], 'page');
 					$name_class_content=$name_class.$content_type['content'];
 					$PageElement=new $name_class_content();
 					$name_class_notification=$name_class.$content_type['notification'];
@@ -304,6 +318,7 @@ class Page
 			}
 			if (!isset($PageElement) && !isset($NotificationElement))
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['custom_content_type'], 'page');
 				if (isset($pageConfig['content']))
 				{
 					$PageElement=new \content\pageelement\Page($pageConfig['content']);
@@ -323,6 +338,7 @@ class Page
 			}
 			if ($pageConfig['notification'])
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['page']['notification'], 'page');
 				$Notifications=$Visitor->retrieveNotifications();
 				if (isset($_SESSION['notifications']))
 				{

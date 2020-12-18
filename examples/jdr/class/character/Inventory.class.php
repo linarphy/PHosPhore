@@ -3,235 +3,227 @@
 namespace character;
 
 /**
- * Inventory
+ * Inventory of a character
  *
+ * @package jdr
  * @author gugus2000
  **/
 class Inventory extends \core\Managed
 {
-	/* attribute */
+	/* Attribute */
 
 		/**
-		* Id of the inventory
-		* 
-		* @var int
-		*/
+		 * Id of the inventory
+		 *
+		 * @var int
+		 **/
 		protected $id_inventory;
 		/**
-		* Id of the item which is in the inventory
-		* 
-		* @var int
-		*/
-		protected $id_item;
-		/**
-		* Number of item
-		* 
-		* @var int
-		*/
-		protected $number;
-		/**
-		* List of all the items with their number
-		* 
-		* @var array
-		*/
+		 * Items in the inventory
+		 *
+		 * @var array
+		 **/
 		protected $items;
 
-	/* method */
+	/* Method */
 
-		/* getter */
+		/* Getter */
 
 			/**
-			* id_inventory getter
-			* 
-			* @return int
-			*/
+			 * id accessor
+			 *
+			 * @return int
+			 **/
 			public function getId_inventory()
 			{
 				return $this->id_inventory;
 			}
 			/**
-			* id_item getter
-			* 
-			* @return int
-			*/
-			public function getId_item()
-			{
-				return $this->id_item;
-			}
-			/**
-			* number getter
-			* 
-			* @return int
-			*/
-			public function getNumber()
-			{
-				return $this->number;
-			}
-			/**
-			* items getter
-			* 
-			* @return array
-			*/
-			public function getItems()
-			{
-				return $this->items;
-			}
+			 * items accessor
+			 *
+			 * @return array
+			 **/
 
-		/* setter */
+		/* Setter */
 
 			/**
-			* id_inventory setter
-			*
-			* @param int id_inventory Id of the inventory
-			* 
-			* @return void
-			*/
+			 * id setter
+			 *
+			 * @param int $id_inventory Id of the inventory
+			 *
+			 * @return void
+			 **/
 			protected function setId_inventory($id_inventory)
 			{
 				$this->id_inventory=(int)$id_inventory;
 			}
 			/**
-			* id_item setter
-			*
-			* @param int id_item Id of the item which is in the inventory
-			* 
-			* @return void
-			*/
-			protected function setId_item($id_item)
-			{
-				$this->id_item=(int)$id_item;
-			}
-			/**
-			* number setter
-			*
-			* @param int number Number of item
-			* 
-			* @return void
-			*/
-			protected function setNumber($number)
-			{
-				$this->number=(int)$number;
-			}
-			/**
-			* items setter
-			*
-			* @param array items List of all the items with their number
-			* 
-			* @return void
-			*/
+			 * items setter
+			 *
+			 * @param array $items Items in the inventory
+			 *
+			 * @return void
+			 **/
 			protected function setItems($items)
 			{
-				$this->items=$items;
+				if (is_array($items))
+				{
+					$this->items=$items;
+				}
 			}
 
-		/* display */
+		/* Display */
 
 			/**
-			* id_inventory display
-			* 
-			* @return string
-			*/
+			 * id display
+			 *
+			 * @return string
+			 **/
 			public function displayId_inventory()
 			{
 				return htmlspecialchars((string)$this->id_inventory);
 			}
 			/**
-			* id_item display
-			* 
-			* @return string
-			*/
-			public function displayId_item()
-			{
-				return htmlspecialchars((string)$this->id_item);
-			}
-			/**
-			* number display
-			* 
-			* @return string
-			*/
-			public function displayNumber()
-			{
-				return htmlspecialchars((string)$this->number);
-			}
-			/**
-			* items display
-			* 
-			* @return string
-			*/
+			 * items display
+			 *
+			 * @return string
+			 **/
 			public function displayItems()
 			{
 				$display='';
-				foreach ($this->items as $item)
+				for ($this->items as $Item)
 				{
-					$display.=htmlspecialchars((string)$item['number']).': '.$item['item']->display();
+					$display.=$Item->display();
 				}
-				return $display;
+				return display;
 			}
 
-		/**
-		* Retrieve an inventory
-		* 
-		* @return void
-		*/
-		public function retrieve()
+	/**
+	 * Return items which are equipped by the character
+	 *
+	 * @return array
+	 **/
+	public function equipped()
+	{
+		$Equipped=[];
+		for ($this->items as $Item)
 		{
-			$this->retrieveItems();
-		}
-		/**
-		* Retrieve the items array
-		* 
-		* @return void
-		*/
-		public function retrieveItems()
-		{
-			$Manager=$this->Manager();
-			$inventory=$Manager->getBy(array(
-				'id_inventory' => $this->getId_inventory(),
-			), array(
-				'id_inventory' => '=',
-			));
-			$items=array();
-			foreach ($inventory as $item)
+			if ($Item->getIs_equipped())
 			{
-				$Item=new \item\StoredItem(array(
-					'id' => $item['id_item'],
-				));
-				$Item->retrieve();
-				$items[]=array(
-					'number' => $item['number'],
-					'item'   => $Item,
-				);
+				$Equipped[$Item->getId()]=$Item;
+				$Parts[$Item->getPart()]+=$Item->getPartCost();
+				$ItemParts[$Item->getPart()][]=$Item;
 			}
-			$this->setItems($items);
 		}
-		/**
-		* Determines the next inventory id not taken
-		* 
-		* @return int
-		*/
-		static public function determineNewId()
+		for ($Parts as $part => $cost)
 		{
-			$Manager=new \character\InventoryManager(\core\DBFactory::MysqlConnection());
-			if ((bool)$Manager->getBy(array(
-				'id_inventory' => '-1',
-			), array(
-				'id_inventory' => '!=',
-			), array(
-				'order' => 'id_inventory',
-				'end'   => 0,
-			)))
+			if ($cost>$this::COST_PARTS[$part])
 			{
-				return (int)$Manager->getBy(array(
-					'id_inventory' => '-1',
-				), array(
-					'id_inventory' => '!=',
-				), array(
-					'order' => 'id_inventory',
-					'end'   => 0,
-				))[0]['id_inventory']+1;
+				$i=0;
+				while ($cost>$this->COST_PARTS[$part])
+				{
+					$ItemParts[$part][$i]->unEquip();
+					$cost-=$ItemParts[$part]->getPartCost();
+					delete($Equipped[$ItemParts[$part][$i]->getId()]);
+				}
 			}
-			return 1;
 		}
-} // END class Inventory extends \core\Managed
+		return $Equipped;
+	}
+	/**
+	 * Get the CAC additional damage (weapons and enchant)
+	 *
+	 * @return int
+	 **/
+	public function getCACDamage()
+	{
+		$damage=0;
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$damage+=$Item->getCACDamage();
+		}
+	}
+	/**
+	 * Get the DIS additional damage (weapons and enchant)
+	 *
+	 * @return int
+	 **/
+	public function getDISDamage()
+	{
+		$damage=0;
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$damage+=$Item->getDISDamage();
+		}
+	}
+	/**
+	 * Get the MAG additional damage (weapons and enchant)
+	 *
+	 * @param string $type Magical type of the damage
+	 *
+	 * @return int
+	 **/
+	public function getMAGDamage($type)
+	{
+		$damage=0;
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$damage+=$Item->getMAGDamage($type);
+		}
+		return $damage;
+	}
+	/**
+	 * Get CAC effects for enemy
+	 *
+	 * @return array
+	 **/
+	public function getCACEffects()
+	{
+		$effects=[];
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$effects=array_merge($effects, $Item->getCACEffects());
+		}
+		return $effects;
+	}
+	/**
+	 * Get DIS effects for enemy
+	 *
+	 * @return array
+	 **/
+	public function getDISEffects()
+	{
+		$effects=[];
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$effects=array_merge($effects, $Item->getDISEffects());
+
+		}
+		return $effects;
+	}
+	/**
+	 * Get MAG effects for enemy
+	 *
+	 * @param string $type Magical type of the damage
+	 *
+	 * @return array
+	 **/
+	public function getMAGEffects($type)
+	{
+		$effects=[];
+		$Equipped=$this->equipped();
+		for ($Equipped as $Item)
+		{
+			$effects=array_merge($effects, $Item->getMAGEffects($type));
+
+		}
+		return $effects;
+	}
+}
 
 ?>
