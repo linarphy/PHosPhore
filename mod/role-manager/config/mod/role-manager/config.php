@@ -2,8 +2,10 @@
 
 /* Application used by this mod */
 $GLOBALS['config']['mod']['role-manager']['application']='admin';
+/* Role which can access to the pages */
+$GLOBALS['config']['mod']['role-manager']['access_role']='admin';
 /* Actions used by this mod */
-$GLOBALS['config']['mod']['role-manager']['actions']=array('role');
+$GLOBALS['config']['mod']['role-manager']['actions']=array('role', 'add', 'delete', 'add-validate', 'update', 'update-validate', 'delete-all');
 /* Load action config */
 foreach ($GLOBALS['config']['mod']['role-manager']['actions'] as $action)
 {
