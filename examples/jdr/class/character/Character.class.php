@@ -3,814 +3,809 @@
 namespace character;
 
 /**
- * A character of the RPG
+ * A character which can be played with
  *
+ * @package jdr
  * @author gugus2000
  **/
 class Character extends \core\Managed
 {
-	/* attribute */
+	/* Attribute */
 
-		/**
-		* Id of the character
-		* 
-		* @var int
-		*/
-		protected $id;
-		/**
-		* Name of the character
-		* 
-		* @var string
-		*/
-		protected $name;
-		/**
-		* Id_race of the character
-		* 
-		* @var int
-		*/
-		protected $id_race;
-		/**
-		* Id_class of the character
-		* 
-		* @var int
-		*/
-		protected $id_class;
-		/**
-		* Hp of the character
-		* 
-		* @var int
-		*/
-		protected $hp;
-		/**
-		* Maximum hp of the character
-		* 
-		* @var int
-		*/
-		protected $max_hp;
-		/**
-		* Mana of the character
-		* 
-		* @var int
-		*/
-		protected $mana;
-		/**
-		* Maximum mana of the character
-		* 
-		* @var int
-		*/
-		protected $max_mana;
-		/**
-		* AP of the character
-		* 
-		* @var int
-		*/
-		protected $ap;
-		/**
-		* Maximum ap of the character
-		* 
-		* @var int
-		*/
-		protected $max_ap;
-		/**
-		* Level of the character
-		* 
-		* @var int
-		*/
-		protected $level;
-		/**
-		* Xp of the character
-		* 
-		* @var int
-		*/
-		protected $xp;
-		/**
-		* Id of the inventory of the character
-		* 
-		* @var int
-		*/
-		protected $id_inventory;
-		/**
-		* Attributes of the character
-		* 
-		* @var int
-		*/
-		protected $id_attributes;
-		/**
-		* Max attributes of the character
-		* 
-		* @var int
-		*/
-		protected $id_maxattributes;
-		/**
-		* Id of the author of the character
-		* 
-		* @var int
-		*/
-		protected $id_author;
+	/**
+	 * Id of the character
+	 *
+	 * @var int
+	 **/
+	protected $id;
+	/**
+	 * Name of the character
+	 *
+	 * @var string
+	 **/
+	protected $name;
+	/**
+	 * Bio of the character
+	 *
+	 * @var string
+	 **/
+	protected $bio;
+	/**
+	 * Experience of the character
+	 *
+	 * @var int
+	 **/
+	protected $experience;
+	/**
+	 * Class of the character
+	 *
+	 * @var string
+	 **/
+	protected $_class;
+	/**
+	 * Race of the character
+	 *
+	 * @var string
+	 **/
+	protected $race;
+	/**
+	 * State of the character
+	 *
+	 * @var string
+	 **/
+	protected $state;
+	/**
+	 * Registration date of the character
+	 *
+	 * @var string
+	 **/
+	protected $registration_date;
+	/**
+	 * Last login data of the character
+	 *
+	 * @var string
+	 **/
+	protected $last_login_date;
+	/**
+	 * Id of the author of the character
+	 *
+	 * @return int
+	 **/
+	protected $id_author;
+	/**
+	 * Id of the party the character is
+	 *
+	 * @return int
+	 **/
+	protected $id_party;
+	/**
+	 * Id of the inventory of the character
+	 *
+	 * @var int
+	 **/
+	protected $id_inventory;
+	/**
+	 * Id of the attributes of the character
+	 *
+	 * @var int
+	 **/
+	protected $id_attributes;
+	/**
+	 * Id of the effects the character has (attributes already modified by them)
+	 *
+	 * @var int
+	 **/
+	protected $id_effects;
+	/**
+	 * Id of the spells the character has
+	 *
+	 * @var int
+	 **/
+	protected $id_spells;
 
-	/* method */
+	/* Method */
 
-		/* getter */
+		/* Getter */
 
 			/**
-			* id getter
-			* 
-			* @return int
-			*/
+			 * id accessor
+			 *
+			 * @return int
+			 **/
 			public function getId()
 			{
 				return $this->id;
 			}
 			/**
-			* name getter
-			* 
-			* @return string
-			*/
+			 * name accessor
+			 *
+			 * @return string
+			 **/
 			public function getName()
 			{
 				return $this->name;
 			}
 			/**
-			* id_race getter
-			* 
-			* @return int
-			*/
-			public function getId_race()
+			 * bio accessor
+			 *
+			 * @return string
+			 **/
+			public function getBio()
 			{
-				return $this->id_race;
+				return $this->bio;
 			}
 			/**
-			* id_class getter
-			* 
-			* @return int
-			*/
-			public function getId_class()
+			 * experience accessor
+			 *
+			 * @return int
+			 **/
+			public function getExperience()
 			{
-				return $this->id_class;
+				return $this->experience;
 			}
 			/**
-			* hp getter
-			* 
-			* @return int
-			*/
-			public function getHp()
+			 * _class accessor
+			 *
+			 * @return string
+			 **/
+			public function get_class()
 			{
-				return $this->hp;
+				return $this->_class;
 			}
 			/**
-			* max_hp getter
-			* 
-			* @return int
-			*/
-			public function getMax_hp()
+			 * race accessor
+			 *
+			 * @return string
+			 **/
+			public function getRace()
 			{
-				return $this->max_hp;
+				return $this->race;
 			}
 			/**
-			* mana getter
-			* 
-			* @return int
-			*/
-			public function getMana()
+			 * state accessor
+			 *
+			 * @return string
+			 **/
+			public function getState()
 			{
-				return $this->mana;
+				return $this->state;
 			}
 			/**
-			* max_mana getter
-			* 
-			* @return int
-			*/
-			public function getMax_mana()
+			 * registration_date accessor
+			 *
+			 * @return string
+			 **/
+			public function getRegistration_date()
 			{
-				return $this->max_mana;
+				return $this->registration_date;
 			}
 			/**
-			* ap getter
-			* 
-			* @return int
-			*/
-			public function getAp()
+			 * last_login_date accessor
+			 *
+			 * @return string
+			 **/
+			public function getLast_login_date()
 			{
-				return $this->ap;
+				return $this->last_login_date;
 			}
 			/**
-			* max_ap getter
-			* 
-			* @return int
-			*/
-			public function getMax_ap()
+			 * id_author accessor
+			 *
+			 * @return int
+			 **/
+			public function getId_author()
 			{
-				return $this->max_ap;
+				return $this->id_author;
 			}
 			/**
-			* level getter
-			* 
-			* @return int
-			*/
-			public function getLevel()
+			 * id_party accessor
+			 *
+			 * @return int
+			 **/
+			public function getId_party()
 			{
-				return $this->level;
+				return $this->id_party;
 			}
 			/**
-			* xp getter
-			* 
-			* @return int
-			*/
-			public function getXp()
-			{
-				return $this->xp;
-			}
-			/**
-			* id_inventory getter
-			* 
-			* @return int
-			*/
+			 * id_inventory accessor
+			 *
+			 * @return int
+			 **/
 			public function getId_inventory()
 			{
 				return $this->id_inventory;
 			}
 			/**
-			* id_attributes getter
-			* 
-			* @return int
-			*/
+			 * id_attributes accessor
+			 *
+			 * @return int
+			 **/
 			public function getId_attributes()
 			{
 				return $this->id_attributes;
 			}
 			/**
-			* id_maxattributes getter
-			* 
-			* @return int
-			*/
-			public function getId_maxattributes()
+			 * id_effects accessor
+			 *
+			 * @return int
+			 **/
+			public function getId_effects()
 			{
-				return $this->id_maxattributes;
+				return $this->id_effects;
 			}
 			/**
-			* id_author getter
-			* 
-			* @return int
-			*/
-			public function getId_author()
+			 * id_spells accessor
+			 *
+			 * @return int
+			 **/
+			public function getId_spells()
 			{
-				return $this->id_author;
+				return $this->id_spells;
 			}
 
-		/* setter */
+		/* Setter */
 
 			/**
-			* id setter
-			*
-			* @param int id Id of the character
-			* 
-			* @return void
-			*/
+			 * id setter
+			 *
+			 * @param int $id Id of the character
+			 *
+			 * @return void
+			 **/
 			protected function setId($id)
 			{
 				$this->id=(int)$id;
 			}
 			/**
-			* name setter
-			*
-			* @param string name Name of the character
-			* 
-			* @return void
-			*/
+			 * name setter
+			 *
+			 * @param string $name Name of the character
+			 *
+			 * @return void
+			 **/
 			protected function setName($name)
 			{
 				$this->name=(string)$name;
 			}
 			/**
-			* id_race setter
-			*
-			* @param int id_race Id_race of the character
-			* 
-			* @return void
-			*/
-			protected function setId_race($id_race)
+			 * bio setter
+			 *
+			 * @param string $bio Bio of the character
+			 *
+			 * @return void
+			 **/
+			protected function setBio($bio)
 			{
-				$this->id_race=(int)$id_race;
+				$this->bio=(string)$bio;
 			}
 			/**
-			* id_class setter
-			*
-			* @param int id_class Id_class of the character
-			* 
-			* @return void
-			*/
-			protected function setId_class($id_class)
+			 * experience setter
+			 *
+			 * @param int $experience Experience of the character
+			 *
+			 * @return void
+			 **/
+			protected function setExperience($experience)
 			{
-				$this->id_class=(int)$id_class;
+				$this->experience=(int)$experience;
 			}
 			/**
-			* hp setter
-			*
-			* @param int hp Hp of the character
-			* 
-			* @return void
-			*/
-			protected function setHp($hp)
+			 * _class setter
+			 *
+			 * @param string $_class Class of the character
+			 *
+			 * @return void
+			 **/
+			protected function set_class($_class)
 			{
-				$this->hp=(int)$hp;
+				$this->_class=(string)$_class;
 			}
 			/**
-			* max_hp setter
-			*
-			* @param int max_hp Maximum hp of the character
-			* 
-			* @return void
-			*/
-			protected function setMax_hp($max_hp)
+			 * race setter
+			 *
+			 * @param string $race Race of the character
+			 *
+			 * @return void
+			 **/
+			protected function setRace($race)
 			{
-				$this->max_hp=(int)$max_hp;
+				$this->race=(string)$race;
 			}
 			/**
-			* mana setter
-			*
-			* @param int mana Mana of the character
-			* 
-			* @return void
-			*/
-			protected function setMana($mana)
+			 * state setter
+			 *
+			 * @param string $state State of the character
+			 *
+			 * @return void
+			 **/
+			protected function setState($state)
 			{
-				$this->mana=(int)$mana;
+				$this->state=(string)$state;
 			}
 			/**
-			* max_mana setter
-			*
-			* @param int max_mana Maximum mana of the character
-			* 
-			* @return void
-			*/
-			protected function setMax_mana($max_mana)
+			 * registration_date setter
+			 *
+			 * @param string $registration_date Registration date of the character
+			 *
+			 * @return void
+			 **/
+			protected function setRegistration_date($registration_date)
 			{
-				$this->max_mana=(int)$max_mana;
+				$this->registration_date=(string)$registration_date;
 			}
 			/**
-			* ap setter
-			*
-			* @param int ap AP of the character
-			* 
-			* @return void
-			*/
-			protected function setAp($ap)
+			 * last_login_date setter
+			 *
+			 * @param string $last_login_date Last login date for the character
+			 *
+			 * @return void
+			 **/
+			protected function setLast_login_date($last_login_date)
 			{
-				$this->ap=(int)$ap;
+				$this->last_login_date=(string)$last_login_date;
 			}
 			/**
-			* max_ap setter
-			*
-			* @param int max_ap Maximum ap of the character
-			* 
-			* @return void
-			*/
-			protected function setMax_ap($max_ap)
+			 * id_author setter
+			 *
+			 * @param int $id_author Id of the author of the character
+			 *
+			 * @return void
+			 **/
+			protected function setId_author($id_author)
 			{
-				$this->max_ap=(int)$max_ap;
+				$this->id_author=(int)$id_author;
 			}
 			/**
-			* level setter
-			*
-			* @param int level Level of the character
-			* 
-			* @return void
-			*/
-			protected function setLevel($level)
+			 * id_party setter
+			 *
+			 * @param int $id_party Id of the party the character is
+			 *
+			 * @return void
+			 **/
+			protected function setId_party($id_party)
 			{
-				$this->level=(int)$level;
+				$this->id_party=(int)$id_party;
 			}
 			/**
-			* xp setter
-			*
-			* @param int xp Xp of the character
-			* 
-			* @return void
-			*/
-			protected function setXp($xp)
-			{
-				$this->xp=(int)$xp;
-			}
-			/**
-			* id_inventory setter
-			*
-			* @param int id_inventory Id of the inventory of the character
-			* 
-			* @return void
-			*/
+			 * id_inventory setter
+			 *
+			 * @param int $id_inventory Id of the inventory of the character
+			 *
+			 * @return void
+			 **/
 			protected function setId_inventory($id_inventory)
 			{
 				$this->id_inventory=(int)$id_inventory;
 			}
 			/**
-			* id_attributes setter
-			*
-			* @param int id_attributes Attributes of the character
-			* 
-			* @return void
-			*/
+			 * id_attributes setter
+			 *
+			 * @param int $id_attributes Id of the attributes of the character
+			 *
+			 * @return void
+			 **/
 			protected function setId_attributes($id_attributes)
 			{
-				$this->id_attributes=$id_attributes;
+				$this->id_attributes=(int)$id_attributes;
 			}
 			/**
-			* id_maxattributes setter
-			*
-			* @param int id_maxattributes Max of the attributes of the character
-			* 
-			* @return void
-			*/
-			protected function setId_maxattributes($id_maxattributes)
+			 * id_effects setter
+			 *
+			 * @param int $id_effects Id of the effects the character has
+			 *
+			 * @return void
+			 **/
+			protected function setId_effects($id_effects)
 			{
-				$this->id_maxattributes=(int)$id_maxattributes;
+				$this->id_effects=(int)$id_effects;
 			}
 			/**
-			* id_author setter
-			*
-			* @param int id_author Id ot the author of the character
-			* 
-			* @return void
-			*/
-			protected function setId_author($id_author)
+			 * id_spells
+			 *
+			 * @param int $id_spells Id of the spells the character has
+			 *
+			 * @return void
+			 **/
+			protected function setId_spells($id_spells)
 			{
-				$this->id_author=(int)$id_author;
+				$this->id_spells=(int)$id_spells;
 			}
 
-		/* display */
+		/* Display */
 
 			/**
-			* id display
-			* 
-			* @return string
-			*/
+			 * id display
+			 *
+			 * @return string
+			 **/
 			public function displayId()
 			{
 				return htmlspecialchars((string)$this->id);
 			}
 			/**
-			* name display
-			* 
-			* @return string
-			*/
+			 * name display
+			 *
+			 * @return string
+			 **/
 			public function displayName()
 			{
 				return htmlspecialchars((string)$this->name);
 			}
 			/**
-			* id_race display
-			* 
-			* @return string
-			*/
-			public function displayId_race()
+			 * bio display
+			 *
+			 * @return string
+			 **/
+			public function displayBio()
 			{
-				return htmlspecialchars((string)$this->id_race);
+				return htmlspecialchars((string)$this->bio);
 			}
 			/**
-			* id_class display
-			* 
-			* @return string
-			*/
-			public function displayId_class()
+			 * experience display
+			 *
+			 * @return string
+			 **/
+			public function displayExperience()
 			{
-				return htmlspecialchars((string)$this->id_class);
+				return htmlspecialchars((string)$this->experience);
+			}
+			/** _class display
+			 *
+			 * @return string
+			 **/
+			public function display_class()
+			{
+				return htmlspecialchars((string)$this->_class);
 			}
 			/**
-			* hp display
-			* 
-			* @return string
-			*/
-			public function displayHp()
+			 * race display
+			 *
+			 * @return string
+			 **/
+			public function displayRace()
 			{
-				return htmlspecialchars((string)$this->hp);
+				return htmlspecialchars((string)$this->race);
 			}
 			/**
-			* max_hp display
-			* 
-			* @return string
-			*/
-			public function displayMax_hp()
+			 * state display
+			 *
+			 * @return string
+			 **/
+			public function displayState()
 			{
-				return htmlspecialchars((string)$this->max_hp);
+				return htmlspecialchars((string)$this->state)
 			}
 			/**
-			* mana display
-			* 
-			* @return string
-			*/
-			public function displayMana()
+			 * registration_date display
+			 *
+			 * @return string
+			 **/
+			public function displayRegistration_date()
 			{
-				return htmlspecialchars((string)$this->mana);
+				return htmlspecialchars((string)$this->registration_date);
 			}
 			/**
-			* max_mana display
-			* 
-			* @return string
-			*/
-			public function displayMax_mana()
+			 * last_login_date display
+			 *
+			 * @return string
+			 **/
+			public function displayLast_login_date()
 			{
-				return htmlspecialchars((string)$this->max_mana);
+				return htmlspecialchars((string)$this->last_login_date);
 			}
 			/**
-			* ap display
-			* 
-			* @return string
-			*/
-			public function displayAp()
+			 * id_author display
+			 *
+			 * @return string
+			 **/
+			public function displayId_author()
 			{
-				return htmlspecialchars((string)$this->ap);
+				return htmlspecialchars((string)$this->id_author);
 			}
 			/**
-			* max_ap display
-			* 
-			* @return string
-			*/
-			public function displayMax_ap()
+			 * id_party display
+			 *
+			 * @return string
+			 **/
+			public function displayId_party()
 			{
-				return htmlspecialchars((string)$this->max_ap);
+				return htmlspecialchars((string)$this->id_party);
 			}
 			/**
-			* level display
-			* 
-			* @return string
-			*/
-			public function displayLevel()
-			{
-				return htmlspecialchars((string)$this->level);
-			}
-			/**
-			* xp display
-			* 
-			* @return string
-			*/
-			public function displayXp()
-			{
-				return htmlspecialchars((string)$this->xp);
-			}
-			/**
-			* id_inventory display
-			* 
-			* @return string
-			*/
+			 * id_inventory display
+			 *
+			 * @return string
+			 **/
 			public function displayId_inventory()
 			{
 				return htmlspecialchars((string)$this->id_inventory);
 			}
 			/**
-			* id_attributes display
-			* 
-			* @return string
-			*/
-			public function displayId_attributes()
+			 * id_effects display
+			 *
+			 * @return string
+			 **/
+			public function displayId_effects()
 			{
-				return htmlspecialchars((string)$this->id_attributes);
+				return htmlspecialchars((string)$this->id_effects);
 			}
 			/**
-			* id_maxattributes display
-			* 
-			* @return string
-			*/
-			public function displayId_maxattributes()
+			 * id_spells display
+			 *
+			 * @return string
+			 **/
+			public function displayId_effects()
 			{
-				return htmlspecialchars((string)$this->id_maxattributes);
-			}
-			/**
-			* id_author display
-			* 
-			* @return string
-			*/
-			public function displayId_author()
-			{
-				return htmlspecialchars((string)$this->id_author);
+				return htmlspecialchars((string)$this->id_spells);
 			}
 
 		/**
-		* Retrieve the race of the character
-		* 
-		* @return character\Race
-		*/
-		public function retrieveRace()
+		 * Return the author \user\User instance of the character or false if id_author not defined
+		 *
+		 * @return \user\User | bool
+		 **/
+		public function retrieveAuthor()
 		{
-			if ($this->getId_race()!==null)
+			if ($this->id_author!==null)
 			{
-				$Race=new \character\Race(array(
-					'id' => $this->getId_race(),
+				$Author=new \user\User(array(
+					'id' => $this->id_author,
 				));
-				$Race->retrieve();
-				return $Race;
+				$Author->retrieve()
+				return $Author;
 			}
+			return false;
 		}
 		/**
-		* Retrieve the class of the character
-		* 
-		* @return character\RpgClass
-		*/
-		public function retrieveClass()
+		 * Return the author display or false if id_author not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displayAuthor()
 		{
-			if ($this->getId_class()!==null)
+			if ($this->id_author!==null)
 			{
-				$Class=new \character\RpgClass(array(
-					'id' => $this->getId_class(),
-				));
-				$Class->retrieve();
-				return $Class;
+				return $this->retrieveAuthor()->display();
 			}
+			return false;
 		}
 		/**
-		* Retrieve the inventory of the character
-		* 
-		* @return array
-		*/
+		 * Return the party \character\Party instance of the character or false if id_party not defined
+		 *
+		 * @return \character\Party | bool
+		 **/
+		public function retrieveParty()
+		{
+			if ($this->id_party!==null)
+			{
+				$Party=new \character\Party(array(
+					'id' => $this->id_party,
+				));
+				$Party->retrieve()
+				return $Party;
+			}
+			return false;
+		}
+		/**
+		 * Return the party display or false if id_party not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displayParty()
+		{
+			if ($this->id_party!==null)
+			{
+				return $this->retrieveParty()->display();
+			}
+			return false;
+		}
+		/**
+		 * Return the \character\Inventory instance of the character or false if id_inventory not defined
+		 *
+		 * @return \character\Inventory | bool
+		 **/
 		public function retrieveInventory()
 		{
-			if ($this->getId_inventory()!==null)
+			if ($this->id_inventory!==null)
 			{
 				$Inventory=new \character\Inventory(array(
-					'id_inventory' => $this->getId_inventory(),
+					'id' => $this->id_inventory,
 				));
 				$Inventory->retrieve();
 				return $Inventory;
 			}
+			return false;
 		}
 		/**
-		* Retrieve the attributes of the character
-		* 
-		* @return character\Attributes
-		*/
+		 * Return the inventory display or false if id_inventory not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displayInventoy()
+		{
+			if ($this->id_inventory!==null)
+			{
+				return $this->retrieveInventory()->display();
+			}
+			return false;
+		}
+		/**
+		 * Return the \character\Attributes instance of the character or false if id_attributes not defined
+		 *
+		 * @return \character\Attributes | bool
+		 **/
 		public function retrieveAttributes()
 		{
-			if ($this->getId_attributes()!==null)
+			if ($this->id_attributes!==null)
 			{
 				$Attributes=new \character\Attributes(array(
-					'id' => $this->getId_attributes(),
+					'id' => $this->id_attributes,
 				));
 				$Attributes->retrieve();
 				return $Attributes;
 			}
+			return false;
 		}
 		/**
-		* Retrieve the maximum of the attributes of the character
-		* 
-		* @return character\Attribute
-		*/
-		public function retrieveMaxAttributes()
+		 * Return the attributes display or false if id_attributes is not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displayAttributes()
 		{
-			if ($this->getId_maxattributes()!==null)
+			if ($this->id_attributes!==null)
 			{
-				$Attributes=new \character\Attributes(array(
-					'id' => $this->getId_maxattributes(),
+				return $this->retrieveAttributes()->display();
+			}
+			return false;
+		}
+		/**
+		 * Return the \character\Effects instance of the character or false if id_effects not defined
+		 *
+		 * @return \character\Effects | bool
+		 **/
+		public function retrieveEffects()
+		{
+			if ($this->id_effects!==null)
+			{
+				$Effects=new \character\Effects(array(
+					'id' => $this->id_effects,
 				));
-				$Attributes->retrieve();
-				return $Attributes;
+				$Effects->retrieve();
+				return $Effects;
 			}
+			return false;
 		}
 		/**
-		* Retrieve the author of the character
-		* 
-		* @return user\User
-		*/
-		public function retrieveAuthor()
+		 * Return the effects display or false if id_effects is not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displayEffects()
 		{
-			if ($this->getId_author()!==null)
+			if ($this->id_effects!==null)
 			{
-				$Author=new \user\User(array(
-					'id' => $this->getId_author(),
+				return $this->retrieveEffects()->display();
+			}
+			return false;
+		}
+		/**
+		 * Return the \character\Spells instance of the character or false if id_spells not defined
+		 *
+		 * @return \character\Spells | bool
+		 **/
+		public function retrieveSpells()
+		{
+			if ($this->spells!==null)
+			{
+				$Spells=new \character\Spells(array(
+					'id' => $this->id_spells,
 				));
-				$Author->retrieve();
-				return $Author;
+				$Spells->retrieve();
+				return $Spells;
 			}
+			return false;
 		}
 		/**
-		* Up the character level
-		*
-		* @param character\Attributes attributes Attributes to add
-		* 
-		* @return void
-		*/
-		public function upLevel($attributes)
+		 * Return the spells display or false if id_spells not defined
+		 *
+		 * @return string | bool
+		 **/
+		public function displaySpells()
 		{
-			$attributes_cha=$this->retrieveAttributes();
-			$attributes_arr=array();
-			foreach (\character\Attributes::AV_ATTR as $attribute)
+			if ($this->spells!==null)
 			{
-				$method=$this->getGet($attribute);
-				$attributes_arr[$attribute]=(int)$attributes->$method()+$attributes_cha->$method();
+				return $this->retrieveSpells()->display();
 			}
-			$attributes_cha->delete();									// clean previous attributes
-			$Attributes=new \character\Attributes($attributes_arr);
-			$Attributes->create();
-			$this->setId_attributes($Attributes->getId());
-			$this->setLevel($this->getLevel()+1);						// level+1
+			return false;
 		}
 		/**
-		* Calculate the level the character must have with his xp
-		* 
-		* @return int
-		*/
-		public function calcLevel()
+		 * Take an amount of pure damage
+		 *
+		 * @param int $damage Damage to take
+		 *
+		 * @return void
+		 **/
+		public function takeDamage($damage)
 		{
-			return floor(0.18*sqrt($this->getXp()));
-		}
-		/**
-		* Calculate the attributes of the character (attributes aready inserted are added)
-		* 
-		* @return \character\Attributes
-		*/
-		public function calcAttributes()
-		{
-			if ($this->getId_attributes()!==null)
+			if ($this->retrieveAttributes()->canTake('PV', $damage))
 			{
-				$attributes_cha=$this->retrieveAttributes();
+				$Attributes->changeAttr('PV', $Attributes->getAttr('PV')-$damage);
 			}
 			else
 			{
-				$attributes=array();
-				foreach (\character\Attributes::AV_ATTR as $attribute)
+				$Attributes->changeAttr('PV', 0);
+				if ($this->state!==$this::STATE_DEAD)
 				{
-					$attributes[$attribute]=0;
-				}
-				$attributes_cha=new \character\Attributes($attributes);
-			}
-			$attributes_cla=$this->retrieveClass()->retrieveAttributes();
-			$attributes_rac=$this->retrieveRace()->retrieveAttributes();
-			$attributes_arr=array();
-			foreach (\character\Attributes::AV_ATTR as $attribute)
-			{
-				$method=$this->getGet($attribute);
-				$attributes_arr[$attribute]=$attributes_cha->$method()+$attributes_cla->$method()+$attributes_rac->$method();
-			}
-			return new \character\Attributes($attributes_arr);
-		}
-		/**
-		* Initialize the character (default value already inserted are added to calculated one)
-		* 
-		* @return void
-		*/
-		public function init()
-		{
-			$Attributes=$this->calcAttributes();
-			$Attributes->create();
-			if ($this->getId_attributes()!==null)
-			{
-				$attributes_cha=new \character\Attributes(array(
-					'id' => $this->getId_attributes(),
-				));
-				$attributes_cha->delete();										// clean previous attributes (taken as default one)
-			}
-			if ($this->getId_inventory()===null)
-			{
-				$this->setId_inventory(\character\Inventory::determineNewId());
-			}
-			$this->setId_attributes($Attributes->getId());
-			$attributes=$Attributes->table();
-			unset($attributes['id']);
-			$MaxAttributes=new \character\Attributes($attributes);
-			$MaxAttributes->create();
-			$this->setId_maxattributes($MaxAttributes->getId());
-			$this->setMax_Hp($this->getHp()+$Attributes->getCon());					// default HP + CON value
-			$this->setMax_Mana($this->getMana()+$Attributes->getMag());				// default mana + MAG value
-			$this->setMax_Ap($this->getAp()+2+floor($Attributes->getAgi()/10));		// 2+ default AP + floor(AGI value/10)
-			$this->setHp($this->getMax_hp());
-			$this->setMana($this->getMax_mana());
-			$this->setAp($this->getMax_ap());
-			$this->setXp(0);
-			$this->setLevel(0);
-		}
-		/**
-		* Add a stored item
-		*
-		* @param \item\StoredItem item Stored item to add to the inventory
-		*
-		* @param int number Number of item in the inventory
-		* 
-		* @return void
-		*/
-		public function addToInventory($item, int $number=1)
-		{
-			$Inventory=$this->retrieveInventory();
-			$Inventory->retrieve();
-			if (empty($Inventory->getItems()))
-			{
-				$this->setId_inventory(\character\Inventory::determineNewId());
-			}
-			foreach ($Inventory->getItems() as $Item)
-			{
-				if ($item->getId()===$Item['id_item'])
-				{
-					$Inventory=new \character(array(
-						'id_inventory' => $this->getId_inventory(),
-						'id_item'      => $Item['id_item'],
-						'number'       => $Item['number']+$number,
-					));
-					$Inventory->//updateBy
+					$this->setState($this::STATE_DEAD);
 				}
 			}
-			$Inventory=new \character\Inventory(array(
-				'id_inventory' => $this->getId_inventory(),
-				'id_item'      => $item->getId(),
-				'number'       => $number,
-			));
-			$Inventory->create();
 		}
-} // END class Character extends \core\Managed
+		/**
+		 * Test if the character know a spell which can protect him to magic damage
+		 *
+		 * @return bool
+		 **/
+		public function canProtectMag()
+		{
+			$SpellManager=new \character\SpellManager(\core\DBFactory::MysqlConnection());
+			return (bool)$SpellManager->getBy(array(
+				'id_spells' => $this->getId_spells(),
+				'type'      => 'magic protection',
+				'cost'      => $this->retrieveAttributes()->getAttr('MANA'),
+			), array(
+				'id_spells' => '=',
+				'type'      => '=',
+				'cost'      => '<',
+			);
+		}
+		/**
+		 * End this turn for this character
+		 *
+		 * @return void
+		 **/
+		public function endTurn()
+		{
+			$Attributes=$this->retrieveAttributes();
+			if ($Attributes->getAttr('PA')>0)
+			{
+				while ($Attributes->getAttr('PA')>0)
+				{
+					$Attributes->changeAttr('PV', $Attributes->getAttr('PV')+($Attributes->getMax('PV')/10)/$Attributes->getMax('PA'));
+					$Attributes->changeAttr('MANA', $Attributes->getAttr('MANA')+($Attributes->getMax('MANA')/10)/$Attributes->getMax('PA'));
+					$Attributes->changeAttr('PA', $Attributes->getAttr('PA')-1);
+				}
+			}
+			else
+			{
+				$Attributes->change('PA', 0);
+			}
+			$this->setState('finish');
+			$this->retrieveParty()->checkTurn();
+		}
+		/**
+		 * Begin the turn for this character
+		 *
+		 * @return void
+		 **/
+		public function beginTurn()
+		{
+			$Attributes=$this->retrieveAttributes();
+			if ($this->getState()==='ready')
+			{
+				$this->endTurn();
+			}
+			if ($this->getState()!=='dead')
+			{
+				if ($this->getState()==='finish')
+				{
+					$this->setState('ready');
+					$Attributes->changeAttr('PA', $Attributes->getMax('PA'));
+				}
+				$this->retrieveEffects()->applyTurn();
+			}
+		}
+	}
+}
 
 ?>

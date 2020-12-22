@@ -1,0 +1,6 @@
+<h1>LA LICENSE CHOCOLAT-WAR</h1><br />
+<small>(Révision 42, traduction française) [inspiration de THE BEER-WARE LICENSE]</small><br />
+<p>&lt;gugus2000@phosphore.org&gt; a écrit ce fichier. Tant que vous gardez cette note, vous
+pouvez faire tout ce que vous voulez de ce truc. Si on se rencontre un de ces jours, et que
+vous pensez que ce truc le vaut, vous pourrez m'offrir un chocolat chaud en retour.</p>
+<small>gugus2000</small>

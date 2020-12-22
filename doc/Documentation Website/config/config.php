@@ -25,13 +25,17 @@ $GLOBALS['config']['general_email']='gugus2000@phosphore.org';
 /* [CONTENT TYPE] */
 /* DOCUMENTATION */
 /* Description of this content type */
-$GLOBALS['config']['default_content_type']['documentation']=array();
+$GLOBALS['config']['default_content_type']['doc']=array();
 /* Name of this content type */
-$GLOBALS['config']['default_content_type']['documentation']['name']='documentation';
+$GLOBALS['config']['default_content_type']['doc']['name']='doc';
 /* PageElement corresponding to the base content of this content type */
-$GLOBALS['config']['default_content_type']['documentation']['content']='documentation\Documentation';
+$GLOBALS['config']['default_content_type']['doc']['content']='documentation\Documentation';
 /* PageElement corresponding to the base content of a notification for this content type*/
-$GLOBALS['config']['default_content_type']['documentation']['notification']='html\HTMLNotification';
+$GLOBALS['config']['default_content_type']['doc']['notification']='html\HTMLNotification';
+
+/* [PAGE] */
+/* Default configuration for page */
+$GLOBALS['config']['default_config']['content_type']='DOC';
 
 /* [LOG] */
 /* Define the logging level */

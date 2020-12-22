@@ -18,6 +18,10 @@ $GLOBALS['lang']['class']['core']['manager']['operations_string']='Operations es
 $GLOBALS['lang']['class']['core']['manager']['unknown_operations_type']='le type d\'operations n\'est pas pris en charge, is sera considéré comme un string contenant le signe égal';
 /* Start creating the boundary Mysql clause */
 $GLOBALS['lang']['class']['core']['manager']['boundary_interpreter_start']='Début de la création de la close Mysql sur les bornes';
+/* GROUP BY request */
+$GLOBALS['lang']['class']['core']['manager']['group_by']='Lancement de la requête GROUP BY';
+/* No attribute given in GROUP BY request */
+$GLOBALS['lang']['class']['core']['manager']['order_by_no_attribute']='Aucun attribut donné dans la requête GROUP BY';
 /* ORDER BY request */
 $GLOBALS['lang']['class']['core']['manager']['order_by']='Lancement de la requête ORDER BY';
 /* LIMIT request with a DESC order */
@@ -49,7 +53,7 @@ $GLOBALS['lang']['class']['core']['manager']['updateby']='Requête updateBy:';
 /* Delete request */
 $GLOBALS['lang']['class']['core']['manager']['delete']='Requête delete:';
 /* DeleteBy request */
-$GLOBALS['lang']['class']['core']['manager']['deteleteby']='Requête deleteBy:';
+$GLOBALS['lang']['class']['core']['manager']['deleteby']='Requête deleteBy:';
 /* GetIdBy request */
 $GLOBALS['lang']['class']['core']['manager']['getidby']='Requête getIdBy';
 /* Error during the getIdBy request */

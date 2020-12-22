@@ -6,7 +6,7 @@ namespace content\pageelement\documentation;
  * An Header for \content\pageelement\html\Documentation
  *
  * @author gugus2000
- * 
+ *
  **/
 class Header extends \content\PageElement
 {
@@ -14,28 +14,29 @@ class Header extends \content\PageElement
 
 		/**
 		* Create a \content\pageelement\html\Header instance
-		* 
+		*
 		* @return void
 		*/
 		public function __construct()
 		{
 			global $Router, $Visitor;
-			$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead']['default_css'][]=$GLOBALS['config']['path_asset'].'css/doc/header.css';
+			$lang=$GLOBALS['lang']['class']['content']['pageelement']['documentation']['header'];
+			$config=$GLOBALS['config']['class']['content']['pageelement']['documentation']['header'];
 			$li=array();
 			$li[]=new \content\PageElement(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/documentation/header/li.html',
 				'elements' => array(
 					'href'  => '#',
-					'title' => $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['first']['title'],
-					'link'  => $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['first']['link'],
+					'title' => $lang['first']['title'],
+					'link'  => $lang['first']['link'],
 				),
 			));
-			foreach ($GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['list'] as $key => $element)
+			foreach ($lang['page'] as $key => $element)
 			{
 				$li[]=new \content\PageElement(array(
 					'template' => $GLOBALS['config']['path_template'].'pageelement/documentation/header/li.html',
 					'elements' => array(
-						'href'  => $Router->createLink($GLOBALS['config']['page']['doc']['links'][$element['href']]),
+						'href'  => $Router->createLink($config['links'][$key]),
 						'title' => $element['title'],
 						'link'  => $element['link'],
 					),
@@ -58,7 +59,7 @@ class Header extends \content\PageElement
 			parent::__construct(array(
 				'template' => $GLOBALS['config']['path_template'].'pageelement/documentation/header/template.html',
 				'elements' => array(
-					'section' => $GLOBALS['lang']['class']['content']['pageelement']['documentation']['header']['title'],
+					'section' => $lang['title'],
 					'li'      => $li,
 				),
 			));

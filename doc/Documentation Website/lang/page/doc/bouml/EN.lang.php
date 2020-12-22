@@ -4,12 +4,10 @@
 $GLOBALS['lang']['page']['doc']['bouml']['title']='BOUML';
 /* Displayed description after the title */
 $GLOBALS['lang']['page']['doc']['bouml']['content']='How to use the automatically generated documentation with the BOUML software.';
-/* Content of the page */
-$GLOBALS['lang']['page']['doc']['bouml']['sections']=array(
- 	array(
-			'title'   => 'IN PROGRESS',
-			'content' => 'Not translated yet.',
- 	),
-);
+/* [SECTIONS] */
+/* Title of the main section */
+$GLOBALS['lang']['page']['doc']['bouml']['sections']['title']='IN PROGRESS';
+/* Content of the main section */
+$GLOBALS['lang']['page']['doc']['bouml']['sections']['content']='Not translated yet.';
 
 ?>

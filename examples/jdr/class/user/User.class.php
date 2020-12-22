@@ -345,7 +345,7 @@ class User extends \core\Managed
 		*
 		* @return string
 		*/
-		public function afficherDate_registrationFormat($format)
+		public function displayDate_registrationFormat($format)
 		{
 			return date($format, strtotime($this->date_registration));
 		}
@@ -356,7 +356,7 @@ class User extends \core\Managed
 		*
 		* @return string
 		*/
-		public function afficherDate_loginFormat($format)
+		public function displayDate_loginFormat($format)
 		{
 			return date($format, strtotime($this->date_login));
 		}
@@ -378,6 +378,7 @@ class User extends \core\Managed
 		*/
 		public function isConnected($interval='PT5M')
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected'].' '.$interval, 'user');
 			$Manager=$this->Manager();
 			$date=new \DateTime(date($GLOBALS['config']['db_date_format']));
 			$date->sub(new \DateInterval($interval));
@@ -388,6 +389,7 @@ class User extends \core\Managed
 				'date_login' => '>=',
 				'id'         => '=',
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['isconnected_end'], 'user');
 			return (bool)$data;
 		}
 		/**
@@ -397,6 +399,7 @@ class User extends \core\Managed
 		*/
 		public function retrievePassword()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword'], 'user');
 			if ($this->getId())
 			{
 				$Password=new \user\Password(array(
@@ -405,6 +408,7 @@ class User extends \core\Managed
 				$Password->retrieve();
 				$this->setPassword($Password);
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievepassword_end'], 'user');
 		}
 		/**
 		* Retrieve the role of the user
@@ -413,6 +417,7 @@ class User extends \core\Managed
 		*/
 		public function retrieveRole()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole'], 'user');
 			if ($this->getId())
 			{
 				$Role=new \user\Role(array(
@@ -421,6 +426,7 @@ class User extends \core\Managed
 				$Role->retrieve();
 				$this->setRole($Role);
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieverole_end'], 'user');
 		}
 		/**
 		* Retrieve a user with his id or nickname
@@ -429,20 +435,18 @@ class User extends \core\Managed
 		*/
 		public function retrieve()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve'], 'user');
 			$UserManager=$this->Manager();
-			if ($this->getId())
-			{
-				$this->get($this->getId());
-			}
-			else if ($this->getNickname())
+			if ($this->getId()===null)
 			{
 				$this->setId($UserManager->getIdBy(array(
 					'nickname' => $this->getNickname(),
 				)));
-				$this->get($this->getId());
 			}
+			parent::retrieve();
 			$this->retrieveRole();
 			$this->retrievePassword();
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrieve_end'], 'user');
 		}
 		/**
 		* Retrieves notifications to be seen by the user
@@ -451,44 +455,20 @@ class User extends \core\Managed
 		*/
 		public function retrieveNotifications()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications'], 'user');
 			$Linked=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
 			$results=$Linked->get('id_user', $this->getId());
 			$notifications=array();
-			foreach ($results as $key => $resultat)
+			foreach ($results as $key => $result)
 			{
 				$notification=new \user\Notification(array(
-					'id' => $resultat['id_notification'],
+					'id' => $result['id_notification'],
 				));
 				$notification->retrieve();
 				$notifications[]=$notification;
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['user']['retrievenotifications_end'], 'user');
 			return $notifications;
-		}
-		/**
-		* Checks if the user is the author or has permission to edit or delete an object.
-		*
-		* @param \core\Managed $Object Object to be checked for editability
-		* 
-		* @return bool
-		*/
-		public function authorizationModification($Object)
-		{
-			if (method_exists($Object, 'retrieveAuthor'))
-			{
-				return $this->identical($Object->retrieveAuthor()) || $this->isAdmin($Object);
-			}
-			return False;
-		}
-		/**
-		* Checks if the user has permission to edit or delete an object
-		*
-		* @param \core\Managed Object Object to be checked
-		* 
-		* @return bool
-		*/
-		public function isAdmin($Object)
-		{
-			return $this->getRole()->existPermission(array('application' => $GLOBALS['config']['application_modification'], 'action' => get_class($Object)));
 		}
 } // END class User extends \core\Managed
 

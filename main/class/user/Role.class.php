@@ -108,7 +108,7 @@ class Role extends \core\Managed
 			*/
 			public function displayRole_name()
 			{
-				return htmlspecialchars((string)$this->nom_role);
+				return htmlspecialchars((string)$this->role_name);
 			}
 			/**
 			* id display
@@ -239,11 +239,14 @@ class Role extends \core\Managed
 		*/
 		public function retrieve()
 		{
-			if ($this->getId())
+			if ($this->getRole_name() && !$this->getId())
 			{
-				parent::retrieve();
-				$this->retrievePermissions();
+				$Manager=$this->Manager();
+				$this->setId($Manager->getIdBy(array('role_name' => $this->getRole_name())));
 			}
+			parent::retrieve();
+			$this->retrievePermissions();
+
 		}
 } // END class Role extends \core\managed
 

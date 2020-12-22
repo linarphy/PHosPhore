@@ -71,7 +71,7 @@ class Manager
 		* Checks the existence of each attribute in the list as an attribute of the selected table
 		*
 		* @param array $array Array to be checked with attributes as key
-		* 
+		*
 		* @return array
 		*/
 		public function testAttributes($array)
@@ -85,7 +85,7 @@ class Manager
 		* @param array $values Array containing the name and value of each attribute
 		*
 		* @param mixed $operations Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
-		* 
+		*
 		* @return array
 		*/
 		public function conditionCreator($values, $operations)
@@ -218,20 +218,70 @@ class Manager
 		* Allows to generate the limit clause from a complex array for a mysql query
 		*
 		* @param array $bounds Bounds
-		* 
+		*
 		* @return string
 		*/
 		public function boundaryInterpreter($bounds)
 		{
-			$order_by=$this::INDEX;
-			$order='ASC';
-			$offset=0;
-			$limit=1;
+			$group_by='';
+			$order_by='';
+			$limit_by='';
 			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['boundary_interpreter_start'], 'manager');
 			foreach ($bounds as $name => $value)
 			{
 				switch (strtolower(trim($name)))
 				{
+					case 'group_by':
+					case 'group by':
+					case 'group':
+						new \Exception\Notice($GLOBALS['lang']['class']['core']['manager']['group_by'], 'manager');
+						if (is_string($value))
+						{
+							if (in_array($value, $this::ATTRIBUTES))
+							{
+								$group_by='GROUP BY '.$value;
+							}
+							else
+							{
+								new \exception\Error($GLOBALS['lang']['class']['core']['manager']['unknown_attribute'], 'manager');
+							}
+						}
+						else if (is_array($value))
+						{
+							$group_by_operations=array();
+							foreach ($value as $key => $data)
+							{
+								switch (strtolower($key))
+								{
+									case 'attribute':
+										$group_by_attribute=$data;
+										break;
+									case 'having':
+										$group_by_attributes=$data;
+										break;
+									case 'operations':
+										$group_by_operations=$data;
+										break;
+								}
+							}
+							if (!isset($group_by_attribute))
+							{
+								new \exception\Error($GLOBALS['lang']['class']['manager']['group_by_no_attribute'], 'manager');
+							}
+							else
+							{
+								if (!isset($group_by_attributes))
+								{
+									$group_by_having='';
+								}
+								else
+								{
+									$group_by_having=' HAVING '.implode(' AND ', $this->conditionCreator($group_by_attributes, $group_by_operations)[0]);
+								}
+								$group_by='GROUP BY '.$group_by_attribute.$group_by_having;
+							}
+						}
+						break;
 					case 'order by':
 					case 'order':
 					case 'order_by':
@@ -242,7 +292,7 @@ class Manager
 						}
 						else
 						{
-							$order_by=$value;
+							$order_by='ORDER BY '.$value;
 						}
 						break;
 					case 'end':
@@ -286,7 +336,7 @@ class Manager
 						}
 						else
 						{
-							$offest=$value;
+							$offset=$value;
 						}
 						break;
 					case 'limit':
@@ -294,7 +344,7 @@ class Manager
 						new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['limit'], 'manager');
 						if (!is_numeric($value))
 						{
-							new \exception\Error($GLOBALS['lang']['error_not_numeric'], 'manager');
+							new \exception\Error($GLOBALS['lang']['class']['core']['manager']['error_not_numeric'], 'manager');
 						}
 						else
 						{
@@ -305,8 +355,21 @@ class Manager
 						new \exception\Error($GLOBALS['lang']['class']['core']['manager']['unknown_clause'].' '.$name, 'manager');
 				}
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['boundary_interpreter_end'].' ['.'ORDER BY '.$order_by.' '.$order.' LIMIT '.(string)$limit.' OFFSET '.(string)$offset.']', 'manager');
-			return 'ORDER BY '.$order_by.' '.$order.' LIMIT '.(string)$limit.' OFFSET '.(string)$offset;
+			if (isset($order))
+			{
+				$order_by.=' '.$order;
+			}
+			if (isset($limit))
+			{
+				$limit_by='LIMIT '.$limit;
+				if (isset($offset))
+				{
+					$limit_by.=' OFFSET '.$offset;
+				}
+			}
+			$request=$group_by.' '.$order_by.' '.$limit_by;
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['boundary_interpreter_end'], 'manager');
+			return $request;
 		}
 		/**
 		* Retrieves the result of a Mysql query on an element
@@ -317,7 +380,7 @@ class Manager
 		*/
 		public function get($index)
 		{
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['get'].' '.'SELECT '.implode(',', $this::ATTRIBUTES).' FROM '.$this::TABLE.' WHERE '.$this::INDEX.'='.$index, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['get'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.implode(',', $this::ATTRIBUTES).' FROM '.$this::TABLE.' WHERE '.$this::INDEX.'=?');
 			$requete->execute(array($index));
 			return $requete->fetch(\PDO::FETCH_ASSOC);
@@ -332,7 +395,7 @@ class Manager
 		public function add($values)
 		{
 			$values=$this->testAttributes($values);
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['add'].' '.'INSERT INTO '.$this::TABLE.'('.implode(',', array_keys($values)).') VALUES ('.implode(',', $values).')', 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['add'], 'manager');
 			$requete=$this->getBdd()->prepare('INSERT INTO '.$this::TABLE.'('.implode(',', array_keys($values)).') VALUES ('.implode(',', array_fill(0, count($values), '?')).')');
 			$requete->execute(array_values($values));
 			return $this->getBdd()->lastInsertId();
@@ -341,7 +404,7 @@ class Manager
 		* Updates an element in the database
 		*
 		* @param array $values Array containing the name and value of each attribute
-		* 
+		*
 		* @param mixed $index Index of the element to be modified
 		*
 		* @return void
@@ -354,7 +417,7 @@ class Manager
 			{
 				$attributesWithOperators[]=$attribute.'=?';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['update'].' '.'UPDATE '.$this::TABLE.' SET '.implode(',', $attributesWithOperators).' WHERE '.$this::INDEX.'='.$index, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['update'], 'manager');
 			$requete=$this->getBdd()->prepare('UPDATE '.$this::TABLE.' SET '.implode(',', $attributesWithOperators).' WHERE '.$this::INDEX.'=?');
 			$values[]=$index;
 			$requete->execute(array_values($values));
@@ -366,8 +429,8 @@ class Manager
 		*
 		* @param array operations Attributes operations for values_get
 		*
-		* @param array values_update Attributes to update 
-		* 
+		* @param array values_update Attributes to update
+		*
 		* @return void
 		*/
 		public function updateBy($values_get, $operations, $values_update)
@@ -384,14 +447,14 @@ class Manager
 				$conditionCreator=$this->conditionCreator($values_get, $operations);
 				$valuesGetOperators=$conditionCreator[0];
 				$values_get=$conditionCreator[1];
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $valuesGetOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 				$where=' WHERE '.implode(' AND ', $valuesGetOperators);
 			}
 			else
 			{
 				$where='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['updateby'].' '.'UPDATE '.$this::TABLE.' SET '.implode(',', $valuesUpdateOperators).$where, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['updateby'], 'manager');
 			$requete=$this->getBdd()->prepare('UPDATE '.$this::TABLE.' SET '.implode(',', $valuesUpdateOperators).$where);
 			$values[]=$index;
 			$requete->execute(array_values($values));
@@ -405,7 +468,7 @@ class Manager
 		*/
 		public function delete($index)
 		{
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['delete'].' '.'DELETE FROM '.$this::TABLE.' WHERE '.$this::INDEX.'='.$index, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['delete'], 'manager');
 			$requete=$this->getBdd()->prepare('DELETE FROM '.$this::TABLE.' WHERE '.$this::INDEX.'=?');
 			$requete->execute(array($index));
 		}
@@ -415,7 +478,7 @@ class Manager
 		* @param array $values Attributes values
 		*
 		* @param array $operations Attributes operations
-		* 
+		*
 		* @return void
 		*/
 		public function deleteBy($values, $operations)
@@ -427,13 +490,13 @@ class Manager
 				$attributesWithOperators=$conditionCreator[0];
 				$values=$conditionCreator[1];
 				$where=' WHERE '.implode(' AND ', $attributesWithOperators);
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $attributesWithOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 			}
 			else
 			{
 				$where='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['deleteby'].' '.'DELETE FROM '.$this::TABLE.$where, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['deleteby'], 'manager');
 			$requete=$this->getBdd()->prepare('DELETE FROM '.$this::TABLE.$where);
 			$requete->execute(array_values($values));
 		}
@@ -455,13 +518,13 @@ class Manager
 				$attributesWithOperators=$conditionCreator[0];
 				$values=$conditionCreator[1];
 				$where=' WHERE '.implode(' AND ', $attributesWithOperators);
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $attributesWithOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 			}
 			else
 			{
 				$where='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getidby'].' '.'SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getidby'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where);
 			$requete->execute(array_values($values));
 			$fetch_result=$requete->fetch(\PDO::FETCH_ASSOC);
@@ -478,14 +541,14 @@ class Manager
 		* @param int $position Element position (0=first)
 		*
 		* @param string $attribute Attribute on which the element is positioned
-		* 
+		*
 		* @return mixed
 		*/
 		public function getIdByPos($position, $attribute)
 		{
 			if (is_int($position) && in_array($attribute, $this::ATTRIBUTES))
 			{
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getidbypos'].' '.'SELECT '.$this::INDEX.' FROM '.$this::TABLE.' ORDER BY '.$attribute.' DESC LIMIT 1 OFFSET '.$position, 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getidbypos'], 'manager');
 				$requete=$this->getBdd()->prepare('SELECT '.$this::INDEX.' FROM '.$this::TABLE.' ORDER BY '.$attribute.' DESC LIMIT 1 OFFSET '.$position);
 				$requete->execute();
 				return $requete->fetch(\PDO::FETCH_ASSOC)[$this::INDEX];
@@ -500,7 +563,7 @@ class Manager
 		* Retrieves the result of the MYSQL query created from the parameters
 		*
 		* @param array $values Array containing the name and value of each attribute
-		* 
+		*
 		* @param mixed $operations Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
 		*
 		* @param array $bounds Array containing the bounds in which to search
@@ -510,13 +573,13 @@ class Manager
 		public function getBy($values=null, $operations=null, $bounds=null)
 		{
 			if (!empty($values) && $values!==null)
-			{	
+			{
 				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['creating_where'], 'manager');
 				$conditionCreator=$this->conditionCreator($values, $operations);
 				$attributesWithOperators=$conditionCreator[0];
 				$values=$conditionCreator[1];
 				$where=' WHERE '.implode(' AND ', $attributesWithOperators).' ';
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $attributesWithOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 			}
 			else
 			{
@@ -530,7 +593,7 @@ class Manager
 			{
 				$limit='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getby'].' '.'SELECT '.implode(',', $this::ATTRIBUTES).' FROM '.$this::TABLE.$where.$limit, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['getby'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.implode(',', $this::ATTRIBUTES).' FROM '.$this::TABLE.$where.$limit);
 			if (!empty($values) && $values!==null)
 			{
@@ -552,7 +615,7 @@ class Manager
 		*/
 		public function existId($index)
 		{
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['existId'].' '.'SELECT '.$this::INDEX.' FROM '.$this::TABLE.' WHERE '.$this::INDEX.'='.$index, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['existId'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.$this::INDEX.' FROM '.$this::TABLE.' WHERE '.$this::INDEX.'=?');
 			$requete->execute(array($index));
 			return (bool)$requete->fetch(\PDO::FETCH_ASSOC);
@@ -575,13 +638,13 @@ class Manager
 				$attributesWithOperators=$conditionCreator[0];
 				$values=$conditionCreator[1];
 				$where=' WHERE '.implode(' AND ', $attributesWithOperators);
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $attributesWithOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 			}
 			else
 			{
 				$where='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['existBy'].' '.'SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['existBy'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT '.$this::INDEX.' FROM '.$this::TABLE.$where);
 			$requete->execute(array_values($values));
 			return (bool)$requete->fetch(\PDO::FETCH_ASSOC);
@@ -590,7 +653,7 @@ class Manager
 		* Allows faster object retrieval
 		*
 		* @param array $values Array containing the name and value of each attribute
-		* 
+		*
 		* @param mixed $operations Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
 		*
 		* @param array $bounds Array containing the bounds in which to search
@@ -612,9 +675,9 @@ class Manager
 		* Counts the number of elements in the database that comply with a specific clause.
 		*
 		* @param array $values Array containing the name and value of each attribute
-		* 
+		*
 		* @param mixed $operations Array containing the name and operation to be performed on each attribute or operation to be performed on each attribute
-		* 
+		*
 		* @return int
 		*/
 		public function countBy($values=null, $operations=null)
@@ -626,13 +689,13 @@ class Manager
 				$attributesWithOperators=$conditionCreator[0];
 				$values=$conditionCreator[1];
 				$where=' WHERE '.implode(' AND ', $attributesWithOperators);
-				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'].' '.'WHERE '.implode(' AND ', $attributesWithOperators), 'manager');
+				new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['where_clause'], 'manager');
 			}
 			else
 			{
 				$where='';
 			}
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['countBy'].' '.'SELECT count('.$this::INDEX.') AS nbr FROM '.$this::TABLE.$where, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['countBy'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT count('.$this::INDEX.') AS nbr FROM '.$this::TABLE.$where);
 			$requete->execute(array_values($values));
 			$donnees=$requete->fetch(\PDO::FETCH_ASSOC);
@@ -645,7 +708,7 @@ class Manager
 		*/
 		public function count()
 		{
-			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['count'].' '.'SELECT count('.$this::INDEX.') AS nbr FROM '.$this::TABLE, 'manager');
+			new \exception\Notice($GLOBALS['lang']['class']['core']['manager']['count'], 'manager');
 			$requete=$this->getBdd()->prepare('SELECT count('.$this::INDEX.') AS nbr FROM '.$this::TABLE);
 			$requete->execute();
 			$donnees=$requete->fetch(\PDO::FETCH_ASSOC);
@@ -655,7 +718,7 @@ class Manager
 		* Creates an instance of the managed class of the selected object.
 		*
 		* @param array $table Table of attributes of the object to be hydrated
-		* 
+		*
 		* @return \core\Managed
 		*/
 		public function Managed($table)

@@ -18,10 +18,11 @@ class HTMLHead extends \content\PageElement
 		*/
 		public function __construct()
 		{
+			$config=$GLOBALS['config']['class']['content']['pageelement']['html']['htmlhead'];
 			$Metas=array();
-			if (isset($GLOBALS['config']['default_head_metas']))
+			if (isset($config['default_metas']))
 			{
-				foreach ($GLOBALS['config']['default_head_metas'] as $meta)
+				foreach ($config['default_metas'] as $meta)
 				{
 					$metas=array();
 					foreach ($meta as $key => $value)
@@ -43,9 +44,9 @@ class HTMLHead extends \content\PageElement
 				}
 			}
 			$css=array();
-			if (isset($GLOBALS['config']['default_head_css']))
+			if (isset($config['default_css']))
 			{
-				foreach ($GLOBALS['config']['default_head_css'] as $href)
+				foreach ($config['default_css'] as $href)
 				{
 					$css[]=new \content\PageElement(array(
 						'template' => $GLOBALS['config']['path_template'].'pageelement/html/htmlhead/css.html',
@@ -56,9 +57,9 @@ class HTMLHead extends \content\PageElement
 				}
 			}
 			$javascripts=array();
-			if (isset($GLOBALS['config']['default_head_javascripts']))
+			if (isset($config['default_js']))
 			{
-				foreach ($GLOBALS['config']['default_head_javascripts'] as $src)
+				foreach ($config['default_js'] as $src)
 				{
 					$javascripts[]=new \content\PageElement(array(
 						'template' => $GLOBALS['config']['path_template'].'pageelement/html/htmlhead/javascripts.html',
@@ -192,7 +193,7 @@ class HTMLHead extends \content\PageElement
 			));
 			if ($this->getElement('title'))
 			{
-				$this->addValueElement('title', $GLOBALS['lang']['html_title_prefix']);
+				$this->addValueElement('title', $GLOBALS['lang']['class']['content']['pageelement']['html']['htmlhead']['title_prefix']);
 			}
 			return parent::display();
 		}

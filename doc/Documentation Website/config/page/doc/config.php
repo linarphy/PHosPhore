@@ -2,19 +2,41 @@
 
 /* Default action for doc application */
 $GLOBALS['config']['page']['doc']['default_action']='home';
-/* Default configuration for documentation page */
-$GLOBALS['config']['page']['doc']['config']=array(
-	'content_type' => 'documentation',
-	'notification' => true,
-);
-/* List of links of page in doc application */
-$GLOBALS['config']['page']['doc']['links']=array(
-	'link_home'            => array('application' => 'doc', 'action' => 'home'),
-	'link_getting_started' => array('application' => 'doc', 'action' => 'getting_started'),
-	'link_api'             => array('application' => 'doc', 'action' => 'api'),
-	'link_bouml'           => array('application' => 'doc', 'action' => 'bouml'),
-	'link_search'          => array('application' => 'doc', 'action' => 'search'),
-	'link_faq'             => array('application' => 'doc', 'action' => 'faq'),
-);
+/* [LINKS] */
+/* Home */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['home']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['home']['action']='home';
+/* Getting started */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['getting_started']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['getting_started']['action']='getting_started';
+/* API */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['api']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['api']['action']='api';
+/* BOUML */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['bouml']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['bouml']['action']='bouml';
+/* Search */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['search']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['search']['action']='search';
+/* FAQ */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['faq']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['faq']['action']='faq';
+/* LICENSE */
+/* Application */
+$GLOBALS['config']['page']['doc']['links']['license']['application']='doc';
+/* Action */
+$GLOBALS['config']['page']['doc']['links']['license']['action']='license';
 
 ?>

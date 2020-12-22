@@ -13,7 +13,7 @@ class HTMLHead extends \content\PageElement
 
 		/**
 		* Create a \content\pageelement\html\HTMLHead instance
-		* 
+		*
 		* @return void
 		*/
 		public function __construct()
@@ -84,7 +84,7 @@ class HTMLHead extends \content\PageElement
 		* @param mixed $index Index of the element to which to add the value
 		*
 		* @param mixed $value Value of the element of the element to be added
-		* 
+		*
 		* @return void
 		*/
 		public function addValueElement($index, $value)
@@ -109,7 +109,7 @@ class HTMLHead extends \content\PageElement
 		* Add a metas attribute to the page
 		*
 		* @param array $metas Metadata table
-		* 
+		*
 		* @return void
 		*/
 		public function addMetas($meta)
@@ -139,7 +139,7 @@ class HTMLHead extends \content\PageElement
 		* Add a css file to the page
 		*
 		* @param string $href Link to the css file
-		* 
+		*
 		* @return void
 		*/
 		public function addCss($href)
@@ -154,14 +154,14 @@ class HTMLHead extends \content\PageElement
 			if (!array_key_exists($href, $css))
 			{
 				$css[$href]=$Css;
-				$this->setElement('css', $css);		    
+				$this->setElement('css', $css);
 			}
 		}
 		/**
 		* Add a Javascript script to the page
 		*
 		* @param string $src Link to the javascript
-		* 
+		*
 		* @return void
 		*/
 		public function addJavascripts($src)
@@ -176,12 +176,12 @@ class HTMLHead extends \content\PageElement
 			if (!array_key_exists($src, $javascripts))
 			{
 				$javascripts[$src]=$Javascript;
-				$this->setElement('javascripts', $javascripts);		    
+				$this->setElement('javascripts', $javascripts);
 			}
 		}
 		/**
 		* Display \content\pageelement\html\HTMLHead
-		* 
+		*
 		* @return string
 		*/
 		public function display()

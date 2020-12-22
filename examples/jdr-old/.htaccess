@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{DOCUMENT_ROOT} !-f
+RewriteRule ^(.*)/asset/(.*)$ /asset/$2 [L,R=301]
+RewriteRule ^(!(.*)/asset/(.*)).*/(.*\.(png|ico|xml|gif|svg)) /$1
+RewriteRule !\.(eot|woff2|woff|ttf|js|ico|gif|jpg|png|css|html|swf|flv|xml|txt|svg)$ index.php [QSA,L]

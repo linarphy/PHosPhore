@@ -28,37 +28,37 @@ class Notification extends \core\Managed
 		*
 		* @var string
 		*/
-		const TYPE_ERROR='danger';
+		const TYPE_ERROR='error';
 
 	/* Attribute */
 
 		/**
 		* Notification id
-		* 
+		*
 		* @var int
 		*/
 		protected $id;
 		/**
 		* Notification type
-		* 
+		*
 		* @var string
 		*/
 		protected $type;
 		/**
 		* Date of notification release
-		* 
+		*
 		* @var string
 		*/
 		protected $date_release;
 		/**
 		* Notification Content Id
-		* 
+		*
 		* @var int
 		*/
 		protected $id_content;
 		/**
 		* Notification content
-		* 
+		*
 		* @var string
 		*/
 		protected $content;
@@ -69,7 +69,7 @@ class Notification extends \core\Managed
 
 			/**
 			* id accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getId()
@@ -78,7 +78,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* type accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getType()
@@ -87,7 +87,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* date_release accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getDate_release()
@@ -96,7 +96,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* id_content accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getId_content()
@@ -119,7 +119,7 @@ class Notification extends \core\Managed
 			* id setter
 			*
 			* @param int $id Notification id
-			* 
+			*
 			* @return void
 			*/
 			protected function setId($id)
@@ -130,7 +130,7 @@ class Notification extends \core\Managed
 			* type setter
 			*
 			* @param string $type Notification type
-			* 
+			*
 			* @return void
 			*/
 			protected function setType($type)
@@ -141,7 +141,7 @@ class Notification extends \core\Managed
 			* date_release setter
 			*
 			* @param string $date_release Date of notification release
-			* 
+			*
 			* @return void
 			*/
 			protected function setDate_release($date_release)
@@ -152,7 +152,7 @@ class Notification extends \core\Managed
 			* id_content setter
 			*
 			* @param int $id_content Notification Content Id
-			* 
+			*
 			* @return void
 			*/
 			protected function setId_content($id_content)
@@ -175,7 +175,7 @@ class Notification extends \core\Managed
 
 			/**
 			* id display
-			* 
+			*
 			* @return string
 			*/
 			public function displayId()
@@ -184,7 +184,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* type display
-			* 
+			*
 			* @return string
 			*/
 			public function displayType()
@@ -193,7 +193,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* date_release display
-			* 
+			*
 			* @return string
 			*/
 			public function displayDate_release()
@@ -202,7 +202,7 @@ class Notification extends \core\Managed
 			}
 			/**
 			* id_content display
-			* 
+			*
 			* @return int
 			*/
 			public function displayId_content()
@@ -212,14 +212,16 @@ class Notification extends \core\Managed
 
 		/**
 		* Content display
-		* 
+		*
 		* @return string
 		*/
 		public function displayContent()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['displaycontent'], 'notification');
 			global $Visitor;
 			if ($this->getId_content()===null)		// From session
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['from_session'], 'notification');
 				return $this->getContent();
 			}
 			$Content=new \content\Content(array(
@@ -230,7 +232,7 @@ class Notification extends \core\Managed
 		}
 		/**
 		* Notification display
-		* 
+		*
 		* @return string
 		*/
 		public function display()
@@ -239,7 +241,7 @@ class Notification extends \core\Managed
 		}
 		/**
 		* retrieves all contents in all languages
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveContents()
@@ -257,11 +259,12 @@ class Notification extends \core\Managed
 		* @param \content\PageElement $pageElement PageElement which will be changed
 		*
 		* @param \content\pageelement\Notification $Notification Notification which will be inserted into the pageElement
-		* 
+		*
 		* @return void
 		*/
 		public function sendNotification($PageElement, $Notification)
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['sendnotification'], 'notification');
 			global $Visitor;
 			$Notification=clone $Notification;
 			if (method_exists($Notification, 'setHead'))
@@ -277,6 +280,7 @@ class Notification extends \core\Managed
 			$PageElement->addValueElement('notifications', $Notification);
 			if ($this->getId_content()!==null)
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['delete_trace'], 'notification');
 				$LinkNotificationUser=new \user\LinkNotificationUser(\core\DBFactory::MysqlConnection());
 				$LinkNotificationUser->deleteBy(array(
 					'id_notification' => $this->getId(),
@@ -286,6 +290,7 @@ class Notification extends \core\Managed
 					'id_user'         => '=',
 				));
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['sendnotification_end'], 'notification');
 		}
 		/**
 		* Create a notification
@@ -296,6 +301,7 @@ class Notification extends \core\Managed
 		*/
 		public function create($id_users=array())
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['create'], 'notification');
 			$Manager=$this->Manager();
 			$Manager->add(array(
 				'type'         => $this->getType(),
@@ -315,6 +321,7 @@ class Notification extends \core\Managed
 			$LinkNotificationUser->addBy($id_user, array(
 				'id_notification' => $this->getId(),
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['created'], 'notification');
 		}
 		/**
 		* Change a notification
@@ -323,6 +330,7 @@ class Notification extends \core\Managed
 		*/
 		public function change()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change'], 'notification');
 			$Manager=$this->Manager();
 			$Manager->update(array(
 				'type'         => $this->getType(),
@@ -343,6 +351,7 @@ class Notification extends \core\Managed
 			$id_users_not_changed=array_intersect($id_users_already_in, $id_users);
 			if(array_diff($id_users_not_changed, $id_users_already_in))
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_leave'], 'notification');
 				$LinkNotificationUser->deleteBy(array(
 					'id_notification' => $this->getId(),
 				), array(
@@ -356,6 +365,7 @@ class Notification extends \core\Managed
 			}
 			else
 			{
+				new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_come'], 'notification');
 				$id_users_to_add=array_diff($id_users, $id_users_not_changed);
 				$LinkNotificationUser->addBy(array(array(
 					'id_user' => $id_users_to_add,
@@ -363,6 +373,7 @@ class Notification extends \core\Managed
 					'id_notification' => $this->getId(),
 				));
 			}
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['change_end'], 'notification');
 		}
 		/**
 		* Delete a notification
@@ -371,6 +382,7 @@ class Notification extends \core\Managed
 		*/
 		public function delete()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['delete'], 'notification');
 			$Manager=$this->Manager();
 			$this->retrieve();
 			$Manager->delete($this->getId());
@@ -386,10 +398,11 @@ class Notification extends \core\Managed
 			), array(
 				'id_content' => '=',
 			));
+			new \exception\Notice($GLOBALS['lang']['class']['user']['notification']['deleted'], 'notification');
 		}
 		/**
 		* Fetches users who need to see the notification
-		* 
+		*
 		* @return array
 		*/
 		public function retrieveUsers()

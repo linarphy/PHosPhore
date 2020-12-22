@@ -13,25 +13,25 @@ class Content extends \core\Managed
 
 		/**
 		* Content Id (not unique)
-		* 
+		*
 		* @var int
 		*/
 		protected $id_content;
 		/**
 		* Language of the text
-		* 
+		*
 		* @var string
 		*/
 		protected $lang;
 		/**
 		* Content Text
-		* 
+		*
 		* @var string
 		*/
 		protected $text;
 		/**
 		* Date of content creation
-		* 
+		*
 		* @var string
 		*/
 		protected $date_creation;
@@ -42,7 +42,7 @@ class Content extends \core\Managed
 
 			/**
 			* id_content accessor
-			* 
+			*
 			* @return int
 			*/
 			public function getId_content()
@@ -51,7 +51,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* lang accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getLang()
@@ -60,7 +60,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* text accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getText()
@@ -69,7 +69,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* date_creation accessor
-			* 
+			*
 			* @return string
 			*/
 			public function getDate_creation()
@@ -83,7 +83,7 @@ class Content extends \core\Managed
 			* id_content setter
 			*
 			* @param int $id_content Content Id (not unique)
-			* 
+			*
 			* @return void
 			*/
 			protected function setId_content($id_content)
@@ -94,7 +94,7 @@ class Content extends \core\Managed
 			* lang setter
 			*
 			* @param string $lang Language of the text
-			* 
+			*
 			* @return void
 			*/
 			protected function setLang($lang)
@@ -105,7 +105,7 @@ class Content extends \core\Managed
 			* text setter
 			*
 			* @param string $text Content Text
-			* 
+			*
 			* @return void
 			*/
 			protected function setText($text)
@@ -116,7 +116,7 @@ class Content extends \core\Managed
 			* date_creation setter
 			*
 			* @param string $date_creation Date of content creation
-			* 
+			*
 			* @return void
 			*/
 			protected function setDate_creation($date_creation)
@@ -128,7 +128,7 @@ class Content extends \core\Managed
 
 			/**
 			* id_content display
-			* 
+			*
 			* @return string
 			*/
 			public function displayId_content()
@@ -137,7 +137,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* lang display
-			* 
+			*
 			* @return string
 			*/
 			public function displayLang()
@@ -146,7 +146,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* text display
-			* 
+			*
 			* @return string
 			*/
 			public function displayText()
@@ -155,7 +155,7 @@ class Content extends \core\Managed
 			}
 			/**
 			* date_creation
-			* 
+			*
 			* @return string
 			*/
 			public function displayDate_creation()
@@ -167,8 +167,8 @@ class Content extends \core\Managed
 		* Retrieves the content according to its language (returns whether or not the content corresponds to the language)
 		*
 		* @param string $lang Desired language
-		* 
-		* @return void
+		*
+		* @return bool
 		*/
 		public function retrieveLang($lang)
 		{
@@ -178,19 +178,21 @@ class Content extends \core\Managed
 			), array(
 				'id_content' => '=',
 			));
-			if (!(bool)$results)
+			if (!$results)
 			{
-				throw new \Exception($GLOBALS['lang']['class_content_content_no_result']);
+				new \exception\Error($GLOBALS['lang']['class']['content']['content']['no_result'], 'content');
 			}
 			foreach ($results as $result)
 			{
-				if ($result['lang']==$lang)
+				if ($result['lang']===$lang)
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['content']['good_result'], 'content');
 					$this->hydrate($result);
 					return True;
 				}
-				else if (!isset($this->texte) & $result['lang']==$GLOBALS['config']['user_config']['lang'])
+				else if (!isset($this->text) & $result['lang']===$GLOBALS['config']['user_config']['lang'])
 				{
+					new \exception\Notice($GLOBALS['lang']['class']['content']['content']['default_result'], 'content');
 					$this->hydrate($result);
 				}
 			}
@@ -202,7 +204,7 @@ class Content extends \core\Managed
 		}
 		/**
 		* \content\Content display
-		* 
+		*
 		* @return string
 		*/
 		public function display()
@@ -211,11 +213,12 @@ class Content extends \core\Managed
 		}
 		/**
 		* Determines the next content id not taken
-		* 
+		*
 		* @return int
 		*/
 		static public function determineNewId()
 		{
+			new \exception\Notice($GLOBALS['lang']['class']['content']['content']['determine_id'], 'content');
 			$Manager=new \content\ContentManager(\core\DBFactory::MysqlConnection());
 			if ((bool)$Manager->getBy(array(
 				'id_content' => '-1',
