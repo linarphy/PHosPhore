@@ -35,32 +35,44 @@ $GLOBALS['config']['general_email']='';
 
 /* [USER] */
 /* Default user configuration */
-$GLOBALS['config']['user_config']=array('lang' => 'EN');
+/* [LANG] */
+/* Default lang */
+$GLOBALS['config']['user_config']['lang']='EN';
 
 /* [PAGE] */
 /* Default application */
 $GLOBALS['config']['default_application']='home';
-/* Define the error page (better to use $e in it) */
-$GLOBALS['config']['error_page']=array(
-	'application' => 'error',
-	'action'      => 'error',
-);
 /* Default configuration for page */
 $GLOBALS['config']['default_config']=array();
 /* The name of the content_type used (if defined) */
 $GLOBALS['config']['default_config']['content_type']='HTML';
 /* If notifications have to be displayed */
 $GLOBALS['config']['default_config']['notification']=True;
+/* [CONTENT] */
 /* Array which will be the arguments of the constructor of the page if content_type is not defined */
-/* $GLOBALS['config']['default_config']['content']=array(
-	'template' => './asset/html/pageelement/html/template.html',
-	'elements' => array(),
-); */
+/* [TEMPLATE] */
+/* Path of the template */
+/* $GLOBALS['config']['default_config']['content']['template']=$GLOBALS['config']['path_template'].'pageelement/html/template.html'; */
+/* [ELEMENT] */
+/* Element to define */
+/* $GLOBALS['config']['default_config']['content']['elements']=array(); */
+/* [NOTIFICATIONELEMENT] */
 /* Array which will be the arguments of the constructor of the notification (if displayed) */
-/* $GLOBALS['config']['default_config']['notification_element']=array(
-	'template' => './asset/html/pageelement/html/htmlnotification/template.html',
-	'elements' => array(),
-); */
+/* [TEMPLATE] */
+/* Path of the template */
+/* $GLOBALS['config']['default_config']['notification_element']['template']=$GLOBALS['config']['path_template'].'pageelement/html/htmlnotification/template.html'; */
+/* [ELEMENT] */
+/* Element to define */
+/* $GLOBALS['config']['default_config']['notification_element']['elements']=array(); */
+
+/* [ERROR] */
+/* Define the error page (better to use $e in it) */
+/* [APPLICATION] */
+/* Error Application */
+$GLOBALS['config']['error_page']['application']='error';
+/* [ACTION] */
+/* Error Action */
+$GLOBALS['config']['error_page']['action']='error';
 
 /* [ROUTER] */
 /* Default Router mode */
@@ -94,30 +106,31 @@ $GLOBALS['config']['page_filename']='page.php';
 
 /* [PAGE PARAMETERS] */
 /* Page parameters which can be used in every page of this website */
-$GLOBALS['config']['page_general_parameters']=array();
-/* lang */
+/* [LANG] */
 /* Description of the this parameter */
-$GLOBALS['config']['page_general_parameters']['lang']=array();
+/* [NECESSARY] */
 /* If this parameter is necessary to load the page */
 $GLOBALS['config']['page_general_parameters']['lang']['necessary']=False;
+/* [REGEX] */
 /* Regex characterizing this parameter */
 $GLOBALS['config']['page_general_parameters']['lang']['regex']='^(EN|FR)$';
 
 /* [LANG] */
 /* Available language */
-$GLOBALS['config']['lang_available']=array();
-/* EN */
+/* [EN] */
 /* Description of this language */
-$GLOBALS['config']['lang_available']['EN']=array();
+/* [ABBR] */
 /* Abbreviation of language */
 $GLOBALS['config']['lang_available']['EN']['abbr']='EN';
+/* [FULL] */
 /* Name of the language in this very language */
 $GLOBALS['config']['lang_available']['EN']['full']='English';
-/* FR */
+/* [FR] */
 /* Description of this language */
-$GLOBALS['config']['lang_available']['FR']=array();
+/* [ABBR] */
 /* Abbreviation of language */
 $GLOBALS['config']['lang_available']['FR']['abbr']='FR';
+/* [FULL] */
 /* Name of the language in this very language */
 $GLOBALS['config']['lang_available']['FR']['full']='Français';
 
@@ -133,10 +146,6 @@ $GLOBALS['config']['default_content_type']['html']['name']='html';
 $GLOBALS['config']['default_content_type']['html']['content']='HTML';
 /* PageElement corresponding to the base content of a notification for this content type*/
 $GLOBALS['config']['default_content_type']['html']['notification']='html\HTMLNotification';
-
-/* [HASH] */
-/* Define the hash cost dor password */
-$GLOBALS['config']['hash_cost']=6;
 
 /* [LOG] */
 /* Define the logging level */

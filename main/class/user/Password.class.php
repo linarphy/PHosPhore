@@ -130,7 +130,7 @@ class Password extends \core\Managed
 
 		/**
 		* Display the Password
-		* 
+		*
 		* @return string
 		*/
 		public function display()
@@ -139,7 +139,7 @@ class Password extends \core\Managed
 		}
 		/**
 		* Checks if the password in plain text matches the hashed password
-		* 
+		*
 		* @param string $password Verify plain text password
 		*
 		* @return bool
@@ -149,17 +149,15 @@ class Password extends \core\Managed
 			new \exception\Notice($GLOBALS['lang']['class']['user']['password']['verif'], 'password');
 			if ($this->getPassword_hashed())
 			{
+				$config=$GLOBALS['config']['class']['user']['password'];
 				$hash=$this->getPassword_hashed();
-				$options=array(
-					'cost' => $GLOBALS['config']['hash_cost'],
-				);
 				if (password_verify($password, $hash))
 				{
 					new \exception\Notice($GLOBALS['lang']['class']['user']['password']['password_match'], 'password');
-				    if (password_needs_rehash($hash, PASSWORD_DEFAULT, $options))
+				    if (password_needs_rehash($hash, $config['algorithm'], $config['options']))
 				    {
 				    	new \exception\Warning($GLOBALS['lang']['class']['user']['password']['need_rehash'], 'password');
-				        $this->setPassword_hashed(password_hash($password, PASSWORD_DEFAULT, $options));
+				        $this->setPassword_hashed(password_hash($password, $config['algorithm'], $config['options']));
 				        $PasswordManager=$this->Manager();
 				        $PasswordManager->update(array(
 				        	'password_hashed' => $this->getPassword_hashed(),
