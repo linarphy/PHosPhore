@@ -1,8 +1,0 @@
-class DBFactory
-!!!236162.php!!!	MysqlConnection(in dbname : string = null) : \PDO
-
-		if ($dbname===null)
-		{
-			$dbname=$GLOBALS['config']['db_name'];
-		}
-		return new \PDO('mysql:host='.$GLOBALS['config']['db_host'].';dbname='.$dbname.';charset=utf8', $GLOBALS['config']['db_username'], $GLOBALS['config']['db_passwd'], $GLOBALS['config']['db_options']);

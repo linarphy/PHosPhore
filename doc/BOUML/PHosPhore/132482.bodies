@@ -1,7 +1,0 @@
-class HTMLNotification
-!!!162562.php!!!	__construct() : void
-
-			parent::__construct(array(
-				'template' => $GLOBALS['config']['path_template'].'pageelement/html/htmlnotification/template.html',
-				'elements' => array(),
-			));

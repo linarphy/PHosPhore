@@ -1,6 +1,0 @@
-<p>Dans PHosPhore, chaque page est une "action" contenu dans une "application". Une même application peut contenir plusieurs actions, à l'image d'un dossier contenant plusieurs fichiers. La position des fichiers du site dépendent de ce couple. Ainsi, la définition de la page se fait toujours dans <code>page/&lt;application&gt;/&lt;action&gt;/page.php</code>. Dans les paramètre, il est possible de redéfinir l'application par défaut si ni l'application, ni l'action est précisé lors de la requête, et de définir, pour chaque application, l'action par défaut si aucune n'est précisée. Pour une application "a" et une action "b":</p>
-<ul>
-	<li>Définir <code>$GLOBALS['config']['default_application']</code> à "a" dans le fichier "config/config.php" global va permettre que l'application utilisée par défaut soit "a".</li>
-	<li>Définir <code>$GLOBALS['config']['page']['a']['default_action']</code> à "b" dans le fichier "config/page/a/config.php" (fichier de configuration de l'application "a") va permettre qu'une utilisation de l'application "a" sans précision d'action utilisera l'action "b".</li>
-	Ces deux paramètres sont nécessaires. Et ce, pour le dernier, pour chaque application existante. À noter que le premier est défini par défaut.
-</ul>
