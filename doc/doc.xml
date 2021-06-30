@@ -287,7 +287,7 @@
 		</redirection>
 		<permission>
 			Pour que la page puisse être vue par un rôle, il faut que celui-ci ai l'autorisation d'y accéder. Ceci est valable pour toutes les pages et tout les rôles.
-			Octoyer la permission d'une page signifie ajouter une entrée avec la valeur de l'id de la page dans la table des permissions, et une autre entrée avec la valeur de l'id de la page et l'id du rôle dans la table du lien entre permission et rôle.
+			Octroyer la permission d'une page signifie ajouter une entrée avec la valeur de l'id de la page dans la table des permissions, et une autre entrée avec la valeur de l'id de la page et l'id du rôle dans la table du lien entre permission et rôle.
 			Un utilisateur peut possèder plusieurs rôles, et un rôle peut posséder plusieurs utilisateurs. Même chose entre permission et rôle.
 		</permission>
 	</création_page>
@@ -350,18 +350,12 @@
 						<description>
 							Affiche le contenu sous une forme lisible et sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-					</display>
+ 					</display>
 					<retrieveText>
 						<description>
 							Récupère le texte avec son id et sa langue
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieveText>
+ 					</retrieveText>
 				</méthodes>
 			</content>
 			<contentManager>
@@ -400,10 +394,7 @@
 							<description>
 								Constructeur
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<attributes>
 									<description>
 										Attributs du \content\pageelement\PageElement
@@ -418,10 +409,7 @@
 							<description>
 								Ajoute un élément à l'attribut elements
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<key>
 									<description>
 										Clef de l'élément à ajouter
@@ -447,10 +435,7 @@
 							<description>
 								Ajoute un élément à l'élément de elements
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<key>
 									<description>
 										Clef de l'élément de elements contenant le nouvel élément
@@ -487,10 +472,7 @@
 							<description>
 								Affiche l'élément de la page de façon lisible et sécurisé
 							</description>
-							<protection>
-								public
-							</protection>
-							<valeur>
+ 							<valeur>
 								string
 							</valeur>
 						</display>
@@ -498,10 +480,7 @@
 							<description>
 								Affiche une array de façon lisible et sécurisé
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<list>
 									<description>
 										Liste à afficher
@@ -519,10 +498,7 @@
 							<description>
 								Accesseur d'un élément de l'attribut elements, retourne faux s'il n'existe pas
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<key>
 									<description>
 										La clef correspondant à l'élement à accéder
@@ -540,10 +516,7 @@
 							<description>
 								Assigne une nouvelle valeur à l'élément sélectionné, retourne l'ancienne valeur de l'élément s'il existe, retourne faux sinon
 							</description>
-							<protection>
-								public
-							</protection>
-							<arguments>
+ 							<arguments>
 								<key>
 									<description>
 										Clef correspondant à l'élément à modifier
@@ -587,10 +560,7 @@
 						<description>
 							Création d'une connexion à la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<db_name>
 								<description>
 									Nom de la base de donnée à laquelle se connecter
@@ -660,10 +630,7 @@
 						<description>
 							Ajoutes des entrées dans la table avec certains paramètres variant et d'autre non
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<variants>
 								<description>
 									Un tableau de n tableaux (où n est le nombre d'entrées à insérer) de x valeurs (avec x le nombre d'attributs de l'entrée moins le nombre d'attribut invariants)
@@ -689,10 +656,7 @@
 						<description>
 							Récupères les entrées avec plusieurs attributs identiques de même valeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Liste des attributs de la table avec leur valeur
@@ -734,10 +698,7 @@
 						<description>
 							Récupères les objets de façon rapide
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Attributs et leur valeur
@@ -831,10 +792,7 @@
 						<description>
 							Enregistre un événement dans le journal
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<type>
 								<description>
 									Le type d'événement, aussi utilisé comme nom du dossier dans lequel le fichier sera généré
@@ -882,10 +840,7 @@
 						<description>
 							Constructeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Tableaux définissant les valeurs des attributs de l'objet
@@ -900,10 +855,7 @@
 						<description>
 							Insère les données dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							bool
 						</valeur>
 					</add>
@@ -911,10 +863,7 @@
 						<description>
 							Affiche le tableau sous une forme lisible et sécurisée
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<list>
 								<description>
 									Array à afficher
@@ -932,18 +881,12 @@
 						<description>
 							Clone l'objet
 						</description>
-						<protection>
-							public
-						</protection>
-					</clone>
+ 					</clone>
 					<delete>
 						<description>
 							Supprime les données de la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							bool
 						</valeur>
 					</delete>
@@ -951,10 +894,7 @@
 						<description>
 							Retourne une chaîne de caractère représentant l'objet
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -962,10 +902,7 @@
 						<description>
 							Retourne une chaîne de caractère pouvant être affiché sur une page
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut qu'on veut afficher
@@ -983,10 +920,7 @@
 						<description>
 							Vérifies l'existence des données dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							bool
 						</valeur>
 					</exist>
@@ -994,10 +928,7 @@
 						<description>
 							Hydrate l'objet
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Tableau contenant les pairs clef-valeur à associer
@@ -1015,10 +946,7 @@
 						<description>
 							Retournes la valeur de l'attribut demandé
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut à renvoyer
@@ -1036,10 +964,7 @@
 						<description>
 							Retourne le nom que devrait avoir la méthode d'affichage de l'attribut demandé
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut dont on veut la fonction d'affichage
@@ -1057,10 +982,7 @@
 						<description>
 							Retourne le nom que devrait avoir l'accesseur de l'attribut demandé
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut dont on veut l'accesseur
@@ -1078,10 +1000,7 @@
 						<description>
 							Retournes la valeur de l'index
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							aray|false
 						</valeur>
 					</getIndex>
@@ -1089,10 +1008,7 @@
 						<description>
 							Retourne le nom que devrait avoir le définisseur de l'attribut demandé
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut dont on veut le définisseur
@@ -1110,10 +1026,7 @@
 						<description>
 							Vérifie si cet objet et celui demandé sont identiques (en fonction de la constante INDEX)
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<object>
 								<description>
 									L'autre objet
@@ -1131,10 +1044,7 @@
 						<description>
 							Retourne une instance de la classe hérité de \core\Manager associé à cet objet
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							mixed
 						</valeur>
 					</manager>
@@ -1142,10 +1052,7 @@
 						<description>
 							Récupère les données depuis la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							int
 						</valeur>
 					</retrieve>
@@ -1182,10 +1089,7 @@
 						<description>
 							Retourne l'objet sous la forme d'une array
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<depth>
 								<description>
 									Profondeur de la récursion s'il y a un objet dans un objet.
@@ -1214,10 +1118,7 @@
 						<description>
 							Modifie les données dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							bool
 						</valeur>
 					</update>
@@ -1271,10 +1172,7 @@
 						<description>
 							Constructeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<bdd>
 								<description>
 									Connexion PDO à la base de donnée
@@ -1289,10 +1187,7 @@
 						<description>
 							Ajoute une entrée à la table et renvoie son index
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Contient le nom et la valeur de chaque attribut
@@ -1310,10 +1205,7 @@
 						<description>
 							Génère une clause LIMIT à partir d'un tableau complexe
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<bounds>
 								<description>
 									Tableaux complexe représentant les bords
@@ -1331,10 +1223,7 @@
 						<description>
 							Enlève de la liste des attributs (en tant que clefs) ceux qui ne sont pas dans cette table
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									La liste a nettoyer
@@ -1352,10 +1241,7 @@
 						<description>
 							Transforme l'association des opération/valeur en association attributs avec opération/valeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeurs des attributs
@@ -1381,10 +1267,7 @@
 						<description>
 							Compte le nombre d'entrées dans la table
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							int
 						</valeur>
 					</count>
@@ -1392,10 +1275,7 @@
 						<description>
 							Compte le nombre d'entrées respectant certains critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeurs des attributs
@@ -1418,10 +1298,7 @@
 						<description>
 							Supprime une entrée de la table
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<index>
 								<description>
 									Index de l'entrée à supprimer
@@ -1439,10 +1316,7 @@
 						<description>
 							Supprime des entrées de la table respectant certains critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeur des attributs
@@ -1468,10 +1342,7 @@
 						<description>
 							Vérifie l'existence d'une entrée avec un index donné
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<index>
 								<description>
 									Index de l'élément à vérifier
@@ -1489,10 +1360,7 @@
 						<description>
 							Vérifie l'existence d'entrées possèdant certains critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeurs des attributs
@@ -1518,10 +1386,7 @@
 						<description>
 							Récupère le résultat d'une requête Mysql à partir d'un index
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<index>
 								<description>
 									Index de l'élément
@@ -1539,10 +1404,7 @@
 						<description>
 							Accesseur de bdd
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							\PDO
 						</valeur>
 					</getBdd>
@@ -1550,10 +1412,7 @@
 						<description>
 							Récupère le résultat d'une requête Mysql créée depuis plusieurs paramètres
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeur des attributs
@@ -1587,10 +1446,7 @@
 						<description>
 							Récupère les index d'entrées à partir de critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Valeur des attributs
@@ -1616,10 +1472,7 @@
 						<description>
 							Récupère un index d'une entrée à partir de sa position pour un attribut
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attribute>
 								<description>
 									Nom de l'attribut
@@ -1653,10 +1506,7 @@
 						<description>
 							Récupère la prochaine valeur de l'identifiant (pour les entiers)
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</getNextId>
@@ -1664,10 +1514,7 @@
 						<description>
 							Créée une instance de la classe \core\Managed associé à ce Manager
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<table>
 								<description>
 									Tableau des attributs de l'objet à hydrater
@@ -1685,10 +1532,7 @@
 						<description>
 							Récupère directement les objets dont les attributs respectent certains critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Noms et valeur des attributs
@@ -1740,10 +1584,7 @@
 						<description>
 							Modifie une entrée de la table
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values>
 								<description>
 									Nouveaux liens attribut/valeur
@@ -1766,10 +1607,7 @@
 						<description>
 							Modifie toutes les entrées respectant certains critères
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<values_get>
 								<description>
 									Valeurs des attributs pour les entrées à modifier
@@ -1841,10 +1679,7 @@
 						<description>
 							Affichage du dossier sous une forme lisible et sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 						<commentaire>
@@ -1855,10 +1690,7 @@
 						<description>
 							Retourne le chemin vers le fichier de configuration associé au dossier, affichage non sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getConfigFile>
@@ -1866,10 +1698,7 @@
 						<description>
 							Retourne le chemin vers le fichier locale associé au dossier, affichage non sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getLocaleFile>
@@ -1877,10 +1706,7 @@
 						<description>
 							Retourne le chemin vers le fichier des messages de journalisation, affichage non sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getLog_messageFile>
@@ -1888,10 +1714,7 @@
 						<description>
 							Récupère le dossier parent
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							\route\Folder
 						</valeur>
 					</getParent>
@@ -1899,10 +1722,7 @@
 						<description>
 							Récupère le chemin du dossier (relatif au dossier root)
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getPath>
@@ -2014,10 +1834,7 @@
 						<description>
 							Renvoi la regex avec ses délimiteurs, même s'ils ne sont pas précisé dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getFullRegex>
@@ -2071,10 +1888,7 @@
 						<description>
 							Récupère un des path possible pour atteindre cette route
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<root_id>
 								<description>
 									Id de la route depuis laquelle commencer le chemin
@@ -2100,10 +1914,7 @@
 						<description>
 							Charge tous les fichiers (configuration, locale, messages de log) en partant du bas (si multiples, le premier dans la base de donnée).
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							bool
 						</valeur>
 					</loadSubFile>
@@ -2111,10 +1922,7 @@
 						<description>
 							Récupère le dossier associé à la route
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							\route\Folder
 						</valeur>
 					</retrieveFolder>
@@ -2122,10 +1930,7 @@
 						<description>
 							Récupère les paramètres attendues pour cette route
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</retrieveParameters>
@@ -2168,10 +1973,7 @@
 						<description>
 							Constructeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<mode>
 								<description>
 									Mode du routeur
@@ -2182,14 +1984,45 @@
 							</mode>
 						</arguments>
 					</__construct>
+					<buildNode>
+						<description>
+							Construit un arbre, utilisé pour la récupération des routes
+						</description>
+						<arguments>
+							<array_of_available_routes>
+								<description>
+									Listes contenant les listes contenants les routes correspondant aux noms donnée par l'url, dans l'ordre du chemin
+								</description>
+								<type>
+									array
+								</type>
+							</array_of_available_routes>
+							<row>
+								<description>
+									Clef correspondant au niveau du noeud
+								</description>
+								<type>
+									int|mixed
+								</type>
+							</row>
+							<column>
+								<description>
+									Clef correspondant à la valeur du noeud
+								</description>
+								<type>
+									int|mixed
+								</type>
+							</column>
+						</arguments>
+						<valeur>
+							\structure\Node|False
+						</valeur>
+					</buildNode>
 					<cleanParameters>
 						<description>
 							Nettoie de la liste des paramètres donnée les paramètres non demandé (ou ne correspondant pas au format demandé)
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<parameters>
 								<description>
 									Paramètres à nettoyer
@@ -2207,10 +2040,7 @@
 						<description>
 							Créée un lien intrasite à partir du tableau donné et du mode du routeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<route>
 								<description>
 									Tableau représentant le lien
@@ -2236,10 +2066,7 @@
 						<description>
 							Créée un lien intrasite à partir du tableau donné avec le mode GET
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<route>
 								<description>
 									Tableau représentant le lien
@@ -2265,10 +2092,7 @@
 						<description>
 							Créée un lien intrasite à partir du tableau donné avec le mode MIXED
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<route>
 								<description>
 									Tableau représentant le lien
@@ -2294,10 +2118,7 @@
 						<description>
 							Créée un lien intrasite à partir du tableau donné avec le mode ROUTE
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<route>
 								<description>
 									Tableau représentant le lien
@@ -2323,10 +2144,7 @@
 						<description>
 							Transforme une chaîne de caractère représentant un lien intrasite en tableau
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<url>
 								<description>
 									Lien à décoder
@@ -2344,10 +2162,7 @@
 						<description>
 							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement GET
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<url>
 								<description>
 									Lien à décoder
@@ -2365,10 +2180,7 @@
 						<description>
 							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement MIXED
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<url>
 								<description>
 									Lien à décoder
@@ -2386,10 +2198,7 @@
 						<description>
 							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement ROUTE
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<url>
 								<description>
 									Lien à décoder
@@ -2403,59 +2212,14 @@
 							array
 						</value>
 					</decodeWithRoute>
-					<fill>
-						<description>
-							Remplit le tableau représentant un lien avec les valeurs facultatives omises
-						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
-							<route>
-								<description>
-									Tableau représenant un lien
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</fill>
 					<getMode>
 						<description>
 							Retourne le mode actuel du routeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							int
 						</valeur>
 					</getMode>
-					<separateRoute>
-						<description>
-							Transforme la liste de profondeur un en une liste de deux listes contenant d'un côté l'adresse de la page sous forme de liste et de l'autre la liste des paramètres supplémentaires
-						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
-							<route>
-								<description>
-									Liste à un niveau de profondeur contenant les différentes parties de l'url
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</separateRoute>
 					<setMode>
 						<description>
 							Définisseur du mode du routeur
@@ -2473,10 +2237,278 @@
 								</type>
 							</mode>
 						</arguments>
+						<valeur>
+							bool
+						</valeur>
 					</setMode>
 				</méthodes>
 			</Router>
 		</route>
+		<structure>
+			<node>
+				<description>
+					Un noeud d'un arbre
+				</description>
+				<attributs>
+					<childrens>
+						<description>
+							Listes des noeuds contenu dans ce noeud
+						</description>
+						<type>
+							array
+						</type>
+					</childrens>
+					<data>
+						<description>
+							Donnée du noeud
+						</description>
+						<type>
+							mixed
+						</type>
+					</data>
+					<parent>
+						<description>
+							Parent du noeud (null si root)
+						</description>
+						<type>
+							\structure\Node|null
+						</type>
+					</parent>
+				</attributs>
+				<méthodes>
+					<__construct>
+						<description>
+							Constructeur de \structure\Node
+						</description>
+ 						<arguments>
+							<data>
+								<description>
+									Donnée du noeud
+								</description>
+								<type>
+									mixed
+								</type>
+							</data>
+							<parent>
+								<description>
+									Parent du noeud
+								</description>
+								<type>
+									\structure\Node|null
+								</type>
+							</parent>
+						</arguments>
+						<valeur>
+							\structure\Node
+						</valeur>
+					</__construct>
+					<addChild>
+						<description>
+							Ajoute un noeud enfant à ce noeud
+						</description>
+ 						<arguments>
+							<child>
+								<description>
+									Noeud enfant à ajouter
+								</description>
+								<type>
+									\structure\Node
+								</type>
+							</child>
+						</arguments>
+						<valeur>
+							\structure\Node
+						</valeur>
+					</addChild>
+					<removeChild>
+						<description>
+							Supprime un noeud enfant à ce noeud
+						</description>
+ 						<arguments>
+							<child>
+								<description>
+									Noeud enfant à supprimer
+								</description>
+								<type>
+									\structure\Node
+								</type>
+							</child>
+						</arguments>
+						<valeur>
+							bool
+						</valeur>
+					</removeChild>
+					<get>
+						<description>
+							Retournes la valeur de l'attribut demandé
+						</description>
+ 						<arguments>
+							<attribute>
+								<description>
+									Nom de l'attribut à renvoyer
+								</description>
+								<type>
+									string
+								</type>
+							</attribute>
+						</arguments>
+						<valeur>
+							mixed
+						</valeur>
+					</get>
+					<getAncestors>
+						<description>
+							Retournes les ancêtres de ce noeud
+						</description>
+ 						<valeur>
+							array
+						</valeur>
+					</getAncestors>
+					<getDepth>
+						<description>
+							Retournes la profondeur du noeud dans l'arbre
+						</description>
+ 						<valeur>
+							int
+						</valeur>
+					</getDepth>
+					<getHeight>
+						<description>
+							Retournes la hauteur du noeud (la profondeur du noeud le plus jeune si on prend ce noeud comme racine)
+						</description>
+ 						<valeur>
+							int
+						</valeur>
+					</getHeight>
+					<getNeighbors>
+						<description>
+							Retournes les noeuds voisins
+						</description>
+ 						<valeur>
+							array
+						</valeur>
+					</getNeighbors>
+					<getRoot>
+						<description>
+							Retournes la racine de l'arbre
+						</description>
+						<valeur>
+							\structure\Node
+						</valeur>
+					</getRoot>
+					<set>
+						<description>
+							Modifie la valeur de l'attribut demandé
+						</description>
+						<protection>
+							protégé
+						</protection>
+						<arguments>
+							<attribute>
+								<description>
+									Nom de l'attribut à modifier
+								</description>
+								<type>
+									string
+								</type>
+							</attribute>
+							<value>
+								<description>
+									Nouvelle valeur de l'attribut
+								</description>
+								<type>
+									mixed
+								</type>
+							</value>
+							<valeur>
+								bool
+							</valeur>
+						</arguments>
+				</méthodes>
+			</node>
+			<tree>
+				<description>
+					Une structure d'arbre simple
+				</description>
+				<attributs>
+					<root>
+						<description>
+							Premier noeud de l'arbre
+						</description>
+						<type>
+							\structure\Node
+						</type>
+					</root>
+				</attributs>
+				<méthodes>
+					<__construct>
+						<description>
+							Constructeur de \structure\tree
+						</description>
+						<arguments>
+							<root_data>
+								<description>
+									Donnée contenu dans le premier noeud
+								</description>
+								<type>
+									mixed
+								</type>
+							</root_data>
+						</arguments>
+ 						<valeur>
+							\structure\Tree
+						</valeur>
+					</__construct>
+					<get>
+						<description>
+							Retournes la valeur de l'attribut demandé
+						</description>
+ 						<arguments>
+							<attribute>
+								<description>
+									Nom de l'attribut à renvoyer
+								</description>
+								<type>
+									string
+								</type>
+							</attribute>
+						</arguments>
+						<valeur>
+							mixed
+						</valeur>
+					</get>
+					<set>
+						<description>
+							Modifie la valeur de l'attribut demandé
+						</description>
+						<protection>
+							protégé
+						</protection>
+						<arguments>
+							<attribute>
+								<description>
+									Nom de l'attribut à modifier
+								</description>
+								<type>
+									string
+								</type>
+							</attribute>
+							<value>
+								<description>
+									Nouvelle valeur de l'attribut
+								</description>
+								<type>
+									mixed
+								</type>
+							</value>
+							<valeur>
+								bool
+							</valeur>
+						</arguments>
+					</set>
+				</méthodes>
+			</tree>
+		</structure>
 		<user>
 			<Configuration>
 				<description>
@@ -2524,10 +2556,7 @@
 						<description>
 							Affiche la configuration d'une manière visible et sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -2637,26 +2666,17 @@
 						<description>
 							Ajoute la notification à la session pour cet utilisateur
 						</description>
-						<protection>
-							public
-						</protection>
-					</addToSession>
+ 					</addToSession>
 					<change>
 						<description>
 							Modifie une notification
 						</description>
-						<protection>
-							public
-						</protection>
-					</change>
+ 					</change>
 					<create>
 						<description>
 							Créée une notification
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<id_users>
 								<description>
 									Liste d'identifiant des utilisateurs concernées par la notification
@@ -2671,18 +2691,12 @@
 						<description>
 							Supprime la notification
 						</description>
-						<protection>
-							public
-						</protection>
-					</delete>
+ 					</delete>
 					<display>
 						<description>
 							Affiche la notification de façon lisible et sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -2690,10 +2704,7 @@
 						<description>
 							Affiche le contenu de la notification dans la langue de l'utilisateur, ou la langue par défaut si celle-ci n'existe pas
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</displayContent>
@@ -2701,10 +2712,7 @@
 						<description>
 							Récupère les \content\Content associés à la notification
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</retrieveContents>
@@ -2712,10 +2720,7 @@
 						<description>
 							Récupère tout les utilisateurs concernés par la notification
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</retrieveUsers>
@@ -2791,10 +2796,7 @@
 						<description>
 							Constructeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Attributs de la page
@@ -2809,10 +2811,7 @@
 						<description>
 							Ajoute un paramètre
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<key>
 								<description>
 									Nom du paramètre
@@ -2835,10 +2834,7 @@
 						<description>
 							Affiche la page
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -2846,10 +2842,7 @@
 						<description>
 							Récupère la hierarchie des dossiers pour cette page
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</getPath>
@@ -2857,10 +2850,7 @@
 						<description>
 							Chargement de la configuration de la page
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</loadConfig>
@@ -2868,18 +2858,15 @@
 						<description>
 							Récupères la page dans la base de donnée
 						</description>>
-						<protection>
-							public
-						</protection>
-					</retrieve>
+ 					</retrieve>
 				</méthodes>
 			</Page>
 			<PageManager>
 				<description>
-					Gestionnaire de \user\Page
+					Gestionnaire de \user\Page (même que \route\RouteManager)
 				</description>
 				<extend>
-					\core\Manager
+					\route\RouteManager
 				</extend>
 			</PageManager>
 			<Password>
@@ -2920,10 +2907,7 @@
 						<description>
 							Vérifie la validité d'un mot de passe en clair par rapport à celui stocké dans la base de donnée (déjà récupéré)
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<password>
 								<description>
 									Mot de passe en clair à vérifier
@@ -2941,10 +2925,7 @@
 						<description>
 							Afiche le mot de passe de façon lisible et protégée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 						<commentaire>
@@ -2977,10 +2958,7 @@
 						<description>
 							Hash l'attribut password_clear et l'affecte à l'attribut password_hashed
 						</description>
-						<protection>
-							public
-						</protection>
-					</hash>
+ 					</hash>
 				</méthodes>
 			</Password>
 			<PasswordManager>
@@ -3029,10 +3007,7 @@
 						<description>
 							Affiche la permission d'une façon lisible et sécurisée
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -3040,18 +3015,12 @@
 						<description>
 							Récupère la permission
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieve>
+ 					</retrieve>
 					<retrievePage>
 						<description>
 							Récupère la \user\Page
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							\Router\Page
 						</valeur>
 					</retrievePage>
@@ -3103,10 +3072,7 @@
 						<description>
 							Ajoute une permission au rôle
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<id>
 								<description>
 									Identifiant de la nouvelle permission
@@ -3118,18 +3084,12 @@
 						<description>
 							Récupère le rôle
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieve>
+ 					</retrieve>
 					<retrievePermissions>
 						<description>
 							Récupère les permissions lié au rôle dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrievePermissions>
+ 					</retrievePermissions>
 				</méthodes>
 			</Role>
 			<RoleManager>
@@ -3202,10 +3162,7 @@
 						<description>
 							Affiche l'utilisateur sous un format lisible et sécurisé
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</display>
@@ -3213,10 +3170,7 @@
 						<description>
 							Vérifie si la dernière connection de l'utilisateur date d'il y a moins d'un certain intervalle de temps donné
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<interval>
 								<description>
 									L'intervalle de temps
@@ -3234,18 +3188,12 @@
 						<description>
 							Récupère les données de l'utilisateur à partir des informations déjà renseigné
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieve>
+ 					</retrieve>
 					<retrieveNotifications>
 						<description>
 							Récupère les notifications envoyés à l'utilisateur
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							array
 						</valeur>
 					</retrieveNotifications>
@@ -3253,18 +3201,12 @@
 						<description>
 							Récupère le mot de passe de l'utilisateur
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrievePassword>
+ 					</retrievePassword>
 					<retrieveRoles>
 						<description>
 							Récupère les rôle de l'utilisateur
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieveRoles>
+ 					</retrieveRoles>
 				</méthodes>
 			</User>
 			<UserManager>
@@ -3305,10 +3247,7 @@
 						<description>
 							Constructeur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<attributes>
 								<description>
 									Attributs du visiteur
@@ -3326,18 +3265,12 @@
 						<description>
 							Modifie les informations du visiteur stockée dans la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-					</change>
+ 					</change>
 					<checkPermission>
 						<description>
 							Vérifie si le visiteur peut consulter la page demandée
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<page>
 								<description>
 									Page que le visiteur souhaite voir
@@ -3355,10 +3288,7 @@
 						<description>
 							Connectes le visiteur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<password>
 								<description>
 									Mot de passe correspondant au compte du visiteur en clair
@@ -3376,10 +3306,7 @@
 						<description>
 							Supprime définivement le visiteur de la base de donnée
 						</description>
-						<protection>
-							public
-						</protection>
-						<commentaire>
+ 						<commentaire>
 							A utiliser avec prudence, pensez à nettoyer les références à cet utilisateur dans les autres bases de données
 						</commentaire>
 					</delete>
@@ -3387,18 +3314,12 @@
 						<description>
 							Déconnectes le visiteur
 						</description>
-						<protection>
-							public
-						</protection>
-					</disconnect>
+ 					</disconnect>
 					<displayPage>
 						<description>
 							Affiche la page
 						</description>
-						<protection>
-							public
-						</protection>
-						<valeur>
+ 						<valeur>
 							string
 						</valeur>
 					</displayPage>
@@ -3406,10 +3327,7 @@
 						<description>
 							Charge la page si le visiteur en a le droit
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<route>
 								<description>
 									Tableau représentant la page à charger
@@ -3427,10 +3345,7 @@
 						<description>
 							Enrergistre un nouveau visiteur
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<password>
 								<description>
 									Mot de passe en clair
@@ -3453,26 +3368,17 @@
 						<description>
 							Récupère l'utilisateur et les configurations du visiteur
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieve>
+ 					</retrieve>
 					<retrieveConfigurations>
 						<description>
 							Récupère les configurations du visiteur
 						</description>
-						<protection>
-							public
-						</protection>
-					</retrieveConfigurations>
+ 					</retrieveConfigurations>
 					<setConfiguration>
 						<description>
 							Ajoute une nouvelle valeur à la configuration du visiteur de manière définitive
 						</description>
-						<protection>
-							public
-						</protection>
-						<arguments>
+ 						<arguments>
 							<key>
 								<description>
 									Clef de la nouvelle valeur

@@ -292,7 +292,7 @@ abstract class Managed
 
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['core']['managed']['get']['not_defined']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['core']['managed']['get']['not_defined'], array('attribute' => $attribute));
 
 			return null;
 		}

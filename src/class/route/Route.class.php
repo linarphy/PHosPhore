@@ -57,10 +57,10 @@ class Route extends \core\Managed
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy(array(
-			'id_route_chil' => $this->id,
+			'id_route_child' => $this->id,
 		));
 
-		if (count($routes) === 0) // root route
+		if (empty($routes)) // root route
 		{
 			if ($root_id === null)
 			{

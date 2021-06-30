@@ -4,7 +4,7 @@
 
 ## Getting started
 
-This framework is based on a special project architecture. It is nothing more than a set of files that you just have to complete and modify according to your preferences and needs.
+This framework is based on a special project architecture. It is a set of files that you just have to complete and modify according to your preferences and needs.
 
 ### Prerequisites
 
@@ -13,7 +13,7 @@ This framework is based on a special project architecture. It is nothing more th
 
 ### Installation
 
-To use this framework, you just have to copy the "main" folder content into your web directory. One it's done, import the "example.sql" into a database in your Mysql server.
+To use this framework, you have to copy the [src](https://github.com/gugus2000/PHosPhore/tree/dev/src) folder content into your web directory. One it's done, import the "example.sql" into a database in your Mysql server.
 
 #### Local
 
@@ -50,4 +50,4 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ## License
 
-This project is licensed under the Beerware License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the Chocolate-Ware License - see the [LICENSE](LICENSE) file for details
