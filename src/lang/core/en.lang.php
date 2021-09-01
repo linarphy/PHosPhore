@@ -9,4 +9,9 @@ $GLOBALS['lang']['core']['router_init'] = 'router initialized';
 $GLOBALS['lang']['core']['visitor_init'] = 'visitor initialized';
 /** [/LOG] **/
 
+/** [TYPE] **/
+/* unknown type */
+$GLOBALS['lang']['core']['type']['unknown'] = 'unknown type'
+/** [/TYPE] **/
+
 ?>
