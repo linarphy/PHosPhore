@@ -4,7 +4,7 @@
 
 ## Getting started
 
-This framework is based on a special project architecture. It is a set of files that you just have to complete and modify according to your preferences and needs.
+This framework is based on a special project architecture. It is a set of files that you have to complete and modify according to your preferences and needs.
 
 ### Prerequisites
 
