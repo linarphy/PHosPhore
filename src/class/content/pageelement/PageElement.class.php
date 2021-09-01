@@ -24,7 +24,7 @@ class PageElement
 	 *
 	 * @param array $attributes Attributes of this object
 	 */
-	public function __construct(attributes: $attributes)
+	public function __construct($attributes)
 	{
 		foreach ($attributes as $key => $value)
 		{
@@ -35,7 +35,7 @@ class PageElement
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['constructor']['unknown_attribute'], array('key' => $key, 'value' => $value, 'method' => $method));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], array('key' => $key, 'value' => $value, 'method' => $method));
 			}
 		}
 	}
@@ -48,15 +48,17 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	public function addElement(key: $key, value: $value)
+	public function addElement($key, $value)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageeelement']['addElement'], array('key' => $key, 'value' => $value));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageeElement']['addElement']['start'], array('key' => $key, 'value' => $value));
 
 		if (!isset($this->elements[$key]))
 		{
 			$this->elements[$key] = $value;
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['success'], array('key' => $key, 'value' => $value));
 			return True;
 		}
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['failure'], array('key' => $key, 'value' => $value));
 		return False; // An identical key already exists
 	}
 	/**
@@ -70,19 +72,22 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	public function addValueElement(key: $key, value: $value, new_key: $new_key)
+	public function addValueElement($key, $value, $new_key)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageeelement']['addValueElement'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['start'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
 
 		if (!is_array($this->elements[$key]))
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
 			return False; // The first element is not an array
 		}
 		if (!isset($this->elements[$key][$new_key]))
 		{
 			$this->elements[$key][$new_key] = $value;
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['success'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
 			return True;
 		}
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['already_taken'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
 		return False; // An identical key already exist
 	}
 	/**
@@ -92,16 +97,16 @@ class PageElement
 	 */
 	public function display()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageeelement']['display']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageeElement']['display']['start']);
 
 		if ($this->template() !== null)
 		{
 
-			if ($GLOBALS['cache']['class']['content']['pageelement']['pageelement']['templates'][$this->template])
+			if ($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template] != null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['use_cache'], array('template' => $this->template));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], array('template' => $this->get('template')));
 
-				$content = $GLOBALS['cache']['class']['content']['pageelement']['pageelement']['templates'][$this->template];
+				$content = $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template];
 			}
 			else
 			{
@@ -109,25 +114,27 @@ class PageElement
 
 				if ($content === False)
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['file_template'], array('template' => $this->template));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_file_template'], array('template' => $this->template));
 					$content = '';
 				}
+
+				$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template] = $content;
 			}
 		}
 		else
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['no_template']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_template']);
 
 			$content = '';
 		}
 
 		if ($this->elements !== null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['elements']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['elements']);
 
 			if ($content !== '')
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['content']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['content']);
 
 				$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -141,7 +148,7 @@ class PageElement
 						}
 						else
 						{
-							$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['cannot_display_object'], array('object' => get_class($element)));
+							$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['cannot_display_object'], array('object' => get_class($element)));
 						}
 					}
 					else if (is_array($element))
@@ -195,7 +202,7 @@ class PageElement
 			}
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['end']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['end']);
 
 		return $content;
 	}
@@ -206,7 +213,7 @@ class PageElement
 	 *
 	 * @return string
 	 */
-	public function displayArray(list: $list)
+	public function displayArray($list)
 	{
 		$display = '';
 		foreach ($list as $element)
@@ -219,7 +226,7 @@ class PageElement
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['displayArray']['cannot_display_object'], array('object' => get_class($element)));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray']['cannot_display_object'], array('object' => get_class($element)));
 				}
 			}
 			else if (is_array($element))
@@ -240,14 +247,16 @@ class PageElement
 	 *
 	 * @return bool|mixed
 	 */
-	public function getElement(key: $key)
+	public function getElement($key)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['getelement'], array('key' => $key));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'], array('key' => $key));
 
-		if (isset($this->elements[$key]))
+		if ($this->elements[$key] !== null)
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'], array('key' => $key));
 			return $this->elements[$key];
 		}
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['failure'], array('key' => $key));
 		return False; // The element does not exist
 	}
 	/**
@@ -259,25 +268,27 @@ class PageElement
 	 *
 	 * @param bool $strict If strict is true, the value will not be set if the element did not exist before
 	 *
-	 * @return bool|mixed
+	 * @return null|mixed
 	 */
-	public function setElement(key: $key, value: $value, strict: $strict = True)
+	public function setElement($key, $value, $strict = True)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['setelement'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['start'], array('key' => $key, 'value' => $value, 'strict' => $strict));
 
-		if (isset($this->element[$key]))
+		if ($this->getElement($key) !== null)
 		{
 			$old_value = $this->elements[$key];
 			$this->elements[$key] = $value;
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['change'], array('key' => $key, 'value' => $value));
 			return $old_value;
 		}
 		else // Element does not exist
 		{
 			if ($strict === False)
 			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['add'], array('key' => $key, 'value' => $value));
 				$this->elements[$key] = $value;
 			}
-			return False;
+			return null;
 		}
 	}
 }

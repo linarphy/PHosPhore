@@ -30,8 +30,6 @@ $GLOBALS['config']['core']['lang']['filename'] = 'lang.php';
 /** [/LANG] **/
 
 /** [LOCALE] **/
-/* default locale */
-$GLOBALS['config']['core']['locale']['default'] = 'en';
 /* locale file name */
 $GLOBALS['config']['core']['locale']['filename'] = 'locale.php';
 /** [/LOCALE] **/
@@ -51,6 +49,11 @@ $GLOBALS['config']['core']['mod']['install_file'] = 'install.php';
 /* lang of the server */
 $GLOBALS['config']['core']['lang']['server'] = 'en';
 /** [/LANG] **/
+
+/** [LOCALE] **/
+/* default locale */
+$GLOBALS['config']['core']['locale']['default'] = 'en';
+/** [/LOCALE] **/
 
 /** [ROUTER] **/
 /* default mode of the router */
