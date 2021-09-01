@@ -1061,7 +1061,7 @@
 						Modifie la valeur de l'attribut demandé
 					</description>
 					<protection>
-						protégé
+						public
 					</protection>
 					<arguments>
 						<attribute>
@@ -3606,7 +3606,3 @@
 		</item>
 	</idée>
 </documentation>
-TODO:
-chaque retrieve retourne la valeur (en plus de la stocker)
-on met le type des paramètres avant ceux ci dans les déf de fonction pour check les types
-script d'installation lors du premier run
