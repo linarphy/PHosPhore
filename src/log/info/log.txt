@@ -1,0 +1,12 @@
+info - 2021-07-02 00:41:19: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:44:39: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:44:51: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:45:58: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:46:26: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:47:03: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:48:55: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-02 00:49:20: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-05 02:15:24: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-05 22:54:25: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-05 22:58:12: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
+info - 2021-07-05 22:59:51: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31

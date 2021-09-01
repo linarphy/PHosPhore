@@ -85,7 +85,7 @@ class Node
 	{
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['structure']['Node']['get']['not_found'], array('attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Node']['get']['not_found'], array('attribute' => $attribute));
 
 			return null;
 		}
@@ -215,7 +215,7 @@ class Node
 	{
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['structure']['Node']['set']['not_found'], array('attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Node']['set']['not_found'], array('attribute' => $attribute));
 
 			return False;
 		}

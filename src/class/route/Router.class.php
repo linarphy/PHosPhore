@@ -28,9 +28,9 @@ class Router
 	 *
 	 * @param int $mode Operating mode of the router
 	 */
-	public function __construct(mode: $mode)
+	public function __construct($mode)
 	{
-		$this->set('mode', $mode);
+		$this->setMode($mode);
 	}
 	/**
 	 * build a route node needed to get wanted route
@@ -43,13 +43,13 @@ class Router
 	 *
 	 * @return \structure\Node|False
 	 */
-	public function buildNode(array_of_available_routes: $array_of_available_routes, row: $row, column: $column)
+	public function buildNode($array_of_available_routes, $row, $column)
 	{
 		$Node = \structure\Node($array_of_available_routes[$row][$column]);
 
 		if (count($array_of_available_routes) >= $row)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['buildNode']['undefined'], array('index' => $row));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], array('index' => $row));
 
 			return False;
 		}
@@ -80,16 +80,16 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters(parameters: $parameters, page: $page)
+	public function cleanParameters($parameters, $page)
 	{
-		if (!$page instanceOf '\route\Route')
+		if (!$page instanceOf \route\Route)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['cleanParameters']['bad_page']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['bad_page']);
 
 			return array();
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['cleanParameters']['start'], array('page' => $page->display()));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], array('page' => $page->display()));
 
 		$expected_parameters = $page->retrieveParameters();
 		$cleaned_parameters = array();
@@ -100,7 +100,7 @@ class Router
 			{
 				if (preg_match($expected_parameter->getFullRegex(), $parameter))
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['cleanParameters']['found'], array('page' => $page->display(), 'name' => $expected_parameter->get('name'), 'value' => $parameter, 'regex' => $expected_parameter->getFullRegex()));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['found'], array('page' => $page->display(), 'name' => $expected_parameter->get('name'), 'value' => $parameter, 'regex' => $expected_parameter->getFullRegex()));
 					$cleaned_parameters[$expected_parameter->get('name')] = $parameter;
 					break;
 				}
@@ -109,7 +109,7 @@ class Router
 			{
 				if ($cleaned_parameters[$expected_parameter->get('name')] === null)
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['cleanParameters']['missing'], array('page' => $page->display(), 'name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->getFullRegex()));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['missing'], array('page' => $page->display(), 'name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->getFullRegex()));
 
 					$Notification = new \user\Notification(array(
 						'text'         => $GLOBALS['locale']['class']['route']['Router']['missing_parameter'],
@@ -140,11 +140,11 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLink(routes: $routes, parameters: $parameters = array())
+	public function createLink($routes, $parameters = array())
 	{
 		if (count($routes) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLink']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLink']['empty']);
 			return '';
 		}
 		switch ($this->mode)
@@ -156,8 +156,8 @@ class Router
 			case $this::MODES['route']:
 				return $this->createLinkRoute($routes, $parameters);
 			default:
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['log_message']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
-				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode'];
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
+				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
 		}
 	}
 	/**
@@ -169,11 +169,11 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkGet(routes: $routes, parameters: $parameters = array())
+	public function createLinkGet($routes, $parameters = array())
 	{
 		if (count($routes) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkGet']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['empty']);
 			return '';
 		}
 
@@ -191,12 +191,12 @@ class Router
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkGet']['not_found'], array('route' => $route->id));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['not_found'], array('route' => $route->id));
 				}
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkGet']['file'], array('file' => $route->get('name')));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['file'], array('file' => $route->get('name')));
 			}
 		}
 		if ($routes[count($routes) - 1].get('type') === \route\Route::TYPES['file'])
@@ -215,7 +215,7 @@ class Router
 			}
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkGet']['success'], array('link' => $link));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['success'], array('link' => $link));
 		return $link;
 	}
 	/**
@@ -227,11 +227,11 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkMixed(routes: $routes, parameters: $parameters = array())
+	public function createLinkMixed($routes, $parameters = array())
 	{
 		if (count($routes) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkMixed']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['empty']);
 			return '';
 		}
 
@@ -250,12 +250,12 @@ class Router
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkMixed']['not_found'], array('route' => $route->id));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['not_found'], array('route' => $route->id));
 				}
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkMixed']['file'], array('file' => $route->get('name')));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['file'], array('file' => $route->get('name')));
 			}
 		}
 		if ($routes[count($routes) - 1].get('type') === \route\Route::TYPES['file'])
@@ -278,7 +278,7 @@ class Router
 			$link = substr($link, 0, -1);
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkMixed']['success'], array('link' => $link));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['success'], array('link' => $link));
 		return $link;
 	}
 	/**
@@ -290,11 +290,11 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkRoute(routes: $routes, parameters: $parameters = array())
+	public function createLinkRoute($routes, $parameters = array())
 	{
 		if (count($routes) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkRoute']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['empty']);
 			return '';
 		}
 
@@ -313,12 +313,12 @@ class Router
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['createLinkRoute']['not_found'], array('route' => $route->id));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['not_found'], array('route' => $route->id));
 				}
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkRoute']['file'], array('file' => $route->get('name')));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['file'], array('file' => $route->get('name')));
 			}
 		}
 		if ($routes[count($routes) - 1].get('type') === \route\Route::TYPES['file'])
@@ -342,7 +342,7 @@ class Router
 			}
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['route']['Router']['createLinkRoute']['success'], array('link' => $link));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['success'], array('link' => $link));
 		return $link;
 	}
 	/**
@@ -352,11 +352,11 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function decodeRoute(url: $url)
+	public function decodeRoute($url)
 	{
 		if (count($url) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['decodeRoute']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
 			return array();
 		}
 		switch ($this->mode)
@@ -368,7 +368,7 @@ class Router
 			case $this::MODES['route']:
 				return $this->decodeWithRoute($url);
 			default:
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['log_message']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
 				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
 				exit();
 		}
@@ -380,17 +380,17 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function decodeWithGet(url: $url)
+	public function decodeWithGet($url)
 	{
 		if (!isset($_GET['__path__']))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['Router']['decodeWithGet']['no_path']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['no_path']);
 			$routes = array();
 		}
 		else
 		{
 			$path = $_GET['__path__'];
-			unset $_GET['__path__'];
+			unset($_GET['__path__']);
 			$paths = explode('/', $path);
 			$arr_av_routes = [];
 			foreach ($paths as $path)
@@ -416,7 +416,7 @@ class Router
 			$routes = $tree_routes->get('root')->getBranchDepth(count($arr_av_routes));
 			if ($routes == False)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['route']['Router']['decodeWithGet']['unknown_route'], array('url' => $url));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['unknown_route'], array('url' => $url));
 			}
 		}
 
@@ -437,7 +437,7 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function decodeWithMixed(url: $url)
+	public function decodeWithMixed($url)
 	{
 		$paths = explode('/', rawurldecode(strtok($url, '?')));
 
@@ -465,7 +465,7 @@ class Router
 		$routes = $tree_routes->get('root')->getBranchDepth(count($arr_av_routes));
 		if ($routes == False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['route']['Router']['decodeWithMixed']['unknown_route'], array('url' => $url));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route'], array('url' => $url));
 		}
 
 		$Page = new \user\Page(array(
@@ -485,7 +485,7 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function decodeWithRoute(url: $url)
+	public function decodeWithRoute($url)
 	{
 		$paths = explode('/', rawurldecode(strtok($url, '?')));
 		$parameters = [];
@@ -494,7 +494,7 @@ class Router
 		{
 			if ($path === ' ')
 			{
-				foreach ($path[$key + 1:] as $param)
+				foreach (array_slice($path, $key + 1) as $param)
 				{
 					$parameters[] = $param;
 				}
@@ -520,7 +520,7 @@ class Router
 		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
 		if ($routes == False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['route']['Router']['decodeWithRoute']['unknown_route'], array('url' => $url));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'], array('url' => $url));
 		}
 
 		$Page = new \user\Page(array(
@@ -529,7 +529,7 @@ class Router
 		$Page->retrieve();
 		return [
 			'routes'     => $routes,
-			'parameters' => $this->cleanParameters($parameters, $Page);
+			'parameters' => $this->cleanParameters($parameters, $Page),
 			'page'       => $Page,
 		];
 	}
@@ -549,11 +549,11 @@ class Router
 	 *
 	 * @return bool
 	 */
-	protected function setMode(mode: $mode)
+	protected function setMode($mode)
 	{
 		if (!in_array($mode, $this::MODES))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['log_message']['class']['route']['Router']['setMode'], array('mode' => $mode));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['setMode'], array('mode' => $mode));
 
 			return False;
 		}

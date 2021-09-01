@@ -46,35 +46,35 @@ class Content extends \core\Managed
 	{
 		$Manager = $this->Manager();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['start_retrieve']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['start_retrieve']);
 
 		if ($this->exist())
 		{
 			$this->retrieve();
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['success_retrieve']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['success_retrieve']);
 		}
 		else if ($Manager->existBy(array('id_content' => $this->id_content)))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['warning_retrieve']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['warning_retrieve']);
 			if ($Manager->exist(array('id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang'])))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['success_user_retrieve']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['success_user_retrieve']);
 				$this->hydrate($Manager->get(array('id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang'])));
 			}
 			else if ($Manager->exist(array('id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['lang'])))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['success_default_retrieve']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['success_default_retrieve']);
 				$this->hydrate($Manager->get(array('id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['lang'])));
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['success_any_retrieve']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['success_any_retrieve']);
 				$this = $this->retrieveBy(array('id_content' => $this->id_content))[0];
 			}
 		}
 		else
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['content']['content']['failure_retrieve']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['content']['failure_retrieve']);
 
 			$Notification = new \user\Notification(array(
 				'text' => $GLOBALS['locale']['class']['content']['content']['failure_retrieve'],

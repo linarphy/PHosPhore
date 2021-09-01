@@ -18,11 +18,11 @@ abstract class Managed
 	 *
 	 * @param array $attributes Defined values of the object attributes
 	 */
-	public function __construct(attributes: $attributes)
+	public function __construct($attributes)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['construct'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['construct'], array('class' => get_class($this)));
 
-		$this->hydrate();
+		$this->hydrate($attributes);
 	}
 	/**
 	 * Insert the object in the database
@@ -31,13 +31,13 @@ abstract class Managed
 	 */
 	public function add()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['add']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['add']['start'], array('class' => get_class($this)));
 
 		$index = $this->manager()->add($this->table());
 
 		if ($index === False | count($index) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['core']['managed']['add']['error'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['managed']['add']['error'], array('class' => get_class($this)));
 			return $index;
 		}
 
@@ -54,7 +54,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function arrDisp(list: $list)
+	public static function arrDisp($list)
 	{
 		$display = '';
 		if (count($list) === 0)
@@ -127,7 +127,7 @@ abstract class Managed
 	public function clone()
 	{
 		$class = get_class($this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['clone'], array('class' => $class));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['clone'], array('class' => $class));
 		return new $class($this->table());
 	}
 	/**
@@ -137,18 +137,18 @@ abstract class Managed
 	 */
 	public function delete()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['delete']['start'], array('class', get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['delete']['start'], array('class', get_class($this)));
 
 		if (!$this->exist())
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']['managed']['delete']['not_exist'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['delete']['not_exist'], array('class' => get_class($this)));
 
 			return False;
 		}
 		$index = $this->getIndex();
 		if ($index === False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']['managed']['delete']['missing_index'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['delete']['missing_index'], array('class' => get_class($this)));
 
 			return False;
 		}
@@ -171,19 +171,19 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public function displayer(attribute: $attribute)
+	public function displayer($attribute)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['displayer']['start'], array('class', get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['displayer']['start'], array('class', get_class($this)));
 
 		$display = $this::getDisp($attribute);
 		if (method_exists($this, $display))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['displayer']['exist'], array('class', get_class($this), 'attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['displayer']['exist'], array('class', get_class($this), 'attribute' => $attribute));
 
 			return $this->$display();
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['displayer']['not_exist'], array('class', get_class($this), 'attribute' => $attribute));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['displayer']['not_exist'], array('class', get_class($this), 'attribute' => $attribute));
 
 		$attribute = $this->get($attribute);
 
@@ -235,7 +235,7 @@ abstract class Managed
 		{
 			return 'iterable';
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['core']['type']['unknown'], array('class' => get_class($this), 'attribute' => $attribute));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['core']['type']['unknown'], array('class' => get_class($this), 'attribute' => $attribute));
 
 		return '';
 	}
@@ -249,7 +249,7 @@ abstract class Managed
 		$index = $this->getIndex();
 		if ($index === False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']['managed']['exist']['missing_index'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['exist']['missing_index'], array('class' => get_class($this)));
 
 			return False;
 		}
@@ -264,7 +264,7 @@ abstract class Managed
 	 */
 	public function hydrate($attributes)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['hydrate'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['hydrate'], array('class' => get_class($this)));
 
 		$count = 0;
 		foreach ($attributes as $attribute => $value)
@@ -286,13 +286,13 @@ abstract class Managed
 	 *
 	 * @return mixed
 	 */
-	public function get(attribute: $attribute)
+	public function get($attribute)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['get']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['get']['start']);
 
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['core']['managed']['get']['not_defined'], array('attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['managed']['get']['not_defined'], array('attribute' => $attribute));
 
 			return null;
 		}
@@ -300,11 +300,11 @@ abstract class Managed
 		$method = $this::getGet($attribute);
 		if (method_exists($this, $method))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['get']['getter']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['get']['getter']);
 
 			return $this->$method();
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['get']['default']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['get']['default']);
 
 		return $this->$attribute;
 	}
@@ -315,7 +315,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getDisp(attribute: $attribute)
+	public static function getDisp($attribute)
 	{
 		if (count($attribute) === 0)
 		{
@@ -330,7 +330,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getGet(attribute: $attribute)
+	public static function getGet($attribute)
 	{
 		if (count($attribute) === 0)
 		{
@@ -372,7 +372,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getSet(attribute: $attribute)
+	public static function getSet($attribute)
 	{
 		if (count($attribute) === 0)
 		{
@@ -387,9 +387,9 @@ abstract class Managed
 	 *
 	 * @return bool
 	 */
-	public function isIdentical(object: $objet)
+	public function isIdentical($objet)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['isIdentical'], array('class_1' => get_class($this), 'class_2' => get_class($objet)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['isIdentical'], array('class_1' => get_class($this), 'class_2' => get_class($objet)));
 
 		if (get_class($this) != get_class($this))
 		{
@@ -415,14 +415,14 @@ abstract class Managed
 	 *
 	 * @return mixed
 	 */
-	public function manager(connection: $connection = null)
+	public function manager($connection = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['manager']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['manager']['start'], array('class' => get_class($this)));
 
 		$manager = get_class($this) . 'Manager';
 		if (!class_exists($manager))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['log_message']['class']['core']['managed']['manager']['not_defined'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['managed']['manager']['not_defined'], array('class' => get_class($this)));
 
 			return null;
 		}
@@ -435,13 +435,13 @@ abstract class Managed
 	 */
 	public function retrieve()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['retrieve']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['retrieve']['start'], array('class' => get_class($this)));
 
 		$count = 0;
 
 		if (!$this->exist())
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['retrieve']['not_defined'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['retrieve']['not_defined'], array('class' => get_class($this)));
 
 			return $count;
 		}
@@ -463,13 +463,13 @@ abstract class Managed
 	 *
 	 * @return bool
 	 */
-	protected function set(attribute: $attribute, value: $value)
+	protected function set($attribute, $value)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['set']['start'], array('class' => get_class($this), 'attribute' => $attribute));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['set']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['core']['managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute));
 
 			return False;
 		}
@@ -477,11 +477,11 @@ abstract class Managed
 		$method = $this::getSet($attribute);
 		if (method_exists($this, $method))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['set']['custom_method'], array('class' => get_class($this), 'attribute' => $attribute, 'method' => $method));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['set']['custom_method'], array('class' => get_class($this), 'attribute' => $attribute, 'method' => $method));
 
 			return $this->$method($value);
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute));
 
 		$this->$attribute = $value; // No type checking !
 	}
@@ -495,15 +495,15 @@ abstract class Managed
 	 *
 	 * @return array
 	 */
-	public function table(depth: $depth = 0, object: $object = null)
+	public function table($depth = 0, $object = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']('managed']['table']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']('managed']['table']['start'], array('class' => get_class($this)));
 
 		$attributes = array();
 
 		if ($depth < -1)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']('managed']['table']['depth'], array('class' => get_class($this), 'depth' => $depth));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']('managed']['table']['depth'], array('class' => get_class($this), 'depth' => $depth));
 			return $attributes;
 		}
 		if ($object === null)
@@ -542,11 +542,11 @@ abstract class Managed
 	 */
 	public function update()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['log_message']['class']['core']['managed']['update']['start'] array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['managed']['update']['start'] array('class' => get_class($this)));
 
 		if (!$this->exist())
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']['managed']['update']['not_exist'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['update']['not_exist'], array('class' => get_class($this)));
 
 			return False;
 		}
@@ -554,7 +554,7 @@ abstract class Managed
 
 		if ($index === False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['core']['managed']['update']['missing_index'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['update']['missing_index'], array('class' => get_class($this)));
 
 			return False;
 		}

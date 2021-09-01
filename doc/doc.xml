@@ -1,849 +1,403 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <documentation lang="fr">
-	<introduction>
-		PHosPhore2 est une ré-écriture de PHosPHore, un framework PHP ayant pour objectif de facilité la création d'un site web dans un écosystème.
-		PHosPhore et PHosPhore2 se base sur un parallèlisme entre le code, son emplacement et son accès. Ainsi, la hiérarchie de l'url d'une page est lié à l'emplacement du code qui la définie.
-	</introduction>
-	<variable_globales>
-		Le framework donne accès à plusieurs variables globales, permettant de récupérer des données sur la requête en cours, fournit de base ou avec des modules.
-		<accès>
-			Les variables globales sont contenues dans <code>GLOBALS</code>
-		</accès>
-		<liste>
-			<cache>
-				<description>
-					cache contient les données "en cache", qui ont de grandes chance d'être utilisé plusieurs fois et qui sont assez lourde pour le justifier
-				</description>
-				<accès>
-					GLOBALS['cache']
-				</accès>
-				<type>
-					array
-				</type>
-				<liste>
-					<class>
-						<description>
-							class contient les données utiles aux différentes classes
-						</description>
-						<accès>
-							GLOBALS['cache']['class']
-						</accès>
-						<type>
-							array
-						</type>
-					</class>
-					<core>
-						<description>
-							core contient les données utiles au fonctionnement interne du framework
-						</description>
-						<accès>
-							GLOBALS['cache']['core']
-						</accès>
-						<type>
-							array
-						</type>
-					</core>
-					<mod>
-						<description>
-							mod contient les données utiles aux différents modules
-						</description>
-						<accès>
-							GLOBALS['cache']['mod']
-						</accès>
-					</mod>
-					<page>
-						<description>
-							page contient les données utiles aux différentes pages
-						</description>
-						<accès>
-								GLOBALS['cache']['page']
-						</accès>
-						<type>
-							array
-						</type>
-					</page>
-				</liste>
-			</cache>
-			<config>
-				<description>
-					config contient les données par défaut ne dépendant pas de la langue de l'utilisateur
-				</description>
-				<accès>
-					GLOBALS['config']
-				</accès>
-				<attention>
-					Pour modifier une de ces données par défaut, il faut rentrer les données voulues dans <chemin>config/config.php</chemin> et non pas dans les fichiers de configurations eux-même (afin de ne pas écraser la configuration en cas de mis à jour notamment)
-				</attention>
-				<type>
-					array
-				</type>
-				<liste>
-					<class>
-						<description>
-							class contient les données utiles aux différentes classes
-						</description>
-						<accès>
-							GLOBALS['config']['class']
-						</accès>
-						<type>
-							array
-						</type>
-					</class>
-					<core>
-						<description>
-							core contient les données utiles au fonctionnement interne du framework
-						</description>
-						<accès>
-							GLOBALS['config']['core']
-						</accès>
-						<type>
-							array
-						</type>
-					</core>
-					<mod>
-						<description>
-							mod contient les données utiles aux différents modules
-						</description>
-						<accès>
-							GLOBALS['config']['mod']
-						</accès>
-					</mod>
-					<page>
-						<description>
-							page contient les données utiles aux différentes pages
-						</description>
-						<accès>
-								GLOBALS['config']['page']
-						</accès>
-						<type>
-							array
-						</type>
-					</page>
-				</liste>
-			</config>
-			<locale>
-				<description>
-					locale contient les chaînes de caractères ou autres données dépendante de la langue de l'utilisateur
-				</description>
-				<accès>
-					GLOBALS['locale']
-				</accès>
-				<type>
-					array
-				</type>
-				<liste>
-					<class>
-						<description>
-							class contient les données concernant les classes
-						</description>
-						<accès>
-							GLOBALS['locale']['class']
-						</accès>
-						<type>
-							array
-						</type>
-					</class>
-					<core>
-						<description>
-							core contient les données nécessaire au framework pour fonctionner, ou qui peuvent être utilisé dans plusieurs contextes différents
-						</description>
-						<accès>
-							GLOBALS['locale']['core']
-						</accès>
-						<type>
-							array
-						</type>
-					</core>
-					<mod>
-						<description>
-							mod contient les données concernant les modules
-						</description>
-						<accès>
-							GLOBALS['locale']['mod']
-						</accès>
-						<type>
-							array
-						</type>
-					</mod>
-					<page>
-						<description>
-							page contient les données concernant les pages du site
-						</description>
-						<accès>
-							GLOBALS['locale']['page']
-						</accès>
-						<type>
-							array
-						</type>
-					</page>
-				</liste>
-			</locale>
-			<log_message>
-				<description>
-					log_message contient les chaînes de caractères ou autres données dépendant de la langue du serveur
-				</description>
-				<accès>
-					$GLOBALS['log_message']
-				</accès>
-				<type>
-					array
-				</type>
-				<liste>
-					<class>
-						<description>
-							class contient les données concernant les classes
-						</description>
-						<accès>
-							GLOBALS['log_message']['class']
-						</accès>
-						<type>
-							array
-						</type>
-					</class>
-					<core>
-						<description>
-							core contient les données nécessaire au framework pour fonctionner, ou qui peuvent être utilisé dans plusieurs contextes différents
-						</description>
-						<accès>
-							GLOBALS['log_message']['core']
-						</accès>
-						<type>
-							array
-						</type>
-					</core>
-					<mod>
-						<description>
-							mod contient les données concernant les modules
-						</description>
-						<accès>
-							GLOBALS['log_message']['mod']
-						</accès>
-						<type>
-							array
-						</type>
-					</mod>
-					<page>
-						<description>
-							page contient les données concernant les pages du site
-						</description>
-						<accès>
-							GLOBALS['log_message']['page']
-						</accès>
-						<type>
-							array
-						</type>
-					</page>
-				</liste>
-			</log_message>
-			<Logger>
-				<description>
-					Logger permet de gérer le journal se créant à chaque requête
-				</description>
-				<accès>
-					GLOBALS['Logger']
-				</accès>
-				<type>
-					\core\Logger
-				</type>
-			</Logger>
-			<Router>
-				<description>
-					Router permet de gérer et d'interpréter les liens internes aux sites
-				</description>
-				<accès>
-					GLOBALS['Router']
-				</accès>
-				<type>
-					\core\Router
-				</type>
-			</Router>
-			<Visitor>
-				<description>
-					Visitor permet de gérer tout ce qui concerne l'utilisateur, notamment la page qu'il consulte
-				</description>
-				<accès>
-					GLOBALS['Visitor']
-				</accès>
-				<type>
-					\user\Visitor
-				</type>
-			</Visitor>
-		</liste>
-	</variable_globales>
-	<création_page>
-		<introduction>
-			Une page peut afficher un contenu, exécuter un calcul, ou/et rediriger vers une autre page.
-		</introduction>
-		<chemin>
-			Une page est définie dans un fichier ayant un nom particulier (défini dans la configuration) dans le dossier stocké (attribut <code>path</code>) dans l'entrée de la page correspondante dans la base de donnée.
-			Le code de ce fichier sera exécuté en php sans protection.
-		</chemin>
-		<affichage>
-			Afficher une page, c'est ajouter un element particulier (défini dans la configuration) à <code>$GLOBALS['Visitor']->getPage()->getPageElement()</code> et ne pas arrêter le chargement de la page.
-		</affichage>
-		<redirection>
-			Vous pouvez arrêter le chargement d'une page avec la fonction header (https://php.net/header)
-			N'oubliez pas d'appeler l'instruction exit (https://php.net/exit) après l'appel de la fonction, sans quoi le code après la redirection pourra tout de même être exécuté.
-		</redirection>
-		<permission>
-			Pour que la page puisse être vue par un rôle, il faut que celui-ci ai l'autorisation d'y accéder. Ceci est valable pour toutes les pages et tout les rôles.
-			Octroyer la permission d'une page signifie ajouter une entrée avec la valeur de l'id de la page dans la table des permissions, et une autre entrée avec la valeur de l'id de la page et l'id du rôle dans la table du lien entre permission et rôle.
-			Un utilisateur peut possèder plusieurs rôles, et un rôle peut posséder plusieurs utilisateurs. Même chose entre permission et rôle.
-		</permission>
-	</création_page>
-	<visiteur>
-		<introduction>
-			Chaque personne visitant ce site est un visiteur. Si le visiteur n'est pas connecté, il est considéré comme étant le visiteur "invité". Cela implique aussi qu'un même visiteur peut se connecter plusieurs fois en même temps.
-		</introduction>
-		<page>
-			Le visiteur "a" la page, dans le sens où l'objet <code>$GLOBALS['Visitor']</code> possède un attribut page. Cela signifie qu'une manipulation de la page se fait par l'intermédiaire de son Visiteur.
-		</page>
-		<connexion>
-			Les identifiants de l'utilisateur sont stocké en clair dans la session de l'utilisateur, et utilisé à chaque fois pour les connexions suivantes.
-		</connexion>
-	</visiteur>
-	<classes>
-		<content>
-			<content>
-				<description>
-					Un contenu dans un language spécifique
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id_content>
-						<description>
-							Index du contenu (non unique car partagé par tous les content correspondant dans une autre langue)
-						</description>
-						<type>
-							int
-						</type>
-					</id_content>
-					<lang>
-						<description>
-							Codes correspondant à la langue utilisée
-						</description>
-						<type>
-							lang
-						</type>
-					</lang>
-					<text>
-						<description>
-							Le contenu à proprement parler: le texte associé à ce language et cet identifiant
-						</description>
-						<type>
-							string
-						</type>
-					</text>
-					<date_creation>
-						<description>
-							Date de la création du contenu
-						</description>
-						<type>
-							date
-						</type>
-					</date_creation>
-				</attributs>
-				<méthodes>
-					<display>
-						<description>
-							Affiche le contenu sous une forme lisible et sécurisé
-						</description>
- 					</display>
-					<retrieveText>
-						<description>
-							Récupère le texte avec son id et sa langue
-						</description>
- 					</retrieveText>
-				</méthodes>
-			</content>
-			<contentManager>
-				<description>
-					Gestionnaire de \content\Content dans la base de donnée
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</contentManager>
-			<pageelement>
-				<PageElement>
+<introduction>
+	PHosPHore est un framework PHP ayant pour objectif de facilité la création d'un site web dans un écosystème.
+	PHosPhore se base sur un parallélisme entre le code, son emplacement et son accès. Ainsi, la hiérarchie de l'url d'une page est lié à l'emplacement du code qui la définie.
+</introduction>
+<variable_globales>
+	Le framework donne accès à plusieurs variables globales, permettant de récupérer des données sur la requête en cours, fournit de base ou avec des modules.
+	<accès>
+		Les variables globales sont contenues dans <code>GLOBALS</code>
+	</accès>
+	<liste>
+		<cache>
+			<description>
+				cache contient les données "en cache", qui ont de grandes chance d'être utilisé plusieurs fois et qui sont assez lourde pour le justifier
+			</description>
+			<accès>
+				GLOBALS['cache']
+			</accès>
+			<type>
+				array
+			</type>
+			<liste>
+				<class>
 					<description>
-						Un élément d'une page
+						class contient les données utiles aux différentes classes
 					</description>
-					<attributs>
-						<template>
-							<description>
-								Chemin du fichier de la template
-							</description>
-							<type>
-								string
-							</type>
-						</template>
-						<elements>
-							<description>
-								Liste des éléments à insérer dans la template
-							</description>
-							<type>
-								array
-							</type>
-						</elements>
-					</attributs>
-					<méthodes>
-						<__construct>
-							<description>
-								Constructeur
-							</description>
- 							<arguments>
-								<attributes>
-									<description>
-										Attributs du \content\pageelement\PageElement
-									</description>
-									<type>
-										array
-									</type>
-								</attributes>
-							</arguments>
-						</__construct>
-						<addElement>
-							<description>
-								Ajoute un élément à l'attribut elements
-							</description>
- 							<arguments>
-								<key>
-									<description>
-										Clef de l'élément à ajouter
-									</description>
-									<type>
-										string|int
-									</type>
-								</key>
-								<value>
-									<description>
-										Valeur de l'élément
-									</description>
-									<type>
-										mixed
-									</type>
-								</value>
-							</arguments>
-							<valeur>
-								bool
-							</valeur>
-						</addElement>
-						<addValueElement>
-							<description>
-								Ajoute un élément à l'élément de elements
-							</description>
- 							<arguments>
-								<key>
-									<description>
-										Clef de l'élément de elements contenant le nouvel élément
-									</description>
-									<type>
-										int|string
-									</type>
-								</key>
-								<value>
-									<description>
-										Valeur du nouvel élément
-									</description>
-									<type>
-										mixed
-									</type>
-								</value>
-								<new_key>
-									<description>
-										Clef du nouvel élément
-									</description>
-									<type>
-										int|string
-									</type>
-								</new_key>
-							</arguments>
-							<valeur>
-								bool
-							</valeur>
-							<commentaire>
-								Si new_key n'est pas définie, on n'accepte pas la possibilité que l'élément de elements soit un objet (append n'a pas de sens)
-							</commentaire>
-						</addValueElement>
-						<display>
-							<description>
-								Affiche l'élément de la page de façon lisible et sécurisé
-							</description>
- 							<valeur>
-								string
-							</valeur>
-						</display>
-						<displayArray>
-							<description>
-								Affiche une array de façon lisible et sécurisé
-							</description>
- 							<arguments>
-								<list>
-									<description>
-										Liste à afficher
-									</description>
-									<type>
-										array
-									</type>
-								</list>
-							</arguments>
-							<valeur>
-								string
-							</valeur>
-						</displayArray>
-						<getElement>
-							<description>
-								Accesseur d'un élément de l'attribut elements, retourne faux s'il n'existe pas
-							</description>
- 							<arguments>
-								<key>
-									<description>
-										La clef correspondant à l'élement à accéder
-									</description>
-									<type>
-										string|int
-									</type>
-								</key>
-							</arguments>
-							<valeur>
-								bool|mixed
-							</valeur>
-						</getElement>
-						<setElement>
-							<description>
-								Assigne une nouvelle valeur à l'élément sélectionné, retourne l'ancienne valeur de l'élément s'il existe, retourne faux sinon
-							</description>
- 							<arguments>
-								<key>
-									<description>
-										Clef correspondant à l'élément à modifier
-									</description>
-									<type>
-										string|int
-									</type>
-								</key>
-								<value>
-									<description>
-										Nouvelle valeur
-									</description>
-									<type>
-										mixed
-									</type>
-								</value>
-								<strict>
-									<description>
-										Si strict est vrai, la nouvelle valeur ne sera pas définie si elle n'existe pas déjà, sinon, elle le sera
-									</description>
-									<type>
-										bool
-									</type>
-								</strict>
-							</arguments>
-							<valeur>
-								bool|mixed
-							</valeur>
-						</setElement>
-					</méthodes>
-				</PageElement>
-			</pageelement>
-		</content>
-		<core>
-			<DBFactory>
+					<accès>
+						GLOBALS['cache']['class']
+					</accès>
+					<type>
+						array
+					</type>
+				</class>
+				<core>
+					<description>
+						core contient les données utiles au fonctionnement interne du framework
+					</description>
+					<accès>
+						GLOBALS['cache']['core']
+					</accès>
+					<type>
+						array
+					</type>
+				</core>
+				<mod>
+					<description>
+						mod contient les données utiles aux différents modules
+					</description>
+					<accès>
+						GLOBALS['cache']['mod']
+					</accès>
+				</mod>
+				<page>
+					<description>
+						page contient les données utiles aux différentes pages
+					</description>
+					<accès>
+							GLOBALS['cache']['page']
+					</accès>
+					<type>
+						array
+					</type>
+				</page>
+			</liste>
+		</cache>
+		<config>
+			<description>
+				config contient les données par défaut ne dépendant pas de la langue de l'utilisateur
+			</description>
+			<accès>
+				GLOBALS['config']
+			</accès>
+			<attention>
+				Pour modifier une de ces données par défaut, il faut rentrer les données voulues dans <chemin>config/config.php</chemin> et non pas dans les fichiers de configurations eux-même (afin de ne pas écraser la configuration en cas de mis à jour notamment)
+			</attention>
+			<type>
+				array
+			</type>
+			<liste>
+				<class>
+					<description>
+						class contient les données utiles aux différentes classes
+					</description>
+					<accès>
+						GLOBALS['config']['class']
+					</accès>
+					<type>
+						array
+					</type>
+				</class>
+				<core>
+					<description>
+						core contient les données utiles au fonctionnement interne du framework
+					</description>
+					<accès>
+						GLOBALS['config']['core']
+					</accès>
+					<type>
+						array
+					</type>
+				</core>
+				<mod>
+					<description>
+						mod contient les données utiles aux différents modules
+					</description>
+					<accès>
+						GLOBALS['config']['mod']
+					</accès>
+				</mod>
+				<page>
+					<description>
+						page contient les données utiles aux différentes pages
+					</description>
+					<accès>
+							GLOBALS['config']['page']
+					</accès>
+					<type>
+						array
+					</type>
+				</page>
+			</liste>
+		</config>
+		<lang>
+			<description>
+				lang contient les chaînes de caractères ou autres données dépendant de la langue du serveur
+			</description>
+			<accès>
+				$GLOBALS['lang']
+			</accès>
+			<type>
+				array
+			</type>
+			<liste>
+				<class>
+					<description>
+						class contient les données concernant les classes
+					</description>
+					<accès>
+						GLOBALS['lang']['class']
+					</accès>
+					<type>
+						array
+					</type>
+				</class>
+				<core>
+					<description>
+						core contient les données nécessaire au framework pour fonctionner, ou qui peuvent être utilisé dans plusieurs contextes différents
+					</description>
+					<accès>
+						GLOBALS['lang']['core']
+					</accès>
+					<type>
+						array
+					</type>
+				</core>
+				<mod>
+					<description>
+						mod contient les données concernant les modules
+					</description>
+					<accès>
+						GLOBALS['lang']['mod']
+					</accès>
+					<type>
+						array
+					</type>
+				</mod>
+				<page>
+					<description>
+						page contient les données concernant les pages du site
+					</description>
+					<accès>
+						GLOBALS['lang']['page']
+					</accès>
+					<type>
+						array
+					</type>
+				</page>
+			</liste>
+		</lang>
+		<locale>
+			<description>
+				locale contient les chaînes de caractères ou autres données dépendantes de la langue de l'utilisateur
+			</description>
+			<accès>
+				GLOBALS['locale']
+			</accès>
+			<type>
+				array
+			</type>
+			<liste>
+				<class>
+					<description>
+						class contient les données concernant les classes
+					</description>
+					<accès>
+						GLOBALS['locale']['class']
+					</accès>
+					<type>
+						array
+					</type>
+				</class>
+				<core>
+					<description>
+						core contient les données nécessaire au framework pour fonctionner, ou qui peuvent être utilisé dans plusieurs contextes différents
+					</description>
+					<accès>
+						GLOBALS['locale']['core']
+					</accès>
+					<type>
+						array
+					</type>
+				</core>
+				<mod>
+					<description>
+						mod contient les données concernant les modules
+					</description>
+					<accès>
+						GLOBALS['locale']['mod']
+					</accès>
+					<type>
+						array
+					</type>
+				</mod>
+				<page>
+					<description>
+						page contient les données concernant les pages du site
+					</description>
+					<accès>
+						GLOBALS['locale']['page']
+					</accès>
+					<type>
+						array
+					</type>
+				</page>
+			</liste>
+		</locale>
+		<Logger>
+			<description>
+				Logger permet de gérer le journal se créant à chaque requête
+			</description>
+			<accès>
+				GLOBALS['Logger']
+			</accès>
+			<type>
+				\core\Logger
+			</type>
+		</Logger>
+		<Router>
+			<description>
+				Router permet de gérer et d'interpréter les liens internes aux sites
+			</description>
+			<accès>
+				GLOBALS['Router']
+			</accès>
+			<type>
+				\core\Router
+			</type>
+		</Router>
+		<Visitor>
+			<description>
+				Visitor permet de gérer tout ce qui concerne l'utilisateur, notamment la page qu'il consulte
+			</description>
+			<accès>
+				GLOBALS['Visitor']
+			</accès>
+			<type>
+				\user\Visitor
+			</type>
+		</Visitor>
+	</liste>
+</variable_globales>
+<création_page>
+	<introduction>
+		Une page peut afficher un contenu, exécuter un calcul, ou/et rediriger vers une autre page.
+	</introduction>
+	<chemin>
+		Une page est définie dans un fichier ayant un nom particulier (défini dans la configuration) dans le dossier stocké (attribut <code>path</code>) dans l'entrée de la page correspondante dans la base de donnée.
+		Le code de ce fichier sera exécuté en php sans protection.
+	</chemin>
+	<affichage>
+		Afficher une page, c'est ajouter un élément particulier (défini dans la configuration) à <code>$GLOBALS['Visitor']->getPage()->getPageElement()</code> et ne pas arrêter le chargement de la page.
+	</affichage>
+	<redirection>
+		Vous pouvez arrêter le chargement d'une page avec la fonction header (https://php.net/header)
+		N'oubliez pas d'appeler l'instruction exit (https://php.net/exit) après l'appel de la fonction, sans quoi le code après la redirection pourra tout de même être exécuté.
+	</redirection>
+	<permission>
+		Pour que la page puisse être vue par un rôle, il faut que celui-ci ai l'autorisation d'y accéder. Ceci est valable pour toutes les pages et tout les rôles.
+		Octroyer la permission d'une page signifie ajouter une entrée avec la valeur de l'id de la page dans la table des permissions, et une autre entrée avec la valeur de l'id de la page et l'id du rôle dans la table du lien entre permission et rôle.
+		Un utilisateur peut posséder plusieurs rôles, et un rôle peut posséder plusieurs utilisateurs. Même chose entre permission et rôle.
+	</permission>
+</création_page>
+<visiteur>
+	<introduction>
+		Chaque personne visitant ce site est un visiteur. Si le visiteur n'est pas connecté, il est considéré comme étant le visiteur "invité". Cela implique aussi qu'un même visiteur peut se connecter plusieurs fois en même temps.
+	</introduction>
+	<page>
+		Le visiteur "a" la page, dans le sens où l'objet <code>$GLOBALS['Visitor']</code> possède un attribut page. Cela signifie qu'une manipulation de la page se fait par l'intermédiaire de son Visiteur.
+	</page>
+	<connexion>
+		Les identifiants de l'utilisateur sont stocké en clair dans la session de l'utilisateur, et utilisé à chaque fois pour les connexions suivantes.
+	</connexion>
+</visiteur>
+<classes>
+	<content>
+		<Content>
+			<description>
+				Un contenu dans un language spécifique
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<id_content>
+					<description>
+						Index du contenu (non unique car partagé par tous les content correspondant dans une autre langue)
+					</description>
+					<type>
+						int
+					</type>
+				</id_content>
+				<lang>
+					<description>
+						Codes correspondant à la langue utilisée
+					</description>
+					<type>
+						lang
+					</type>
+				</lang>
+				<text>
+					<description>
+						Le contenu à proprement parler: le texte associé à ce language et cet identifiant
+					</description>
+					<type>
+						string
+					</type>
+				</text>
+				<date_creation>
+					<description>
+						Date de la création du contenu
+					</description>
+					<type>
+						date
+					</type>
+				</date_creation>
+			</attributs>
+			<méthodes>
+				<display>
+					<description>
+						Affiche le contenu sous une forme lisible et sécurisé
+					</description>
+				</display>
+				<retrieveText>
+					<description>
+						Récupère le texte avec son id et sa langue
+					</description>
+				</retrieveText>
+			</méthodes>
+		</Content>
+		<ContentManager>
+			<description>
+				Gestionnaire de \content\Content dans la base de donnée
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</ContentManager>
+		<pageelement>
+			<PageElement>
 				<description>
-					Outil de connexion à la base de donnée
+					Un élément d'une page
 				</description>
-				<méthodes>
-					<MysqlConnection static="yes">
+				<attributs>
+					<template>
 						<description>
-							Création d'une connexion à la base de donnée
+							Chemin du fichier de la template
 						</description>
- 						<arguments>
-							<db_name>
-								<description>
-									Nom de la base de donnée à laquelle se connecter
-								</description>
-								<type>
-									string
-								</type>
-							</db_name>
-							<db_host>
-								<description>
-									Le nom de l'hôte dans lequel est la base de donnée
-								</description>
-								<type>
-									string
-								</type>
-							</db_host>
-							<db_username>
-								<description>
-									Le nom de l'utilisateur se connectant dans la base de donnée
-								</description>
-								<type>
-									string
-								</type>
-							</db_username>
-							<db_password>
-								<description>
-									Le mot de passe correspondant à l'utilisateur
-								</description>
-								<type>
-									string
-								</type>
-							</db_password>
-							<db_options>
-								<description>
-									Liste d'options spécifiques
-								</description>
-								<type>
-									array
-								</type>
-							</db_options>
-						</arguments>
-						<valeur>
-							\PDO
-						</valeur>
-					</MysqlConnection>
-				</méthodes>
-			</DBFactory>
-			<LinkManager>
-				<description>
-					Gestionnaire de lien entre deux tables (gestionnaire d'une table many-to-many en somme)
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-				<constantes>
-					<RECOVERY_MODE>
-						<description>
-							Différents mode de récupération des objets pour retrieveBy
-						</description>
-						<type>
-							array
-						</type>
-					</RECOVERY_MODE>
-				</constantes>
-				<méthodes>
-					<addBy>
-						<description>
-							Ajoutes des entrées dans la table avec certains paramètres variant et d'autre non
-						</description>
- 						<arguments>
-							<variants>
-								<description>
-									Un tableau de n tableaux (où n est le nombre d'entrées à insérer) de x valeurs (avec x le nombre d'attributs de l'entrée moins le nombre d'attribut invariants)
-								</description>
-								<type>
-									array
-								</type>
-							</variants>
-							<invariants>
-								<description>
-									Un tableau de valeurs invariantes pour chaque entrée
-								</description>
-								<type>
-									array
-								</type>
-							</invariants>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</addBy>
-					<getByGroup>
-						<description>
-							Récupères les entrées avec plusieurs attributs identiques de même valeur
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Liste des attributs de la table avec leur valeur
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-							<operations>
-								<description>
-									Liste des opérations à effectuer pour les attributs correspondant
-								</description>
-								<type>
-									array
-								</type>
-							</operations>
-							<group>
-								<description>
-									Nom de l'attribut utilisé pour le regroupement
-								</description>
-								<type>
-									string
-								</type>
-							</group>
-							<strict>
-								<description>
-									Si oui ou non le mode strict est activé (si le nombre d'attribut du groupe doit exactement être le même)
-								</description>
-								<type>
-									bool
-								</type>
-							</strict>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</getByGroup>
-					<retrieveBy>
-						<description>
-							Récupères les objets de façon rapide
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Attributs et leur valeur
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-							<operations>
-								<description>
-									Attributs et leur opération
-								</description>
-								<type>
-									array
-								</type>
-							</operations>
-							<bounds>
-								<description>
-									Tableau complexe symbolisant une limite
-								</description>
-								<type>
-									array
-								</type>
-							</bounds>
-							<name_class>
-								<description>
-									Nom de la classe des objets à récupérer
-								</description>
-								<type>
-									string
-								</type>
-							</name_class>
-							<link>
-								<description>
-									Nom de l'identifiant utilisé pour retrouver l'objet et Attribut associé à cet identifiant pour l'objet
-								</description>
-								<type>
-									array
-								</type>
-								<commentaire>
-									L'array doit être sous la forme ['db': identifiant, 'obj': attribut]
-								</commentaire>
-							</link>
-							<recovery>
-								<description>
-									Mode de récupération
-								</description>
-								<type>
-									int
-								</type>
-								<commentaire>
-									Utiliser les constantes RECOVERY_MODE
-								</commentaire>
-							</recovery>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</retrieveBy>
-				</méthodes>
-			</LinkManager>
-			<Logger>
-				<description>
-					Logger permet de gérer le journal des changements
-				</description>
-				<propriétés>
-					<folder>
-						<description>
-							Chemin vers le dossier contenant les journaux
-						</description>
-						<protection>
-							protégé
-						</protection>
 						<type>
 							string
 						</type>
-					</folder>
+					</template>
+					<elements>
+						<description>
+							Liste des éléments à insérer dans la template
+						</description>
+						<type>
+							array
+						</type>
+					</elements>
 				</attributs>
-				<constantes>
-					<TYPES>
-						<description>
-							Types utilisés vanilla
-						</description>
-						<type>
-							array
-						</type>
-					</TYPES>
-				</constantes>
-				<méthodes>
-					<log>
-						<description>
-							Enregistre un événement dans le journal
-						</description>
- 						<arguments>
-							<type>
-								<description>
-									Le type d'événement, aussi utilisé comme nom du dossier dans lequel le fichier sera généré
-								</description>
-								<type>
-									string
-								</type>
-							</type>
-							<message>
-								<description>
-									Le message décrivant l'événement
-								</description>
-								<type>
-									string
-								</type>
-							</message>
-							<substitution>
-								<description>
-									Une liste de chaîne de caractères à remplacer dans le message
-								</description>
-								<type>
-									array
-								</type>
-							</substitution>
-						</arguments>
-					</log>
-				</méthodes>
-			</Logger>
-			<Managed abstract="yes">
-				<description>
-					Objet géré dans une base de donnée par un Manager
-				</description>
-				<constantes>
-					<INDEX>
-						<description>
-							Nom de l'attribut considéré comme l'index
-						</description>
-						<type>
-							array
-						</type>
-					</INDEX>
-				</constantes>
 				<méthodes>
 					<__construct>
 						<description>
 							Constructeur
 						</description>
- 						<arguments>
+						<arguments>
 							<attributes>
 								<description>
-									Tableaux définissant les valeurs des attributs de l'objet
+									Attributs du \content\pageelement\PageElement
 								</description>
 								<type>
 									array
@@ -851,22 +405,85 @@
 							</attributes>
 						</arguments>
 					</__construct>
-					<add>
+					<addElement>
 						<description>
-							Insère les données dans la base de donnée
+							Ajoute un élément à l'attribut elements
 						</description>
- 						<valeur>
+						<arguments>
+							<key>
+								<description>
+									Clef de l'élément à ajouter
+								</description>
+								<type>
+									string|int
+								</type>
+							</key>
+							<value>
+								<description>
+									Valeur de l'élément
+								</description>
+								<type>
+									mixed
+								</type>
+							</value>
+						</arguments>
+						<valeur>
 							bool
 						</valeur>
-					</add>
-					<arrDisp static="yes">
+					</addElement>
+					<addValueElement>
 						<description>
-							Affiche le tableau sous une forme lisible et sécurisée
+							Ajoute un élément à l'élément de elements
 						</description>
- 						<arguments>
+						<arguments>
+							<key>
+								<description>
+									Clef de l'élément de elements contenant le nouvel élément
+								</description>
+								<type>
+									int|string
+								</type>
+							</key>
+							<value>
+								<description>
+									Valeur du nouvel élément
+								</description>
+								<type>
+									mixed
+								</type>
+							</value>
+							<new_key>
+								<description>
+									Clef du nouvel élément
+								</description>
+								<type>
+									int|string
+								</type>
+							</new_key>
+						</arguments>
+						<valeur>
+							bool
+						</valeur>
+						<commentaire>
+							Si new_key n'est pas définie, on n'accepte pas la possibilité que l'élément de elements soit un objet (append n'a pas de sens)
+						</commentaire>
+					</addValueElement>
+					<display>
+						<description>
+							Affiche l'élément de la page de façon lisible et sécurisé
+						</description>
+						<valeur>
+							string
+						</valeur>
+					</display>
+					<displayArray>
+						<description>
+							Affiche une array de façon lisible et sécurisé
+						</description>
+						<arguments>
 							<list>
 								<description>
-									Array à afficher
+									Liste à afficher
 								</description>
 								<type>
 									array
@@ -876,2231 +493,2668 @@
 						<valeur>
 							string
 						</valeur>
-					</arrDisp>
-					<clone>
+					</displayArray>
+					<getElement>
 						<description>
-							Clone l'objet
-						</description>
- 					</clone>
-					<delete>
-						<description>
-							Supprime les données de la base de donnée
-						</description>
- 						<valeur>
-							bool
-						</valeur>
-					</delete>
-					<display>
-						<description>
-							Retourne une chaîne de caractère représentant l'objet
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</display>
-					<displayer>
-						<description>
-							Retourne une chaîne de caractère pouvant être affiché sur une page
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut qu'on veut afficher
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</displayer>
-					<exist>
-						<description>
-							Vérifies l'existence des données dans la base de donnée
-						</description>
- 						<valeur>
-							bool
-						</valeur>
-					</exist>
-					<hydrate>
-						<description>
-							Hydrate l'objet
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Tableau contenant les pairs clef-valeur à associer
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-						</arguments>
-						<valeur>
-							int
-						</valeur>
-					</hydrate>
-					<get>
-						<description>
-							Retournes la valeur de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à renvoyer
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							mixed
-						</valeur>
-					</get>
-					<getDisp static="yes">
-						<description>
-							Retourne le nom que devrait avoir la méthode d'affichage de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut dont on veut la fonction d'affichage
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</getDisp>
-					<getGet static="yes">
-						<description>
-							Retourne le nom que devrait avoir l'accesseur de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut dont on veut l'accesseur
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</getGet>
-					<getIndex>
-						<description>
-							Retournes la valeur de l'index
-						</description>
- 						<valeur>
-							aray|false
-						</valeur>
-					</getIndex>
-					<getSet static="yes">
-						<description>
-							Retourne le nom que devrait avoir le définisseur de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut dont on veut le définisseur
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</getSet>
-					<isIdentical>
-						<description>
-							Vérifie si cet objet et celui demandé sont identiques (en fonction de la constante INDEX)
-						</description>
- 						<arguments>
-							<object>
-								<description>
-									L'autre objet
-								</description>
-								<type>
-									mixed
-								</type>
-							</object>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</isIdentical>
-					<manager>
-						<description>
-							Retourne une instance de la classe hérité de \core\Manager associé à cet objet
-						</description>
- 						<valeur>
-							mixed
-						</valeur>
-					</manager>
-					<retrieve>
-						<description>
-							Récupère les données depuis la base de donnée
-						</description>
- 						<valeur>
-							int
-						</valeur>
-					</retrieve>
-					<set>
-						<description>
-							Modifie la valeur de l'attribut demandé
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à modifier
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-							<value>
-								<description>
-									Nouvelle valeur de l'attribut
-								</description>
-								<type>
-									mixed
-								</type>
-							</value>
-							<valeur>
-								bool
-							</valeur>
-						</arguments>
-					</set>
-					<table>
-						<description>
-							Retourne l'objet sous la forme d'une array
-						</description>
- 						<arguments>
-							<depth>
-								<description>
-									Profondeur de la récursion s'il y a un objet dans un objet.
-									-1 signifie qu'il y aura une récursion à l'infini, 0 indique qu'il n'y aura pas de récursion.
-									La valeur par défaut est 0.
-								</description>
-								<type>
-									int
-								</type>
-							</depth>
-							<object>
-								<description>
-									Objet à convertir ou null pour convertir cet objet.
-									Valeur par défaut à null.
-								</description>
-								<type>
-									object|null
-								</type>
-							</object>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</table>
-					<update>
-						<description>
-							Modifie les données dans la base de donnée
-						</description>
- 						<valeur>
-							bool
-						</valeur>
-					</update>
-				</méthodes>
-			</Managed>
-			<Manager abstract="yes">
-				<description>
-					Gère le lien entre un objet PHP et une entrée dans une table d'une base de donnée
-				</description>
-				<attributs>
-					<bdd>
-						<description>
-							Connexion PDO à la base de donnée
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<type>
-							\PDO
-						</type>
-					</bdd>
-				</attributs>
-				<constantes>
-					<TABLE>
-						<description>
-							Nom de la table lié à l'objet
-						</description>
-						<type>
-							string
-						</type>
-					</TABLE>
-					<ATTRIBUTES>
-						<description>
-							Liste de tout les attributs de la table liés à l'objet
-						</description>
-						<type>
-							array
-						</type>
-					</ATTRIBUTES>
-					<INDEX>
-						<description>
-							Index utilisé (clef primaire)
-						</description>
-						<type>
-							array
-						</type>
-					</INDEX>
-				</constantes>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur
-						</description>
- 						<arguments>
-							<bdd>
-								<description>
-									Connexion PDO à la base de donnée
-								</description>
-								<type>
-									\PDO
-								</type>
-							</bdd>
-						</arguments>
-					</__construct>
-					<add>
-						<description>
-							Ajoute une entrée à la table et renvoie son index
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Contient le nom et la valeur de chaque attribut
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-						</arguments>
-						<valeur>
-							array|bool
-						</valeur>
-					</add>
-					<boundaryInterpreter static="yes">
-						<description>
-							Génère une clause LIMIT à partir d'un tableau complexe
-						</description>
- 						<arguments>
-							<bounds>
-								<description>
-									Tableaux complexe représentant les bords
-								</description>
-								<type>
-									array
-								</type>
-							</bounds>
-						</arguments>
-						<valeur>
-							string|False
-						</valeur>
-					</boundaryInterpreter>
-					<cleanAttributes>
-						<description>
-							Enlève de la liste des attributs (en tant que clefs) ceux qui ne sont pas dans cette table
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									La liste a nettoyer
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</cleanAttributes>
-					<conditionCreator static="yes">
-						<description>
-							Transforme l'association des opération/valeur en association attributs avec opération/valeur
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeurs des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opérations sur les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</conditionCreator>
-					<count>
-						<description>
-							Compte le nombre d'entrées dans la table
-						</description>
- 						<valeur>
-							int
-						</valeur>
-					</count>
-					<countBy>
-						<description>
-							Compte le nombre d'entrées respectant certains critères
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeurs des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opérations sur les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-						</arguments>
-					</countBy>
-					<delete>
-						<description>
-							Supprime une entrée de la table
-						</description>
- 						<arguments>
-							<index>
-								<description>
-									Index de l'entrée à supprimer
-								</description>
-								<type>
-									array
-								</type>
-							</index>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</delete>
-					<deleteBy>
-						<description>
-							Supprime des entrées de la table respectant certains critères
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeur des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opérations sur les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-						</arguments>
-						<valeur>
-							int
-						</valeur>
-					</deleteBy>
-					<exist>
-						<description>
-							Vérifie l'existence d'une entrée avec un index donné
-						</description>
- 						<arguments>
-							<index>
-								<description>
-									Index de l'élément à vérifier
-								</description>
-								<type>
-									array
-								</type>
-							</index>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</exist>
-					<existBy>
-						<description>
-							Vérifie l'existence d'entrées possèdant certains critères
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeurs des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opérations sur les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</existBy>
-					<get>
-						<description>
-							Récupère le résultat d'une requête Mysql à partir d'un index
-						</description>
- 						<arguments>
-							<index>
-								<description>
-									Index de l'élément
-								</description>
-								<type>
-									array
-								</type>
-							</index>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</get>
-					<getBdd>
-						<description>
-							Accesseur de bdd
-						</description>
- 						<valeur>
-							\PDO
-						</valeur>
-					</getBdd>
-					<getBy>
-						<description>
-							Récupère le résultat d'une requête Mysql créée depuis plusieurs paramètres
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeur des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opération entre les valeurs et les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-							<bounds>
-								<description>
-									Tableau complexe définissant des bornes
-								</description>
-								<type>
-									array
-								</type>
-							</bounds>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</getBy>
-					<getIdBy>
-						<description>
-							Récupère les index d'entrées à partir de critères
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Valeur des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opération entre les valeurs et les attributs
-								</description>>
-								<type>
-									mixed
-								</type>
-							</operations>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</getIdBy>
-					<getIdByPos>
-						<description>
-							Récupère un index d'une entrée à partir de sa position pour un attribut
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-							<position>
-								<description>
-									Position de l'attibut (0=premier)
-								</description>
-								<type>
-									int
-								</type>
-							</position>
-							<direction>
-								<description>
-									Direction pour le tri
-								</description>
-								<type>
-									ASC|DESC
-								</type>
-							</direction>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</getIdByPos>
-					<getNextId>
-						<description>
-							Récupère la prochaine valeur de l'identifiant (pour les entiers)
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</getNextId>
-					<managed>
-						<description>
-							Créée une instance de la classe \core\Managed associé à ce Manager
-						</description>
- 						<arguments>
-							<table>
-								<description>
-									Tableau des attributs de l'objet à hydrater
-								</description>
-								<type>
-									array
-								</type>
-							</table>
-						</arguments>
-						<valeur>
-							mixed
-						</valeur>
-					</managed>
-					<retrieveBy>
-						<description>
-							Récupère directement les objets dont les attributs respectent certains critères
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Noms et valeur des attributs
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<operations>
-								<description>
-									Opérations sur les attributs
-								</description>
-								<type>
-									mixed
-								</type>
-							</operations>
-							<bounds>
-								<description>
-									Tableau complexe permettant de définir des bords
-								</description>
-								<type>
-									array
-								</type>
-							</bounds>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</retrieveBy>
-					<setBdd>
-						<description>
-							Définisseur de la bdd
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<bdd>
-								<description>
-									Connexion PDO à la base de donnée
-								</description>
-								<type>
-									\PDO
-								</type>
-							</bdd>
-						</arguments>
-					</setBdd>
-					<update>
-						<description>
-							Modifie une entrée de la table
-						</description>
- 						<arguments>
-							<values>
-								<description>
-									Nouveaux liens attribut/valeur
-								</description>
-								<type>
-									array
-								</type>
-							</values>
-							<index>
-								<description>
-									Index de l'entrée à modifier
-								</description>
-								<type>
-									array
-								</type>
-							</index>
-						</arguments>
-					</update>
-					<updateBy>
-						<description>
-							Modifie toutes les entrées respectant certains critères
-						</description>
- 						<arguments>
-							<values_get>
-								<description>
-									Valeurs des attributs pour les entrées à modifier
-								</description>
-								<type>
-									array
-								</type>
-							</values_get>
-							<values_update>
-								<description>
-									Valeurs des attributs modifiés
-								</description>
-								<type>
-									array
-								</type>
-							</values_update>
-							<operation>
-								<description>
-									Operations sur les attributs
-								</description>
-								<type>
-									array
-								</type>
-							</operation>
-						</arguments>
-						<valeur>
-							int
-						</valeur>
-					</updateBy>
-				</méthodes>
-			</Manager>
-		</core>
-		<route>
-			<Folder>
-				<description>
-					Un dossier
-				</description>
-				<extends>
-					\core\Managed
-				</extends>
-				<attributs>
-					<id>
-						<description>
-							Index du dossier dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<name>
-						<description>
-							Nom du dossier
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<parent_id>
-						<description>
-							Index du dossier parent (-1 si racine)
-						</description>
-						<type>
-							int
-						</type>
-					</parent_id>
-				</attributs>
-				<méthodes>
-					<display>
-						<description>
-							Affichage du dossier sous une forme lisible et sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-						<commentaire>
-							Ne pas utiliser pour obtenir le chemin relatif du dossier
-						</commentaire>
-					</display>
-					<getConfigFile>
-						<description>
-							Retourne le chemin vers le fichier de configuration associé au dossier, affichage non sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getConfigFile>
-					<getLocaleFile>
-						<description>
-							Retourne le chemin vers le fichier locale associé au dossier, affichage non sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getLocaleFile>
-					<getLog_messageFile>
-						<description>
-							Retourne le chemin vers le fichier des messages de journalisation, affichage non sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getLog_messageFile>
-					<getParent>
-						<description>
-							Récupère le dossier parent
-						</description>
- 						<valeur>
-							\route\Folder
-						</valeur>
-					</getParent>
-					<getPath>
-						<description>
-							Récupère le chemin du dossier (relatif au dossier root)
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getPath>
-				</méthodes>
-			</Folder>
-			<FolderManager>
-				<description>
-					Gestionnaire associé à \Route\Folder
-				</description>
-				<extends>
-					\core\Manager
-				</extends>
-			</FolderManager>
-			<LinkRouteParameter>
-				<description>
-					Liaison entre les paramètres et les routes
-				</description>
-				<extends>
-					\core\LinkManager
-				</extends>
-				<attributs>
-					<id_route>
-						<description>
-							Index de la route
-						</description>
-						<type>
-							int
-						</type>
-					</id_route>
-					<id_parameter>
-						<description>
-							Index du paramètre
-						</description>
-						<type>
-							int
-						</type>
-					</id_parameter>
-				</attributs>
-			</LinkRouteParameter>
-			<LinkRouteRoute>
-				<description>
-					Liaison entre les dossiers "réels" et les dossiers/pages dynamiques
-				</description>
-				<extends>
-					\core\LinkManager
-				</extends>
-				<attributs>
-					<id_route_parent>
-						<description>
-							Index de la route parente (forcément un dossier dynamique)
-						</description>
-						<type>
-							int
-						</type>
-					</id_route_parent>
-					<id_route_child>
-						<description>
-							Index de la route enfant (peut être un dossier ou une page)
-						</description>
-						<type>
-							int
-						</type>
-					</id_route_child>
-				</attributs>
-			</LinkRouteRoute>
-			<Parameter>
-				<description>
-					Paramètre attendu d'une page
-				</description>
-				<extends>
-					\core\Managed
-				</extends>
-				<attributs>
-					<id>
-						<description>
-							Index du paramètre dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<name>
-						<description>
-							Nom de l'attribut
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<necessary>
-						<description>
-							Si le paramètre est nécessaire au fonctionnement de la page
-						</description>
-						<type>
-							bool
-						</type>
-					</necessary>
-					<regex>
-						<description>
-							Regex respecté par la valeur du paramètre
-						</description>
-						<type>
-							string
-						</type>
-					</regex>
-				</attributs>
-				<méthodes>
-					<getFullRegex>
-						<description>
-							Renvoi la regex avec ses délimiteurs, même s'ils ne sont pas précisé dans la base de donnée
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getFullRegex>
-				</méthodes>
-			</Parameter>
-			<Route>
-				<description>
-					Une page ou dossier dynamique contenant des pages
-				</description>
-				<extends>
-					\core\Managed
-				</extends>
-				<attributs>
-					<id>
-						<description>
-							Index de la route dans la base de donnée (qui est aussi son chemin)
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<name>
-						<description>
-							Nom de la route
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<type>
-						<description>
-							Si la route ne contient pas d'autre route (page)
-						</description>
-						<type>
-							bool
-						</type>
-					</type>
-				</attributs>
-				<constantes>
-					<TYPES>
-						<description>
-							Si la route est une page
-						</description>
-						<type>
-							array
-						</type>
-					</TYPES>
-				</constantes>
-				<méthodes>
-					<getPath>
-						<description>
-							Récupère un des path possible pour atteindre cette route
-						</description>
- 						<arguments>
-							<root_id>
-								<description>
-									Id de la route depuis laquelle commencer le chemin
-								</description>
-								<type>
-									int
-								</type>
-							</root_id>
-							<loaded>
-								<description>
-									Id des routes déjà parcouru pendant la récursion pour éviter une récursion circulaire
-								</description>
-								<type>
-									array
-								</type>
-							</loaded>
-						</arguments>
-						<type>
-							False|string
-						</type>
-					</getPath>
-					<loadSubFile>
-						<description>
-							Charge tous les fichiers (configuration, locale, messages de log) en partant du bas (si multiples, le premier dans la base de donnée).
-						</description>
- 						<valeur>
-							bool
-						</valeur>
-					</loadSubFile>
-					<retrieveFolder>
-						<description>
-							Récupère le dossier associé à la route
-						</description>
- 						<valeur>
-							\route\Folder
-						</valeur>
-					</retrieveFolder>
-					<retrieveParameters>
-						<description>
-							Récupère les paramètres attendues pour cette route
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</retrieveParameters>
-				</méthodes>
-			</Route>
-			<RouteManager>
-				<description>
-					Gestionnaire associé à \route\Route
-				</description>
-				<extends>
-					\core\Manager
-				</extends>
-			</RouteManager>
-			<Router>
-				<description>
-					Gère, créée et découpe les liens internes du site
-				</description>
-				<attributs>
-					<mode>
-						<description>
-							Mode d'opération du Routeur
-						</description>
-						<type>
-							int
-						</type>
-					</mode>
-				</attributs>
-				<constantes>
-					<MODES>
-						<description>
-							Liste des modes d'opération possible pour le routeur
-						</description>
-						<type>
-							array
-						</type>
-					</MODES>
-				</constantes>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur
-						</description>
- 						<arguments>
-							<mode>
-								<description>
-									Mode du routeur
-								</description>
-								<type>
-									int
-								</type>
-							</mode>
-						</arguments>
-					</__construct>
-					<buildNode>
-						<description>
-							Construit un arbre, utilisé pour la récupération des routes
+							Accesseur d'un élément de l'attribut elements, retourne faux s'il n'existe pas
 						</description>
 						<arguments>
-							<array_of_available_routes>
-								<description>
-									Listes contenant les listes contenants les routes correspondant aux noms donnée par l'url, dans l'ordre du chemin
-								</description>
-								<type>
-									array
-								</type>
-							</array_of_available_routes>
-							<row>
-								<description>
-									Clef correspondant au niveau du noeud
-								</description>
-								<type>
-									int|mixed
-								</type>
-							</row>
-							<column>
-								<description>
-									Clef correspondant à la valeur du noeud
-								</description>
-								<type>
-									int|mixed
-								</type>
-							</column>
-						</arguments>
-						<valeur>
-							\structure\Node|False
-						</valeur>
-					</buildNode>
-					<cleanParameters>
-						<description>
-							Nettoie de la liste des paramètres donnée les paramètres non demandé (ou ne correspondant pas au format demandé)
-						</description>
- 						<arguments>
-							<parameters>
-								<description>
-									Paramètres à nettoyer
-								</description>
-								<type>
-									array
-								</type>
-							</parameters>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</cleanParameters>
-					<createLink>
-						<description>
-							Créée un lien intrasite à partir du tableau donné et du mode du routeur
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									Tableau représentant le lien
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-							<parameters>
-								<description>
-									Paramètres de la route
-								</description>
-								<type>
-									array
-								</type>
-							</parameters>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</createLink>
-					<createLinkGet>
-						<description>
-							Créée un lien intrasite à partir du tableau donné avec le mode GET
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									Tableau représentant le lien
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-							<parameters>
-								<description>
-									Paramètres de la route
-								</description>
-								<type>
-									array
-								</type>
-							</parameters>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</createLinkGet>
-					<createLinkMixed>
-						<description>
-							Créée un lien intrasite à partir du tableau donné avec le mode MIXED
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									Tableau représentant le lien
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-							<parameters>
-								<description>
-									Paramètres de la route
-								</description>
-								<type>
-									array
-								</type>
-							</parameters>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</createLinkMixed>
-					<createLinkRoute>
-						<description>
-							Créée un lien intrasite à partir du tableau donné avec le mode ROUTE
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									Tableau représentant le lien
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-							<parameters>
-								<description>
-									Paramètres de la route
-								</description>
-								<type>
-									array
-								</type>
-							</parameters>
-						</arguments>
-						<valeur>
-							string
-						</valeur>
-					</createLinkRoute>
-					<decodeRoute>
-						<description>
-							Transforme une chaîne de caractère représentant un lien intrasite en tableau
-						</description>
- 						<arguments>
-							<url>
-								<description>
-									Lien à décoder
-								</description>
-								<type>
-									string
-								</type>
-							</url>
-						</arguments>
-						<valeur>
-							array
-						</valeur>
-					</decodeRoute>
-					<decodeWithGet>
-						<description>
-							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement GET
-						</description>
- 						<arguments>
-							<url>
-								<description>
-									Lien à décoder
-								</description>
-								<type>
-									string
-								</type>
-							</url>
-						</arguments>
-						<value>
-							array
-						</value>
-					</decodeWithGet>
-					<decodeWithMixed>
-						<description>
-							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement MIXED
-						</description>
- 						<arguments>
-							<url>
-								<description>
-									Lien à décoder
-								</description>
-								<type>
-									string
-								</type>
-							</url>
-						</arguments>
-						<value>
-							array
-						</value>
-					</decodeWithMixed>
-					<decodeWithRoute>
-						<description>
-							Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement ROUTE
-						</description>
- 						<arguments>
-							<url>
-								<description>
-									Lien à décoder
-								</description>
-								<type>
-									string
-								</type>
-							</url>
-						</arguments>
-						<value>
-							array
-						</value>
-					</decodeWithRoute>
-					<getMode>
-						<description>
-							Retourne le mode actuel du routeur
-						</description>
- 						<valeur>
-							int
-						</valeur>
-					</getMode>
-					<setMode>
-						<description>
-							Définisseur du mode du routeur
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<mode>
-								<description>
-									Nouveau mode du routeur
-								</description>
-								<type>
-									int
-								</type>
-							</mode>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</setMode>
-				</méthodes>
-			</Router>
-		</route>
-		<structure>
-			<node>
-				<description>
-					Un noeud d'un arbre
-				</description>
-				<attributs>
-					<childrens>
-						<description>
-							Listes des noeuds contenu dans ce noeud
-						</description>
-						<type>
-							array
-						</type>
-					</childrens>
-					<data>
-						<description>
-							Donnée du noeud
-						</description>
-						<type>
-							mixed
-						</type>
-					</data>
-					<parent>
-						<description>
-							Parent du noeud (null si root)
-						</description>
-						<type>
-							\structure\Node|null
-						</type>
-					</parent>
-				</attributs>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur de \structure\Node
-						</description>
- 						<arguments>
-							<data>
-								<description>
-									Donnée du noeud
-								</description>
-								<type>
-									mixed
-								</type>
-							</data>
-							<parent>
-								<description>
-									Parent du noeud
-								</description>
-								<type>
-									\structure\Node|null
-								</type>
-							</parent>
-						</arguments>
-						<valeur>
-							\structure\Node
-						</valeur>
-					</__construct>
-					<addChild>
-						<description>
-							Ajoute un noeud enfant à ce noeud
-						</description>
- 						<arguments>
-							<child>
-								<description>
-									Noeud enfant à ajouter
-								</description>
-								<type>
-									\structure\Node
-								</type>
-							</child>
-						</arguments>
-						<valeur>
-							\structure\Node
-						</valeur>
-					</addChild>
-					<removeChild>
-						<description>
-							Supprime un noeud enfant à ce noeud
-						</description>
- 						<arguments>
-							<child>
-								<description>
-									Noeud enfant à supprimer
-								</description>
-								<type>
-									\structure\Node
-								</type>
-							</child>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</removeChild>
-					<get>
-						<description>
-							Retournes la valeur de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à renvoyer
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							mixed
-						</valeur>
-					</get>
-					<getAncestors>
-						<description>
-							Retournes les ancêtres de ce noeud
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</getAncestors>
-					<getDepth>
-						<description>
-							Retournes la profondeur du noeud dans l'arbre
-						</description>
- 						<valeur>
-							int
-						</valeur>
-					</getDepth>
-					<getHeight>
-						<description>
-							Retournes la hauteur du noeud (la profondeur du noeud le plus jeune si on prend ce noeud comme racine)
-						</description>
- 						<valeur>
-							int
-						</valeur>
-					</getHeight>
-					<getNeighbors>
-						<description>
-							Retournes les noeuds voisins
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</getNeighbors>
-					<getRoot>
-						<description>
-							Retournes la racine de l'arbre
-						</description>
-						<valeur>
-							\structure\Node
-						</valeur>
-					</getRoot>
-					<set>
-						<description>
-							Modifie la valeur de l'attribut demandé
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à modifier
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-							<value>
-								<description>
-									Nouvelle valeur de l'attribut
-								</description>
-								<type>
-									mixed
-								</type>
-							</value>
-							<valeur>
-								bool
-							</valeur>
-						</arguments>
-				</méthodes>
-			</node>
-			<tree>
-				<description>
-					Une structure d'arbre simple
-				</description>
-				<attributs>
-					<root>
-						<description>
-							Premier noeud de l'arbre
-						</description>
-						<type>
-							\structure\Node
-						</type>
-					</root>
-				</attributs>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur de \structure\tree
-						</description>
-						<arguments>
-							<root_data>
-								<description>
-									Donnée contenu dans le premier noeud
-								</description>
-								<type>
-									mixed
-								</type>
-							</root_data>
-						</arguments>
- 						<valeur>
-							\structure\Tree
-						</valeur>
-					</__construct>
-					<get>
-						<description>
-							Retournes la valeur de l'attribut demandé
-						</description>
- 						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à renvoyer
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-						</arguments>
-						<valeur>
-							mixed
-						</valeur>
-					</get>
-					<set>
-						<description>
-							Modifie la valeur de l'attribut demandé
-						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<attribute>
-								<description>
-									Nom de l'attribut à modifier
-								</description>
-								<type>
-									string
-								</type>
-							</attribute>
-							<value>
-								<description>
-									Nouvelle valeur de l'attribut
-								</description>
-								<type>
-									mixed
-								</type>
-							</value>
-							<valeur>
-								bool
-							</valeur>
-						</arguments>
-					</set>
-				</méthodes>
-			</tree>
-		</structure>
-		<user>
-			<Configuration>
-				<description>
-					Configuration de l'utilisateur
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Identifiant de la configuration dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<id_user>
-						<description>
-							Identifiant de l'utilisateur possédant cette configuration
-						</description>
-						<type>
-							int
-						</type>
-					</id_user>
-					<name>
-						<description>
-							Nom de la configuration
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<value>
-						<description>
-							Valeur de la configuration
-						</description>
-						<type>
-							string
-						</type>
-					</value>
-				</attributs>
-				<méthodes>
-					<display>
-						<description>
-							Affiche la configuration d'une manière visible et sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</display>
-				</méthodes>
-			</Configuration>
-			<ConfigurationManager>
-				<description>
-					Gestionnaire de \user\Configuration
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</ConfigurationManager>
-			<LinkNotificationUser>
-				<description>
-					Gère le lien entre les notifications et les utilisateurs
-				</description>
-				<extend>
-					\core\LinkManager
-				</extend>
-			</LinkNotificationUser>
-			<LinkPermissionRole>
-				<description>
-					Gère le lien entre les permissions et les rôles
-				</description>
-				<extend>
-					\core\LinkManager
-				</extend>
-			</LinkPermissionRole>
-			<LinkRoleUser>
-				<description>
-					Gère le lien entre les rôles et les utilisateurs
-				</description>
-				<extend>
-					\core\LinkManager
-				</extend>
-			</LinkRoleUser>
-			<Notification>
-				<description>
-					Notification pour des utilisateurs
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<content>
-						<description>
-							Contenu de la notification
-						</description>
-						<type>
-							string
-						</type>
-					</content>
-					<date>
-						<description>
-							Date de l'émission de la notification
-						</description>
-						<type>
-							string
-						</type>
-					</date>
-					<id>
-						<description>
-							Index de la notification dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<id_content>
-						<description>
-							Index du \content\Content associé à cette notification dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id_content>
-					<substitution>
-						<description>
-							Tableau de substitution associé au contenu de la notification
-						</description>
-						<type>
-							array
-						</type>
-					</substitution>
-					<type>
-						<description>
-							Type de la notification
-						</description>
-						<type>
-							string
-						</type>
-					</type>
-				</attributs>
-				<constantes>
-					<TYPES>
-						<description>
-							Nom du type pour chaque fin d'opération
-						</description>
-						<type>
-							array
-						</type>
-					</TYPES>
-				</constantes>
-				<méthodes>
-					<addToSession>
-						<description>
-							Ajoute la notification à la session pour cet utilisateur
-						</description>
- 					</addToSession>
-					<change>
-						<description>
-							Modifie une notification
-						</description>
- 					</change>
-					<create>
-						<description>
-							Créée une notification
-						</description>
- 						<arguments>
-							<id_users>
-								<description>
-									Liste d'identifiant des utilisateurs concernées par la notification
-								</description>
-								<type>
-									array
-								</type>
-							</id_users>
-						</arguments>
-					</create>
-					<delete>
-						<description>
-							Supprime la notification
-						</description>
- 					</delete>
-					<display>
-						<description>
-							Affiche la notification de façon lisible et sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</display>
-					<displayContent>
-						<description>
-							Affiche le contenu de la notification dans la langue de l'utilisateur, ou la langue par défaut si celle-ci n'existe pas
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</displayContent>
-					<retrieveContents>
-						<description>
-							Récupère les \content\Content associés à la notification
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</retrieveContents>
-					<retrieveUsers>
-						<description>
-							Récupère tout les utilisateurs concernés par la notification
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</retrieveUsers>
-				</méthodes>
-			</Notification>
-			<NotificationManager>
-				<description>
-					Gestionnaire de \user\Notification
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</NotificationManager>
-			<Page>
-				<description>
-					Page du site
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Identifiant de la page dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<name>
-						<description>
-							Nom de la page
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<path>
-						<description>
-							Chemin vers le dossier de définition de la page
-						</description>
-						<type>
-							string
-						</type>
-					</path>
-					<page_element>
-						<description>
-							Contenu de la page
-						</description>
-						<type>
-							\content\pageelement\PageElement
-						</type>
-					</page_element>
-					<parameters>
-						<description>
-							Paramètres de la page
-						</description>
-						<type>
-							array
-						</type>
-					</parameters>
-					<route>
-						<description>
-							Chemin vers la page
-						</description>
-						<type>
-							array
-						</type>
-					</route>
-				</attributs>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Attributs de la page
-								</description>
-								<type>
-									array
-								</type>
-							</attributes>
-						</arguments>
-					</__construct>
-					<addParameter>
-						<description>
-							Ajoute un paramètre
-						</description>
- 						<arguments>
 							<key>
 								<description>
-									Nom du paramètre
+									La clef correspondant à l'élement à accéder
 								</description>
 								<type>
-									string
+									string|int
+								</type>
+							</key>
+						</arguments>
+						<valeur>
+							bool|mixed
+						</valeur>
+					</getElement>
+					<setElement>
+						<description>
+							Assigne une nouvelle valeur à l'élément sélectionné, retourne l'ancienne valeur de l'élément s'il existe, retourne faux sinon
+						</description>
+						<arguments>
+							<key>
+								<description>
+									Clef correspondant à l'élément à modifier
+								</description>
+								<type>
+									string|int
 								</type>
 							</key>
 							<value>
 								<description>
-									Valeur du paramètre
+									Nouvelle valeur
 								</description>
 								<type>
 									mixed
 								</type>
 							</value>
-						</arguments>
-					</addParameter>
-					<display>
-						<description>
-							Affiche la page
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</display>
-					<getPath>
-						<description>
-							Récupère la hierarchie des dossiers pour cette page
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</getPath>
-					<loadConfig>
-						<description>
-							Chargement de la configuration de la page
-						</description>
- 						<valeur>
-							array
-						</valeur>
-					</loadConfig>
-					<retrieve>
-						<description>
-							Récupères la page dans la base de donnée
-						</description>>
- 					</retrieve>
-				</méthodes>
-			</Page>
-			<PageManager>
-				<description>
-					Gestionnaire de \user\Page (même que \route\RouteManager)
-				</description>
-				<extend>
-					\route\RouteManager
-				</extend>
-			</PageManager>
-			<Password>
-				<description>
-					Mot de passe d'un utilisateur
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Identifiant du mot de passe dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<password_clear>
-						<description>
-							Mot de passe en clair
-						</description>
-						<type>
-							string
-						</type>
-					</password_clear>
-					<password_hashed>
-						<description>
-							Mot de passe hashé stocké dans la base de donnée
-						</description>
-						<type>
-							string
-						</type>
-					</password_hashed>
-				</attributs>
-				<méthodes>
-					<check>
-						<description>
-							Vérifie la validité d'un mot de passe en clair par rapport à celui stocké dans la base de donnée (déjà récupéré)
-						</description>
- 						<arguments>
-							<password>
+							<strict>
 								<description>
-									Mot de passe en clair à vérifier
+									Si strict est vrai, la nouvelle valeur ne sera pas définie si elle n'existe pas déjà, sinon, elle le sera
 								</description>
 								<type>
-									string
+									bool
 								</type>
-							</password>
+							</strict>
 						</arguments>
+						<valeur>
+							bool|mixed
+						</valeur>
+					</setElement>
+				</méthodes>
+			</PageElement>
+		</pageelement>
+	</content>
+	<core>
+		<DBFactory>
+			<description>
+				Outil de connexion à la base de donnée
+			</description>
+			<méthodes>
+				<MysqlConnection static="yes">
+					<description>
+						Création d'une connexion à la base de donnée
+					</description>
+					<arguments>
+						<db_name>
+							<description>
+								Nom de la base de donnée à laquelle se connecter
+							</description>
+							<type>
+								string
+							</type>
+						</db_name>
+						<db_host>
+							<description>
+								Le nom de l'hôte dans lequel est la base de donnée
+							</description>
+							<type>
+								string
+							</type>
+						</db_host>
+						<db_username>
+							<description>
+								Le nom de l'utilisateur se connectant dans la base de donnée
+							</description>
+							<type>
+								string
+							</type>
+						</db_username>
+						<db_password>
+							<description>
+								Le mot de passe correspondant à l'utilisateur
+							</description>
+							<type>
+								string
+							</type>
+						</db_password>
+						<db_options>
+							<description>
+								Liste d'options spécifiques
+							</description>
+							<type>
+								array
+							</type>
+						</db_options>
+					</arguments>
+					<valeur>
+						\PDO
+					</valeur>
+				</MysqlConnection>
+			</méthodes>
+		</DBFactory>
+		<LinkManager>
+			<description>
+				Gestionnaire de lien entre deux tables (gestionnaire d'une table many-to-many en somme)
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+			<constantes>
+				<RECOVERY_MODE>
+					<description>
+						Différents mode de récupération des objets pour retrieveBy
+					</description>
+					<type>
+						array
+					</type>
+				</RECOVERY_MODE>
+			</constantes>
+			<méthodes>
+				<addBy>
+					<description>
+						Ajoutes des entrées dans la table avec certains paramètres variant et d'autre non
+					</description>
+					<arguments>
+						<variants>
+							<description>
+								Un tableau de n tableaux (où n est le nombre d'entrées à insérer) de x valeurs (avec x le nombre d'attributs de l'entrée moins le nombre d'attribut invariants)
+							</description>
+							<type>
+								array
+							</type>
+						</variants>
+						<invariants>
+							<description>
+								Un tableau de valeurs invariantes pour chaque entrée
+							</description>
+							<type>
+								array
+							</type>
+						</invariants>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</addBy>
+				<getByGroup>
+					<description>
+						Récupères les entrées avec plusieurs attributs identiques de même valeur
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Liste des attributs de la table avec leur valeur
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+						<operations>
+							<description>
+								Liste des opérations à effectuer pour les attributs correspondant
+							</description>
+							<type>
+								array
+							</type>
+						</operations>
+						<group>
+							<description>
+								Nom de l'attribut utilisé pour le regroupement
+							</description>
+							<type>
+								string
+							</type>
+						</group>
+						<strict>
+							<description>
+								Si oui ou non le mode strict est activé (si le nombre d'attribut du groupe doit exactement être le même)
+							</description>
+							<type>
+								bool
+							</type>
+						</strict>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</getByGroup>
+				<retrieveBy>
+					<description>
+						Récupères les objets de façon rapide
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Attributs et leur valeur
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+						<operations>
+							<description>
+								Attributs et leur opération
+							</description>
+							<type>
+								array
+							</type>
+						</operations>
+						<bounds>
+							<description>
+								Tableau complexe symbolisant une limite
+							</description>
+							<type>
+								array
+							</type>
+						</bounds>
+						<name_class>
+							<description>
+								Nom de la classe des objets à récupérer
+							</description>
+							<type>
+								string
+							</type>
+						</name_class>
+						<link>
+							<description>
+								Nom de l'identifiant utilisé pour retrouver l'objet et Attribut associé à cet identifiant pour l'objet
+							</description>
+							<type>
+								array
+							</type>
+							<commentaire>
+								L'array doit être sous la forme ['db': identifiant, 'obj': attribut]
+							</commentaire>
+						</link>
+						<recovery>
+							<description>
+								Mode de récupération
+							</description>
+							<type>
+								int
+							</type>
+							<commentaire>
+								Utiliser les constantes RECOVERY_MODE
+							</commentaire>
+						</recovery>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</retrieveBy>
+			</méthodes>
+		</LinkManager>
+		<Logger>
+			<description>
+				Logger permet de gérer le journal des changements
+			</description>
+			<propriétés>
+				<folder>
+					<description>
+						Chemin vers le dossier contenant les journaux
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<type>
+						string
+					</type>
+				</folder>
+			</attributs>
+			<constantes>
+				<TYPES>
+					<description>
+						Types utilisés vanilla
+					</description>
+					<type>
+						array
+					</type>
+				</TYPES>
+			</constantes>
+			<méthodes>
+				<log>
+					<description>
+						Enregistre un événement dans le journal
+					</description>
+					<arguments>
+						<type>
+							<description>
+								Le type d'événement, aussi utilisé comme nom du dossier dans lequel le fichier sera généré
+							</description>
+							<type>
+								string
+							</type>
+						</type>
+						<message>
+							<description>
+								Le message décrivant l'événement
+							</description>
+							<type>
+								string
+							</type>
+						</message>
+						<substitution>
+							<description>
+								Une liste de chaîne de caractères à remplacer dans le message
+							</description>
+							<type>
+								array
+							</type>
+						</substitution>
+					</arguments>
+				</log>
+			</méthodes>
+		</Logger>
+		<Managed abstract="yes">
+			<description>
+				Objet géré dans une base de donnée par un Manager
+			</description>
+			<constantes>
+				<INDEX>
+					<description>
+						Nom de l'attribut considéré comme l'index
+					</description>
+					<type>
+						array
+					</type>
+				</INDEX>
+			</constantes>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Tableaux définissant les valeurs des attributs de l'objet
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+					</arguments>
+				</__construct>
+				<add>
+					<description>
+						Insère les données dans la base de donnée
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</add>
+				<arrDisp static="yes">
+					<description>
+						Affiche le tableau sous une forme lisible et sécurisée
+					</description>
+					<arguments>
+						<list>
+							<description>
+								Array à afficher
+							</description>
+							<type>
+								array
+							</type>
+						</list>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</arrDisp>
+				<clone>
+					<description>
+						Clone l'objet
+					</description>
+				</clone>
+				<delete>
+					<description>
+						Supprime les données de la base de donnée
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</delete>
+				<display>
+					<description>
+						Retourne une chaîne de caractère représentant l'objet
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</display>
+				<displayer>
+					<description>
+						Retourne une chaîne de caractère pouvant être affiché sur une page
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut qu'on veut afficher
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</displayer>
+				<exist>
+					<description>
+						Vérifies l'existence des données dans la base de donnée
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</exist>
+				<hydrate>
+					<description>
+						Hydrate l'objet
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Tableau contenant les pairs clef-valeur à associer
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+					</arguments>
+					<valeur>
+						int
+					</valeur>
+				</hydrate>
+				<get>
+					<description>
+						Retournes la valeur de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à renvoyer
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						mixed
+					</valeur>
+				</get>
+				<getDisp static="yes">
+					<description>
+						Retourne le nom que devrait avoir la méthode d'affichage de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut dont on veut la fonction d'affichage
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</getDisp>
+				<getGet static="yes">
+					<description>
+						Retourne le nom que devrait avoir l'accesseur de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut dont on veut l'accesseur
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</getGet>
+				<getIndex>
+					<description>
+						Retournes la valeur de l'index
+					</description>
+					<valeur>
+						aray|false
+					</valeur>
+				</getIndex>
+				<getSet static="yes">
+					<description>
+						Retourne le nom que devrait avoir le définisseur de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut dont on veut le définisseur
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</getSet>
+				<isIdentical>
+					<description>
+						Vérifie si cet objet et celui demandé sont identiques (en fonction de la constante INDEX)
+					</description>
+					<arguments>
+						<object>
+							<description>
+								L'autre objet
+							</description>
+							<type>
+								mixed
+							</type>
+						</object>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</isIdentical>
+				<manager>
+					<description>
+						Retourne une instance de la classe hérité de \core\Manager associé à cet objet
+					</description>
+					<valeur>
+						mixed
+					</valeur>
+				</manager>
+				<retrieve>
+					<description>
+						Récupère les données depuis la base de donnée
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</retrieve>
+				<set>
+					<description>
+						Modifie la valeur de l'attribut demandé
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à modifier
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+						<value>
+							<description>
+								Nouvelle valeur de l'attribut
+							</description>
+							<type>
+								mixed
+							</type>
+						</value>
 						<valeur>
 							bool
 						</valeur>
-					</check>
-					<display>
-						<description>
-							Afiche le mot de passe de façon lisible et protégée
-						</description>
- 						<valeur>
-							string
-						</valeur>
-						<commentaire>
-							Ne pas afficher le mot de passe en clair ici, la méthode étant publique (ou alors bien contrôler cet affichage)
-						</commentaire>
-					</display>
-					<displayPassword_clear>
-						<description>
-							Affiche le mot de passe en clair de façon lisible et protégée
-						</description>
-						<protection>
-							protégé
-						</protection>
+					</arguments>
+				</set>
+				<table>
+					<description>
+						Retourne l'objet sous la forme d'une array
+					</description>
+					<arguments>
+						<depth>
+							<description>
+								Profondeur de la récursion s'il y a un objet dans un objet.
+								-1 signifie qu'il y aura une récursion à l'infini, 0 indique qu'il n'y aura pas de récursion.
+								La valeur par défaut est 0.
+							</description>
+							<type>
+								int
+							</type>
+						</depth>
+						<object>
+							<description>
+								Objet à convertir ou null pour convertir cet objet.
+								Valeur par défaut à null.
+							</description>
+							<type>
+								object|null
+							</type>
+						</object>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</table>
+				<update>
+					<description>
+						Modifie les données dans la base de donnée
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</update>
+			</méthodes>
+		</Managed>
+		<Manager abstract="yes">
+			<description>
+				Gère le lien entre un objet PHP et une entrée dans une table d'une base de donnée
+			</description>
+			<attributs>
+				<bdd>
+					<description>
+						Connexion PDO à la base de donnée
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<type>
+						\PDO
+					</type>
+				</bdd>
+			</attributs>
+			<constantes>
+				<TABLE>
+					<description>
+						Nom de la table lié à l'objet
+					</description>
+					<type>
+						string
+					</type>
+				</TABLE>
+				<ATTRIBUTES>
+					<description>
+						Liste de tout les attributs de la table liés à l'objet
+					</description>
+					<type>
+						array
+					</type>
+				</ATTRIBUTES>
+				<INDEX>
+					<description>
+						Index utilisé (clef primaire)
+					</description>
+					<type>
+						array
+					</type>
+				</INDEX>
+			</constantes>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur
+					</description>
+					<arguments>
+						<bdd>
+							<description>
+								Connexion PDO à la base de donnée
+							</description>
+							<type>
+								\PDO
+							</type>
+						</bdd>
+					</arguments>
+				</__construct>
+				<add>
+					<description>
+						Ajoute une entrée à la table et renvoie son index
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Contient le nom et la valeur de chaque attribut
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+					</arguments>
+					<valeur>
+						array|bool
+					</valeur>
+				</add>
+				<boundaryInterpreter static="yes">
+					<description>
+						Génère une clause LIMIT à partir d'un tableau complexe
+					</description>
+					<arguments>
+						<bounds>
+							<description>
+								Tableaux complexe représentant les bords
+							</description>
+							<type>
+								array
+							</type>
+						</bounds>
+					</arguments>
+					<valeur>
+						string|False
+					</valeur>
+				</boundaryInterpreter>
+				<cleanAttributes>
+					<description>
+						Enlève de la liste des attributs (en tant que clefs) ceux qui ne sont pas dans cette table
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								La liste a nettoyer
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</cleanAttributes>
+				<conditionCreator static="yes">
+					<description>
+						Transforme l'association des opération/valeur en association attributs avec opération/valeur
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeurs des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opérations sur les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</conditionCreator>
+				<count>
+					<description>
+						Compte le nombre d'entrées dans la table
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</count>
+				<countBy>
+					<description>
+						Compte le nombre d'entrées respectant certains critères
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeurs des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opérations sur les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+					</arguments>
+				</countBy>
+				<delete>
+					<description>
+						Supprime une entrée de la table
+					</description>
+					<arguments>
+						<index>
+							<description>
+								Index de l'entrée à supprimer
+							</description>
+							<type>
+								array
+							</type>
+						</index>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</delete>
+				<deleteBy>
+					<description>
+						Supprime des entrées de la table respectant certains critères
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeur des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opérations sur les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+					</arguments>
+					<valeur>
+						int
+					</valeur>
+				</deleteBy>
+				<exist>
+					<description>
+						Vérifie l'existence d'une entrée avec un index donné
+					</description>
+					<arguments>
+						<index>
+							<description>
+								Index de l'élément à vérifier
+							</description>
+							<type>
+								array
+							</type>
+						</index>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</exist>
+				<existBy>
+					<description>
+						Vérifie l'existence d'entrées possèdant certains critères
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeurs des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opérations sur les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</existBy>
+				<get>
+					<description>
+						Récupère le résultat d'une requête Mysql à partir d'un index
+					</description>
+					<arguments>
+						<index>
+							<description>
+								Index de l'élément
+							</description>
+							<type>
+								array
+							</type>
+						</index>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</get>
+				<getBdd>
+					<description>
+						Accesseur de bdd
+					</description>
+					<valeur>
+						\PDO
+					</valeur>
+				</getBdd>
+				<getBy>
+					<description>
+						Récupère le résultat d'une requête Mysql créée depuis plusieurs paramètres
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeur des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opération entre les valeurs et les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+						<bounds>
+							<description>
+								Tableau complexe définissant des bornes
+							</description>
+							<type>
+								array
+							</type>
+						</bounds>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</getBy>
+				<getIdBy>
+					<description>
+						Récupère les index d'entrées à partir de critères
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Valeur des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opération entre les valeurs et les attributs
+							</description>>
+							<type>
+								mixed
+							</type>
+						</operations>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</getIdBy>
+				<getIdByPos>
+					<description>
+						Récupère un index d'une entrée à partir de sa position pour un attribut
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+						<position>
+							<description>
+								Position de l'attibut (0=premier)
+							</description>
+							<type>
+								int
+							</type>
+						</position>
+						<direction>
+							<description>
+								Direction pour le tri
+							</description>
+							<type>
+								ASC|DESC
+							</type>
+						</direction>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</getIdByPos>
+				<getNextId>
+					<description>
+						Récupère la prochaine valeur de l'identifiant (pour les entiers)
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</getNextId>
+				<managed>
+					<description>
+						Créée une instance de la classe \core\Managed associé à ce Manager
+					</description>
+					<arguments>
+						<table>
+							<description>
+								Tableau des attributs de l'objet à hydrater
+							</description>
+							<type>
+								array
+							</type>
+						</table>
+					</arguments>
+					<valeur>
+						mixed
+					</valeur>
+				</managed>
+				<retrieveBy>
+					<description>
+						Récupère directement les objets dont les attributs respectent certains critères
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Noms et valeur des attributs
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<operations>
+							<description>
+								Opérations sur les attributs
+							</description>
+							<type>
+								mixed
+							</type>
+						</operations>
+						<bounds>
+							<description>
+								Tableau complexe permettant de définir des bords
+							</description>
+							<type>
+								array
+							</type>
+						</bounds>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</retrieveBy>
+				<setBdd>
+					<description>
+						Définisseur de la bdd
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<arguments>
+						<bdd>
+							<description>
+								Connexion PDO à la base de donnée
+							</description>
+							<type>
+								\PDO
+							</type>
+						</bdd>
+					</arguments>
+				</setBdd>
+				<update>
+					<description>
+						Modifie une entrée de la table
+					</description>
+					<arguments>
+						<values>
+							<description>
+								Nouveaux liens attribut/valeur
+							</description>
+							<type>
+								array
+							</type>
+						</values>
+						<index>
+							<description>
+								Index de l'entrée à modifier
+							</description>
+							<type>
+								array
+							</type>
+						</index>
+					</arguments>
+				</update>
+				<updateBy>
+					<description>
+						Modifie toutes les entrées respectant certains critères
+					</description>
+					<arguments>
+						<values_get>
+							<description>
+								Valeurs des attributs pour les entrées à modifier
+							</description>
+							<type>
+								array
+							</type>
+						</values_get>
+						<values_update>
+							<description>
+								Valeurs des attributs modifiés
+							</description>
+							<type>
+								array
+							</type>
+						</values_update>
+						<operation>
+							<description>
+								Operations sur les attributs
+							</description>
+							<type>
+								array
+							</type>
+						</operation>
+					</arguments>
+					<valeur>
+						int
+					</valeur>
+				</updateBy>
+			</méthodes>
+		</Manager>
+	</core>
+	<route>
+		<Folder>
+			<description>
+				Un dossier
+			</description>
+			<extends>
+				\core\Managed
+			</extends>
+			<attributs>
+				<id>
+					<description>
+						Index du dossier dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<name>
+					<description>
+						Nom du dossier
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<parent_id>
+					<description>
+						Index du dossier parent (-1 si racine)
+					</description>
+					<type>
+						int
+					</type>
+				</parent_id>
+			</attributs>
+			<méthodes>
+				<display>
+					<description>
+						Affichage du dossier sous une forme lisible et sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+					<commentaire>
+						Ne pas utiliser pour obtenir le chemin relatif du dossier
+					</commentaire>
+				</display>
+				<getConfigFile>
+					<description>
+						Retourne le chemin vers le fichier de configuration associé au dossier, affichage non sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</getConfigFile>
+				<getLocaleFile>
+					<description>
+						Retourne le chemin vers le fichier locale associé au dossier, affichage non sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</getLocaleFile>
+				<getLog_messageFile>
+					<description>
+						Retourne le chemin vers le fichier des messages de journalisation, affichage non sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</getLog_messageFile>
+				<getParent>
+					<description>
+						Récupère le dossier parent
+					</description>
+					<valeur>
+						\route\Folder
+					</valeur>
+				</getParent>
+				<getPath>
+					<description>
+						Récupère le chemin du dossier (relatif au dossier root)
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</getPath>
+			</méthodes>
+		</Folder>
+		<FolderManager>
+			<description>
+				Gestionnaire associé à \Route\Folder
+			</description>
+			<extends>
+				\core\Manager
+			</extends>
+		</FolderManager>
+		<LinkRouteParameter>
+			<description>
+				Liaison entre les paramètres et les routes
+			</description>
+			<extends>
+				\core\LinkManager
+			</extends>
+			<attributs>
+				<id_route>
+					<description>
+						Index de la route
+					</description>
+					<type>
+						int
+					</type>
+				</id_route>
+				<id_parameter>
+					<description>
+						Index du paramètre
+					</description>
+					<type>
+						int
+					</type>
+				</id_parameter>
+			</attributs>
+		</LinkRouteParameter>
+		<LinkRouteRoute>
+			<description>
+				Liaison entre les dossiers "réels" et les dossiers/pages dynamiques
+			</description>
+			<extends>
+				\core\LinkManager
+			</extends>
+			<attributs>
+				<id_route_parent>
+					<description>
+						Index de la route parente (forcément un dossier dynamique)
+					</description>
+					<type>
+						int
+					</type>
+				</id_route_parent>
+				<id_route_child>
+					<description>
+						Index de la route enfant (peut être un dossier ou une page)
+					</description>
+					<type>
+						int
+					</type>
+				</id_route_child>
+			</attributs>
+		</LinkRouteRoute>
+		<Parameter>
+			<description>
+				Paramètre attendu d'une page
+			</description>
+			<extends>
+				\core\Managed
+			</extends>
+			<attributs>
+				<id>
+					<description>
+						Index du paramètre dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<name>
+					<description>
+						Nom de l'attribut
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<necessary>
+					<description>
+						Si le paramètre est nécessaire au fonctionnement de la page
+					</description>
+					<type>
+						bool
+					</type>
+				</necessary>
+				<regex>
+					<description>
+						Regex respecté par la valeur du paramètre
+					</description>
+					<type>
+						string
+					</type>
+				</regex>
+			</attributs>
+			<méthodes>
+				<getFullRegex>
+					<description>
+						Renvoi la regex avec ses délimiteurs, même s'ils ne sont pas précisé dans la base de donnée
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</getFullRegex>
+			</méthodes>
+		</Parameter>
+		<ParameterManager>
+			<description>
+				Gestionnnaire de \route\Parameter
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</ParameterManager>
+		<Route>
+			<description>
+				Une page ou dossier dynamique contenant des pages
+			</description>
+			<extends>
+				\core\Managed
+			</extends>
+			<attributs>
+				<id>
+					<description>
+						Index de la route dans la base de donnée (qui est aussi son chemin)
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<name>
+					<description>
+						Nom de la route
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<type>
+					<description>
+						Si la route ne contient pas d'autre route (page)
+					</description>
+					<type>
+						bool
+					</type>
+				</type>
+			</attributs>
+			<constantes>
+				<TYPES>
+					<description>
+						Si la route est une page
+					</description>
+					<type>
+						array
+					</type>
+				</TYPES>
+			</constantes>
+			<méthodes>
+				<getPath>
+					<description>
+						Récupère un des path possible pour atteindre cette route
+					</description>
+					<arguments>
+						<root_id>
+							<description>
+								Id de la route depuis laquelle commencer le chemin
+							</description>
+							<type>
+								int
+							</type>
+						</root_id>
+						<loaded>
+							<description>
+								Id des routes déjà parcouru pendant la récursion pour éviter une récursion circulaire
+							</description>
+							<type>
+								array
+							</type>
+						</loaded>
+					</arguments>
+					<type>
+						False|string
+					</type>
+				</getPath>
+				<loadSubFiles>
+					<description>
+						Charge tous les fichiers (configuration, locale, messages de log) en partant du bas (si multiples, le premier dans la base de donnée).
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</loadSubFiles>
+				<retrieveFolder>
+					<description>
+						Récupère le dossier associé à la route
+					</description>
+					<valeur>
+						\route\Folder
+					</valeur>
+				</retrieveFolder>
+				<retrieveParameters>
+					<description>
+						Récupère les paramètres attendues pour cette route
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</retrieveParameters>
+			</méthodes>
+		</Route>
+		<RouteManager>
+			<description>
+				Gestionnaire associé à \route\Route
+			</description>
+			<extends>
+				\core\Manager
+			</extends>
+		</RouteManager>
+		<Router>
+			<description>
+				Gère, créée et découpe les liens internes du site
+			</description>
+			<attributs>
+				<mode>
+					<description>
+						Mode d'opération du Routeur
+					</description>
+					<type>
+						int
+					</type>
+				</mode>
+			</attributs>
+			<constantes>
+				<MODES>
+					<description>
+						Liste des modes d'opération possible pour le routeur
+					</description>
+					<type>
+						array
+					</type>
+				</MODES>
+			</constantes>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur
+					</description>
+					<arguments>
+						<mode>
+							<description>
+								Mode du routeur
+							</description>
+							<type>
+								int
+							</type>
+						</mode>
+					</arguments>
+				</__construct>
+				<buildNode>
+					<description>
+						Construit un arbre, utilisé pour la récupération des routes
+					</description>
+					<arguments>
+						<array_of_available_routes>
+							<description>
+								Listes contenant les listes contenants les routes correspondant aux noms donnée par l'url, dans l'ordre du chemin
+							</description>
+							<type>
+								array
+							</type>
+						</array_of_available_routes>
+						<row>
+							<description>
+								Clef correspondant au niveau du noeud
+							</description>
+							<type>
+								int|mixed
+							</type>
+						</row>
+						<column>
+							<description>
+								Clef correspondant à la valeur du noeud
+							</description>
+							<type>
+								int|mixed
+							</type>
+						</column>
+					</arguments>
+					<valeur>
+						\structure\Node|False
+					</valeur>
+				</buildNode>
+				<cleanParameters>
+					<description>
+						Nettoie de la liste des paramètres donnée les paramètres non demandé (ou ne correspondant pas au format demandé)
+					</description>
+					<arguments>
+						<parameters>
+							<description>
+								Paramètres à nettoyer
+							</description>
+							<type>
+								array
+							</type>
+						</parameters>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</cleanParameters>
+				<createLink>
+					<description>
+						Créée un lien intrasite à partir du tableau donné et du mode du routeur
+					</description>
+					<arguments>
+						<route>
+							<description>
+								Tableau représentant le lien
+							</description>
+							<type>
+								array
+							</type>
+						</route>
+						<parameters>
+							<description>
+								Paramètres de la route
+							</description>
+							<type>
+								array
+							</type>
+						</parameters>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</createLink>
+				<createLinkGet>
+					<description>
+						Créée un lien intrasite à partir du tableau donné avec le mode GET
+					</description>
+					<arguments>
+						<route>
+							<description>
+								Tableau représentant le lien
+							</description>
+							<type>
+								array
+							</type>
+						</route>
+						<parameters>
+							<description>
+								Paramètres de la route
+							</description>
+							<type>
+								array
+							</type>
+						</parameters>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</createLinkGet>
+				<createLinkMixed>
+					<description>
+						Créée un lien intrasite à partir du tableau donné avec le mode MIXED
+					</description>
+					<arguments>
+						<route>
+							<description>
+								Tableau représentant le lien
+							</description>
+							<type>
+								array
+							</type>
+						</route>
+						<parameters>
+							<description>
+								Paramètres de la route
+							</description>
+							<type>
+								array
+							</type>
+						</parameters>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</createLinkMixed>
+				<createLinkRoute>
+					<description>
+						Créée un lien intrasite à partir du tableau donné avec le mode ROUTE
+					</description>
+					<arguments>
+						<route>
+							<description>
+								Tableau représentant le lien
+							</description>
+							<type>
+								array
+							</type>
+						</route>
+						<parameters>
+							<description>
+								Paramètres de la route
+							</description>
+							<type>
+								array
+							</type>
+						</parameters>
+					</arguments>
+					<valeur>
+						string
+					</valeur>
+				</createLinkRoute>
+				<decodeRoute>
+					<description>
+						Transforme une chaîne de caractère représentant un lien intrasite en tableau
+					</description>
+					<arguments>
+						<url>
+							<description>
+								Lien à décoder
+							</description>
+							<type>
+								string
+							</type>
+						</url>
+					</arguments>
+					<valeur>
+						array
+					</valeur>
+				</decodeRoute>
+				<decodeWithGet>
+					<description>
+						Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement GET
+					</description>
+					<arguments>
+						<url>
+							<description>
+								Lien à décoder
+							</description>
+							<type>
+								string
+							</type>
+						</url>
+					</arguments>
+					<value>
+						array
+					</value>
+				</decodeWithGet>
+				<decodeWithMixed>
+					<description>
+						Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement MIXED
+					</description>
+					<arguments>
+						<url>
+							<description>
+								Lien à décoder
+							</description>
+							<type>
+								string
+							</type>
+						</url>
+					</arguments>
+					<value>
+						array
+					</value>
+				</decodeWithMixed>
+				<decodeWithRoute>
+					<description>
+						Transforme une chaîne de caractère représentant un lien intrasite en tableau pour un lien généré avec le mode de fonctionnement ROUTE
+					</description>
+					<arguments>
+						<url>
+							<description>
+								Lien à décoder
+							</description>
+							<type>
+								string
+							</type>
+						</url>
+					</arguments>
+					<value>
+						array
+					</value>
+				</decodeWithRoute>
+				<getMode>
+					<description>
+						Retourne le mode actuel du routeur
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</getMode>
+				<setMode>
+					<description>
+						Définisseur du mode du routeur
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<arguments>
+						<mode>
+							<description>
+								Nouveau mode du routeur
+							</description>
+							<type>
+								int
+							</type>
+						</mode>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</setMode>
+			</méthodes>
+		</Router>
+	</route>
+	<structure>
+		<node>
+			<description>
+				Un noeud d'un arbre
+			</description>
+			<attributs>
+				<childrens>
+					<description>
+						Listes des noeuds contenu dans ce noeud
+					</description>
+					<type>
+						array
+					</type>
+				</childrens>
+				<data>
+					<description>
+						Donnée du noeud
+					</description>
+					<type>
+						mixed
+					</type>
+				</data>
+				<parent>
+					<description>
+						Parent du noeud (null si root)
+					</description>
+					<type>
+						\structure\Node|null
+					</type>
+				</parent>
+			</attributs>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur de \structure\Node
+					</description>
+					<arguments>
+						<data>
+							<description>
+								Donnée du noeud
+							</description>
+							<type>
+								mixed
+							</type>
+						</data>
+						<parent>
+							<description>
+								Parent du noeud
+							</description>
+							<type>
+								\structure\Node|null
+							</type>
+						</parent>
+					</arguments>
+					<valeur>
+						\structure\Node
+					</valeur>
+				</__construct>
+				<addChild>
+					<description>
+						Ajoute un noeud enfant à ce noeud
+					</description>
+					<arguments>
+						<child>
+							<description>
+								Noeud enfant à ajouter
+							</description>
+							<type>
+								\structure\Node
+							</type>
+						</child>
+					</arguments>
+					<valeur>
+						\structure\Node
+					</valeur>
+				</addChild>
+				<removeChild>
+					<description>
+						Supprime un noeud enfant à ce noeud
+					</description>
+					<arguments>
+						<child>
+							<description>
+								Noeud enfant à supprimer
+							</description>
+							<type>
+								\structure\Node
+							</type>
+						</child>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</removeChild>
+				<get>
+					<description>
+						Retournes la valeur de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à renvoyer
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						mixed
+					</valeur>
+				</get>
+				<getAncestors>
+					<description>
+						Retournes les ancêtres de ce noeud
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</getAncestors>
+				<getDepth>
+					<description>
+						Retournes la profondeur du noeud dans l'arbre
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</getDepth>
+				<getHeight>
+					<description>
+						Retournes la hauteur du noeud (la profondeur du noeud le plus jeune si on prend ce noeud comme racine)
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</getHeight>
+				<getNeighbors>
+					<description>
+						Retournes les noeuds voisins
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</getNeighbors>
+				<getRoot>
+					<description>
+						Retournes la racine de l'arbre
+					</description>
+					<valeur>
+						\structure\Node
+					</valeur>
+				</getRoot>
+				<set>
+					<description>
+						Modifie la valeur de l'attribut demandé
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à modifier
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+						<value>
+							<description>
+								Nouvelle valeur de l'attribut
+							</description>
+							<type>
+								mixed
+							</type>
+						</value>
 						<valeur>
-							protégé
+							bool
 						</valeur>
-					</displayPassword_clear>
-					<getPassword_clear>
-						<description>
-							Accesseur du mot de passe en clair
-						</description>
-						<protection>
-							protégé
-						</protection>
+					</arguments>
+			</méthodes>
+		</node>
+		<tree>
+			<description>
+				Une structure d'arbre simple
+			</description>
+			<attributs>
+				<root>
+					<description>
+						Premier noeud de l'arbre
+					</description>
+					<type>
+						\structure\Node
+					</type>
+				</root>
+			</attributs>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur de \structure\tree
+					</description>
+					<arguments>
+						<root_data>
+							<description>
+								Donnée contenu dans le premier noeud
+							</description>
+							<type>
+								mixed
+							</type>
+						</root_data>
+					</arguments>
+					<valeur>
+						\structure\Tree
+					</valeur>
+				</__construct>
+				<get>
+					<description>
+						Retournes la valeur de l'attribut demandé
+					</description>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à renvoyer
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+					</arguments>
+					<valeur>
+						mixed
+					</valeur>
+				</get>
+				<set>
+					<description>
+						Modifie la valeur de l'attribut demandé
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<arguments>
+						<attribute>
+							<description>
+								Nom de l'attribut à modifier
+							</description>
+							<type>
+								string
+							</type>
+						</attribute>
+						<value>
+							<description>
+								Nouvelle valeur de l'attribut
+							</description>
+							<type>
+								mixed
+							</type>
+						</value>
 						<valeur>
-							string
+							bool
 						</valeur>
-					</getPassword_clear>
-					<hash>
-						<description>
-							Hash l'attribut password_clear et l'affecte à l'attribut password_hashed
-						</description>
- 					</hash>
-				</méthodes>
-			</Password>
-			<PasswordManager>
-				<description>
-					Gestionnaire de \user\Password
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</PasswordManager>
-			<Permission>
-				<description>
-					Permission associé à une page
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Identifiant de la permission dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<id_page>
-						<description>
-							Identifiant de la page dans la base de donnée (\user\Page)
-						</description>
-						<type>
-							int
-						</type>
-					</id_page>
-					<id_role>
-						<description>
-							Nom du rôle associé à cette permission
-						</description>
-						<type>
-							string
-						</type>
-					</id_role>
-				</attributs>
-				<méthodes>
-					<display>
-						<description>
-							Affiche la permission d'une façon lisible et sécurisée
-						</description>
- 						<valeur>
-							string
+					</arguments>
+				</set>
+			</méthodes>
+		</tree>
+	</structure>
+	<user>
+		<Configuration>
+			<description>
+				Configuration de l'utilisateur
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<id>
+					<description>
+						Identifiant de la configuration dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<id_user>
+					<description>
+						Identifiant de l'utilisateur possédant cette configuration
+					</description>
+					<type>
+						int
+					</type>
+				</id_user>
+				<name>
+					<description>
+						Nom de la configuration
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<value>
+					<description>
+						Valeur de la configuration
+					</description>
+					<type>
+						string
+					</type>
+				</value>
+			</attributs>
+			<méthodes>
+				<display>
+					<description>
+						Affiche la configuration d'une manière visible et sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</display>
+			</méthodes>
+		</Configuration>
+		<ConfigurationManager>
+			<description>
+				Gestionnaire de \user\Configuration
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</ConfigurationManager>
+		<LinkNotificationUser>
+			<description>
+				Gère le lien entre les notifications et les utilisateurs
+			</description>
+			<extend>
+				\core\LinkManager
+			</extend>
+		</LinkNotificationUser>
+		<LinkPermissionRole>
+			<description>
+				Gère le lien entre les permissions et les rôles
+			</description>
+			<extend>
+				\core\LinkManager
+			</extend>
+		</LinkPermissionRole>
+		<LinkRoleUser>
+			<description>
+				Gère le lien entre les rôles et les utilisateurs
+			</description>
+			<extend>
+				\core\LinkManager
+			</extend>
+		</LinkRoleUser>
+		<Notification>
+			<description>
+				Notification pour des utilisateurs
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<content>
+					<description>
+						Contenu de la notification
+					</description>
+					<type>
+						string
+					</type>
+				</content>
+				<date>
+					<description>
+						Date de l'émission de la notification
+					</description>
+					<type>
+						string
+					</type>
+				</date>
+				<id>
+					<description>
+						Index de la notification dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<id_content>
+					<description>
+						Index du \content\Content associé à cette notification dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id_content>
+				<substitution>
+					<description>
+						Tableau de substitution associé au contenu de la notification
+					</description>
+					<type>
+						array
+					</type>
+				</substitution>
+				<type>
+					<description>
+						Type de la notification
+					</description>
+					<type>
+						string
+					</type>
+				</type>
+			</attributs>
+			<constantes>
+				<TYPES>
+					<description>
+						Types de notifications possible par défaut
+					</description>
+					<type>
+						array
+					</type>
+				</TYPES>
+			</constantes>
+			<méthodes>
+				<addToSession>
+					<description>
+						Ajoute la notification à la session pour cet utilisateur
+					</description>
+				</addToSession>
+				<change>
+					<description>
+						Modifie une notification
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</change>
+				<create>
+					<description>
+						Créée une notification
+					</description>
+					<arguments>
+						<id_users>
+							<description>
+								Liste d'identifiant des utilisateurs concernées par la notification
+							</description>
+							<type>
+								array
+							</type>
+						</id_users>
+					</arguments>
+				</create>
+				<delete>
+					<description>
+						Supprime la notification
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</delete>
+				<display>
+					<description>
+						Affiche la notification de façon lisible et sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</display>
+				<displayContent>
+					<description>
+						Affiche le contenu de la notification dans la langue de l'utilisateur, ou la langue par défaut si celle-ci n'existe pas
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</displayContent>
+				<getNotifications static="yes">
+					<description>
+						Retournes les notifications à afficher pour cette requête
+					</description>
+					<paramètres>
+						<element>
+							<description>
+								L'élément qui contiendra les informations de la notification
+							</description>
+							<type>
+								\content\pageelement\PageElement
+							</type>
+						</element>
+					</paramètres>
+					<valeur>
+						array
+					</valeur>
+				</getNotifications>
+				<retrieveContent>
+					<description>
+						Récupère le \content\Content associé à la notification
+					</description>
+					<valeur>
+						\content\Content|False
+					</valeur>
+				</retrieveContent>
+				<retrieveUsers>
+					<description>
+						Récupère tout les utilisateurs concernés par la notification
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</retrieveUsers>
+			</méthodes>
+		</Notification>
+		<NotificationManager>
+			<description>
+				Gestionnaire de \user\Notification
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</NotificationManager>
+		<Page>
+			<description>
+				Page du site
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+			<attributs>
+				<id>
+					<description>
+						Identifiant de la page dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<id_route>
+					<description>
+						Chemin vers le dossier de définition de la page
+					</description>
+					<type>
+						string
+					</type>
+				</id_route>
+				<name>
+					<description>
+						Nom de la page
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<page_element>
+					<description>
+						Contenu de la page
+					</description>
+					<type>
+						\content\pageelement\PageElement
+					</type>
+				</page_element>
+				<parameters>
+					<description>
+						Paramètres de la page
+					</description>
+					<type>
+						array
+					</type>
+				</parameters>
+				<route>
+					<description>
+						Chemin vers la page
+					</description>
+					<type>
+						array
+					</type>
+				</route>
+			</attributs>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Attributs de la page
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+						<valeur>
+							bool
 						</valeur>
-					</display>
-					<retrieve>
-						<description>
-							Récupère la permission
-						</description>
- 					</retrieve>
-					<retrievePage>
-						<description>
-							Récupère la \user\Page
-						</description>
- 						<valeur>
-							\Router\Page
-						</valeur>
-					</retrievePage>
-				</méthodes>
-			</Permission>
-			<PermissionManager>
-				<description>
-					Gestionnaire de \user\Permission dans la base de donnée
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</PermissionManager>
-			<Role>
-				<description>
-					Rôle d'un utilisateur, possède un ensemble de permission
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Identifiant du rôle dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<name>
-						<description>
-							Nom du rôle
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<permissions>
-						<description>
-							Liste des permissions du rôle
-						</description>
-						<type>
-							array
-						</type>
-					</permissions>
-				</attributs>
-				<méthodes>
-					<addPermission>
-						<description>
-							Ajoute une permission au rôle
-						</description>
- 						<arguments>
-							<id>
-								<description>
-									Identifiant de la nouvelle permission
-								</description>
-							</id>
-						</arguments>
-					</addPermission>
-					<retrieve>
-						<description>
-							Récupère le rôle
-						</description>
- 					</retrieve>
-					<retrievePermissions>
-						<description>
-							Récupère les permissions lié au rôle dans la base de donnée
-						</description>
- 					</retrievePermissions>
-				</méthodes>
-			</Role>
-			<RoleManager>
-				<description>
-					Gestionnaire de \user\Role dans la base de donnée
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</RoleManager>
-			<User>
+					</arguments>
+				</__construct>
+				<addParameter>
+					<description>
+						Ajoute un paramètre
+					</description>
+					<arguments>
+						<key>
+							<description>
+								Nom du paramètre
+							</description>
+							<type>
+								string
+							</type>
+						</key>
+						<value>
+							<description>
+								Valeur du paramètre
+							</description>
+							<type>
+								mixed
+							</type>
+						</value>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</addParameter>
+				<display>
+					<description>
+						Affiche la page
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</display>
+				<load>
+					<description>
+						Charge le fichier php associé à la page
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</load>
+				<retrieveParameters>
+					<description>
+						Récupères les paramètres de la page dans la base de donnée
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</retrieveParameters>
+				<retrieveRoute>
+					<description>
+						Récupère la route associée à la page
+					</description>
+					<valeur>
+						\route\Route|False
+					</valeur>
+				</retrieveRoute>
+			</méthodes>
+		</Page>
+		<PageManager>
+			<description>
+				Gestionnaire de \user\Page (même que \route\RouteManager)
+			</description>
+			<extend>
+				\route\RouteManager
+			</extend>
+		</PageManager>
+		<Parameter>
+			<description>
+				Un paramètre de la page
+			</description>
+			<extend>
+				/core/Managed
+			</extend>
+			<attributs>
+				<id_page>
+					<description>
+						Id de la page
+					</description>
+					<type>
+						int
+					</type>
+				</id_page>
+				<key>
+					<description>
+						Clef du paramètre
+					</description>
+					<type>
+						string
+					</type>
+				</key>
+				<value>
+					<description>
+						Valeur du paramètre
+					</description>
+					<type>
+						string
+					</type>
+				</value>
+			</attributs>
+		</Parameter>
+		<ParameterManager>
+			<description>
+				Gestionnaire de /user/Parameter
+			</description>
+			<extend>
+				/core/Manager
+			</extend>
+		</ParameterManager>
+		<Password>
+			<description>
+				Mot de passe d'un utilisateur
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<id>
+					<description>
+						Identifiant du mot de passe dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<password_clear>
+					<description>
+						Mot de passe en clair
+					</description>
+					<type>
+						string
+					</type>
+				</password_clear>
+				<password_hashed>
+					<description>
+						Mot de passe hashé stocké dans la base de donnée
+					</description>
+					<type>
+						string
+					</type>
+				</password_hashed>
+			</attributs>
+			<méthodes>
+				<check>
+					<description>
+						Vérifie la validité d'un mot de passe en clair par rapport à celui stocké dans la base de donnée (déjà récupéré)
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</check>
+				<display>
+					<description>
+						Afiche le mot de passe de façon lisible et protégée
+					</description>
+					<valeur>
+						string
+					</valeur>
+					<commentaire>
+						Ne pas afficher le mot de passe en clair ici, la méthode étant publique (ou alors bien contrôler cet affichage)
+					</commentaire>
+				</display>
+				<displayPassword_clear>
+					<description>
+						Affiche le mot de passe en clair de façon lisible et protégée
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<valeur>
+						string
+					</valeur>
+				</displayPassword_clear>
+				<getPassword_clear>
+					<description>
+						Accesseur du mot de passe en clair
+					</description>
+					<protection>
+						protégé
+					</protection>
+					<valeur>
+						string
+					</valeur>
+				</getPassword_clear>
+				<hash>
+					<description>
+						Hash l'attribut password_clear et l'affecte à l'attribut password_hashed
+					</description>
+				</hash>
+			</méthodes>
+		</Password>
+		<PasswordManager>
+			<description>
+				Gestionnaire de \user\Password
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</PasswordManager>
+		<Permission>
+			<description>
+				Permission associé à une page
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<id>
+					<description>
+						Identifiant de la permission dans la base de donnée
+					</description>
+					<type>
+						int
+					</type>
+				</id>
+				<id_route>
+					<description>
+						Identifiant de la page dans la base de donnée (\user\Page)
+					</description>
+					<type>
+						int
+					</type>
+				</id_route>
+				<name_role>
+					<description>
+						Nom du rôle associé à cette permission
+					</description>
+					<type>
+						string
+					</type>
+				</name_role>
+			</attributs>
+			<méthodes>
+				<retrieveRoute>
+					<description>
+						Récupère la \route\Route
+					</description>
+					<valeur>
+						\route\Route
+					</valeur>
+				</retrieveRoute>
+			</méthodes>
+		</Permission>
+		<PermissionManager>
+			<description>
+				Gestionnaire de \user\Permission dans la base de donnée
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</PermissionManager>
+		<Role>
+			<description>
+				Rôle d'un utilisateur, possède un ensemble de permission
+			</description>
+			<attributs>
+				<name>
+					<description>
+						Nom du rôle
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<permissions>
+					<description>
+						Liste des permissions du rôle
+					</description>
+					<type>
+						array
+					</type>
+				</permissions>
+			</attributs>
+			<méthodes>
+				<__construct>
+					<description>
+						Constructeur
+					</description>
+					<arguments>
+						<attributes>
+							<description>
+								Attributs de l'objet
+							</description>
+							<type>
+								array
+							</type>
+						</attributes>
+					</arguments>
+				</__construct>
+				<addPermissions>
+					<description>
+						Ajoute des permissions au rôle
+					</description>
+					<arguments>
+						<id>
+							<description>
+								Identifiants des nouvelle permission
+							</description>
+							<type>
+								array
+							</type>
+						</id>
+					</arguments>
+				</addPermissions>
+				<retrievePermissions>
+					<description>
+						Récupère les permissions lié au rôle dans la base de donnée
+					</description>
+				</retrievePermissions>
+			</méthodes>
+		</Role>
+		<User>
 				<description>
 					Utilisateur du site
 				</description>
@@ -3124,14 +3178,14 @@
 							int
 						</type>
 					</nickname>
-					<password>
+					<configurations>
 						<description>
-							Mot de passe de l'utilisateur
+							Configurations du visiteur
 						</description>
 						<type>
-							\user\Password
+							array
 						</type>
-					</password>
+					</configurations>
 					<date_registration>
 						<description>
 							Date d'inscription de l'utilisateur
@@ -3148,6 +3202,22 @@
 							date
 						</type>
 					</date_login>
+					<notifications>
+						<description>
+							Notifications de l'utilisateur
+						</description>
+						<type>
+							array
+						</type>
+					</notifications>
+					<password>
+						<description>
+							Mot de passe de l'utilisateur
+						</description>
+						<type>
+							\user\Password
+						</type>
+					</password>
 					<roles>
 						<description>
 							Rôles de l'utilisateur
@@ -3158,6 +3228,32 @@
 					</roles>
 				</attributs>
 				<méthodes>
+					<checkPermission>
+						<description>
+							Vérifie si le visiteur peut consulter la page demandée
+						</description>
+ 						<arguments>
+							<page>
+								<description>
+									Page que le visiteur souhaite voir
+								</description>
+								<type>
+									\user\Page
+								</type>
+							</page>
+						</arguments>
+						<valeur>
+							bool
+						</valeur>
+					</checkPermission>
+					<remove>
+						<description>
+							Supprime définitivement l'utilisateur de la base de donnée
+						</description>
+ 						<commentaire>
+							A utiliser avec prudence, pensez à nettoyer les références à cet utilisateur dans les autres bases de données
+						</commentaire>
+					</remove>
 					<display>
 						<description>
 							Affiche l'utilisateur sous un format lisible et sécurisé
@@ -3168,7 +3264,7 @@
 					</display>
 					<isConnected>
 						<description>
-							Vérifie si la dernière connection de l'utilisateur date d'il y a moins d'un certain intervalle de temps donné
+							Vérifie si la dernière connexion de l'utilisateur date d'il y a moins d'un certain intervalle de temps donné
 						</description>
  						<arguments>
 							<interval>
@@ -3189,13 +3285,15 @@
 							Récupère les données de l'utilisateur à partir des informations déjà renseigné
 						</description>
  					</retrieve>
+					<retrieveConfigurations>
+						<description>
+							Récupère les configurations du visiteur
+						</description>
+ 					</retrieveConfigurations>
 					<retrieveNotifications>
 						<description>
 							Récupère les notifications envoyés à l'utilisateur
 						</description>
- 						<valeur>
-							array
-						</valeur>
 					</retrieveNotifications>
 					<retrievePassword>
 						<description>
@@ -3207,176 +3305,9 @@
 							Récupère les rôle de l'utilisateur
 						</description>
  					</retrieveRoles>
-				</méthodes>
-			</User>
-			<UserManager>
-				<description>
-					Gestionnaire de \user\User
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</UserManager>
-			<Visitor>
-				<description>
-					Visiteur de site
-				</description>
-				<extend>
-					\user\User
-				</extend>
-				<attributs>
-					<configurations>
-						<description>
-							Configurations du visiteur
-						</description>
-						<type>
-							array
-						</type>
-					</configurations>
-					<page>
-						<description>
-							Page vu par le visiteur
-						</description>
-						<type>
-							\user\Page
-						</type>
-					</page>
-				</attributs>
-				<méthodes>
-					<__construct>
-						<description>
-							Constructeur
-						</description>
- 						<arguments>
-							<attributes>
-								<description>
-									Attributs du visiteur
-								</description>
-								<type>
-									array
-								</type>
-								<optionel>
-									oui
-								</optionel>
-							</attributes>
-						</arguments>
-					</__construct>
-					<change>
-						<description>
-							Modifie les informations du visiteur stockée dans la base de donnée
-						</description>
- 					</change>
-					<checkPermission>
-						<description>
-							Vérifie si le visiteur peut consulter la page demandée
-						</description>
- 						<arguments>
-							<page>
-								<description>
-									Page que le visiteur souhaite voir
-								</description>
-								<type>
-									\user\Page
-								</type>
-							</page>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</checkPermission>
-					<connect>
-						<description>
-							Connectes le visiteur
-						</description>
- 						<arguments>
-							<password>
-								<description>
-									Mot de passe correspondant au compte du visiteur en clair
-								</description>
-								<type>
-									string
-								</type>
-							</password>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</connect>
-					<delete>
-						<description>
-							Supprime définivement le visiteur de la base de donnée
-						</description>
- 						<commentaire>
-							A utiliser avec prudence, pensez à nettoyer les références à cet utilisateur dans les autres bases de données
-						</commentaire>
-					</delete>
-					<disconnect>
-						<description>
-							Déconnectes le visiteur
-						</description>
- 					</disconnect>
-					<displayPage>
-						<description>
-							Affiche la page
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</displayPage>
-					<loadPage>
-						<description>
-							Charge la page si le visiteur en a le droit
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									Tableau représentant la page à charger
-								</description>
-								<type>
-									array
-								</type>
-							</route>
-						</arguments>
-						<valeur>
-							\user\Page
-						</valeur>
-					</loadPage>
-					<register>
-						<description>
-							Enrergistre un nouveau visiteur
-						</description>
- 						<arguments>
-							<password>
-								<description>
-									Mot de passe en clair
-								</description>
-								<type>
-									string
-								</type>
-							</password>
-							<role_name>
-								<description>
-									Nom du rôle du visiteur
-								</description>
-								<type>
-									string
-								</type>
-							</role_name>
-						</arguments>
-					</register>
-					<retrieve>
-						<description>
-							Récupère l'utilisateur et les configurations du visiteur
-						</description>
- 					</retrieve>
-					<retrieveConfigurations>
-						<description>
-							Récupère les configurations du visiteur
-						</description>
- 					</retrieveConfigurations>
 					<setConfiguration>
 						<description>
-							Ajoute une nouvelle valeur à la configuration du visiteur de manière définitive
+							Ajoute une nouvelle valeur à la configuration du visiteur de manière définitive (peut remplacer)
 						</description>
  						<arguments>
 							<key>
@@ -3396,25 +3327,77 @@
 								</type>
 							</value>
 						</arguments>
+						<valeur>
+							True
+						</valeur>
 					</setConfiguration>
-					<setPage>
+				</méthodes>
+			</User>
+			<UserManager>
+				<description>
+					Gestionnaire de \user\User
+				</description>
+				<extend>
+					\core\Manager
+				</extend>
+			</UserManager>
+			<Visitor>
+				<description>
+					Visiteur de site
+				</description>
+				<extend>
+					\user\User
+				</extend>
+				<attributs>
+					<page>
 						<description>
-							Assigne une nouvelle valeur à l'attribut page, si page est du bon type et peut être vu pas le visiteur
+							Page vu par le visiteur
 						</description>
-						<protection>
-							protégé
-						</protection>
-						<arguments>
-							<page>
+						<type>
+							\user\Page
+						</type>
+					</page>
+				</attributs>
+				<méthodes>
+					<connect>
+						<description>
+							Connectes le visiteur
+						</description>
+						<valeur>
+							bool
+						</valeur>
+					</connect>
+					<disconnect>
+						<description>
+							Déconnectes le visiteur
+						</description>
+ 					</disconnect>
+					<loadPage>
+						<description>
+							Charge la page si le visiteur en a le droit
+						</description>
+ 						<arguments>
+							<route>
 								<description>
-									Nouvelle page vu par le visiteur
+									page à charger
 								</description>
 								<type>
-									\user\Page
+									\route\Route
 								</type>
-							</page>
+							</route>
 						</arguments>
-					</setPage>
+						<valeur>
+							\user\Page|False
+						</valeur>
+					</loadPage>
+					<register>
+						<description>
+							Enregistre un nouveau visiteur
+						</description>
+						<valeur>
+							bool
+						</valeur>
+					</register>
 				</méthodes>
 			</Visitor>
 			<VisitorManager>
@@ -3433,16 +3416,25 @@
 				<description>
 					Initialise la configuration, la langue de l'utilisateur et les modules.
 				</description>
+				<valeur>
+					bool
+				</valeur>
 			</init>
 			<init_router>
 				<description>
 					Récupère les paramètres pour l'initialisation du routeur.
 				</description>
+				<valeur>
+					bool
+				</valeur>
 			</init_router>
 			<init_visitor>
 				<description>
 					Récupère les paramètres pour l'initialisation du visiteur.
 				</description>
+				<valeur>
+					bool
+				</valeur>
 			</init_visitor>
 			<load_class>
 				<description>
@@ -3557,7 +3549,7 @@
 				Un caractère en utf-8 (https://www.rfc-editor.org/rfc/rfc3629.html)
 			</char>
 			<date>
-				Une date (https://www.rfc-editor.org/rfc/rfc3339.html)
+				Un string représentant une date (https://www.rfc-editor.org/rfc/rfc3339.html)
 			</date>
 			<int>
 				Un entier n-bit
@@ -3566,8 +3558,55 @@
 				Une langue (https://www.rfc-editor.org/rfc/5646.html)
 			</lang>
 			<string>
-				char+string
+				char|char+string
 			</string>
 		</liste>
 	</types>
+	<reservé>
+		<variables>
+			<$_GET>
+				<__path__>
+					Chemin pour la méthode de routage "GET"
+				</__path__>
+				<__locale__>
+					Langue de l'utilisateur selon la méthode GET (priorité 2)
+				</__locale__>
+			</$_GET>
+			<$_SESSION>
+				<__locale__>
+					Langue de l'utilisateur selon la dernière page visité (priorité 1)
+				</__locale__>
+				<__notifications__>
+					Notifications à envoyer pour la prochaine session
+				</__notifications__>
+			</$_SESSION>
+		</variables>
+		<page_preset>
+			<page_element>
+				<description>
+					Un élément qui contiendra la page
+				</description>
+				<type>
+					\content\pageelement\PageElement
+				</type>
+			</page_element>
+			<notification_element>
+				<description>
+					Un élément qui contiendra chaque notification de la page
+				</description>
+				<type>
+					\content\pageelement\PageElement
+				</type>
+			</notification_element>
+		</page_preset>
+	</reservé>
+	<idées>
+		<item>
+			Une page est une route (mais toutes routes n'est pas page, un route pouvant en contenir d'autre)
+		</item>
+	</idée>
 </documentation>
+TODO:
+chaque retrieve retourne la valeur (en plus de la stocker)
+on met le type des paramètres avant ceux ci dans les déf de fonction pour check les types
+script d'installation lors du premier run

@@ -5,7 +5,7 @@ namespace route;
 /**
  * A route parameter
  */
-class Parameter extends \core\Manager
+class Parameter extends \core\Managed
 {
 	/**
 	 * Index in the database
@@ -40,7 +40,7 @@ class Parameter extends \core\Manager
 	{
 		if (count($this->regex) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['log_message']['class']['route']['parameter']['bad_regex'], array('regex' => $this->regex));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['parameter']['bad_regex'], array('regex' => $this->regex));
 
 			return '##'; // always false
 		}

@@ -43,7 +43,7 @@ class Route extends \core\Managed
 	 *
 	 * @return False|string
 	 */
-	public function getPath(root_id: $root_id = null, loaded: $loaded = array())
+	public function getPath($root_id = null, $loaded = array())
 	{
 		if ($this->id === $root_id)
 		{
@@ -85,9 +85,9 @@ class Route extends \core\Managed
 		return False;
 	}
 	/**
-	 * load route files (config, locale, log_message) from every folder which contains the route
+	 * load route files (config, locale, lang) from every folder which contains the route
 	 *
- * @var bool All files exist and are loaded
+	 * @var bool All files exist and are loaded
 	 */
 	public function loadSubFiles()
 	{
@@ -95,6 +95,8 @@ class Route extends \core\Managed
 		$routes = $LinkRouteRoute->retrieveBy(array(
 			'id_route_child' => $this->id,
 		));
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], array('name' => $this->displayer('name')));
 
 		if (count($routes) != 0) // not root route
 		{
@@ -110,20 +112,22 @@ class Route extends \core\Managed
 
 		$Folder = $this->retrieveFolder();
 
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], array('name' => $this->displayer('name')));
+
 		$count = 0;
-		if (stream_resolve_include_path($Folder->getConfigFile()))
+		if (is_file($Folder->getConfigFile()))
 		{
 			include($Folder->getConfigFile());
 			$count += 1;
 		}
-		if (stream_resolve_include_path($Folder->getLocaleFile()))
+		if (is_file($Folder->getLocaleFile()))
 		{
 			include($Folder->getLocaleFile());
 			$count += 1;
 		}
-		if (stream_resolve_include_path($Folder->getLog_messageFile()))
+		if (is_file($Folder->getLangFile()))
 		{
-			include($Folder->getLog_messageFile());
+			include($Folder->getLangFile());
 			$count += 1;
 		}
 
@@ -150,10 +154,12 @@ class Route extends \core\Managed
 	 */
 	public function retrieveParameters()
 	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retreieveParameters']['start']);
+
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy(array(
 			'id_route_child' => $this->id,
-		));
+		), class_name: '\route\Route');
 
 		$parameters = array();
 
@@ -161,16 +167,26 @@ class Route extends \core\Managed
 		{
 			foreach ($routes as $route)
 			{
-				if (array_flip($GLOBALS['cache']['class']['route']['route']['loaded']['parameters'][[$route->get('id_route_parent')] != null) // avoid circular reference
+				if (array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')] != null) // avoid circular reference
 				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['loading_parameters']);
+
 					$parameters = array_merge($parameters, $route->retrieveParameters());
-					$GLOBALS['cache']['class']['route']['loaded']['parameters'][] = $result['id_route_parent'];
+					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $result['id_route_parent'];
+				}
+				else
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['root_parameters']);
 				}
 			}
 		}
+		else
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['root_parameters']);
+		}
 
-		$LinkManager = \route\LinkRouteParameter;
-		$parameters = array_merge($parameters, $LinkManager->RetrieveBy(array(
+		$LinkManager = \route\LinkRouteParameter();
+		return array_merge($parameters, $LinkManager->RetrieveBy(array(
 			'id_route' => $this->id,
 		)));
 	}

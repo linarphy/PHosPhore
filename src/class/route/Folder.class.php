@@ -57,13 +57,13 @@ class Folder extends \core\Managed
 		return $this->getPath() . $GLOBALS['locale']['core']['lang']['abbr'] . GLOBALS['config']['core']['file']['locale'];
 	}
 	/**
-	 * get the log_message file
+	 * get the lang file
 	 *
 	 * @return string
 	 */
-	public function getLog_messageFile()
+	public function getLangFile()
 	{
-		return $this->getPath() . $GLOBALS['log_message']['core']['lang']['abbr'] . $GLOBALS['config']['core']['file']['log_message'];
+		return $this->getPath() . $GLOBALS['lang']['core']['lang']['abbr'] . $GLOBALS['config']['core']['file']['lang'];
 	}
 	/**
 	 * get the parent folder

@@ -38,7 +38,7 @@ class Tree
 	{
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['structure']['Tree']['get']['not_found'], array('attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Tree']['get']['not_found'], array('attribute' => $attribute));
 
 			return null;
 		}
@@ -58,7 +58,7 @@ class Tree
 	{
 		if ($this->$attribute === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['log_message']['class']['structure']['Tree']['set']['not_found'], array('attribute' => $attribute));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Tree']['set']['not_found'], array('attribute' => $attribute));
 
 			return False;
 		}

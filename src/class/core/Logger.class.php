@@ -18,12 +18,12 @@ class Logger
 	 *
 	 * @var array
 	 */
-	const $TYPES = array(
-		'debug',
-		'info',
-		'warning',
-		'error',
-		'others',
+	const TYPES = array(
+		'debug'   => 'debug',
+		'info'    => 'info',
+		'warning' => 'warning',
+		'error'   => 'error',
+		'others'  => 'others',
 	);
 	/**
 	 * Log an event in the logs
@@ -34,9 +34,9 @@ class Logger
 	 *
 	 * @param array $substitution Substitution array, which contains list of string to replace placeholder
 	 */
-	public function log(type: $type, message: $message, substitution: $substitution = array())
+	public function log($type, $message, $substitution = array())
 	{
-		$config = $GLOBALS['config']['class']['core']['logger'];
+		$config = $GLOBALS['config']['class']['core']['Logger'];
 
 		/* manage content */
 
@@ -58,7 +58,7 @@ class Logger
 
 		$message = implode($tokens);
 
-		$tokens = preg_split('/({(?:\\}|[^\\}])+})/', $config['format'], -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $config['format'], -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		$backtrace = debug_backtrace();
 		$key = array_search(__FUNCTION__, array_column($backtrace, 'function'));
@@ -78,7 +78,7 @@ class Logger
 					$tokens[$key] = $backtrace['line'];
 					break;
 				case '{message}':
-					$tokens[$key} = $message;
+					$tokens[$key] = $message;
 					break;
 				case '{type}':
 					$tokens[$key] = $type;
@@ -89,20 +89,20 @@ class Logger
 
 		/* manage file */
 
-		if (in_array($type, $config['logged_types']) | $GLOBALS['config']['class']['core']['logger']['logged_types'] === '*')
+		if ( $config['logged_types'] === '*' || in_array($type, $config['logged_types']))
 		{
-			if (!is_dir($config['directory'], 0774))
+			if (!is_dir($config['directory']))
 			{
-				if (!mkdir($config['directory']))
+				if (!mkdir($config['directory'], 0774))
 				{
 					throw new \Exception('cannot create the directory ' . $config['directory'] . '. Please check permissions');
 				}
 			}
 
 			$directory = $config['directory'] . DIRECTORY_SEPARATOR . $type;
-			if (!is_dir($directory, 0774))
+			if (!is_dir($directory))
 			{
-				if (!mkdir($directory))
+				if (!mkdir($directory, 0774))
 				{
 					throw new \Exception('cannot create the directory ' . $directory . '. Please check permissions');
 				}

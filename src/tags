@@ -1,0 +1,307 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/srv/http/phosphore.localhost/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
+ATRIBUTES	./class/route/LinkRouteParameter.class.php	/^	const ATRIBUTES = array($/;"	d	class:route\\LinkRouteParameter
+ATTRIBUTES	./class/content/ContentManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:content\\ContentManager
+ATTRIBUTES	./class/core/Manager.class.php	/^	const ATTRIBUTES = array();$/;"	d	namespace:core
+ATTRIBUTES	./class/route/FolderManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:route\\FolderManager
+ATTRIBUTES	./class/route/LinkRouteRoute.class.php	/^	const ATTRIBUTES = array($/;"	d	class:route\\LinkRouteRoute
+ATTRIBUTES	./class/route/ParameterManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:route\\ParameterManager
+ATTRIBUTES	./class/route/RouteManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:route\\Route
+ATTRIBUTES	./class/user/ConfigurationManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\ConfigurationManager
+ATTRIBUTES	./class/user/LinkNotificationUser.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\LinkNotificationUser
+ATTRIBUTES	./class/user/LinkPageParameter.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\LinkPageParameter
+ATTRIBUTES	./class/user/LinkPermissionRole.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\LinkPermissionRole
+ATTRIBUTES	./class/user/LinkRoleUser.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\LinkRoleUser
+ATTRIBUTES	./class/user/NotificationManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\NotificationManager
+ATTRIBUTES	./class/user/ParameterManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\ParameterManager
+ATTRIBUTES	./class/user/PasswordManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\PasswordManager
+ATTRIBUTES	./class/user/PermissionManager.class.php	/^	const ATTRIBUTES = array($/;"	d	class:user\\PermissionManager
+Configuration	./class/user/Configuration.class.php	/^class Configuration extends \\core\\Managed$/;"	c	namespace:user
+ConfigurationManager	./class/user/ConfigurationManager.class.php	/^class ConfigurationManager extends \\core\\Manager$/;"	c	namespace:user
+Content	./class/content/Content.class.php	/^class Content extends \\core\\Managed$/;"	c	namespace:content
+ContentManager	./class/content/ContentManager.class.php	/^class ContentManager extends \\core\\Manager$/;"	c	namespace:content
+DBFactory	./class/core/DBFactory.class.php	/^class DBFactory$/;"	c	namespace:core
+Folder	./class/route/Folder.class.php	/^class Folder extends \\core\\Managed$/;"	c	namespace:route
+FolderManager	./class/route/FolderManager.class.php	/^class FolderManager extends \\core\\Manager$/;"	c	namespace:route
+INDEX	./class/content/ContentManager.class.php	/^	const INDEX = array($/;"	d	class:content\\ContentManager
+INDEX	./class/core/Managed.class.php	/^	const INDEX = array('id');$/;"	d	class:core\\Managed
+INDEX	./class/core/Manager.class.php	/^	const INDEX = array();$/;"	d	namespace:core
+INDEX	./class/route/FolderManager.class.php	/^	const INDEX = array($/;"	d	class:route\\FolderManager
+INDEX	./class/route/LinkRouteParameter.class.php	/^	const INDEX = array($/;"	d	class:route\\LinkRouteParameter
+INDEX	./class/route/LinkRouteRoute.class.php	/^	const INDEX = array($/;"	d	class:route\\LinkRouteRoute
+INDEX	./class/route/ParameterManager.class.php	/^	const INDEX = array($/;"	d	class:route\\ParameterManager
+INDEX	./class/route/RouteManager.class.php	/^	const INDEX = array($/;"	d	class:route\\Route
+INDEX	./class/user/ConfigurationManager.class.php	/^	const INDEX = array($/;"	d	class:user\\ConfigurationManager
+INDEX	./class/user/LinkNotificationUser.class.php	/^	const INDEX = array($/;"	d	class:user\\LinkNotificationUser
+INDEX	./class/user/LinkPageParameter.class.php	/^	const INDEX = array($/;"	d	class:user\\LinkPageParameter
+INDEX	./class/user/LinkPermissionRole.class.php	/^	const INDEX = array($/;"	d	class:user\\LinkPermissionRole
+INDEX	./class/user/LinkRoleUser.class.php	/^	const INDEX = array($/;"	d	class:user\\LinkRoleUser
+INDEX	./class/user/NotificationManager.class.php	/^	const INDEX = array($/;"	d	class:user\\NotificationManager
+INDEX	./class/user/ParameterManager.class.php	/^	const INDEX = array($/;"	d	class:user\\ParameterManager
+INDEX	./class/user/PasswordManager.class.php	/^	const INDEX = array($/;"	d	class:user\\PasswordManager
+INDEX	./class/user/PermissionManager.class.php	/^	const INDEX = array($/;"	d	class:user\\PermissionManager
+LinkManager	./class/core/LinkManager.class.php	/^class LinkManager extends \\core\\Manager$/;"	c	namespace:core
+LinkNotificationUser	./class/user/LinkNotificationUser.class.php	/^class LinkNotificationUser extends \\core\\LinkManager$/;"	c	namespace:user
+LinkPageParameter	./class/user/LinkPageParameter.class.php	/^class LinkPageParameter extends \\core\\LinkManager$/;"	c	namespace:user
+LinkPermissionRole	./class/user/LinkPermissionRole.class.php	/^class LinkPermissionRole extends \\core\\LinkManager$/;"	c	namespace:user
+LinkRoleUser	./class/user/LinkRoleUser.class.php	/^class LinkRoleUser extends \\core\\LinkManager$/;"	c	namespace:user
+LinkRouteParameter	./class/route/LinkRouteParameter.class.php	/^class LinkRouteParameter extends \\core\\LinkManager$/;"	c	namespace:route
+LinkRouteRoute	./class/route/LinkRouteRoute.class.php	/^class LinkRouteRoute extends \\core\\LinkManager$/;"	c	namespace:route
+Logger	./class/core/Logger.class.php	/^class Logger$/;"	c	namespace:core
+MODES	./class/route/Router.class.php	/^	const MODES = array($/;"	d	class:route\\Router
+Managed	./class/core/Managed.class.php	/^abstract class Managed$/;"	c	namespace:core
+MysqlConnection	./class/core/DBFactory.class.php	/^	public static function MysqlConnection(db_name: $db_name = null, db_host: $db_host = null, db_u/;"	f	class:core\\DBFactory
+Node	./class/structure/Node.class.php	/^class Node$/;"	c	namespace:structure
+Notification	./class/user/Notification.class.php	/^class Notification extends \\core\\Managed$/;"	c	namespace:user
+Notification	./index.php	/^				$Notification = new \\user\\Notification(array($/;"	v
+NotificationManager	./class/user/NotificationManager.class.php	/^class NotificationManager extends \\core\\Manager$/;"	c	namespace:user
+Page	./class/user/Page.class.php	/^class Page extends \\core\\Manager$/;"	c	namespace:user
+Page	./class/user/PageManager.class.php	/^class Page extends \\route\\RouteManager$/;"	c	namespace:user
+PageElement	./class/content/pageelement/PageElement.class.php	/^class PageElement$/;"	c	namespace:content\\pageelement
+Parameter	./class/route/Parameter.class.php	/^class Parameter extends \\core\\Managed$/;"	c	namespace:route
+Parameter	./class/user/Parameter.class.php	/^class Parameter extends \\core\\Managed$/;"	c	namespace:user
+ParameterManager	./class/route/ParameterManager.class.php	/^class ParameterManager extends \\core\\Manager$/;"	c	namespace:route
+ParameterManager	./class/user/ParameterManager.class.php	/^class ParameterManager extends \\core\\Manager$/;"	c	namespace:user
+Password	./class/user/Password.class.php	/^class Password extends \\core\\Managed$/;"	c	namespace:user
+PasswordManager	./class/user/PasswordManager.class.php	/^class PasswordManager extends \\core\\Manager$/;"	c	namespace:user
+Permission	./class/user/Permission.class.php	/^class Permission extends \\core\\Managed$/;"	c	namespace:user
+PermissionManager	./class/user/PermissionManager.class.php	/^class PermissionManager extends \\core\\Manager$/;"	c	namespace:user
+Role	./class/user/Role.class.php	/^class Role$/;"	c	namespace:user
+Route	./class/route/Route.class.php	/^class Route extends \\core\\Managed$/;"	c	namespace:route
+Route	./class/route/RouteManager.class.php	/^class Route extends \\core\\Manager$/;"	c	namespace:route
+Router	./class/route/Router.class.php	/^class Router$/;"	c	namespace:route
+TABLE	./class/content/ContentManager.class.php	/^	const TABLE = 'content';$/;"	d	class:content\\ContentManager
+TABLE	./class/core/Manager.class.php	/^	const TABLE = '';$/;"	d	namespace:core
+TABLE	./class/route/FolderManager.class.php	/^	const TABLE = 'folder';$/;"	d	class:route\\FolderManager
+TABLE	./class/route/LinkRouteParameter.class.php	/^	const TABLE = 'linkrouteparameter';$/;"	d	class:route\\LinkRouteParameter
+TABLE	./class/route/LinkRouteRoute.class.php	/^	const TABLE = 'linkroutes';$/;"	d	class:route\\LinkRouteRoute
+TABLE	./class/route/ParameterManager.class.php	/^	const TABLE = 'route_parameter';$/;"	d	class:route\\ParameterManager
+TABLE	./class/route/RouteManager.class.php	/^	const TABLE = 'route';$/;"	d	class:route\\Route
+TABLE	./class/user/ConfigurationManager.class.php	/^	const TABLE = 'configuration';$/;"	d	class:user\\ConfigurationManager
+TABLE	./class/user/LinkNotificationUser.class.php	/^	const TABLE = 'link_notification_user';$/;"	d	class:user\\LinkNotificationUser
+TABLE	./class/user/LinkPageParameter.class.php	/^	const TABLE = 'link_page_parameter';$/;"	d	class:user\\LinkPageParameter
+TABLE	./class/user/LinkPermissionRole.class.php	/^	const TABLE = 'link_permission_role';$/;"	d	class:user\\LinkPermissionRole
+TABLE	./class/user/LinkRoleUser.class.php	/^	const TABLE = 'link_role_user';$/;"	d	class:user\\LinkRoleUser
+TABLE	./class/user/NotificationManager.class.php	/^	const TABLE = 'notification';$/;"	d	class:user\\NotificationManager
+TABLE	./class/user/ParameterManager.class.php	/^	const TABLE = 'page_parameter';$/;"	d	class:user\\ParameterManager
+TABLE	./class/user/PasswordManager.class.php	/^	const TABLE = 'user';$/;"	d	class:user\\PasswordManager
+TABLE	./class/user/PermissionManager.class.php	/^	const TABLE = 'permission';$/;"	d	class:user\\PermissionManager
+TYPES	./class/core/Logger.class.php	/^	const TYPES = array($/;"	d	class:core\\Logger
+TYPES	./class/route/Route.class.php	/^	const TYPES = array($/;"	d	class:route\\Route
+TYPES	./class/user/Notification.class.php	/^	const TYPES = array($/;"	d	class:user\\Notification
+Tree	./class/structure/Tree.class.php	/^class Tree$/;"	c	namespace:structure
+__construct	./class/content/pageelement/PageElement.class.php	/^	public function __construct(attributes: $attributes)$/;"	f	class:content\\pageelement\\PageElement
+__construct	./class/core/Managed.class.php	/^	public function __construct($attributes)$/;"	f	class:core\\Managed
+__construct	./class/core/Manager.class.php	/^	public function __construct($db = null)$/;"	f	namespace:core
+__construct	./class/route/Router.class.php	/^	public function __construct($mode)$/;"	f	class:route\\Router
+__construct	./class/structure/Node.class.php	/^	public function __construct(data: $data, parent: $parent = null)$/;"	f	class:structure\\Node
+__construct	./class/structure/Tree.class.php	/^	public function __construct(root_data: $root_data)$/;"	f	class:structure\\Tree
+__construct	./class/user/Page.class.php	/^	public function __construct($attributes)$/;"	f	class:user\\Page
+add	./class/core/Managed.class.php	/^	public function add()$/;"	f	class:core\\Managed
+add	./class/core/Manager.class.php	/^	public function add($attributes)$/;"	f	namespace:core
+addBy	./class/core/LinkManager.class.php	/^	public function addBy($variants, $invariants)$/;"	f	class:core\\LinkManager
+addChild	./class/structure/Node.class.php	/^	public function addChild(child: $child)$/;"	f	class:structure\\Node
+addElement	./class/content/pageelement/PageElement.class.php	/^	public function addElement(key: $key, value: $value)$/;"	f	class:content\\pageelement\\PageElement
+addParameter	./class/user/Page.class.php	/^	public function addParameter($key, $value)$/;"	f	class:user\\Page
+addPermissions	./class/user/Role.class.php	/^	public function addPermissions($id)$/;"	f	class:user\\Role
+addToSession	./class/user/Notification.class.php	/^	public function addToSession()$/;"	f	class:user\\Notification
+addValueElement	./class/content/pageelement/PageElement.class.php	/^	public function addValueElement(key: $key, value: $value, new_key: $new_key)$/;"	f	class:content\\pageelement\\PageElement
+arrDisp	./class/core/Managed.class.php	/^	public static function arrDisp($list)$/;"	f	class:core\\Managed
+boundaryInterpreter	./class/core/Manager.class.php	/^	public static function boundaryInterpreter($bounds)$/;"	f	namespace:core
+buildNode	./class/route/Router.class.php	/^	public function buildNode($array_of_available_routes, $row, $column)$/;"	f	class:route\\Router
+check	./class/user/Password.class.php	/^	public function check($password)$/;"	f	class:user\\Password
+children	./class/structure/Node.class.php	/^	protected $children;$/;"	v	class:structure\\Node
+cleanAttributes	./class/core/Manager.class.php	/^	public function cleanAttributes($attributes)$/;"	f	namespace:core
+cleanParameters	./class/route/Router.class.php	/^	public function cleanParameters($parameters, $page)$/;"	f	class:route\\Router
+clone	./class/core/Managed.class.php	/^	public function clone()$/;"	f	class:core\\Managed
+conditionCreator	./class/core/Manager.class.php	/^	public static function conditionCreator($values, $operations = '=')$/;"	f	namespace:core
+content	./class/content/Content.class.php	/^namespace content;$/;"	n
+content	./class/content/ContentManager.class.php	/^namespace content;$/;"	n
+content	./class/user/Notification.class.php	/^	protected $content;$/;"	v	class:user\\Notification
+content\\pageelement	./class/content/pageelement/PageElement.class.php	/^namespace content\\pageelement;$/;"	n
+core	./class/core/DBFactory.class.php	/^namespace core;$/;"	n
+core	./class/core/LinkManager.class.php	/^namespace core;$/;"	n
+core	./class/core/Logger.class.php	/^namespace core;$/;"	n
+core	./class/core/Managed.class.php	/^namespace core;$/;"	n
+core	./class/core/Manager.class.php	/^namespace core;$/;"	n
+count	./class/core/Manager.class.php	/^	public function count()$/;"	f	namespace:core
+countBy	./class/core/Manager.class.php	/^	public function countBy($values, $conditions = null)$/;"	f	namespace:core
+create	./class/user/Notification.class.php	/^	public function create($id_users)$/;"	f	class:user\\Notification
+createLink	./class/route/Router.class.php	/^	public function createLink($routes, $parameters = array())$/;"	f	class:route\\Router
+createLinkGet	./class/route/Router.class.php	/^	public function createLinkGet($routes, $parameters = array())$/;"	f	class:route\\Router
+createLinkMixed	./class/route/Router.class.php	/^	public function createLinkMixed($routes, $parameters = array())$/;"	f	class:route\\Router
+createLinkRoute	./class/route/Router.class.php	/^	public function createLinkRoute($routes, $parameters = array())$/;"	f	class:route\\Router
+custom_error_handler	./index.php	/^function custom_error_handler($errno, $errstr, $errfile, $errline)$/;"	f
+data	./class/structure/Node.class.php	/^	protected $data;$/;"	v	class:structure\\Node
+date	./class/user/Notification.class.php	/^	protected $date;$/;"	v	class:user\\Notification
+date_creation	./class/content/Content.class.php	/^	protected $date_creation;$/;"	v	class:content\\Content
+decodeRoute	./class/route/Router.class.php	/^	public function decodeRoute($url)$/;"	f	class:route\\Router
+decodeWithGet	./class/route/Router.class.php	/^	public function decodeWithGet($url)$/;"	f	class:route\\Router
+decodeWithMixed	./class/route/Router.class.php	/^	public function decodeWithMixed($url)$/;"	f	class:route\\Router
+decodeWithRoute	./class/route/Router.class.php	/^	public function decodeWithRoute($url)$/;"	f	class:route\\Router
+delete	./class/core/Managed.class.php	/^	public function delete()$/;"	f	class:core\\Managed
+delete	./class/core/Manager.class.php	/^	public function delete($index)$/;"	f	namespace:core
+delete	./class/user/Notification.class.php	/^	public function delete()$/;"	f	class:user\\Notification
+deleteBy	./class/core/Manager.class.php	/^	public function deleteBy($values, $conditions = null)$/;"	f	namespace:core
+display	./class/content/Content.class.php	/^	public function display()$/;"	f	class:content\\Content
+display	./class/content/pageelement/PageElement.class.php	/^	public function display()$/;"	f	class:content\\pageelement\\PageElement
+display	./class/core/Managed.class.php	/^	public function display()$/;"	f	class:core\\Managed
+display	./class/route/Folder.class.php	/^	public function display()$/;"	f	class:route\\Folder
+display	./class/user/Configuration.class.php	/^	public function display()$/;"	f	class:user\\Configuration
+display	./class/user/Notification.class.php	/^	public function display()$/;"	f	class:user\\Notification
+display	./class/user/Page.class.php	/^	public function display()$/;"	f	class:user\\Page
+display	./class/user/Password.class.php	/^	public function display()$/;"	f	class:user\\Password
+displayArray	./class/content/pageelement/PageElement.class.php	/^	public function displayArray(list: $list)$/;"	f	class:content\\pageelement\\PageElement
+displayContent	./class/user/Notification.class.php	/^	public function displayContent()$/;"	f	class:user\\Notification
+displayPassword_clear	./class/user/Password.class.php	/^	protected function displayPassword_clear()$/;"	f	class:user\\Password
+displayer	./class/core/Managed.class.php	/^	public function displayer($attribute)$/;"	f	class:core\\Managed
+elements	./class/content/pageelement/PageElement.class.php	/^	protected $elements;$/;"	v	class:content\\pageelement\\PageElement
+error	./index.php	/^		$error = ob_get_clean();$/;"	v
+exist	./class/core/Managed.class.php	/^	public function exist()$/;"	f	class:core\\Managed
+exist	./class/core/Manager.class.php	/^	public function exist($index)$/;"	f	namespace:core
+existBy	./class/core/Manager.class.php	/^	public function existBy($values, $operations = null)$/;"	f	namespace:core
+file	./index.php	/^		$file = fopen('fatal_crash.log', 'w');$/;"	v
+folder	./class/core/Logger.class.php	/^	protected $folder;$/;"	v	class:core\\Logger
+get	./class/core/Managed.class.php	/^	public function get($attribute)$/;"	f	class:core\\Managed
+get	./class/core/Manager.class.php	/^	public function get($index)$/;"	f	namespace:core
+get	./class/structure/Node.class.php	/^	public function get(attribute: $attribute)$/;"	f	class:structure\\Node
+get	./class/structure/Tree.class.php	/^	public function get(attribute: $attribute)$/;"	f	class:structure\\Tree
+getAncestors	./class/structure/Node.class.php	/^	public function getAncestors()$/;"	f	class:structure\\Node
+getBranchDepth	./class/structure/Node.class.php	/^	public function getBranchDepth(depth: $depth)$/;"	f	class:structure\\Node
+getBy	./class/core/Manager.class.php	/^	public function getBy($values, $operations = null, $bounds = null)$/;"	f	namespace:core
+getConfigFile	./class/route/Folder.class.php	/^	public function getConfigFile()$/;"	f	class:route\\Folder
+getDb	./class/core/Manager.class.php	/^	public function getDb()$/;"	f	namespace:core
+getDepth	./class/structure/Node.class.php	/^	public function getDepth()$/;"	f	class:structure\\Node
+getDisp	./class/core/Managed.class.php	/^	public static function getDisp($attribute)$/;"	f	class:core\\Managed
+getElement	./class/content/pageelement/PageElement.class.php	/^	public function getElement(key: $key)$/;"	f	class:content\\pageelement\\PageElement
+getFullRegex	./class/route/Parameter.class.php	/^	public function getFullRegex()$/;"	f	class:route\\Parameter
+getGet	./class/core/Managed.class.php	/^	public static function getGet($attribute)$/;"	f	class:core\\Managed
+getHeight	./class/structure/Node.class.php	/^	public function getHeight()$/;"	f	class:structure\\Node
+getIdBy	./class/core/Manager.class.php	/^	public function getIdBy($values, $operations = null)$/;"	f	namespace:core
+getIdByPos	./class/core/Manager.class.php	/^	public function getIdByPos($attribute, $position = 0, $direction = 'DESC')$/;"	f	namespace:core
+getIndex	./class/core/Managed.class.php	/^	public function getIndex()$/;"	f	class:core\\Managed
+getLangFile	./class/route/Folder.class.php	/^	public function getLangFile()$/;"	f	class:route\\Folder
+getLocaleFile	./class/route/Folder.class.php	/^	public function getLocaleFile()$/;"	f	class:route\\Folder
+getMode	./class/route/Router.class.php	/^	public function getMode()$/;"	f	class:route\\Router
+getNeighbors	./class/structure/Node.class.php	/^	public function getNeighbors()$/;"	f	class:structure\\Node
+getNextId	./class/core/Manager.class.php	/^	public function getNextId()$/;"	f	namespace:core
+getNotifications	./class/user/Notification.class.php	/^	public static function getNotifications()$/;"	f	class:user\\Notification
+getParent	./class/route/Folder.class.php	/^	public function getParent()$/;"	f	class:route\\Folder
+getPassword_clear	./class/user/Password.class.php	/^	protected function getPassword_clear()$/;"	f	class:user\\Password
+getPath	./class/route/Folder.class.php	/^	public function getPath()$/;"	f	class:route\\Folder
+getPath	./class/route/Route.class.php	/^	public function getPath($root_id = null, $loaded = array())$/;"	f	class:route\\Route
+getRoot	./class/structure/Node.class.php	/^	public function getRoot()$/;"	f	class:structure\\Node
+getSet	./class/core/Managed.class.php	/^	public static function getSet($attribute)$/;"	f	class:core\\Managed
+get_class_name	./func/core/init.php	/^function get_class_name($class_name)$/;"	f
+hash	./class/user/Password.class.php	/^	public function hash()$/;"	f	class:user\\Password
+hydrate	./class/core/Managed.class.php	/^	public function hydrate($attributes)$/;"	f	class:core\\Managed
+id	./class/route/Folder.class.php	/^	protected $id;$/;"	v	class:route\\Folder
+id	./class/route/Parameter.class.php	/^	protected $id;$/;"	v	class:route\\Parameter
+id	./class/route/Route.class.php	/^	protected $id;$/;"	v	class:route\\Route
+id	./class/user/Configuration.class.php	/^	protected $id;$/;"	v	class:user\\Configuration
+id	./class/user/Notification.class.php	/^	protected $id;$/;"	v	class:user\\Notification
+id	./class/user/Page.class.php	/^	protected $id;$/;"	v	class:user\\Page
+id	./class/user/Permission.class.php	/^	protected $id;$/;"	v	class:user\\Permission
+id_content	./class/content/Content.class.php	/^	protected $id_content;$/;"	v	class:content\\Content
+id_content	./class/user/Notification.class.php	/^	protected $id_content;$/;"	v	class:user\\Notification
+id_page	./class/user/Parameter.class.php	/^	protected $id_page;$/;"	v	class:user\\Parameter
+id_route	./class/user/Permission.class.php	/^	protected $id_route;$/;"	v	class:user\\Permission
+index	./class/user/Password.class.php	/^	protected $index;$/;"	v	class:user\\Password
+init	./func/core/init.php	/^function init()$/;"	f
+init_router	./func/core/init.php	/^function init_router()$/;"	f
+init_visitor	./func/core/init.php	/^function init_visitor()$/;"	f
+isIdentical	./class/core/Managed.class.php	/^	public function isIdentical($objet)$/;"	f	class:core\\Managed
+key	./class/user/Parameter.class.php	/^	protected $key;$/;"	v	class:user\\Parameter
+lang	./class/content/Content.class.php	/^	protected $lang;$/;"	v	class:content\\Content
+load	./class/user/Page.class.php	/^	public function load()$/;"	f	class:user\\Page
+loadSubFiles	./class/route/Route.class.php	/^	public function loadSubFiles()$/;"	f	class:route\\Route
+load_class	./func/core/init.php	/^function load_class($class_name)$/;"	f
+log	./class/core/Logger.class.php	/^	public function log($type, $message, $substitution = array())$/;"	f	class:core\\Logger
+managed	./class/core/Manager.class.php	/^	public function managed($table)$/;"	f	namespace:core
+manager	./class/core/Managed.class.php	/^	public function manager($connection = null)$/;"	f	class:core\\Managed
+mode	./class/route/Router.class.php	/^	protected $mode;$/;"	v	class:route\\Router
+name	./class/route/Folder.class.php	/^	protected $name;$/;"	v	class:route\\Folder
+name	./class/route/Parameter.class.php	/^	protected $name;$/;"	v	class:route\\Parameter
+name	./class/route/Route.class.php	/^	protected $name;$/;"	v	class:route\\Route
+name	./class/user/Configuration.class.php	/^	protected $name;$/;"	v	class:user\\Configuration
+name	./class/user/Page.class.php	/^	protected $name;$/;"	v	class:user\\Page
+name	./class/user/Role.class.php	/^	protected $name;$/;"	v	class:user\\Role
+name_role	./class/user/Permission.class.php	/^	protected $name_role;$/;"	v	class:user\\Permission
+necessary	./class/route/Parameter.class.php	/^	protected $necessary;$/;"	v	class:route\\Parameter
+page_element	./class/user/Page.class.php	/^	protected $page_element;$/;"	v	class:user\\Page
+parameters	./class/user/Page.class.php	/^	protected $parameters;$/;"	v	class:user\\Page
+parent	./class/structure/Node.class.php	/^	protected $parent;$/;"	v	class:structure\\Node
+parent_id	./class/route/Folder.class.php	/^	protected $parent_id;$/;"	v	class:route\\Folder
+password_clear	./class/user/Password.class.php	/^	protected $password_clear;$/;"	v	class:user\\Password
+password_hashed	./class/user/Password.class.php	/^	protected $password_hashed;$/;"	v	class:user\\Password
+permissions	./class/user/Role.class.php	/^	protected $permissions;$/;"	v	class:user\\Role
+regex	./class/route/Parameter.class.php	/^	protected $regex;$/;"	v	class:route\\Parameter
+removeChild	./class/structure/Node.class.php	/^	public function removeChild(child: $child)$/;"	f	class:structure\\Node
+retrieve	./class/core/Managed.class.php	/^	public function retrieve()$/;"	f	class:core\\Managed
+retrieveBy	./class/core/Manager.class.php	/^	public function retrieveBy($values, $operations = null, $bounds = null, $class_name= '', $attri/;"	f	namespace:core
+retrieveContent	./class/user/Notification.class.php	/^	public function retrieveContent()$/;"	f	class:user\\Notification
+retrieveFolder	./class/route/Route.class.php	/^	public function retrieveFolder()$/;"	f	class:route\\Route
+retrieveParameters	./class/route/Route.class.php	/^	public function retrieveParameters()$/;"	f	class:route\\Route
+retrieveParameters	./class/user/Page.class.php	/^	public function retrieveParameters()$/;"	f	class:user\\Page
+retrievePermissions	./class/user/Role.class.php	/^	public function retrievePermissions()$/;"	f	class:user\\Role
+retrieveRoute	./class/user/Page.class.php	/^	public function retrieveRoute()$/;"	f	class:user\\Page
+retrieveRoute	./class/user/Permission.class.php	/^	public function retrieveRoute()$/;"	f	class:user\\Permission
+retrieveText	./class/content/Content.class.php	/^	public function retrieveText()$/;"	f	class:content\\Content
+retrieveUsers	./class/user/Notification.class.php	/^	public function retrieveUsers()$/;"	f	class:user\\Notification
+root	./class/structure/Tree.class.php	/^	protected $root;$/;"	v	class:structure\\Tree
+route	./class/route/Folder.class.php	/^namespace route;$/;"	n
+route	./class/route/FolderManager.class.php	/^namespace route;$/;"	n
+route	./class/route/LinkRouteParameter.class.php	/^namespace route;$/;"	n
+route	./class/route/LinkRouteRoute.class.php	/^namespace route;$/;"	n
+route	./class/route/Parameter.class.php	/^namespace route;$/;"	n
+route	./class/route/ParameterManager.class.php	/^namespace route;$/;"	n
+route	./class/route/Route.class.php	/^namespace route;$/;"	n
+route	./class/route/RouteManager.class.php	/^namespace route;$/;"	n
+route	./class/route/Router.class.php	/^namespace route;$/;"	n
+route	./class/user/Page.class.php	/^	protected $route;$/;"	v	class:user\\Page
+set	./class/core/Managed.class.php	/^	protected function set($attribute, $value)$/;"	f	class:core\\Managed
+set	./class/structure/Node.class.php	/^	protected function set(attribute: $attribute, value: $value)$/;"	f	class:structure\\Node
+set	./class/structure/Tree.class.php	/^	protected function set(attribute: $attribute, value: $value)$/;"	f	class:structure\\Tree
+setDb	./class/core/Manager.class.php	/^	protected function setDb($db)$/;"	f	namespace:core
+setElement	./class/content/pageelement/PageElement.class.php	/^	public function setElement(key: $key, value: $value, strict: $strict = True)$/;"	f	class:content\\pageelement\\PageElement
+setMode	./class/route/Router.class.php	/^	protected function setMode($mode)$/;"	f	class:route\\Router
+structure	./class/structure/Node.class.php	/^namespace structure;$/;"	n
+structure	./class/structure/Tree.class.php	/^namespace structure;$/;"	n
+substitution	./class/user/Notification.class.php	/^	protected $substitution;$/;"	v	class:user\\Notification
+table	./class/core/Managed.class.php	/^	public function table($depth = 0, $object = null)$/;"	f	class:core\\Managed
+template	./class/content/pageelement/PageElement.class.php	/^	protected $template;$/;"	v	class:content\\pageelement\\PageElement
+text	./class/content/Content.class.php	/^	protected $text;$/;"	v	class:content\\Content
+type	./class/route/Route.class.php	/^	protected $type;$/;"	v	class:route\\Route
+type	./class/user/Notification.class.php	/^	protected $type;$/;"	v	class:user\\Notification
+update	./class/core/Managed.class.php	/^	public function update()$/;"	f	class:core\\Managed
+update	./class/core/Manager.class.php	/^	public function update($values, $index)$/;"	f	namespace:core
+updateBy	./class/core/Manager.class.php	/^	public function updateBy($values_get, $values_update, $operations = null)$/;"	f	namespace:core
+user	./class/user/Configuration.class.php	/^namespace user;$/;"	n
+user	./class/user/ConfigurationManager.class.php	/^namespace user;$/;"	n
+user	./class/user/LinkNotificationUser.class.php	/^namespace user;$/;"	n
+user	./class/user/LinkPageParameter.class.php	/^namespace user;$/;"	n
+user	./class/user/LinkPermissionRole.class.php	/^namespace user;$/;"	n
+user	./class/user/LinkRoleUser.class.php	/^namespace user;$/;"	n
+user	./class/user/Notification.class.php	/^namespace user;$/;"	n
+user	./class/user/NotificationManager.class.php	/^namespace user;$/;"	n
+user	./class/user/Page.class.php	/^namespace user;$/;"	n
+user	./class/user/PageManager.class.php	/^namespace user;$/;"	n
+user	./class/user/Parameter.class.php	/^namespace user;$/;"	n
+user	./class/user/ParameterManager.class.php	/^namespace user;$/;"	n
+user	./class/user/Password.class.php	/^namespace user;$/;"	n
+user	./class/user/PasswordManager.class.php	/^namespace user;$/;"	n
+user	./class/user/Permission.class.php	/^namespace user;$/;"	n
+user	./class/user/PermissionManager.class.php	/^namespace user;$/;"	n
+user	./class/user/Role.class.php	/^namespace user;$/;"	n
+user_id	./class/user/Configuration.class.php	/^	protected $user_id;$/;"	v	class:user\\Configuration
+value	./class/user/Configuration.class.php	/^	protected $value;$/;"	v	class:user\\Configuration
+value	./class/user/Parameter.class.php	/^	protected $value;$/;"	v	class:user\\Parameter
