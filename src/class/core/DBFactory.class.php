@@ -38,23 +38,23 @@ class DBFactory
 
 		if ($db_name === null)
 		{
-			$db_name = $config['db_name'];
+			$db_name = $config['database']['name'];
 		}
 		if ($db_host === null)
 		{
-			$db_host = $config['db_host'];
+			$db_host = $config['database']['host'];
 		}
 		if ($db_username === null)
 		{
-			$db_username = $config['db_username'];
+			$db_username = $config['database']['username'];
 		}
 		if ($db_password === null)
 		{
-			$db_password = $config['db_password'];
+			$db_password = $config['database']['password'];
 		}
 		if ($db_options === null)
 		{
-			$db_options = $config['db_options'];
+			$db_options = $config['database']['options'];
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['MysqlConnection']);
