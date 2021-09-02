@@ -41,7 +41,7 @@ class abstract Manager
 	 */
 	public function __construct($db = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['construct'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['__construct'], array('class' => get_class($this)));
 
 		if ($db === null)
 		{
@@ -59,22 +59,24 @@ class abstract Manager
 	 */
 	public function add($attributes)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['add']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['start'], array('class' => get_class($this)));
 
 		$attributes = $this->cleanAttributes($attributes);
 
 		if (count($attributes) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['manager']['add']['no_attributes'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Manager']['add']['no_attributes'], array('class' => get_class($this)));
 
 			return False;
 		}
 
 		$query = 'INSERT INTO ' . $this::TABLE . '(' . implode(',', array_keys($attributes)) . ') VALUES (' . implode(',', array_fill(0, count($attributes), '?')) . ')';
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['query'], array('class' => get_class($this), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute(array_values($attributes));
 
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['success'], array('class' => get_class($this)));
 		return $this->getIdBy($attributes);
 	}
 	/**
@@ -96,7 +98,7 @@ class abstract Manager
 	 */
 	public static function boundaryInterpreter($bounds)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['start'], array('class' => get_class(self)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['start'], array('class' => get_class(self)));
 
 		$group_by = '';
 		$order_by = '';
@@ -109,13 +111,13 @@ class abstract Manager
 				case 'group':
 					if (!is_array($value))
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['group']['not_array'], array('class' => get_class(self)));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['group']['not_array'], array('class' => get_class(self)));
 
 						return False;
 					}
 					if ($value['attribute'] === null)
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['groupe']['missing_key'], array('class' => get_class(self)));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['group']['missing_key'], array('class' => get_class(self)));
 
 						return False;
 					}
@@ -125,39 +127,54 @@ class abstract Manager
 					{
 						$group_by .= ' HAVING ' . implode(' AND ', $this::conditionCreator($value['having'], $value['operations'])[0]);
 					}
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['group']['end'], array('class' => get_class(self), 'query' => $group_by));
 				break;
 				case 'order':
+					if (!is_array($value))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['not_array'], array('class' => get_class(self)));
+					}
 					if (!in_array($value['name'], self::ATTRIBUTES))
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['order'], array('class' => get_class(self)));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['unknown_name'], array('class' => get_class(self)));
 
 						return False;
 					}
 					$order_by = 'ORDER BY '.$value['name'];
 					if ($value['direction'] != 'ASC' && $value['direction'] != 'DESC')
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['direction'], array('class' => get_class(self)));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['direction'], array('class' => get_class(self)));
 
 						return False;
 					}
 					$order_by .= $value['direction'];
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['end'], array('class' => get_class(self), 'query' => $order_by));
 					break;
 				case 'limit':
+					if (!is_array($value))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['not_array'], array('class' => get_class(self)));
+					}
 					if (!(is_numeric($value['offset']) && is_numeric($value['number'])))
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['limit'], array('class' => get_class(self)));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['invalid'], array('class' => get_class(self)));
 
 						return False;
 					}
 					$limit_by = 'LIMIT ' . $value['number'] . ' OFFSET ' . $value['offset'];
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['end'], array('class' => get_class(self), 'query' => $limit_by));
 					break;
 				default:
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['boundaryInterpreter']['unkwnown_key']], array('class' => get_class(self), 'key' => $key));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['unkwnown_key']], array('class' => get_class(self), 'key' => $key));
 
 					return False;
 			}
 		}
-		return $group_by . ' ' . $order_by . ' ' . $limit_by;
+
+		$query = $group_by . ' ' . $order_by . ' ' . $limit_by;
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['end'], array('class' => get_class(self), 'query' => $query));
+
+		return $query;
 	}
 	/**
 	 * Remove from an array all the element where the key is not in the array $this::ATTRIBUTES
@@ -181,13 +198,13 @@ class abstract Manager
 	 */
 	public static function conditionCreator($values, $operations = '=')
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['conditionCreator']['start'], array('class' => get_class(self)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['start'], array('class' => get_class(self)));
 
 		$values = self->cleanAttributes($values);
 
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['conditionCreator']['no_values'], array('class' => get_class(self)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['no_values'], array('class' => get_class(self)));
 
 			return False;
 		}
@@ -203,7 +220,7 @@ class abstract Manager
 		{
 			if ($operations[$name] === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['conditionCreator']['missing_operation'], array('class' => get_class(self)));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['missing_operation'], array('class' => get_class(self), 'attribute' => $name));
 
 				return False;
 			}
@@ -222,7 +239,7 @@ class abstract Manager
 					/* IN is a special case, more complex than the other, values will change */
 					if (count($value) === 0) // $value is the array of value that $name can takes
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['conditionCreator']['in_array'], array('class' => get_class(self), 'attribute' => $attribute));
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['empty'], array('class' => get_class(self), 'attribute' => $name));
 
 						return False;
 					}
@@ -234,7 +251,7 @@ class abstract Manager
 					$values = array_splice($values, array_search($name, array_map('strval', array_keys($values))), 1, $value);
 					break;
 				default:
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['conditionCreator']['whitelist'], array('class' => get_class(self), 'operation' => $operations[$name]));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['not_in_whitelist'], array('class' => get_class(self), 'operation' => $operations[$name]));
 
 					return False;
 			}
@@ -249,7 +266,7 @@ class abstract Manager
 	 */
 	public function count()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['count'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['count'], array('class' => get_class($this)));
 
 		$request = $this->db->prepare('SELECT count(' . implode(',', $this::INDEX) . ') AS nbr FROM ' . $this::TABLE);
 		$request->execute();
@@ -268,13 +285,13 @@ class abstract Manager
 	 */
 	public function countBy($values, $conditions = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['countBy']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['start'], array('class' => get_class($this)));
 
 		$values = $this->cleanAttributes($values);
 
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['countBy']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['values'], array('class' => get_class($this)));
 
 			return 0;
 		}
@@ -282,6 +299,8 @@ class abstract Manager
 		$condition = $this::conditionCreator($values, $conditions);
 
 		$query = 'SELECT count(' . implode(',', $this::INDEX) . ') AS nbr FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $condition[0]);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['end'], array('class' => get_class(self), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute($condition[1]);
@@ -298,21 +317,25 @@ class abstract Manager
 	 */
 	public function delete($index)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['delete']['start'], array('class', get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['start'], array('class', get_class($this)));
 
 		$indexes = array();
 		foreach ($this::INDEX as $name)
 		{
 			if ($index[$name] === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['delete']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['delete']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
 
 				return False;
 			}
 			$indexes[] = $name .= '=?';
 		}
 
-		$request = $this->db->prepare('DELETE FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $indexes));
+		$query = 'DELETE FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $indexes);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['end'], array('class' => get_class(self), 'query' => $query));
+
+		$request = $this->db->prepare($query);
 		$request->execute();
 
 		return True;
@@ -328,13 +351,13 @@ class abstract Manager
 	 */
 	public function deleteBy($values, $conditions = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['deleteBy']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['start'], array('class' => get_class($this)));
 
 		$values = $this->cleanAttributes($values);
 
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['deleteBy']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['values'], array('class' => get_class($this)));
 
 			return 0;
 		}
@@ -344,6 +367,8 @@ class abstract Manager
 		$condition = $this::conditionCreator($values, $conditions);
 
 		$query = 'DELETE FROM ' . $this::TABLE . 'WHERE ' . implode(' AND ', $condition[0]);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['end'], array('class' => get_class(self), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute($operation[1]);
@@ -359,13 +384,13 @@ class abstract Manager
 	 */
 	public function exist($index)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['exist']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['exist']['start'], array('class' => get_class($this)));
 
 		foreach ($this::INDEX as $name)
 		{
 			if ($index[$name] === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['exist']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['exist']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
 
 				return False;
 			}
@@ -373,7 +398,7 @@ class abstract Manager
 		$number = $this->countBy($index);
 		if ($number > 1)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['manager']['exist']['more_one_index'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Manager']['exist']['more_one_index'], array('class' => get_class($this), 'number' => $number));
 		}
 
 		return $number != 0;
@@ -389,8 +414,7 @@ class abstract Manager
 	 */
 	public function existBy($values, $operations = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['existBy'], array('class' => get_class($this)));
-
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['existBy'], array('class' => get_class($this)));
 		return $this->countBy($values, $operations) != 0;
 	}
 	/**
@@ -402,21 +426,25 @@ class abstract Manager
 	 */
 	public function get($index)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['get']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['start'], array('class' => get_class($this)));
 
 		$indexes = array();
 		foreach ($this::INDEX as $name)
 		{
 			if ($index[$name] === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['get']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['get']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
 
 				return array();
 			}
 			$indexes[] = $name . '=?';
 		}
 
-		$request = $this->db->prepare('SELECT ' . implode(',', $this::ATTRIBUTES) . ' FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $indexes));
+		$query = 'SELECT ' . implode(',', $this::ATTRIBUTES) . ' FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $indexes);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['end'], array('class' => get_class(self), 'query' => $query));
+
+		$request = $this->db->prepare($query);
 		$request->execute($index);
 
 		return $request->fetch(\PDO::FETCH_ASSOC);
@@ -434,13 +462,13 @@ class abstract Manager
 	 */
 	public function getBy($values, $operations = null, $bounds = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['getBy']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['start'], array('class' => get_class($this)));
 
 		$values = $this->cleanAttributes($values);
 
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['getBy']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['values'], array('class' => get_class($this)));
 
 			return False;
 		}
@@ -454,6 +482,8 @@ class abstract Manager
 		}
 
 		$query = 'SELECT ' . implode(',', $this::ATTRIBUTES) . ' FROM ' . $this::TABLE . $condition[0] . $limit;
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['end'], array('class' => get_class(self), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute($condition[1]);
@@ -480,13 +510,13 @@ class abstract Manager
 	 */
 	public function getIdBy($values, $operations = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['getBy']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['start'], array('class' => get_class($this)));
 
 		$values = $this->cleanAttributes($values);
 
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['getBy']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['values'], array('class' => get_class($this)));
 
 			return array();
 		}
@@ -494,6 +524,8 @@ class abstract Manager
 		$operation = $this::conditionCreator($values, $operations);
 
 		$query = 'SELECT ' . implode(',', $this::INDEX) . ' FROM ' . $this::TABLE . $condition[0];
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['end'], array('class' => get_class(self), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute($condition[1]);
@@ -513,16 +545,20 @@ class abstract Manager
 	 */
 	public function getIdByPos($attribute, $position = 0, $direction = 'DESC')
 	{
-		$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['getIdByPos']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['start'], array('class' => get_class(self)));
 
 		if (!is_int($position) || ($direction != 'ASC' && $direction != 'DESC') || !in_array($attribute, $this::ATTRIBUTES))
 		{
-			$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['getIdByPos']['hack'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->get(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['invalid_data'], array('class' => get_class(self)));
 
 			return array();
 		}
 
-		$request = $this->db->prepare('SELECT ' . implode(',', $this::INDEX) . ' FROM ' . $this::TABLE . 'ORDER BY ' . $attribute . ' ' . $direction . ' LIMIT 1 OFFSET ' . $position);
+		$query = 'SELECT ' . implode(',', $this::INDEX) . ' FROM ' . $this::TABLE . 'ORDER BY ' . $attribute . ' ' . $direction . ' LIMIT 1 OFFSET ' . $position;
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['end'], array('class' => get_class(self), 'query' => $query));
+
+		$request = $this->db->prepare($query);
 		$request->execute();
 
 		return $request->fetch(\PDO::FETCH_ASSOC);
@@ -536,7 +572,7 @@ class abstract Manager
 	 */
 	public function getNextId()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['getNextId'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getNextId'], array('class' => get_class($this)));
 
 		$results = array();
 		foreach ($this::INDEX as $name)
@@ -550,7 +586,7 @@ class abstract Manager
 		return $results
 	}
 	/**
-	 * Create an instance of the \core\Managed class assiociated to this one
+	 * Create an instance of the \core\Managed class associated to this one
 	 *
 	 * @param array $table Array for hydratation
 	 *
@@ -558,12 +594,12 @@ class abstract Manager
 	 */
 	public function managed($table)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['managed']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['managed']['start'], array('class' => get_class($this)));
 
 		$managed = substr(get_class($this), 0, -7);
 		if (!class_exists($managed))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['managed']['not_defined'], array('class' => get_class($this), 'managed' => $managed));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['managed']['not_defined'], array('class' => get_class($this), 'managed' => $managed));
 
 			return False;
 		}
@@ -603,7 +639,7 @@ class abstract Manager
 		{
 			if (!class_exists($class_name))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_not_defined'], array('class' => get_class($this), 'managed' => $class_name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_not_defined'], array('class' => get_class(self), 'managed' => $class_name));
 
 				return False;
 			}
@@ -611,7 +647,7 @@ class abstract Manager
 			$class_manager_name = $class_name . 'Manager';
 			if (!class_exists($class_manager_name))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_manager_not_defined'], array('class' => get_class($this), 'manager' => $class_manager_name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_manager_not_defined'], array('class' => get_class(self), 'manager' => $class_manager_name));
 
 				return False;
 			}
@@ -642,6 +678,8 @@ class abstract Manager
 			}
 		}
 
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['end'], array('class' => get_class(self)));
+
 		return $Objects;
 	}
 	/**
@@ -657,7 +695,7 @@ class abstract Manager
 		}
 		else
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['setDb'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['setDb'], array('class' => get_class(self)));
 		}
 	}
 	/**
@@ -671,14 +709,14 @@ class abstract Manager
 	 */
 	public function update($values, $index)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['update']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['start'], array('class' => get_class(self)));
 
 		$indexes = array();
 		foreach ($this::INDEX as $name)
 		{
 			if ($values[$name] === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['update']['missing_index'], array('class' => get_class($this), 'attribute' => $name));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['update']['missing_index'], array('class' => get_class(self), 'attribute' => $name));
 
 				return False;
 			}
@@ -688,14 +726,18 @@ class abstract Manager
 		$values = $this->cleanAttributes($values);
 		if (count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['update']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['update']['values'], array('class' => get_class(self)));
 
 			return False;
 		}
 
 		$condition = $this::conditionCreator($index, '=');
 
-		$request = $this->db->prepare('UPDATE ' . $this::TABLE  . ' SET ' . implode(',', $condition[0]) . ' WHERE ' . implode(' AND ', $indexes));
+		$query = 'UPDATE ' . $this::TABLE  . ' SET ' . implode(',', $condition[0]) . ' WHERE ' . implode(' AND ', $indexes);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['end'], array('class' => get_class(self), 'query' => $query));
+
+		$request = $this->db->prepare($query);
 		$request->execute(array_merge($condition[1], $index));
 
 		return True;
@@ -713,14 +755,14 @@ class abstract Manager
 	 */
 	public function updateBy($values_get, $values_update, $operations = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['manager']['updateBy']['start'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['start'], array('class' => get_class(self)));
 
 		$values_get = $this->cleanAttributes($values_get);
 		$values_update = $this->cleanAttributes($values_update);
 
 		if (count($values_get) === null || count($values_update) === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['manager']['updateBy']['values'], array('class' => get_class($this)));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['values'], array('class' => get_class(self)));
 
 			return 0;
 		}
@@ -730,7 +772,11 @@ class abstract Manager
 		$condition_update = $this::conditionCreator($values_update, '=');
 		$condition = $this::conditionCreator($values_get, $operations);
 
-		$request = $this->db->prepare('UPDATE ' . $this::TABLE . ' SET ' . implode(',', $condition_update[0]) . ' WHERE ' . implode(' AND ', $condition[0]));
+		$query = 'UPDATE ' . $this::TABLE . ' SET ' . implode(',', $condition_update[0]) . ' WHERE ' . implode(' AND ', $condition[0]);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['Manager']['update']['end'], array('class' => get_class(self), 'query' => $query));
+
+		$request = $this->db->prepare($query);
 		$request->execute(array_merge(array_values($values_update), $values_get));
 
 		return $number;
