@@ -537,7 +537,7 @@ abstract class Managed
 					{
 						$depth -= 1;
 					}
-					$attributes[$attribute] = $this->table(object = $this->$attribute, depth = $depth);
+					$attributes[$attribute] = $this->table($depth, $this->$attribute);
 				}
 			}
 			else
@@ -554,7 +554,7 @@ abstract class Managed
 	 */
 	public function update()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'] array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'], array('class' => get_class($this)));
 
 		if (!$this->exist())
 		{

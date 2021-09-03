@@ -65,9 +65,9 @@ class User extends \core\Managed
 	public function checkPermission(\user\Page $page)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['start'], array('user' => $this->get('id'), 'page' => $page->get('id')));
-		for ($this->roles as $Role)
+		foreach ($this->roles as $Role)
 		{
-			for ($Role->permissions as $Permission)
+			foreach ($Role->permissions as $Permission)
 			{
 				if ($Permission->get('id_route') === $page->get('id'))
 				{
@@ -87,7 +87,6 @@ class User extends \core\Managed
 	public function remove()
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['User']['remove']['start'], array('user' => $this->get('id')));
-		$this->deleteBy
 		$this->delete();
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['remove']['deleting_user'], array('user' => $this->get('id')));
 	}

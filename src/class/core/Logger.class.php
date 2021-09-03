@@ -40,9 +40,9 @@ class Logger
 
 		/* manage content */
 
-		$tokens = preg_split('/({(?:\\}|[^\\}])+})/', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		if (count($substitution) < 0)
+		if (count($substitution) > 0)
 		{
 			foreach ($substitution as $name => $value)
 			{

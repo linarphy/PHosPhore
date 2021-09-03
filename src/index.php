@@ -31,7 +31,7 @@ try
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['start']);	// first message to log
 	$GLOBALS['Router'] = new \route\Router(init_router());
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['router_init']);
-	$GLOBALS['Visitor'] = new \user\Visitor(init_visitor);
+	$GLOBALS['Visitor'] = new \user\Visitor(init_visitor());
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['visitor_init']);
 
 	try
@@ -84,7 +84,7 @@ try
 			catch (\Exception $exception_2)	// same than $exception_1, an error here possibly means that we cannot echo: it's a FATAL ERROR
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['cannot_display_error']);
-				throw new \Exception($GLOBALS['lang']['core']['cannot_display_error']);
+				throw $exception_1;
 			}
 		}
 	}

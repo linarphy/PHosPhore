@@ -34,6 +34,15 @@ $GLOBALS['config']['core']['lang']['filename'] = 'lang.php';
 $GLOBALS['config']['core']['locale']['filename'] = 'locale.php';
 /** [/LOCALE] **/
 
+/** [LOGIN] **/
+/** [GUEST] **/
+/* guest nickname */
+$GLOBALS['config']['core']['login']['guest']['nickname'] = 'guest';
+/* guest password */
+$GLOBALS['config']['core']['login']['guest']['password'] = 'guest';
+/** [/GUEST] **/
+/** [/LOGIN] **/
+
 /** [MOD] **/
 /* filename of the index of installed mod */
 $GLOBALS['config']['core']['mod']['index_file'] = 'installed';

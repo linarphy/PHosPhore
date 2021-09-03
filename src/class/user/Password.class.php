@@ -89,7 +89,7 @@ class Password extends \core\Managed
 	 */
 	protected function displayPassword_clear()
 	{
-		return htmlspecialchars($this->get('password_clear');
+		return htmlspecialchars($this->get('password_clear'));
 	}
 	/**
 	 * Return the clear password

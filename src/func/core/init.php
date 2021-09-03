@@ -122,12 +122,21 @@ function init_visitor()
 	if (isset($_SESSION['__login__']['nickname']) && isset($_SESSION['__login__']['password']))
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['login']['session']);
+
+		$Password = new \user\Password(array(
+			'password_clear' => $_SESSION['__login__']['password'],
+		));
 		return array(
 			'nickname' => $_SESSION['__login__']['nickname'],
+			'password' => $Password,
 		);
 	}
+	$Password = new \user\Password(array(
+		'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
+	));
 	return array(
 		'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],
+		'password' => $Password,
 	);
 }
 /**
@@ -138,7 +147,7 @@ function init_visitor()
 function load_class($class_name)
 {
 	$log = False;
-	if (isset($GLOBALES['Logger']))
+	if (isset($GLOBALS['Logger']))
 	{
 		$log = True;
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['start'], array('class' => $class_name));
@@ -181,6 +190,14 @@ function load_class($class_name)
 				if ($log)
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['config_file'], array('class' => $class_name, 'path' => $config_file));
+				}
+			}
+			if (is_file($lang_file))
+			{
+				require($lang_file);
+				if ($log)
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['lang_file'], array('class' => $class_name, 'path' => $lang_file));
 				}
 			}
 			if (is_file($default_locale_file))
