@@ -45,7 +45,7 @@ class Folder extends \core\Managed
 	 */
 	public function getConfigFile()
 	{
-		return $this->getPath() . $GLOBALS['config']['core']['file']['config'];
+		return $GLOBALS['config']['core']['path']['config'] . 'page' . DIRECTORY_SEPARATOR . $this->getPath() . $GLOBALS['config']['core']['file']['config'];
 	}
 	/**
 	 * get the locale file
@@ -54,7 +54,7 @@ class Folder extends \core\Managed
 	 */
 	public function getLocaleFile()
 	{
-		return $this->getPath() . $GLOBALS['locale']['core']['lang']['abbr'] . GLOBALS['config']['core']['file']['locale'];
+		return $GLOBALS['config']['core']['path']['locale'] . 'page' . DIRECTORY_SEPARATOR . $this->getPath() . $GLOBALS['locale']['core']['lang']['abbr'] . GLOBALS['config']['core']['file']['locale'];
 	}
 	/**
 	 * get the lang file
@@ -63,7 +63,7 @@ class Folder extends \core\Managed
 	 */
 	public function getLangFile()
 	{
-		return $this->getPath() . $GLOBALS['lang']['core']['lang']['abbr'] . $GLOBALS['config']['core']['file']['lang'];
+		return $GLOBALS['config']['core']['path']['lang'] . 'page' . $this->getPath() . $GLOBALS['lang']['core']['lang']['abbr'] . $GLOBALS['config']['core']['file']['lang'];
 	}
 	/**
 	 * get the parent folder
