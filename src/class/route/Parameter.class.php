@@ -38,35 +38,36 @@ class Parameter extends \core\Managed
 	 */
 	public function getFullRegex()
 	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], array('regex' => $this->regex()));
 		if (count($this->regex) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['parameter']['bad_regex'], array('regex' => $this->regex));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], array('regex' => $this->regex));
 
 			return '##'; // always false
 		}
-		if (ctype_alnum($this->regex[0]) || $this->regex[0] === '\\' || ctype_space($this->regex[0])) // first character is not a delimiter
+		if (count($this->regex) === 1))
 		{
-			return '#' . $this->regex[0] . '#';
+			$regex = '#\\' . $this->regex . '#';
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['one_escaped'], array('regex' => $regex));
+
+			return $regex;
 		}
-		for ($i = count($this->regex); $i > 0; $i--)
+		if ($this->regex[0] === $this->regex[count($this->regex)])
 		{
-			if (!ctype_alnum($this->regex[$i]))
+			if (in_array($this->regex[0], []))
 			{
-				break;
-			}
-		}
-		if ($this->regex[$i] === '\\' || ctype_space($this->regex[$i])) // last character which is not a modifier (alphanumeric character) is not a delimiter
-		{
-			return '#' . $this->regex[0] . '#';
-		}
-		if ($this->regex[0] === $this->regex[$i])
-		{
-			if ($i != 0)
-			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], array('regex' => $this->regex));
+
 				return $this->regex;
 			}
-			return '#' . $this->regex . '#';
 		}
+
+		$regex = '#' . $this->regex . '#';
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['no_delimiter'], array('regex' => $regex));
+
+		return $regex;
 	}
 }
 

@@ -74,7 +74,7 @@ try
 		{
 			echo $GLOBALS['Visitor']->loadPage($GLOBALS['config']['core']['route']['error'])->display();
 		}
-		catch (\Exception $exception_1)	// $exception alreaty taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
+		catch (\Exception $exception_1)	// $exception already taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['core']['cannot_display_error_page']);
 			try
@@ -84,7 +84,7 @@ try
 			catch (\Exception $exception_2)	// same than $exception_1, an error here possibly means that we cannot echo: it's a FATAL ERROR
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['cannot_display_error']);
-				throw $exception_1;
+				throw $exception;
 			}
 		}
 	}
