@@ -118,7 +118,7 @@ catch (\Exception $exception) // FATAL ERROR
 		{
 			throw new \Exception('Cannot close fatal_crash.log, check your permissions on the web directory');
 		}
-		echo 'FATAL ERROR, Check fatal_crash.log in the root directory';
+		echo 'FATAL ERROR, There is a bug in PHosPhore, contact the website owner, if you are, check fatal_crash.log in the root directory and report its content to the PHosPhore maintener here: https://github.com/gugus2000/PHosPhore/issues';
 	}
 	catch (\Exception $exception_1)
 	{
