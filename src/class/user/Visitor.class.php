@@ -60,7 +60,7 @@ class Visitor extends \user\User
 	 */
 	public function disconnect()
 	{
-		unset $_SESSION;
+		unset($_SESSION);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['disconnect']);
 	}
 	/**

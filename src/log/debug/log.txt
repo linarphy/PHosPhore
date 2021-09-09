@@ -13,3 +13,5 @@ debug - 2021-08-03 16:39:48: starting the script, Logger initialized in /srv/htt
 debug - 2021-08-03 16:39:49: router initialized in /srv/http/phosphore.localhost/index.php at line 33
 debug - 2021-08-10 23:52:32: starting the script, Logger initialized in /srv/http/phosphore.localhost/index.php at line 31
 debug - 2021-08-10 23:52:33: router initialized in /srv/http/phosphore.localhost/index.php at line 33
+debug - 2021-09-09 21:12:26: starting the script, Logger initialized in /srv/http/phosphore.localhost/src/index.php at line 31
+debug - 2021-09-09 21:12:26: router initialized in /srv/http/phosphore.localhost/src/index.php at line 33
