@@ -34,7 +34,7 @@ class Node
 	 *
 	 * @return \structure\Node
 	 */
-	public function __construct(data: $data, parent: $parent = null)
+	public function __construct($data, $parent = null)
 	{
 		$this->set('data', $data);
 		$this->set('children', array());
@@ -47,7 +47,7 @@ class Node
 	 *
 	 * @return \structure\Node
 	 */
-	public function addChild(child: $child)
+	public function addChild($child)
 	{
 		$child->set('parent', $this);
 		$this->children[] = $child;
@@ -61,7 +61,7 @@ class Node
 	 *
 	 * @return bool
 	 */
-	public function removeChild(child: $child)
+	public function removeChild($child)
 	{
 		$return = False;
 		foreach ($this->children as $key => $try_child)
@@ -81,7 +81,7 @@ class Node
 	 *
 	 * @return mixed
 	 */
-	public function get(attribute: $attribute)
+	public function get($attribute)
 	{
 		if ($this->$attribute === null)
 		{
@@ -112,7 +112,7 @@ class Node
 	 *
 	 * @return False|array
 	 */
-	public function getBranchDepth(depth: $depth)
+	public function getBranchDepth($depth)
 	{
 		if ($depth === 0)
 		{
@@ -211,7 +211,7 @@ class Node
 	 *
 	 * @return bool
 	 */
-	protected function set(attribute: $attribute, value: $value)
+	protected function set($attribute, $value)
 	{
 		if ($this->$attribute === null)
 		{

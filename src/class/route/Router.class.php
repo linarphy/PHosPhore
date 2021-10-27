@@ -45,6 +45,7 @@ class Router
 	 */
 	public function buildNode($array_of_available_routes, $row, $column)
 	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
 		$Node = \structure\Node($array_of_available_routes[$row][$column]);
 
 		if (count($array_of_available_routes) >= $row)
@@ -53,7 +54,7 @@ class Router
 
 			return False;
 		}
-		else if (count($array_of_available_routes) < $row + 1)
+		else
 		{
 			foreach ($array_of_available_routes[$row + 1] as $key => $route)
 			{
@@ -68,9 +69,14 @@ class Router
 			}
 			if (empty($Node->get('children')))
 			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
+
 				return False;
 			}
 		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['end']);
+
 		return $Node;
 	}
 	/**
@@ -78,17 +84,12 @@ class Router
 	 *
 	 * @param array $parameters Parameters to clean
 	 *
+	 * @param \route\Route $page Page to load
+	 *
 	 * @return array
 	 */
-	public function cleanParameters($parameters, $page)
+	public function cleanParameters($parameters, \route\Route $page)
 	{
-		if (!$page instanceOf \route\Route)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['bad_page']);
-
-			return array();
-		}
-
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], array('page' => $page->display()));
 
 		$expected_parameters = $page->retrieveParameters();
@@ -129,6 +130,9 @@ class Router
 				}
 			}
 		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['end'], array('page' => $page->display()));
+
 		return $cleaned_parameters;
 	}
 	/**
@@ -184,7 +188,7 @@ class Router
 			if ($route->get('type') === \route\Route::TYPES['folder'])
 			{
 				$path = $route->getPath($parent);
-				if ($path != False)
+				if ($path)
 				{
 					$link .= urlencode($path);
 					$parent = $route->get('id');
@@ -490,10 +494,12 @@ class Router
 		$paths = explode('/', rawurldecode(strtok($url, '?')));
 		$parameters = [];
 		$arr_av_routes = [];
+
 		foreach ($paths as $key => $path)
 		{
-			if ($path === ' ')
+			if ($path === ' ') // parameter list
 			{
+				$GLOBALS['Logger']->log
 				foreach (array_slice($path, $key + 1) as $param)
 				{
 					$parameters[] = $param;
@@ -553,7 +559,7 @@ class Router
 	{
 		if (!in_array($mode, $this::MODES))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['setMode'], array('mode' => $mode));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['setMode']['unknown'], array('mode' => $mode));
 
 			return False;
 		}

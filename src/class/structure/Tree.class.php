@@ -20,7 +20,7 @@ class Tree
 	 *
 	 * @return \structure\Tree
 	 */
-	public function __construct(root_data: $root_data)
+	public function __construct($root_data)
 	{
 		$Root = new \structure\Node($root_data);
 		$this->set('root', $Root);
@@ -34,7 +34,7 @@ class Tree
 	 *
 	 * @return mixed
 	 */
-	public function get(attribute: $attribute)
+	public function get($attribute)
 	{
 		if ($this->$attribute === null)
 		{
@@ -54,7 +54,7 @@ class Tree
 	 *
 	 * @return bool
 	 */
-	protected function set(attribute: $attribute, value: $value)
+	protected function set($attribute, $value)
 	{
 		if ($this->$attribute === null)
 		{

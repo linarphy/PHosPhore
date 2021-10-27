@@ -3605,4 +3605,66 @@
 			Une page est une route (mais toutes routes n'est pas page, un route pouvant en contenir d'autre)
 		</item>
 	</idée>
+	<structure>
+		<notification_element>
+			<content>
+				<description>
+					Contenu de la notification
+				</description>
+				<type>
+					string
+				</string>
+			</content>
+			<date>
+				<description>
+					Date de la notification
+				</description>
+				<type>
+					string
+				</type>
+			</date>
+			<type>
+				<description>
+					Type de la notification
+				</description>
+				<type>
+					string
+				</type>
+			</type>
+		</notification_element>
+		<page_element>
+			<content>
+				<description>
+					Contenu de la page
+				</description>
+				<type>
+					string
+				</type>
+			</content>
+			<css>
+				<description>
+					Chemins des fichiers CSS
+				</description>
+				<type>
+					array
+				</type>
+			</css>
+			<js>
+				<description>
+					Chemins des fichiers JS
+				</description>
+				<type>
+					array
+				</type>
+			</js>
+			<meta>
+				<description>
+					Métadonnées de la page
+				</description>
+				<type>
+					array
+				</type>
+			</meta>
+		</page_element>
+	</structure>
 </documentation>

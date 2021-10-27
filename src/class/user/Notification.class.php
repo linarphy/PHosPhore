@@ -100,7 +100,7 @@ class Notification extends \core\Managed
 		}
 		if (empty($id_users))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['users']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['create']['id_users']);
 
 			return False;
 		}
@@ -177,7 +177,7 @@ class Notification extends \core\Managed
 		$Content = $this->retrieveContent();
 		if ($Content === False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['displayContent']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['displayContent']['no_content']);
 
 			return '';
 		}
@@ -204,9 +204,8 @@ class Notification extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public static function getNotifications()
+	public static function getNotifications(\content\pageelement\PageElement $element)
 	{
-		if (isset($
 	}
 	/**
 	 * retrieve the associated \content\Content

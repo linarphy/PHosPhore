@@ -32,12 +32,6 @@ class Page extends \core\Manager
 	 */
 	protected $parameters;
 	/**
-	 * route of the page
-	 *
-	 * @var array
-	 */
-	protected $route;
-	/**
 	 * constructor
 	 *
 	 * @param array $attributes Attributes of the page
