@@ -80,6 +80,8 @@ $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route']
 /** [/decodeWithMixed] **/
 
 /** [decodeWithRoute] **/
+/* start to decode parameter list */
+$GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list'] = 'start to decode parameters list';
 /* unknown route */
 $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'] = 'unknown route for {url}';
 /** [/decodeWithRoute] **/

@@ -497,17 +497,21 @@ class Router
 
 		foreach ($paths as $key => $path)
 		{
-			if ($path === ' ') // parameter list
+			if ($path === ' ')
 			{
-				$GLOBALS['Logger']->log
-				foreach (array_slice($path, $key + 1) as $param)
-				{
-					$parameters[] = $param;
-				}
+				break;
 			}
 			$arr_av_routes[] = \route\RouteManager()->retrieveBy(array(
 				'name' => $path,
 			));
+		}
+		if ($path === ' ') // parameter list
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list']);
+			foreach (array_slice($path, $key + 1) as $param)
+			{
+				$parameters[] = $param;
+			}
 		}
 
 		/** TIME CONSUMING OPERATION */

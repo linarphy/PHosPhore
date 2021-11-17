@@ -13,7 +13,7 @@
 		<cache>
 			<description>
 				cache contient les données "en cache", qui ont de grandes chance d'être utilisé plusieurs fois et qui sont assez lourde pour le justifier
-			</description>
+			</description>date'], array('date' => $content->getElement('date'));
 			<accès>
 				GLOBALS['cache']
 			</accès>
@@ -694,70 +694,6 @@
 						array
 					</valeur>
 				</getByGroup>
-				<retrieveBy>
-					<description>
-						Récupères les objets de façon rapide
-					</description>
-					<arguments>
-						<attributes>
-							<description>
-								Attributs et leur valeur
-							</description>
-							<type>
-								array
-							</type>
-						</attributes>
-						<operations>
-							<description>
-								Attributs et leur opération
-							</description>
-							<type>
-								array
-							</type>
-						</operations>
-						<bounds>
-							<description>
-								Tableau complexe symbolisant une limite
-							</description>
-							<type>
-								array
-							</type>
-						</bounds>
-						<name_class>
-							<description>
-								Nom de la classe des objets à récupérer
-							</description>
-							<type>
-								string
-							</type>
-						</name_class>
-						<link>
-							<description>
-								Nom de l'identifiant utilisé pour retrouver l'objet et Attribut associé à cet identifiant pour l'objet
-							</description>
-							<type>
-								array
-							</type>
-							<commentaire>
-								L'array doit être sous la forme ['db': identifiant, 'obj': attribut]
-							</commentaire>
-						</link>
-						<recovery>
-							<description>
-								Mode de récupération
-							</description>
-							<type>
-								int
-							</type>
-							<commentaire>
-								Utiliser les constantes RECOVERY_MODE
-							</commentaire>
-						</recovery>
-					</arguments>
-					<valeur>
-						array
-					</valeur>
-				</retrieveBy>
 			</méthodes>
 		</LinkManager>
 		<Logger>
@@ -3155,516 +3091,492 @@
 			</méthodes>
 		</Role>
 		<User>
-				<description>
-					Utilisateur du site
-				</description>
-				<extend>
-					\core\Managed
-				</extend>
-				<attributs>
-					<id>
-						<description>
-							Id de l'utilisateur dans la base de donnée
-						</description>
-						<type>
-							int
-						</type>
-					</id>
-					<nickname>
-						<description>
-							Nom de l'utilisateur
-						</description>
-						<type>
-							int
-						</type>
-					</nickname>
-					<configurations>
-						<description>
-							Configurations du visiteur
-						</description>
-						<type>
-							array
-						</type>
-					</configurations>
-					<date_registration>
-						<description>
-							Date d'inscription de l'utilisateur
-						</description>
-						<type>
-							date
-						</type>
-					</date_registration>
-					<date_login>
-						<description>
-							Date de la dernière connexion de l'utilisateur
-						</description>
-						<type>
-							date
-						</type>
-					</date_login>
-					<notifications>
-						<description>
-							Notifications de l'utilisateur
-						</description>
-						<type>
-							array
-						</type>
-					</notifications>
-					<password>
-						<description>
-							Mot de passe de l'utilisateur
-						</description>
-						<type>
-							\user\Password
-						</type>
-					</password>
-					<roles>
-						<description>
-							Rôles de l'utilisateur
-						</description>
-						<type>
-							array
-						</type>
-					</roles>
-				</attributs>
-				<méthodes>
-					<checkPermission>
-						<description>
-							Vérifie si le visiteur peut consulter la page demandée
-						</description>
- 						<arguments>
-							<page>
-								<description>
-									Page que le visiteur souhaite voir
-								</description>
-								<type>
-									\user\Page
-								</type>
-							</page>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</checkPermission>
-					<remove>
-						<description>
-							Supprime définitivement l'utilisateur de la base de donnée
-						</description>
- 						<commentaire>
-							A utiliser avec prudence, pensez à nettoyer les références à cet utilisateur dans les autres bases de données
-						</commentaire>
-					</remove>
-					<display>
-						<description>
-							Affiche l'utilisateur sous un format lisible et sécurisé
-						</description>
- 						<valeur>
-							string
-						</valeur>
-					</display>
-					<isConnected>
-						<description>
-							Vérifie si la dernière connexion de l'utilisateur date d'il y a moins d'un certain intervalle de temps donné
-						</description>
- 						<arguments>
-							<interval>
-								<description>
-									L'intervalle de temps
-								</description>
-								<type>
-									\DateInterval
-								</type>
-							</interval>
-						</arguments>
-						<valeur>
-							bool
-						</valeur>
-					</isConnected>
-					<retrieve>
-						<description>
-							Récupère les données de l'utilisateur à partir des informations déjà renseigné
-						</description>
- 					</retrieve>
-					<retrieveConfigurations>
-						<description>
-							Récupère les configurations du visiteur
-						</description>
- 					</retrieveConfigurations>
-					<retrieveNotifications>
-						<description>
-							Récupère les notifications envoyés à l'utilisateur
-						</description>
-					</retrieveNotifications>
-					<retrievePassword>
-						<description>
-							Récupère le mot de passe de l'utilisateur
-						</description>
- 					</retrievePassword>
-					<retrieveRoles>
-						<description>
-							Récupère les rôle de l'utilisateur
-						</description>
- 					</retrieveRoles>
-					<setConfiguration>
-						<description>
-							Ajoute une nouvelle valeur à la configuration du visiteur de manière définitive (peut remplacer)
-						</description>
- 						<arguments>
-							<key>
-								<description>
-									Clef de la nouvelle valeur
-								</description>
-								<type>
-									string
-								</type>
-							</key>
-							<value>
-								<description>
-									Nouvelle valeur
-								</description>
-								<type>
-									mixed
-								</type>
-							</value>
-						</arguments>
-						<valeur>
-							True
-						</valeur>
-					</setConfiguration>
-				</méthodes>
-			</User>
-			<UserManager>
-				<description>
-					Gestionnaire de \user\User
-				</description>
-				<extend>
-					\core\Manager
-				</extend>
-			</UserManager>
-			<Visitor>
-				<description>
-					Visiteur de site
-				</description>
-				<extend>
-					\user\User
-				</extend>
-				<attributs>
-					<page>
-						<description>
-							Page vu par le visiteur
-						</description>
-						<type>
-							\user\Page
-						</type>
-					</page>
-				</attributs>
-				<méthodes>
-					<connect>
-						<description>
-							Connectes le visiteur
-						</description>
-						<valeur>
-							bool
-						</valeur>
-					</connect>
-					<disconnect>
-						<description>
-							Déconnectes le visiteur
-						</description>
- 					</disconnect>
-					<loadPage>
-						<description>
-							Charge la page si le visiteur en a le droit
-						</description>
- 						<arguments>
-							<route>
-								<description>
-									page à charger
-								</description>
-								<type>
-									\route\Route
-								</type>
-							</route>
-						</arguments>
-						<valeur>
-							\user\Page|False
-						</valeur>
-					</loadPage>
-					<register>
-						<description>
-							Enregistre un nouveau visiteur
-						</description>
-						<valeur>
-							bool
-						</valeur>
-					</register>
-				</méthodes>
-			</Visitor>
-			<VisitorManager>
-				<extend>
-					\user\UserManager
-				</extend>
-				<description>
-					N'ajoute rien de plus à \user\UserManager, existes pour des raisons pratique
-				</description>
-			</VisitorManager>
-		</user>
-	</classes>
-	<fonctions>
-		<core>
-			<init>
-				<description>
-					Initialise la configuration, la langue de l'utilisateur et les modules.
-				</description>
-				<valeur>
-					bool
-				</valeur>
-			</init>
-			<init_router>
-				<description>
-					Récupère les paramètres pour l'initialisation du routeur.
-				</description>
-				<valeur>
-					bool
-				</valeur>
-			</init_router>
-			<init_visitor>
-				<description>
-					Récupère les paramètres pour l'initialisation du visiteur.
-				</description>
-				<valeur>
-					bool
-				</valeur>
-			</init_visitor>
-			<load_class>
-				<description>
-					Charge la classe de façon dynamique
-				</description>
-				<arguments>
-					<class>
-						<description>
-							Nom de la classe avec son namespace
-						</description>
-						<type>
-							string
-						</type>
-					</class>
-				</arguments>
-				<commentaire>
-					Est appelé une fois par classe. Cette fonction charge les fichiers locale et config associés à la classe et ses parties de namespace.
-				</commentaire>
-			<get_class_name>
-				<description>
-					Récupère le nom de la classe sans son namespace
-				</description>
-				<arguments>
-					<class>
-						<description>
-							Nom de la classe avec son namespace
-						</description>
-						<type>
-							string
-						</type>
-					</class>
-				</arguments>
-				<valeur>
-					string
-				</valeur>
-			</get_class_name>
-			</load_class>
-		</core>
-	</fonctions>
-	<modules>
-		<introduction>
-			Il est possible de charger des modules pour le site. Ils se présentent sous la forme de dossier dont le contenu est à copier à l'intérieur du dossier racine du site. Pour une meilleur gestion de la suppression, mise à jour et installation, un gestionnaire de module est en cours de développement.
-			Un module ne doit jamais modifier un fichier de l'installation de base, ceci pour deux raisons: la compatibilité et qu'une mise à jour (qui elle modifie les fichiers de l'installation de base) ne casse pas le module.
-			Un module peut donc ajouter des pages, des fichiers de configuration et des fichiers de langues, mais peut aussi exécuter du code à la première installation du module. Pour le moment, un module ne peut pas intéragir par d'autre méthode que celle-ci.
-		</introduction>
-		<composition>
-			<dossier>
-				Un module possède son dossier propre, dans <code>mods</code>, comprenant certaines données propres au mod.
-			</dossier>
-			<README.md>
-				Le fichier <code>README.md</code> dans le dossier du module présente une description détaillé de celui-ci.
-			</README.md>
-			<mod.xml>
-				<description>
-					Le fichier <code>mod.xml</code> dans le dossier du module est une représentation du module qui comprend les fichiers/dossiers ajouté par celui-ci, son auteur et toutes ses autres métadonnées.
-				</description>
-				<metadonnées>
-					<name>
-						<description>
-							Le nom du module
-						</description>
-						<type>
-							string
-						</type>
-					</name>
-					<authors>
-						<description>
-							Les auteurs du module
-						</description>
-						<type>
-							array
-						</type>
-					</authors>
+			<description>
+				Utilisateur du site
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<id>
 					<description>
-						<description>
-							Une brève description du module.
-						</description>
-						<type>
-							string
-						</type>
+						Id de l'utilisateur dans la base de donnée
 					</description>
-					<version>
-						<description>
-							Numéro de version du module.
-						</description>
-						<type>
-							ce type|int.ce type
-						</type>
-						<commentaire>
-							Utilisation de semver (https://semver.org) recommandé, le gestionnaire de module se basant sur ce numéro pour les mises à jour.
-						</commentaire>
-					</version>
-				</metadonnées>
-			</mod.xml>
-		</composition>
-		<installation>
-			Pour exécuter du code à l'installation, le module peut posséder un fichier <code>install/install.php</code> dans le dossier du module, il sera executé juste après l'initalisation.
-		</installation>
-	</modules>
-	<types>
-		<description>
-			Type d'une variable
-		</description>
-		<liste>
-			<mixed>
-				Un de tout les types existant (comprenant différentes classes)
-			</mixed>
-			<array>
-				(string => mixed, ...)
-			</array>
-			<char>
-				Un caractère en utf-8 (https://www.rfc-editor.org/rfc/rfc3629.html)
-			</char>
-			<date>
-				Un string représentant une date (https://www.rfc-editor.org/rfc/rfc3339.html)
-			</date>
-			<int>
-				Un entier n-bit
-			</int>
-			<lang>
-				Une langue (https://www.rfc-editor.org/rfc/5646.html)
-			</lang>
-			<string>
-				char|char+string
-			</string>
-		</liste>
-	</types>
-	<reservé>
-		<variables>
-			<$_GET>
-				<__path__>
-					Chemin pour la méthode de routage "GET"
-				</__path__>
-				<__locale__>
-					Langue de l'utilisateur selon la méthode GET (priorité 2)
-				</__locale__>
-			</$_GET>
-			<$_SESSION>
-				<__locale__>
-					Langue de l'utilisateur selon la dernière page visité (priorité 1)
-				</__locale__>
-				<__notifications__>
-					Notifications à envoyer pour la prochaine session
-				</__notifications__>
-			</$_SESSION>
-		</variables>
-		<page_preset>
-			<page_element>
+					<type>
+						int
+					</type>
+				</id>
+				<nickname>
+					<description>
+						Nom de l'utilisateur
+					</description>
+					<type>
+						int
+					</type>
+				</nickname>
+				<configurations>
+					<description>
+						Configurations du visiteur
+					</description>
+					<type>
+						array
+					</type>
+				</configurations>
+				<date_registration>
+					<description>
+						Date d'inscription de l'utilisateur
+					</description>
+					<type>
+						date
+					</type>
+				</date_registration>
+				<date_login>
+					<description>
+						Date de la dernière connexion de l'utilisateur
+					</description>
+					<type>
+						date
+					</type>
+				</date_login>
+				<notifications>
+					<description>
+						Notifications de l'utilisateur
+					</description>
+					<type>
+						array
+					</type>
+				</notifications>
+				<password>
+					<description>
+						Mot de passe de l'utilisateur
+					</description>
+					<type>
+						\user\Password
+					</type>
+				</password>
+				<roles>
+					<description>
+						Rôles de l'utilisateur
+					</description>
+					<type>
+						array
+					</type>
+				</roles>
+			</attributs>
+			<méthodes>
+				<checkPermission>
+					<description>
+						Vérifie si le visiteur peut consulter la page demandée
+					</description>
+					<arguments>
+						<page>
+							<description>
+								Page que le visiteur souhaite voir
+							</description>
+							<type>
+								\user\Page
+							</type>
+						</page>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</checkPermission>
+				<remove>
+					<description>
+						Supprime définitivement l'utilisateur de la base de donnée
+					</description>
+					<commentaire>
+						A utiliser avec prudence, pensez à nettoyer les références à cet utilisateur dans les autres bases de données
+					</commentaire>
+				</remove>
+				<display>
+					<description>
+						Affiche l'utilisateur sous un format lisible et sécurisé
+					</description>
+					<valeur>
+						string
+					</valeur>
+				</display>
+				<isConnected>
+					<description>
+						Vérifie si la dernière connexion de l'utilisateur date d'il y a moins d'un certain intervalle de temps donné
+					</description>
+					<arguments>
+						<interval>
+							<description>
+								L'intervalle de temps
+							</description>
+							<type>
+								\DateInterval
+							</type>
+						</interval>
+					</arguments>
+					<valeur>
+						bool
+					</valeur>
+				</isConnected>
+				<retrieve>
+					<description>
+						Récupère les données de l'utilisateur à partir des informations déjà renseigné
+					</description>
+				</retrieve>
+				<retrieveConfigurations>
+					<description>
+						Récupère les configurations du visiteur
+					</description>
+				</retrieveConfigurations>
+				<retrieveNotifications>
+					<description>
+						Récupère les notifications envoyés à l'utilisateur
+					</description>
+				</retrieveNotifications>
+				<retrievePassword>
+					<description>
+						Récupère le mot de passe de l'utilisateur
+					</description>
+				</retrievePassword>
+				<retrieveRoles>
+					<description>
+						Récupère les rôle de l'utilisateur
+					</description>
+				</retrieveRoles>
+				<setConfiguration>
+					<description>
+						Ajoute une nouvelle valeur à la configuration du visiteur de manière définitive (peut remplacer)
+					</description>
+					<arguments>
+						<key>
+							<description>
+								Clef de la nouvelle valeur
+							</description>
+							<type>
+								string
+							</type>
+						</key>
+						<value>
+							<description>
+								Nouvelle valeur
+							</description>
+							<type>
+								mixed
+							</type>
+						</value>
+					</arguments>
+					<valeur>
+						True
+					</valeur>
+				</setConfiguration>
+			</méthodes>
+		</User>
+		<UserManager>
+			<description>
+				Gestionnaire de \user\User
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</UserManager>
+		<Visitor>
+			<description>
+				Visiteur de site
+			</description>
+			<extend>
+				\user\User
+			</extend>
+			<attributs>
+				<page>
+					<description>
+						Page vu par le visiteur
+					</description>
+					<type>
+						\user\Page
+					</type>
+				</page>
+			</attributs>
+			<méthodes>
+				<connect>
+					<description>
+						Connectes le visiteur
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</connect>
+				<disconnect>
+					<description>
+						Déconnectes le visiteur
+					</description>
+				</disconnect>
+				<loadPage>
+					<description>
+						Charge la page si le visiteur en a le droit
+					</description>
+					<arguments>
+						<route>
+							<description>
+								page à charger
+							</description>
+							<type>
+								\route\Route
+							</type>
+						</route>
+					</arguments>
+					<valeur>
+						\user\Page|False
+					</valeur>
+				</loadPage>
+				<register>
+					<description>
+						Enregistre un nouveau visiteur
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</register>
+			</méthodes>
+		</Visitor>
+		<VisitorManager>
+			<extend>
+				\user\UserManager
+			</extend>
+			<description>
+				N'ajoute rien de plus à \user\UserManager, existes pour des raisons pratique
+			</description>
+		</VisitorManager>
+	</user>
+</classes>
+<fonctions>
+	<core>
+		<init>
+			<description>
+				Initialise la configuration, la langue de l'utilisateur et les modules.
+			</description>
+			<valeur>
+				bool
+			</valeur>
+		</init>
+		<init_router>
+			<description>
+				Récupère les paramètres pour l'initialisation du routeur.
+			</description>
+			<valeur>
+				bool
+			</valeur>
+		</init_router>
+		<init_visitor>
+			<description>
+				Récupère les paramètres pour l'initialisation du visiteur.
+			</description>
+			<valeur>
+				bool
+			</valeur>
+		</init_visitor>
+		<load_class>
+			<description>
+				Charge la classe de façon dynamique
+			</description>
+			<arguments>
+				<class>
+					<description>
+						Nom de la classe avec son namespace
+					</description>
+					<type>
+						string
+					</type>
+				</class>
+			</arguments>
+			<commentaire>
+				Est appelé une fois par classe. Cette fonction charge les fichiers locale et config associés à la classe et ses parties de namespace.
+			</commentaire>
+		<get_class_name>
+			<description>
+				Récupère le nom de la classe sans son namespace
+			</description>
+			<arguments>
+				<class>
+					<description>
+						Nom de la classe avec son namespace
+					</description>
+					<type>
+						string
+					</type>
+				</class>
+			</arguments>
+			<valeur>
+				string
+			</valeur>
+		</get_class_name>
+		</load_class>
+	</core>
+</fonctions>
+<modules>
+	<introduction>
+		Il est possible de charger des modules pour le site. Ils se présentent sous la forme de dossier dont le contenu est à copier à l'intérieur du dossier racine du site. Pour une meilleur gestion de la suppression, mise à jour et installation, un gestionnaire de module est en cours de développement.
+		Un module ne doit jamais modifier un fichier de l'installation de base, ceci pour deux raisons: la compatibilité et qu'une mise à jour (qui elle modifie les fichiers de l'installation de base) ne casse pas le module.
+		Un module peut donc ajouter des pages, des fichiers de configuration et des fichiers de langues, mais peut aussi exécuter du code à la première installation du module. Pour le moment, un module ne peut pas intéragir par d'autre méthode que celle-ci.
+	</introduction>
+	<composition>
+		<dossier>
+			Un module possède son dossier propre, dans <code>mods</code>, comprenant certaines données propres au mod.
+		</dossier>
+		<README.md>
+			Le fichier <code>README.md</code> dans le dossier du module présente une description détaillé de celui-ci.
+		</README.md>
+		<mod.xml>
+			<description>
+				Le fichier <code>mod.xml</code> dans le dossier du module est une représentation du module qui comprend les fichiers/dossiers ajouté par celui-ci, son auteur et toutes ses autres métadonnées.
+			</description>
+			<metadonnées>
+				<name>
+					<description>
+						Le nom du module
+					</description>
+					<type>
+						string
+					</type>
+				</name>
+				<authors>
+					<description>
+						Les auteurs du module
+					</description>
+					<type>
+						array
+					</type>
+				</authors>
 				<description>
-					Un élément qui contiendra la page
+					<description>
+						Une brève description du module.
+					</description>
+					<type>
+						string
+					</type>
 				</description>
-				<type>
-					\content\pageelement\PageElement
-				</type>
-			</page_element>
-			<notification_element>
-				<description>
-					Un élément qui contiendra chaque notification de la page
-				</description>
-				<type>
-					\content\pageelement\PageElement
-				</type>
-			</notification_element>
-		</page_preset>
-	</reservé>
-	<idées>
-		<item>
-			Une page est une route (mais toutes routes n'est pas page, un route pouvant en contenir d'autre)
-		</item>
-	</idée>
-	<structure>
-		<notification_element>
-			<content>
-				<description>
-					Contenu de la notification
-				</description>
-				<type>
-					string
-				</string>
-			</content>
-			<date>
-				<description>
-					Date de la notification
-				</description>
-				<type>
-					string
-				</type>
-			</date>
+				<version>
+					<description>
+						Numéro de version du module.
+					</description>
+					<type>
+						ce type|int.ce type
+					</type>
+					<commentaire>
+						Utilisation de semver (https://semver.org) recommandé, le gestionnaire de module se basant sur ce numéro pour les mises à jour.
+					</commentaire>
+				</version>
+			</metadonnées>
+		</mod.xml>
+	</composition>
+	<installation>
+		Pour exécuter du code à l'installation, le module peut posséder un fichier <code>install/install.php</code> dans le dossier du module, il sera executé juste après l'initalisation.
+	</installation>
+</modules>
+<types>
+	<description>
+		Type d'une variable
+	</description>
+	<liste>
+		<mixed>
+			Un de tout les types existant (comprenant différentes classes)
+		</mixed>
+		<array>
+			(string => mixed, ...)
+		</array>
+		<char>
+			Un caractère en utf-8 (https://www.rfc-editor.org/rfc/rfc3629.html)
+		</char>
+		<date>
+			Un string représentant une date (https://www.rfc-editor.org/rfc/rfc3339.html)
+		</date>
+		<int>
+			Un entier n-bit
+		</int>
+		<lang>
+			Une langue (https://www.rfc-editor.org/rfc/5646.html)
+		</lang>
+		<string>
+			char|char+string
+		</string>
+	</liste>
+</types>
+<reservé>
+	<variables>
+		<$_GET>
+			<__path__>
+				Chemin pour la méthode de routage "GET"
+			</__path__>
+			<__locale__>
+				Langue de l'utilisateur selon la méthode GET (priorité 2)
+			</__locale__>
+		</$_GET>
+		<$_SESSION>
+			<__locale__>
+				Langue de l'utilisateur selon la dernière page visité (priorité 1)
+			</__locale__>
+			<__notifications__>
+				Notifications à envoyer pour la prochaine session
+			</__notifications__>
+		</$_SESSION>
+	</variables>
+	<page_preset>
+		<page_element>
+			<description>
+				Un élément qui contiendra la page
+			</description>
 			<type>
-				<description>
-					Type de la notification
-				</description>
-				<type>
-					string
-				</type>
+				\content\pageelement\PageElement
+			</type>
+		</page_element>
+		<notification_element>
+			<description>
+				Un élément qui contiendra chaque notification de la page
+			</description>
+			<type>
+				\content\pageelement\PageElement
 			</type>
 		</notification_element>
-		<page_element>
-			<content>
-				<description>
-					Contenu de la page
-				</description>
-				<type>
-					string
-				</type>
-			</content>
-			<css>
-				<description>
-					Chemins des fichiers CSS
-				</description>
-				<type>
-					array
-				</type>
-			</css>
-			<js>
-				<description>
-					Chemins des fichiers JS
-				</description>
-				<type>
-					array
-				</type>
-			</js>
-			<meta>
-				<description>
-					Métadonnées de la page
-				</description>
-				<type>
-					array
-				</type>
-			</meta>
-		</page_element>
-	</structure>
+	</page_preset>
+</reservé>
+<idées>
+	<item>
+		Une page est une route (mais toutes routes n'est pas page, un route pouvant en contenir d'autre)
+	</item>
+</idée>
+<structure>
+	<notification_element>
+		<content>
+			<description>
+				Contenu de la notification
+			</description>
+			<type>
+				string
+			</string>
+		</content>
+		<date>
+			<description>
+				Date de la notification
+			</description>
+			<type>
+				string
+			</type>
+		</date>
+		<type>
+			<description>
+				Type de la notification
+			</description>
+			<type>
+				string
+			</type>
+		</type>
+	</notification_element>
+	<page_element>
+		<content>
+			<description>
+				Contenu de la page
+			</description>
+			<type>
+				string
+			</type>
+		</content>
+	</page_element>
+</structure>
 </documentation>

@@ -40,6 +40,8 @@ $GLOBALS['config']['core']['locale']['filename'] = 'locale.php';
 $GLOBALS['config']['core']['login']['guest']['nickname'] = 'guest';
 /* guest password */
 $GLOBALS['config']['core']['login']['guest']['password'] = 'guest';
+/* guest id */
+$GLOBALS['config']['core']['login']['guest']['id'] = 1;
 /** [/GUEST] **/
 /** [/LOGIN] **/
 

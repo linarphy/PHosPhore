@@ -85,20 +85,8 @@ class Visitor extends \user\User
 		}
 
 		$Page->retrieve();
-		$Folder = $route->retrieveFolder();
-
-		if (!is_file($Folder->getPath()))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_file']);
-			return False;
-		}
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['loading_subfiles']);
-		$route->loadSubFiles();
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['loading_file']);
-		include($Folder->getPath() . $GLOBALS['config']['core']['filename']['page']);
-
 		$this->set('page', $Page);
+		$Page->load();
 
 		return $Page;
 	}
@@ -132,6 +120,9 @@ class Visitor extends \user\User
 			$role->set('id', $this->get('id'));
 			$RoleManager->add($role->table());
 		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['register']['end']);
+
 		return True;
 	}
 }

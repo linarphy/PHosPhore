@@ -206,6 +206,69 @@ class Notification extends \core\Managed
 	 */
 	public static function getNotifications(\content\pageelement\PageElement $element)
 	{
+		if ($element->getElement('content') !== null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], array('content' => $content->getElement('content')));
+		}
+		if ($element->getElement('date') !== null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_date'], array('date' => $content->getElement('date'));
+		}
+		if  ($element->getElement('type') !== null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPRD['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_type'], array('type' => $element->getElement('type'));
+		}
+
+		$notifications = array();
+		if ($_SESSION['__notifications__'] !== null) // there is at least one notification stored in the session
+		{
+			$notifications = $_SESSION['__notifications__'];
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], array('number' => count($_SESSION['__notifications__'])));
+		}
+
+		$id_user = $GLOBALS['config']['core']['login']['guest']['id'];
+		if ($GLOBALS['Visitor'] !== null)
+		{
+			$id_user = $GLOBALS['Visitor']->get('id');
+		}
+
+		$LinkNotificationUser = new \user\LinkNotificationUser();
+		$notifications_from_db = $LinkNotificationUser->retrieveBy(array(
+			'id_user' => $id_user,
+		), '=', class_name: get_class_name(self), attributes_conversion: array('id_notification' => 'id'));
+
+		if (!empty($notifications_from_db))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_db'], array('number' => count($notifications_from_db)));
+			$notifications = array_merge($notifications, $notifications_from_db);
+		}
+
+		$Notifications = array();
+
+		foreach ($notifications as $notification)
+		{
+			$Notification = $element->clone();
+
+			$Notification->setElement('date', $notification->get('date'));
+			$Notification->setElement('type', $notification->get('type'));
+
+			if ($notification->get('id') === null) // notification in session
+			{
+				$Notification->setElement('content', $Notification->get('content'));
+			}
+			else
+			{
+				/* retrieve content */
+				$Content = new \content\Content(array('id' => $notification->get('id_content')));
+				$Content->retrieveText();
+
+				$Notification->setElement('content', $Content->display());
+			}
+
+			$Notifications[] = $Notification;
+		}
+
+		return $Notifications;
 	}
 	/**
 	 * retrieve the associated \content\Content
@@ -230,7 +293,7 @@ class Notification extends \core\Managed
 		}
 		if (empty($Contents))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['retrieveContent']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['retrieveContent']['no_content']);
 
 			return False;
 		}

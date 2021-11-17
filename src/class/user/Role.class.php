@@ -45,7 +45,7 @@ class Role
 	 */
 	public function addPermissions($id)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], array('permissions' => $id));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], array('permissions' => $id, 'role' => $this->name));
 
 		$LinkPermissionRole = new \user\LinkPermission\Role();
 

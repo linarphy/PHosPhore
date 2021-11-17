@@ -61,23 +61,25 @@ class Page extends \core\Manager
 
 		$this->retrieveParamaters();
 
-		if (isset($this->get('parameters')['preset']) && in_array($this->get('parameters')['preset'], $GLOBALS['config']['class']['content']['pageelement']['preset']['list']))
+		if (isset($this->get('parameters')['preset']) && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']])
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], array('preset' => $this->get('parameters')['preset']));
 
-			$page_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']['list']]['page_element']();
-			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']['list']]['notification_element']();
+			$page_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element']();
+			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element']();
 		}
 		else
 		{
-			$page_element = $GLOBALS['config']['class']['content']['pageelement']['presets'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']();
-			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']();
+			$page_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']();
+			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']();
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications']);
-		$page_element->set('notifications', \user\Notification::getNotifications($notification_element));
+		$Notifications = \user\Notification::getNotifications($notification_element)
+		$page_element->set($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], array('number' => count($Notifications)));
 
 		$this->set('page_element', $page_element);
+		$GLOBLS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
 		return True;
 	}
 	/**
@@ -131,6 +133,8 @@ class Page extends \core\Manager
 	 */
 	public function load()
 	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
+
 		$Route = $this->retrieveRoute();
 		$Folder = $Route->retrieveFolder();
 
@@ -138,8 +142,16 @@ class Page extends \core\Manager
 
 		if (!is_file($file))
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Page']['load']['no_file'], array('file' => $file));
+
 			return False;
 		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['subfiles']);
+
+		$Route->loadSubFiles();
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['include'], array('file' => $file));
 
 		return include($file);
 	}
@@ -150,7 +162,7 @@ class Page extends \core\Manager
 	 */
 	public function retrieveParameters()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParamaters']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start']);
 
 		$LinkPageParameters = new \user\LinkPageParameters();
 		$parameters = $LinkPageParameters->retrieveBy(array(
@@ -159,7 +171,7 @@ class Page extends \core\Manager
 
 		$this->set('parameters', $parameters);
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParamaters']['loaded'], array('number' => count($parameters)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'], array('number' => count($parameters)));
 
 		return count($parameters) != 0;
 	}

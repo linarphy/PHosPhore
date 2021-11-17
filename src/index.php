@@ -44,16 +44,16 @@ try
 		else	// cannot connect
 		{
 			$GLOBALS['Visitor'] = new \user\Visitor(array( // Guest
-				'nickname' => $GLOBALS['config']['core']['guest']['nickname'],
+				'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],
 			));
 
-			if ($GLOBALS['Visitor']->connect($GLOBALS['config']['core']['guest']['password']))
+			if ($GLOBALS['Visitor']->connect($GLOBALS['config']['core']['login']['guest']['password']))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['bad_cred']);
 
 				// Notify the visitor
 				$Notification = new \user\Notification(array(
-					'text' => $GLOBALS['locale']['class']['user']['visitor']['bad_cred'],
+					'text' => $GLOBALS['locale']['core']['bad_credentials'],
 					'type' => \user\Notification::TYPES['error'],
 				));
 				$Notification->addToSession();

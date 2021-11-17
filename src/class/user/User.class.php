@@ -128,6 +128,7 @@ class User extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieve']);
 
 		parent::retrieve();
+		$this->retrieveConfigurations();
 		$this->retrieveNotifications();
 		$this->retrievePassword();
 		$this->retrieveRoles();
@@ -195,7 +196,7 @@ class User extends \core\Managed
 	 */
 	public function setConfiguration($key, $value)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['setConfiguration']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['setConfiguration']['start']);
 
 		$this->retrieveConfigurations();
 
@@ -217,7 +218,7 @@ class User extends \core\Managed
 					$this->set('configurations', $configurations);
 				}
 
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['setConfiguration']['end']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['setConfiguration']['end_replace']);
 
 				return True;
 			}
@@ -230,6 +231,8 @@ class User extends \core\Managed
 		$Configuration->set('id', $ConfigurationManager->add($Configuration->table()));
 		$configurations[] = $Configuration;
 		$this->set('configurations', $configurations);
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['setConfiguration']['end_add']);
 
 		return True;
 	}
