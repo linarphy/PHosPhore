@@ -12,7 +12,7 @@ class PasswordManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'user';
+	const TABLE = 'phosphore_user';
 	/**
 	 * index used
 	 *

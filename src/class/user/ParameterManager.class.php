@@ -12,7 +12,7 @@ class ParameterManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'page_parameter';
+	const TABLE = 'phosphore_page_parameter';
 	/**
 	 * index used
 	 *

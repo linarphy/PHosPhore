@@ -66,11 +66,11 @@ class Role
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Role']['retrievePermissions']);
 
-		$LinkPermissionRole = new \user\LinkPermissionRole();
+		$PermissionManager = new \user\PermissionManager();
 
-		$this->permissions = $LinkPermissionRole->retrieveBy(array(
+		$this->permissions = $PermissionManager->retrieveBy(array(
 			'name_role' => $this->name_role,
-		), name_class: '\user\Permission', attributes_conversion: array('id_permission' => 'id'));
+		));
 	}
 }
 

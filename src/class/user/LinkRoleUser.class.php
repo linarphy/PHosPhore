@@ -12,7 +12,7 @@ class LinkRoleUser extends \core\LinkManager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'link_role_user';
+	const TABLE = 'phosphore_link_role_user';
 	/**
 	 * index used
 	 *

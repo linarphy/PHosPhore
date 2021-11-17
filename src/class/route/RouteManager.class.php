@@ -12,7 +12,7 @@ class Route extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const TABLE = 'route';
+	const TABLE = 'phosphore_route';
 	/**
 	 * index used
 	 *

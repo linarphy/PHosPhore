@@ -272,7 +272,7 @@ abstract class Managed
 		$count = 0;
 		foreach ($attributes as $attribute => $value)
 		{
-			if ($this->$attribute != null)
+			if (property_exists($this, $attribute))
 			{
 				if ($this->set($attribute, $value))
 				{

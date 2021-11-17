@@ -1593,6 +1593,14 @@
 						int
 					</type>
 				</id>
+				<id_parent>
+					<description>
+						Index du dossier parent (-1 si racine)
+					</description>
+					<type>
+						int
+					</type>
+				</id_parent>
 				<name>
 					<description>
 						Nom du dossier
@@ -1601,14 +1609,6 @@
 						string
 					</type>
 				</name>
-				<parent_id>
-					<description>
-						Index du dossier parent (-1 si racine)
-					</description>
-					<type>
-						int
-					</type>
-				</parent_id>
 			</attributs>
 			<méthodes>
 				<display>
@@ -2522,14 +2522,6 @@
 				\core\LinkManager
 			</extend>
 		</LinkNotificationUser>
-		<LinkPermissionRole>
-			<description>
-				Gère le lien entre les permissions et les rôles
-			</description>
-			<extend>
-				\core\LinkManager
-			</extend>
-		</LinkPermissionRole>
 		<LinkRoleUser>
 			<description>
 				Gère le lien entre les rôles et les utilisateurs
@@ -3539,6 +3531,9 @@
 <idées>
 	<item>
 		Une page est une route (mais toutes routes n'est pas page, un route pouvant en contenir d'autre)
+	</item>
+	<item>
+		Il y a un dossier par route, et une route par dossier (\route\Route et \route\Folder)
 	</item>
 </idée>
 <structure>

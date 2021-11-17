@@ -11,7 +11,7 @@ class ParameterManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'route_parameter';
+	const TABLE = 'phosphore_route_parameter';
 	/**
 	 * index used
 	 *

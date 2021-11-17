@@ -12,7 +12,7 @@ class NotificationManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'notification';
+	const TABLE = 'phosphore_notification';
 	/**
 	 * index used
 	 *

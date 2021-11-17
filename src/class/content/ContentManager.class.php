@@ -12,7 +12,7 @@ class ContentManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'content';
+	const TABLE = 'phosphore_content';
 	/**
 	 * index used
 	 *

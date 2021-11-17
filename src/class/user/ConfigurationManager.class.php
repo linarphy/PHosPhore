@@ -12,7 +12,7 @@ class ConfigurationManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'configuration';
+	const TABLE = 'phosphore_configuration';
 	/**
 	 * index used
 	 *

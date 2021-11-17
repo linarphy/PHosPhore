@@ -12,7 +12,7 @@ class LinkPageParameter extends \core\LinkManager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'link_page_parameter';
+	const TABLE = 'phosphore_link_page_page_parameter';
 	/**
 	 * index used
 	 *

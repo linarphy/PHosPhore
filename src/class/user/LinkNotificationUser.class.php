@@ -12,7 +12,7 @@ class LinkNotificationUser extends \core\LinkManager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'link_notification_user';
+	const TABLE = 'phosphore_link_notification_user';
 	/**
 	 * index used
 	 *

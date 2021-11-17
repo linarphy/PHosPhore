@@ -24,7 +24,7 @@ class Folder extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $parent_id;
+	protected $id_parent;
 	/**
 	 * Display the folder. Only use to display ('/' as directory separator is not a FULL standard, badly)
 	 *
@@ -32,7 +32,7 @@ class Folder extends \core\Managed
 	 */
 	public function display()
 	{
-		if ($this->parent_id === -1)
+		if ($this->id_parent === -1)
 		{
 			return $this->displayer('name') . '/';
 		}
@@ -73,7 +73,7 @@ class Folder extends \core\Managed
 	public function getParent()
 	{
 		$Folder = new \route\Folder(array(
-			'id' => $this->parent_id,
+			'id' => $this->id_parent,
 		));
 		$Folder->retrieve();
 		return $Folder;
@@ -85,7 +85,7 @@ class Folder extends \core\Managed
 	 */
 	public function getPath()
 	{
-		if ($this->parent_id === -1)
+		if ($this->id_parent === -1)
 		{
 			return DIRECTORY_SEPARATOR . $this->name . DIRECTORY_SEPARATOR;
 		}

@@ -56,6 +56,11 @@ $GLOBALS['config']['core']['mod']['install_file'] = 'install.php';
 
 /** [DYNAMIC] **/
 
+/** [ROUTE] **/
+/* default error route id */
+$GLOBALS['config']['core']['route']['error']['id'] = 1;
+/** [/ROUTE] **/
+
 /** [LANG] **/
 /* lang of the server */
 $GLOBALS['config']['core']['lang']['server'] = 'en';

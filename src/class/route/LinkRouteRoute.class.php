@@ -12,7 +12,7 @@ class LinkRouteRoute extends \core\LinkManager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'linkroutes';
+	const TABLE = 'phosphore_link_route_route';
 	/**
 	 * index used
 	 *

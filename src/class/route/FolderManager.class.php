@@ -12,7 +12,7 @@ class FolderManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'folder';
+	const TABLE = 'phosphore_folder';
 	/**
 	 * index used
 	 *

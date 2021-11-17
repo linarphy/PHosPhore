@@ -12,7 +12,7 @@ class PermissionManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'permission';
+	const TABLE = 'phosphore_permission';
 	/**
 	 * index used
 	 *

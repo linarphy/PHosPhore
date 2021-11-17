@@ -12,7 +12,7 @@ class UserManager extends \core\Manager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'user';
+	const TABLE = 'phosphore_user';
 	/**
 	 * index used
 	 *
