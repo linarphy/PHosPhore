@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-- add html pageelement already given in preset (check content config)
 - correct SQL instruction (auto increment, default to current timestamp, etc...)
 - correct the bug (count cannot be used on string)
 - check if all hydrating method are the same as \core\Managed one (I replaced $this->$attribute != null by property_exists($attribute))
