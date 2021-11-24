@@ -29,9 +29,16 @@ class PageElement
 		foreach ($attributes as $key => $value)
 		{
 			$method = 'set' . ucfirst($key);
-			if (method_exists($this, $method))
+			if (property_exists($this, $key))
 			{
-				$this->$method($value);
+				if (method_exists($this, $method))
+				{
+					$this->$method($value);
+				}
+				else
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], array('key' => $key, 'value' => $value, 'method' => $method));
+				}
 			}
 			else
 			{

@@ -3,7 +3,6 @@
 For now I'm currently:
 - correct SQL instruction (auto increment, default to current timestamp, etc...)
 - correct the bug (count cannot be used on string)
-- check if all hydrating method are the same as \core\Managed one (I replaced $this->$attribute != null by property_exists($attribute))
 - check current log for errors I don't see
 - make the error page to display (proprely)
 

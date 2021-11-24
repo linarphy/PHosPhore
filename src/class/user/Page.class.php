@@ -5,7 +5,7 @@ namespace user;
 /**
  * Page viewed by the user
  */
-class Page extends \core\Manager
+class Page extends \core\Managed
 {
 	/**
 	 * id of the page (aka the route)

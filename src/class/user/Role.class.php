@@ -30,7 +30,7 @@ class Role
 
 		foreach ($attributes as $attribute => $value)
 		{
-			if ($this->$attribute != null)
+			if (property_exists($this, $attribute))
 			{
 				$this->$attribute = $value;
 			}
