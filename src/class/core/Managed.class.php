@@ -35,7 +35,7 @@ abstract class Managed
 
 		$index = $this->manager()->add($this->table());
 
-		if ($index === False || count($index) === 0)
+		if ($index === False || phosphore_count($index) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['add']['error'], array('class' => get_class($this)));
 			return $index;
@@ -322,7 +322,7 @@ abstract class Managed
 	 */
 	public static function getDisp($attribute)
 	{
-		if (count($attribute) === 0)
+		if (phosphore_count($attribute) === 0)
 		{
 			return '';
 		}
@@ -337,7 +337,7 @@ abstract class Managed
 	 */
 	public static function getGet($attribute)
 	{
-		if (count($attribute) === 0)
+		if (phosphore_count($attribute) === 0)
 		{
 			return '';
 		}
@@ -379,7 +379,7 @@ abstract class Managed
 	 */
 	public static function getSet($attribute)
 	{
-		if (count($attribute) === 0)
+		if (phosphore_count($attribute) === 0)
 		{
 			return '';
 		}

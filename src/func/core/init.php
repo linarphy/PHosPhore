@@ -7,10 +7,15 @@
  */
 function init()
 {
+
 	/** config section **/
 
 	require_once(join(DIRECTORY_SEPARATOR, array('config', 'core', 'config.php')));
 	require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
+
+	/** base function **/
+
+	require_once(join(DIRECTORY_SEPARATOR, array($GLOBALS['config']['core']['path']['func'], 'core', 'utils.php')));
 
 	/** locale section **/
 

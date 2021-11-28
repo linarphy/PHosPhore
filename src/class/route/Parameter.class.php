@@ -39,13 +39,13 @@ class Parameter extends \core\Managed
 	public function getFullRegex()
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], array('regex' => $this->regex()));
-		if (count($this->regex) === 0)
+		if (phosphore_count($this->regex) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], array('regex' => $this->regex));
 
 			return '##'; // always false
 		}
-		if (count($this->regex) === 1))
+		if (phosphore_count($this->regex) === 1))
 		{
 			$regex = '#\\' . $this->regex . '#';
 
@@ -53,7 +53,7 @@ class Parameter extends \core\Managed
 
 			return $regex;
 		}
-		if ($this->regex[0] === $this->regex[count($this->regex)])
+		if ($this->regex[0] === $this->regex[phosphore_count($this->regex)])
 		{
 			if (in_array($this->regex[0], []))
 			{

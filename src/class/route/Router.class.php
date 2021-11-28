@@ -358,7 +358,7 @@ class Router
 	 */
 	public function decodeRoute($url)
 	{
-		if (count($url) === 0)
+		if (phoshpore_count($url) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
 			return array();
