@@ -7,6 +7,8 @@
 /** [STATIC] **/
 
 /** [PATH] **/
+/* path to asset folder */
+$GLOBALS['config']['core']['path']['asset'] = 'asset' . DIRECTORY_SEPARATOR;
 /* path to class folder */
 $GLOBALS['config']['core']['path']['class'] = 'class' . DIRECTORY_SEPARATOR;
 /* path to config folder */
@@ -20,7 +22,7 @@ $GLOBALS['config']['core']['path']['locale'] = 'locale' . DIRECTORY_SEPARATOR;
 /* path to mod folder */
 $GLOBALS['config']['core']['path']['mod'] = 'mod' . DIRECTORY_SEPARATOR;
 /* path to template folder */
-$GLOBALS['config']['core']['path']['template'] = 'template' . DIRECTORY_SEPARATOR;
+$GLOBALS['config']['core']['path']['template'] = $GLOBALS['config']['core']['path']['asset'] . 'template' . DIRECTORY_SEPARATOR;
 /** [/PATH] **/
 
 /** [CONFIG] **/
