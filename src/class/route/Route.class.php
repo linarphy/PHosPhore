@@ -78,7 +78,7 @@ class Route extends \core\Managed
 		foreach ($routes as $route)
 		{
 			$loaded[] = $this->id;
-			$path = $route->getPath($root_id, $loaded)
+			$path = $route->getPath($root_id, $loaded);
 			if ($path != False)
 			{
 				$path .= $this->name;
@@ -100,7 +100,7 @@ class Route extends \core\Managed
 	 */
 	public function loadSubFiles()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], array('name' => $this->displayer('name'));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], array('name' => $this->displayer('name')));
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy(array(
@@ -111,7 +111,7 @@ class Route extends \core\Managed
 		{
 			foreach ($routes as $route)
 			{
-				if (array_flip($GLOBALS['cache']['class']['route']['route']['loaded']['subfiles'][[$route->get('id_route_parent')] != null) // avoid circular reference
+				if (array_flip($GLOBALS['cache']['class']['route']['route']['loaded']['subfiles'])[$route->get('id_route_parent')] != null) // avoid circular reference
 				{
 					$route->loadSubFiles();
 					$GLOBALS['cache']['class']['route']['loaded']['subfiles'][] = $result['id_route_parent'];

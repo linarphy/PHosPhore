@@ -358,7 +358,7 @@ class Router
 	 */
 	public function decodeRoute($url)
 	{
-		if (phoshpore_count($url) === 0)
+		if (\phosphore_count($url) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
 			return array();
@@ -495,13 +495,18 @@ class Router
 		$parameters = [];
 		$arr_av_routes = [];
 
+		print_r($paths);
+
+		$RouteManager = new \route\RouteManager();
+
 		foreach ($paths as $key => $path)
 		{
 			if ($path === ' ')
 			{
 				break;
 			}
-			$arr_av_routes[] = \route\RouteManager()->retrieveBy(array(
+
+			$arr_av_routes[] = $RouteManager->retrieveBy(array(
 				'name' => $path,
 			));
 		}
@@ -515,26 +520,28 @@ class Router
 		}
 
 		/** TIME CONSUMING OPERATION */
-		$root_route = \route\RouteManager()->retrieveBy(array(
+
+		$root_route = $RouteManager->retrieveBy(array(
 			'id' => 0,
 		))[0];
-		$tree_routes = \structure\Tree($root_route);
+		$tree_routes = new \structure\Tree($root_route);
+
 		foreach ($arr_av_routes[0] as $key => $av_routes)
 		{
 			$Child = $this->buildNode($arr_av_routes, 0, $key);
-			if ($Child != False)
+			if ($Child !== False)
 			{
 				$tree_routes->get('root')->addChild($Child);
 			}
 		}
 		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
-		if ($routes == False)
+		if ($routes === False)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'], array('url' => $url));
 		}
 
 		$Page = new \user\Page(array(
-			'id' => end($routes)->get('id'),
+			'id' => end($routes)->get('data')->get('id'),
 		));
 		$Page->retrieve();
 		return [

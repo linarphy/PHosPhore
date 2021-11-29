@@ -39,7 +39,7 @@ class Parameter extends \core\Managed
 	public function getFullRegex()
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], array('regex' => $this->regex()));
-		if (phosphore_count($this->regex) === 0)
+		if (\phosphore_count($this->regex) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], array('regex' => $this->regex));
 

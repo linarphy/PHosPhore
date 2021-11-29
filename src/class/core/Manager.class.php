@@ -736,7 +736,7 @@ abstract class Manager
 			return False;
 		}
 
-		$condition = $this->conditionCreator($index, '=');
+		$condition = $this->conditionCreator($values, '=');
 
 		$query = 'UPDATE ' . $this::TABLE  . ' SET ' . implode(', ', $condition[0]) . ' WHERE ' . implode(' AND ', $indexes);
 

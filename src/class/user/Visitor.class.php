@@ -45,7 +45,7 @@ class Visitor extends \user\User
 		$UserManager->update(array( // update last time login in database
 			'id' => $this->get('id'),
 		), array(
-			'date_login' => date($GLOBALS['config']['core']['database']['date_format']),
+			'date_login' => date($GLOBALS['config']['core']['format']['date']),
 		));
 
 		/* see https://stackoverflow.com/questions/3128985/php-login-system-remember-me-persistent-cookie/ */

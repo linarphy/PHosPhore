@@ -28,6 +28,11 @@ $GLOBALS['config']['core']['path']['template'] = 'template' . DIRECTORY_SEPARATO
 $GLOBALS['config']['core']['config']['filename'] = 'config.php';
 /** [/CONFIG] **/
 
+/** [FORMAT] **/
+/* format for date in database */
+$GLOBALS['config']['core']['format']['date'] = 'Y-m-d H:i:s';
+/** [/FORMAT] **/
+
 /** [LANG] **/
 /* lang file name */
 $GLOBALS['config']['core']['lang']['filename'] = 'lang.php';

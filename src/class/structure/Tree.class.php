@@ -56,12 +56,6 @@ class Tree
 	 */
 	protected function set($attribute, $value)
 	{
-		if ($this->$attribute === null)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Tree']['set']['not_found'], array('attribute' => $attribute));
-
-			return False;
-		}
 		$this->$attribute = $value;
 	}
 }

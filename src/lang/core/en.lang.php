@@ -20,6 +20,8 @@ $GLOBALS['lang']['core']['start'] = 'starting the script, Logger initialized';
 $GLOBALS['lang']['core']['router_init'] = 'router initialized';
 /* visitor_init */
 $GLOBALS['lang']['core']['visitor_init'] = 'visitor initialized';
+/* visitor successfully connect */
+$GLOBALS['lang']['core']['visitor_connect'] = 'visitor connected';
 /* guest credentials are incorrect */
 $GLOBALS['lang']['core']['guest_missmatch'] = 'guest credentials stored in the server configuration are incorrect';
 /* exception threw */

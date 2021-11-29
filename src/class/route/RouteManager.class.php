@@ -5,7 +5,7 @@ namespace route;
 /**
  * Manager of Route
  */
-class Route extends \core\Manager
+class RouteManager extends \core\Manager
 {
 	/**
 	 * table used

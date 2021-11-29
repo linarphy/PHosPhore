@@ -182,7 +182,7 @@ class Node
 		{
 			if ($neighbour === $this)
 			{
-				unset $neighbors[$key];
+				unset($neighbors[$key]);
 			}
 		}
 

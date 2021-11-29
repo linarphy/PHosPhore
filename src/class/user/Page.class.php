@@ -74,7 +74,7 @@ class Page extends \core\Managed
 			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']();
 		}
 
-		$Notifications = \user\Notification::getNotifications($notification_element)
+		$Notifications = \user\Notification::getNotifications($notification_element);
 		$page_element->set($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], array('number' => count($Notifications)));
 
@@ -97,7 +97,7 @@ class Page extends \core\Managed
 
 		if (count($this->get('parameters')) == 0)
 		{
-			$this->set('parameters') = array($key => $value);
+			$this->set('parameters', array($key => $value));
 
 			return True;
 		}

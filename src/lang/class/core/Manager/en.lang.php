@@ -184,7 +184,7 @@ $GLOBALS['lang']['class']['core']['Manager']['update']['missing_index'] = '{clas
 /* values */
 $GLOBALS['lang']['class']['core']['Manager']['update']['values'] = '{class} cannot update an element of the database because the values to replace are empty';
 /* end, query constructed */
-$GLOBALS['lang']['class']['core']['Manager']['udpate']['end'] = '{class} query constructed: {query}';
+$GLOBALS['lang']['class']['core']['Manager']['update']['end'] = '{class} query constructed: {query}';
 /** [/update] **/
 
 /** [updateBy] **/
