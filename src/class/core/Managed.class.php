@@ -70,7 +70,7 @@ abstract class Managed
 			}
 			else if (is_bool($element))
 			{
-				$display = ($element ? 'True' : 'False');
+				$display .= ($element ? 'True' : 'False');
 			}
 			else if (is_int($element) || is_float($element))
 			{
