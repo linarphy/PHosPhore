@@ -36,6 +36,7 @@ try
 
 	try
 	{
+		$GLOBALS['Visitor']->retrieve();
 		if ($GLOBALS['Visitor']->connect())
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['visitor_connect']);
@@ -43,11 +44,16 @@ try
 		}
 		else	// cannot connect
 		{
-			$GLOBALS['Visitor'] = new \user\Visitor(array( // Guest
-				'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],
+			$Password = new \user\Password(array(
+				'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
 			));
+			$GLOBALS['Visitor'] = new \user\Visitor(array( // Guest
+				'id'       => $GLOBALS['config']['core']['login']['guest']['id'],
+				'password' => $Password,
+			));
+			$GLOBALS['Visitor']->retrieve();
 
-			if ($GLOBALS['Visitor']->connect($GLOBALS['config']['core']['login']['guest']['password']))
+			if ($GLOBALS['Visitor']->connect())
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['bad_cred']);
 
@@ -89,7 +95,7 @@ try
 		}
 	}
 
-	$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['end']);
+	$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['end'], array('error' => $exception));
 }
 catch (\Exception $exception) // FATAL ERROR
 {

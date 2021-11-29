@@ -69,7 +69,7 @@ class Role
 		$PermissionManager = new \user\PermissionManager();
 
 		$this->permissions = $PermissionManager->retrieveBy(array(
-			'name_role' => $this->name_role,
+			'name_role' => $this->name,
 		));
 	}
 }

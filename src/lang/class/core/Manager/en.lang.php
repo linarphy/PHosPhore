@@ -165,6 +165,8 @@ $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['start'] = '{class} s
 $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_not_defined'] = '{class} class {managed} not found, cannot retrieve object of this class';
 /* custom class manager not defined */
 $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['custom_class_manager_not_defined'] = '{class} class {manager} not found, cannot retrieve object not directly linked to this database';
+/* end of the process */
+$GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['end'] = '{class} retrieved';
 /* objects retrieved */
 $GLOBALS['lang']['class']['core']['Manager']['retrievedBy']['end'] = '{class} objects retrieved';
 /** [/retrieveBy] **/

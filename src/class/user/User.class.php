@@ -140,10 +140,19 @@ class User extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveConfigurations']);
 
+		if ($this->get('configurations') === null)
+		{
+			$configurations = array();
+		}
+		else
+		{
+			$configurations = $this->get('configurations');
+		}
+
 		$ConfigurationManager = new \user\ConfigurationManager();
-		$this->set('configurations', $ConfigurationManager->retrieveBy(array(
+		$this->set('configurations', array_merge($configurations, $ConfigurationManager->retrieveBy(array(
 			'id_user' => $this->get('id'),
-		)));
+		))));
 	}
 	/**
 	 * retrieves the notifications of this user
@@ -152,12 +161,21 @@ class User extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveNotifications']);
 
+		if ($this->get('notifications') === null)
+		{
+			$notifications = array();
+		}
+		else
+		{
+			$notifications = $this->get('notifications');
+		}
+
 		$LinkNotificationUser = new \user\LinkNotificationUser();
-		$this->set('notifications', $LinkNotificationUser->retrieveBy(array(
+		$this->set('notifications', array_merge($notifications, $LinkNotificationUser->retrieveBy(array(
 			'id_user' => $this->get('id'),
-		), name_class: '\user\Notification', attributes_conversion: array(
+		), class_name: '\user\Notification', attributes_conversion: array(
 			'id_notification' => 'id',
-		)));
+		))));
 	}
 	/**
 	 * retrieves the password of this user
@@ -166,10 +184,17 @@ class User extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrievePassword']);
 
-		$PasswordManager = new \user\Password();
-		$this->set('password', $PasswordManager->retrieveBy(array(
+		$PasswordManager = new \user\PasswordManager();
+		$Password = $PasswordManager->retrieveBy(array(
 			'id' => $this->get('id'),
-		)));
+		))[0];
+
+		if ($this->get('password') !== null)
+		{
+			$Password->set('password_clear', $this->get('password')->get('password_clear'));
+		}
+
+		$this->set('password', $Password);
 	}
 	/**
 	 * retrieves the roles of this user
@@ -178,12 +203,28 @@ class User extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveRoles']);
 
+		if ($this->get('roles') === null)
+		{
+			$roles = array();
+		}
+		else
+		{
+			$roles = $this->get('roles');
+		}
+
 		$LinkRoleUser = new \user\LinkRoleUser();
-		$this->set('roles', $LinkRoleUser->retrieveBy(array(
+		$results = $LinkRoleUser->getBy(array(
 			'id_user' => $this->get('id'),
-		), name_class: '\user\Roles', attributes_conversion: array(
-			'id_role' => 'id',
-		)));
+		));
+
+		$Roles = array();
+		foreach ($results as $result)
+		{
+			$Roles[] = new \user\Role(array(
+				'name' => $result['name_role'],
+			));
+		}
+		$this->set('roles', array_merge($roles, $Roles));
 	}
 	/**
 	 * Add a value to user configuration definitively (can replace)

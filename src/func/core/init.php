@@ -124,7 +124,7 @@ function init_router()
  */
 function init_visitor()
 {
-	if (isset($_SESSION['__login__']['nickname']) && isset($_SESSION['__login__']['password']))
+	if (isset($_SESSION['__login__']['id']) && isset($_SESSION['__login__']['password']))
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['login']['session']);
 
@@ -132,7 +132,7 @@ function init_visitor()
 			'password_clear' => $_SESSION['__login__']['password'],
 		));
 		return array(
-			'nickname' => $_SESSION['__login__']['nickname'],
+			'id'       => $_SESSION['__login__']['id'],
 			'password' => $Password,
 		);
 	}
@@ -140,7 +140,7 @@ function init_visitor()
 		'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
 	));
 	return array(
-		'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],
+		'id'       => $GLOBALS['config']['core']['login']['guest']['id'],
 		'password' => $Password,
 	);
 }

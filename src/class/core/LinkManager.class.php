@@ -76,7 +76,7 @@ class LinkManager extends \core\Manager
 			return False;
 		}
 
-		$attributes array_merge(array_keys($variants[\array_key_first($variants)]), array_keys($invariants));
+		$attributes = array_merge(array_keys($variants[\array_key_first($variants)]), array_keys($invariants));
 
 		foreach ($variants as $variant)
 		{

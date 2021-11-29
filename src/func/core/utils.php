@@ -26,4 +26,59 @@ function phosphore_count(mixed $var)
 	return 0;
 }
 
+/**
+ * convert nearly anything to a string (not protected for html, use html_special_chars)
+ *
+ * @var mixed $var Variable to convert
+ */
+function phosphore_display(mixed $var)
+{
+	if (is_string($var))
+	{
+		return $var;
+	}
+	if (is_bool($var))
+	{
+		return ($var ? 'True' : 'False');
+	}
+	if (is_int($var) || is_float($var))
+	{
+		return (string) $var;
+	}
+	if (is_null($var))
+	{
+		return 'null';
+	}
+	if (is_resource($var))
+	{
+		return get_resource_type($var);
+	}
+	if (is_array($var))
+	{
+		$ret = 'array (';
+		foreach ($var as $key => $el)
+		{
+			$ret .= ' ' . phosphore_display($key) . ' => ' . phosphore_display($el);
+		}
+		return $ret . ' )';
+	}
+	if (is_object($var))
+	{
+		return get_class($var) . ' : ' . phosphore_display((array) $var);
+	}
+	if (is_callable($var))
+	{
+		if ($var instanceOf \Closure)
+		{
+			return 'a closure';
+		}
+		return 'unknown callable';
+	}
+	if (is_iterable($var))
+	{
+		return 'iterable';
+	}
+	return 'cannot convert the variable that should be here to a string';
+}
+
 ?>

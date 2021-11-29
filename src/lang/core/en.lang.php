@@ -29,7 +29,7 @@ $GLOBALS['lang']['core']['cannot_display_error_page'] = 'cannot display the erro
 /* cannot display at all */
 $GLOBALS['lang']['core']['cannot_display_error'] = 'error cannot be displayed, trying to recover';
 /* recovery ended */
-$GLOBALS['lang']['core']['end'] = 'successfull recovery';
+$GLOBALS['lang']['core']['end'] = 'successfull recovery for the error: {error}';
 /** [/LOG] **/
 
 /** [TYPE] **/

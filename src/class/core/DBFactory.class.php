@@ -59,7 +59,7 @@ class DBFactory
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['MysqlConnection']);
 
-		return new \PDO('mysql:host=' . $GLOBALS['config']['class']['core']['DBFactory']['db_host'] . ';dbname' . $db_name . ';charset=utf8', $db_username, $db_password, $db_options);
+		return new \PDO('mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8', $db_username, $db_password, $db_options);
 	}
 }
 

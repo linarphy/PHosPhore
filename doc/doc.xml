@@ -1137,7 +1137,7 @@
 						array|bool
 					</valeur>
 				</add>
-				<boundaryInterpreter static="yes">
+				<boundaryInterpreter>
 					<description>
 						Génère une clause LIMIT à partir d'un tableau complexe
 					</description>
@@ -1173,7 +1173,7 @@
 						array
 					</valeur>
 				</cleanAttributes>
-				<conditionCreator static="yes">
+				<conditionCreator>
 					<description>
 						Transforme l'association des opération/valeur en association attributs avec opération/valeur
 					</description>
@@ -1498,7 +1498,7 @@
 						array
 					</valeur>
 				</retrieveBy>
-				<setBdd>
+				<setDb>
 					<description>
 						Définisseur de la bdd
 					</description>
@@ -3507,6 +3507,15 @@
 			<__notifications__>
 				Notifications à envoyer pour la prochaine session
 			</__notifications__>
+			<__login__>
+				Informations utilisées pour le login
+				<id>
+					Identifiant de l'utilisateur de la session
+				</id>
+				<password>
+					Mot de passe de l'utilisateur de la session
+				</password>
+			</__login__>
 		</$_SESSION>
 	</variables>
 	<page_preset>
@@ -3534,6 +3543,9 @@
 	</item>
 	<item>
 		Il y a un dossier par route, et une route par dossier (\route\Route et \route\Folder)
+	</item>
+	<item>
+		Plusieurs utilisateurs peuvent avoir le même pseudo, du coup le pseudo d'un utilisateur pour la connexion va être [nickname]:[id]
 	</item>
 </idée>
 <structure>

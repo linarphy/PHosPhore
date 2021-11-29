@@ -149,7 +149,7 @@ class Notification extends \core\Managed
 			'id_notification' => $id,
 		));
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['delete']['success'], array('number' => $number);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['delete']['success'], array('number' => $number));
 
 		return True;
 	}
@@ -212,11 +212,11 @@ class Notification extends \core\Managed
 		}
 		if ($element->getElement('date') !== null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_date'], array('date' => $content->getElement('date'));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_date'], array('date' => $content->getElement('date')));
 		}
 		if  ($element->getElement('type') !== null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPRD['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_type'], array('type' => $element->getElement('type'));
+			$GLOBALS['Logger']->log(\core\Logger::TYPRD['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_type'], array('type' => $element->getElement('type')));
 		}
 
 		$notifications = array();

@@ -50,7 +50,7 @@ class Logger
 				{
 					foreach (array_keys($tokens, '{' . $name . '}') as $key)
 					{
-						$tokens[$key] = $value;
+						$tokens[$key] = phosphore_display($value);
 					}
 				}
 			}

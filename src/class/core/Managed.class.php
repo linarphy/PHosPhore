@@ -70,14 +70,7 @@ abstract class Managed
 			}
 			else if (is_bool($element))
 			{
-				if ($element)
-				{
-					$display .= 'True';
-				}
-				else
-				{
-					$display .= 'False';
-				}
+				$display = ($element ? 'True' : 'False');
 			}
 			else if (is_int($element) || is_float($element))
 			{
@@ -216,7 +209,7 @@ abstract class Managed
 		}
 		if (is_array($attribute))
 		{
-			return arrDisp($attribute);
+			return self::arrDisp($attribute);
 		}
 		if (is_object($attribute))
 		{
@@ -493,9 +486,11 @@ abstract class Managed
 
 			return $this->$method($value);
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['default_method'], array('class' => get_class($this), 'attribute' => $attribute));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['default_method'], array('class' => get_class($this), 'attribute' => $attribute, 'value' => $value));
 
 		$this->$attribute = $value; // No type checking !
+
+		return True;
 	}
 	/**
 	 * Convert an objet to an array

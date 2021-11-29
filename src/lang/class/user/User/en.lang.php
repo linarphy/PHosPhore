@@ -38,7 +38,7 @@ $GLOBALS['lang']['class']['user']['User']['retrieveNotifications'] = 'Retrieving
 
 /** [retrievePassword] **/
 /* retrieve an user password */
-$GLOBALS['lang']['class']['user']['User']['retreivePassword'] = 'Retrieving password of an user';
+$GLOBALS['lang']['class']['user']['User']['retrievePassword'] = 'Retrieving password of an user';
 /** [/retrievePassword] **/
 
 /** [retrieveRoles] **/

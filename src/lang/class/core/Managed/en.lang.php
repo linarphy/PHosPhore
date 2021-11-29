@@ -101,7 +101,7 @@ $GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set t
 /* custom method exists */
 $GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'] = 'custom setter found, defining {attribute} to {value} for {class}';
 /* no custom method */
-$GLOBALS['lang']['class']['core']['Managed']['set']['default_method'] = 'custom setter not found, defining {attribute} ot {value} for {class} with default method (no type checking)';
+$GLOBALS['lang']['class']['core']['Managed']['set']['default_method'] = 'custom setter not found, defining {attribute} to {value} for {class} with default method (no type checking)';
 /** [/set] **/
 
 /** [table] **/
