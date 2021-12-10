@@ -2,13 +2,11 @@
 
 For now I'm currently:
 - correct SQL instruction (auto increment, default to current timestamp, etc...)
-- correct $thing[$key] !== null condition to key_exists($key, $thing)
-- debug
-- check current log for errors I don't see
-- make the error page to display (proprely)
+- check current log for errors I don't see (~ 1000 lines to check)
+- update error page presentation with translation
+- Create missing locale, lang & config files
 
 Then,
-- Create missing locale, lang & config files
 - Each retrieve method (retrieve<Something>()) return what it retrieves even if it's stored
 - Use token based auth (see split token here (https://paragonie.com/blog/2017/02/split-tokens-token-based-authentication-protocols-without-side-channels) and here (https://stackoverflow.com/questions/3128985/php-login-system-remember-me-persistent-cookie/, note already in class/user/Visitor.class.php in connect method))
 - Each typed method argument must be preceded by its type
