@@ -21,6 +21,8 @@ $GLOBALS['config']['core']['path']['lang'] = 'lang' . DIRECTORY_SEPARATOR;
 $GLOBALS['config']['core']['path']['locale'] = 'locale' . DIRECTORY_SEPARATOR;
 /* path to mod folder */
 $GLOBALS['config']['core']['path']['mod'] = 'mod' . DIRECTORY_SEPARATOR;
+/* path to page folder */
+$GLOBALS['config']['core']['path']['page'] = 'page' . DIRECTORY_SEPARATOR;
 /* path to template folder */
 $GLOBALS['config']['core']['path']['template'] = $GLOBALS['config']['core']['path']['asset'] . 'template' . DIRECTORY_SEPARATOR;
 /** [/PATH] **/

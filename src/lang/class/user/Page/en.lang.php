@@ -6,7 +6,7 @@ $GLOBALS['lang']['class']['user']['Page']['__construct']['start'] = 'Start const
 /* no attributes to hydrate */
 $GLOBALS['lang']['class']['user']['Page']['__construct']['no_attributes'] = 'Page cannot be constructed, attributes are empty or invalid';
 /* no route defined */
-$GLOBALS['lang']['class']['user']['Page']['__construct']['no_route'] = 'Page cannot be constructed, the attribute "route" was not defined';
+$GLOBALS['lang']['class']['user']['Page']['__construct']['no_route'] = 'Page cannot be constructed, id was not defined';
 /* loading route */
 $GLOBALS['lang']['class']['user']['Page']['__construct']['loading_files'] = 'Constructing Page, loading files';
 /* there is an existing preset */
@@ -31,13 +31,13 @@ $GLOBALS['lang']['class']['user']['Page']['display'] = 'Displaying the Page...';
 
 /** [load] **/
 /* start the loading the page */
-$GLOBALS['lang']['class']['user']['Page']['start'] = 'Start to load the Page';
+$GLOBALS['lang']['class']['user']['Page']['load']['start'] = 'Start to load the Page';
 /* there is no file for this page */
-$GLOBALS['lang']['class']['user']['Page']['no_file'] = 'Cannot find the file {file} which is required to load the Page';
+$GLOBALS['lang']['class']['user']['Page']['load']['no_file'] = 'Cannot find the file {file} which is required to load the Page';
 /* start to load the sub files */
-$GLOBALS['lang']['class']['user']['Page']['subfiles'] = 'Start to load the Sub Files necessary to load the Page';
+$GLOBALS['lang']['class']['user']['Page']['load']['subfiles'] = 'Start to load the Sub Files necessary to load the Page';
 /* start to include the file */
-$GLOBALS['lang']['class']['user']['Page']['include'] = 'Start to include the file {file}, which will end the loading of the Page';
+$GLOBALS['lang']['class']['user']['Page']['load']['include'] = 'Start to include the file {file}, which will end the loading of the Page';
 /** [/load] **/
 
 /** [retrieveParameters] **/

@@ -67,7 +67,7 @@ class User extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['start'], array('user' => $this->get('id'), 'page' => $page->get('id')));
 		foreach ($this->roles as $Role)
 		{
-			foreach ($Role->permissions as $Permission)
+			foreach ($Role->getPermissions() as $Permission)
 			{
 				if ($Permission->get('id_route') === $page->get('id'))
 				{

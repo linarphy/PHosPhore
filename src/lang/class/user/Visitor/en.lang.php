@@ -20,9 +20,9 @@ $GLOBALS['lang']['class']['user']['Visitor']['disconnect'] = 'visitor disconnect
 
 /** [loadPage] **/
 /* load the Page */
-$GLOBALS['lang']['class']['user']['Visitor']['start'] = 'start the loading of the page';
+$GLOBALS['lang']['class']['user']['Visitor']['loadPage']['start'] = 'start the loading of the page';
 /* visitor does not have the permission to load this page */
-$GLOBALS['lang']['class']['user']['Visitor']['no_permission'] = 'visitor does not have the permission to load this page';
+$GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission'] = 'visitor does not have the permission to load this page';
 /** [/loadPage] **/
 
 /** [register] **/

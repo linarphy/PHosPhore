@@ -5,7 +5,7 @@ namespace user;
 /**
  * Manager of Page
  */
-class Page extends \route\RouteManager
+class PageManager extends \route\RouteManager
 {
 }
 

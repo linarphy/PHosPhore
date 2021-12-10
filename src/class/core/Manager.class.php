@@ -480,6 +480,11 @@ abstract class Manager
 
 		$condition = $this->conditionCreator($values, $operations);
 
+		if ($condition === False)
+		{
+			exit();
+		}
+
 		$limit = '';
 		if ($bounds != null)
 		{

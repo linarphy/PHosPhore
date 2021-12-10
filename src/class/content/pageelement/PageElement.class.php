@@ -57,7 +57,7 @@ class PageElement
 	 */
 	public function addElement($key, $value)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageeElement']['addElement']['start'], array('key' => $key, 'value' => $value));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['start'], array('key' => $key, 'value' => $value));
 
 		if (!isset($this->elements[$key]))
 		{
@@ -104,12 +104,16 @@ class PageElement
 	 */
 	public function display()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageeElement']['display']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
 
-		if ($this->template() !== null)
+		if (!isset($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
 		{
+			$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'] = array();
+		}
 
-			if ($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template] != null)
+		if ($this->template !== null)
+		{
+			if (key_exists($this->template, $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], array('template' => $this->get('template')));
 
@@ -117,7 +121,7 @@ class PageElement
 			}
 			else
 			{
-				$content = file_get_contents($this->template, true);
+				$content = file_get_contents($GLOBALS['config']['core']['path']['template'] . $this->template, true);
 
 				if ($content === False)
 				{
@@ -180,7 +184,7 @@ class PageElement
 			}
 			else
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['no_content']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_content']);
 
 				foreach ($this->elements as $name => $element)
 				{
@@ -192,7 +196,8 @@ class PageElement
 						}
 						else
 						{
-							$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['pageelement']['display']['cannot_display_object'], array('object' => get_class($element)));
+							$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['cannot_display_object'], array('object' => get_class($element)));
+							$value = '';
 						}
 					}
 					else if (is_array($element))
@@ -258,7 +263,14 @@ class PageElement
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'], array('key' => $key));
 
-		if ($this->elements[$key] !== null)
+		if ($this->elements === null)
+		{
+			$this->elements = array();
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null']);
+			return False;
+		}
+		if (key_exists($key, $this->elements))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'], array('key' => $key));
 			return $this->elements[$key];
@@ -281,7 +293,7 @@ class PageElement
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['start'], array('key' => $key, 'value' => $value, 'strict' => $strict));
 
-		if ($this->getElement($key) !== null)
+		if ($this->getElement($key) !== False)
 		{
 			$old_value = $this->elements[$key];
 			$this->elements[$key] = $value;
@@ -297,6 +309,40 @@ class PageElement
 			}
 			return null;
 		}
+	}
+	/**
+	 * Set the elements attribute if not defined
+	 *
+	 * @param array $elements
+	 *
+	 * @return bool
+	 */
+	protected function setElements(array $elements)
+	{
+		if ($this->elements !== null)
+		{
+			return False;
+		}
+
+		$this->elements = $elements;
+		return True;
+	}
+	/**
+	 * Set the template attribute if not defined
+	 *
+	 * @param string $template
+	 *
+	 * @return bool
+	 */
+	protected function setTemplate(string $template)
+	{
+		if ($this->template !== null)
+		{
+			return False;
+		}
+
+		$this->template = $template;
+		return True;
 	}
 }
 

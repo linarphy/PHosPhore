@@ -2,7 +2,8 @@
 
 For now I'm currently:
 - correct SQL instruction (auto increment, default to current timestamp, etc...)
-- correct Router bug
+- correct $thing[$key] !== null condition to key_exists($key, $thing)
+- debug
 - check current log for errors I don't see
 - make the error page to display (proprely)
 

@@ -88,11 +88,13 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters($parameters, \route\Route $page)
+	public function cleanParameters($parameters, $page)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], array('page' => $page->display()));
 
-		$expected_parameters = $page->retrieveParameters();
+		$page->retrieveParameters();
+
+		$expected_parameters = $page->get('parameters');
 		$cleaned_parameters = array();
 
 		foreach ($expected_parameters as $expected_parameter)
@@ -358,10 +360,29 @@ class Router
 	 */
 	public function decodeRoute($url)
 	{
+		if (\phosphore_count($url) > 0)
+		{
+			if ($url[\phosphore_count($url) - 1] === '/')
+			{
+				$url = substr($url, 0, -1);
+			}
+		}
+		if (\phosphore_count($url) > 0)
+		{
+			if ($url[0] === '/')
+			{
+				$url = substr($url, 1);
+			}
+		}
 		if (\phosphore_count($url) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
-			return array();
+
+			$RouteManager = new \route\RouteManager();
+
+			return $RouteManager->retrieveBy(array(
+				'id' => 0,
+			))[0];
 		}
 		switch ($this->mode)
 		{
@@ -495,13 +516,11 @@ class Router
 		$parameters = [];
 		$arr_av_routes = [];
 
-		print_r($paths);
-
 		$RouteManager = new \route\RouteManager();
 
 		foreach ($paths as $key => $path)
 		{
-			if ($path === ' ')
+			if ($path === ' ') // go to parameter list
 			{
 				break;
 			}
@@ -524,6 +543,7 @@ class Router
 		$root_route = $RouteManager->retrieveBy(array(
 			'id' => 0,
 		))[0];
+
 		$tree_routes = new \structure\Tree($root_route);
 
 		foreach ($arr_av_routes[0] as $key => $av_routes)
@@ -540,15 +560,9 @@ class Router
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'], array('url' => $url));
 		}
 
-		$Page = new \user\Page(array(
-			'id' => end($routes)->get('data')->get('id'),
-		));
-		$Page->retrieve();
-		return [
-			'routes'     => $routes,
-			'parameters' => $this->cleanParameters($parameters, $Page),
-			'page'       => $Page,
-		];
+		$GLOBALS['Visitor']->get('page')->set('parameters', $parameters);
+
+		return \end($routes);
 	}
 	/**
 	 * Get the actual mode of the router

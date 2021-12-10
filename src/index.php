@@ -27,7 +27,7 @@ try
 {
 	require(join(DIRECTORY_SEPARATOR, array('func', 'core', 'init.php')));
 
-	$GLOBALS['Logger'] = new \core\Logger();	// need to load Logger first to log the rest
+	$GLOBALS['Logger'] = new \core\Logger();													// need to load Logger first to log the rest
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['start']);	// first message to log
 	$GLOBALS['Router'] = new \route\Router(init_router());
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['router_init']);
@@ -78,7 +78,12 @@ try
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['exception_threw']);
 		try
 		{
-			echo $GLOBALS['Visitor']->loadPage($GLOBALS['config']['core']['route']['error'])->display();
+			$Route = new \route\Route(array(
+				'id' => $GLOBALS['config']['core']['route']['error']['id'],
+			));
+			$Route->retrieve();
+			$GLOBALS['exception'] = $exception;
+			echo $GLOBALS['Visitor']->loadPage($Route)->display();
 		}
 		catch (\Exception $exception_1)	// $exception already taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
 		{
@@ -92,10 +97,12 @@ try
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['cannot_display_error']);
 				throw $exception;
 			}
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception_1->getMessage()));
 		}
 	}
 
-	$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['end'], array('error' => $exception));
+	$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception->getMessage()));
 }
 catch (\Exception $exception) // FATAL ERROR
 {

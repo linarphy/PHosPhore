@@ -213,7 +213,7 @@ class Node
 	 */
 	protected function set($attribute, $value)
 	{
-		if ($this->$attribute === null)
+		if (!property_exists($this, $attribute))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Node']['set']['not_found'], array('attribute' => $attribute));
 

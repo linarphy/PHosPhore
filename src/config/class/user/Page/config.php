@@ -1,6 +1,6 @@
 <?php
 
 /* filename of the file defining a page */
-$GLOBALS['lang']['class']['user']['Page']['filename'] = 'page.php';
+$GLOBALS['config']['class']['user']['Page']['filename'] = 'page.php';
 
 ?>

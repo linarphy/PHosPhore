@@ -48,7 +48,7 @@ class Page extends \core\Managed
 
 			return False;
 		}
-		if (!$this->get('id'))
+		if ($this->get('id') === null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['user']['Page']['__construct']['no_route']);
 
@@ -59,27 +59,29 @@ class Page extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['loading_files']);
 		$Route->loadSubFiles();
 
-		$this->retrieveParamaters();
+		$this->retrieveParameters();
+
+		$PageElement = new \content\pageelement\PageElement(array()); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
 		if (isset($this->get('parameters')['preset']) && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']])
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], array('preset' => $this->get('parameters')['preset']));
 
-			$page_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element']();
-			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element']();
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element'](array());
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element'](array());
 		}
 		else
 		{
-			$page_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']();
-			$notification_element = $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']();
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element'](array());
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element'](array());
 		}
 
 		$Notifications = \user\Notification::getNotifications($notification_element);
-		$page_element->set($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
+		$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], array('number' => count($Notifications)));
 
 		$this->set('page_element', $page_element);
-		$GLOBLS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
 		return True;
 	}
 	/**
@@ -138,7 +140,7 @@ class Page extends \core\Managed
 		$Route = $this->retrieveRoute();
 		$Folder = $Route->retrieveFolder();
 
-		$file = $Folder->getPath() . $GLOBALS['config']['class']['user']['Page']['filename'];
+		$file = $GLOBALS['config']['core']['path']['page'] . $Folder->getPath() . $GLOBALS['config']['class']['user']['Page']['filename'];
 
 		if (!is_file($file))
 		{
@@ -151,7 +153,7 @@ class Page extends \core\Managed
 
 		$Route->loadSubFiles();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['include'], array('file' => $file));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['include'], array('file' => $file));
 
 		return include($file);
 	}
@@ -164,10 +166,10 @@ class Page extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start']);
 
-		$LinkPageParameters = new \user\LinkPageParameters();
+		$LinkPageParameters = new \user\LinkPageParameter();
 		$parameters = $LinkPageParameters->retrieveBy(array(
 			'id_page' => $this->get('id'),
-		), '\user\Parameter');
+		), class_name: '\user\Parameter');
 
 		$this->set('parameters', $parameters);
 
@@ -182,7 +184,7 @@ class Page extends \core\Managed
 	 */
 	public function retrieveRoute()
 	{
-		$RouteManager = \route\RouteManager();
+		$routeManager = new \route\RouteManager();
 		if (!$routeManager->exist(array('id' => $this->get('id'))))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['no_exist']);

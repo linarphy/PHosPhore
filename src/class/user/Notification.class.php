@@ -206,21 +206,21 @@ class Notification extends \core\Managed
 	 */
 	public static function getNotifications(\content\pageelement\PageElement $element)
 	{
-		if ($element->getElement('content') !== null)
+		if ($element->getElement('content') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], array('content' => $content->getElement('content')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], array('content' => $element->getElement('content')));
 		}
-		if ($element->getElement('date') !== null)
+		if ($element->getElement('date') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_date'], array('date' => $content->getElement('date')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], array('date' => $element->getElement('date')));
 		}
-		if  ($element->getElement('type') !== null)
+		if  ($element->getElement('type') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPRD['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['alrady_type'], array('type' => $element->getElement('type')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], array('type' => $element->getElement('type')));
 		}
 
 		$notifications = array();
-		if ($_SESSION['__notifications__'] !== null) // there is at least one notification stored in the session
+		if (key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
 		{
 			$notifications = $_SESSION['__notifications__'];
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], array('number' => count($_SESSION['__notifications__'])));
@@ -235,7 +235,7 @@ class Notification extends \core\Managed
 		$LinkNotificationUser = new \user\LinkNotificationUser();
 		$notifications_from_db = $LinkNotificationUser->retrieveBy(array(
 			'id_user' => $id_user,
-		), '=', class_name: get_class_name(self), attributes_conversion: array('id_notification' => 'id'));
+		), '=', class_name: get_class_name('\class\user\Notification'), attributes_conversion: array('id_notification' => 'id'));
 
 		if (!empty($notifications_from_db))
 		{

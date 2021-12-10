@@ -78,17 +78,20 @@ class Visitor extends \user\User
 			'id' => $route->get('id'),
 		));
 
-		if (!$this->checkPermission($route))
+		$this->set('page', $Page);
+
+		$this->get('page')->retrieve();
+
+		if (!$this->checkPermission($Page))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission']);
-			return False;
+
+			throw new \Exception($GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission']);
 		}
 
-		$Page->retrieve();
-		$this->set('page', $Page);
-		$Page->load();
+		$this->get('page')->load();
 
-		return $Page;
+		return $this->get('page');
 	}
 	/** register a new user (need password and roles to be fullfilled, but not created)
 	 *

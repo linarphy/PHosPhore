@@ -1,5 +1,12 @@
 <?php
 
+/** [lang] **/
+/* abbreviation of the lang */
+$GLOBALS['lang']['core']['lang']['abbr'] = 'en';
+/* full name of the lang */
+$GLOBALS['lang']['core']['lang']['full'] = 'english';
+/** [/lang] **/
+
 /** [AUTOLOAD] **/
 /* starting autoload */
 $GLOBALS['lang']['core']['autoload']['start'] = 'starting the autoload for the class {class}';

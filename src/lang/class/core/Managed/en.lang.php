@@ -34,9 +34,9 @@ $GLOBALS['lang']['class']['core']['Managed']['delete']['end'] = 'the object {cla
 /* start the process */
 $GLOBALS['lang']['class']['core']['Managed']['displayer']['start'] = 'start to display the attribute {attribute} of the class {class}';
 /* the method to display this attribute exist */
-$GLOBALS['lang']['class']['core']['Managed']['displayer']['attribute'] = 'a custom method exist to display the attribute {attribute} of the class {class}';
+$GLOBALS['lang']['class']['core']['Managed']['displayer']['exist'] = 'a custom method exist to display the attribute {attribute} of the class {class}';
 /* the method to display this attribute does not exist, using the default one */
-$GLOBALS['lang']['class']['core']['Managed']['displayer']['attribute'] = 'no custom method found to display the attribute {attribute} of the class {class}, the default method will be used';
+$GLOBALS['lang']['class']['core']['Managed']['displayer']['not_exist'] = 'no custom method found to display the attribute {attribute} of the class {class}, the default method will be used';
 /** [/displayer] **/
 
 /** [exist] **/

@@ -41,7 +41,7 @@ $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['c
 /* the object cannot be displayed because it does not have a display method */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['cannot_display_object'] = 'the object of the class {object} cannot be displayed because it does not possess a display method';
 /* the content will be displayed as a list of item whithout taking key value into consideration */
-$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_contnet'] = 'the content is empty, the content will be displayed as all elements newt to each other, in a row';
+$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_content'] = 'the content is empty, the content will be displayed as all elements newt to each other, in a row';
 /* end of the process */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['end'] = '\\content\\pageelement\\PageElement displayed';
 /** [/display] **/
@@ -54,6 +54,8 @@ $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray
 /** [getElement] **/
 /* start the process */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'] = 'trying to get the element {key}';
+/* attribute elements is null */
+$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null'] = 'attribute elements not defined, defined to an empty array';
 /* element found */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'] = 'element {key} found';
 /* element not found */

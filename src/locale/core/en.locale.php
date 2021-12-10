@@ -1,7 +1,11 @@
 <?php
 
-/* this locale */
-$GLOBALS['locale']['core']['locale'] = 'en';
+/** [locale] **/
+/* abbreviation of the locale */
+$GLOBALS['locale']['core']['locale']['abbr'] = 'en';
+/* full name of the locale */
+$GLOBALS['locale']['core']['locale']['full'] = 'english';
+/** [/locale] **/
 
 /** [index.php] **/
 /* wrong credentials */

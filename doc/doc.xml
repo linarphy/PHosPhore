@@ -546,6 +546,48 @@
 							bool|mixed
 						</valeur>
 					</setElement>
+					<setElements>
+						<description>
+							Assigne un tableau d'élément à l'attribut elements s'il n'est pas déjà défini
+						</description>
+						<arguments>
+							<elements>
+								<description>
+									Tableau d'élément
+								</description>
+								<type>
+									array
+								</type>
+							</elements>
+						</arguments>
+						<protection>
+							protégé
+						</protection>
+						<valeur>
+							bool
+						</valeur>
+					</setElements>
+					<setTemplate>
+						<description>
+							Défini la template de l'objet si elle n'est pas défini
+						</description>
+						<arguments>
+							<template>
+								<description>
+									Chemin de la template
+								</description>
+								<type>
+									string
+								</type>
+							</template>
+						</arguments>
+						<protection>
+							protégé
+						</protection>
+						<valeur>
+							bool
+						</valeur>
+					</setTemplate>
 				</méthodes>
 			</PageElement>
 		</pageelement>
@@ -3075,6 +3117,14 @@
 						</id>
 					</arguments>
 				</addPermissions>
+				<getPermissions>
+					<description>
+						Accède à la variable permissions
+					</description>
+					<valeur>
+						array
+					</valeur>
+				</getPermissions>
 				<retrievePermissions>
 					<description>
 						Récupère les permissions lié au rôle dans la base de donnée

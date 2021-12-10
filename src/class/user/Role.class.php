@@ -60,6 +60,15 @@ class Role
 		));
 	}
 	/**
+	 * access to permissions property
+	 *
+	 * @return array
+	 */
+	public function getPermissions()
+	{
+		return $this->permissions;
+	}
+	/**
 	 * retrieves permissions of the role
 	 */
 	public function retrievePermissions()
