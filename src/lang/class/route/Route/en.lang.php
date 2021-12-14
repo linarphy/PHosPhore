@@ -1,5 +1,8 @@
 <?php
 
+/* route not retrieved */
+$GLOBALS['lang']['class']['route']['Route']['no_retrieved'] = 'Route not retrieved';
+
 /** [getPath] **/
 /* start the process */
 $GLOBALS['lang']['class']['route']['Route']['getPath']['start'] = 'starting to get a path from route {id_root} to route {this_route}';
@@ -18,6 +21,17 @@ $GLOBALS['lang']['class']['route']['Route']['getPath']['found'] = 'a path has be
 /* no path found */
 $GLOBALS['lang']['class']['route']['Route']['getPath']['not_found'] = 'no path has been found between {id_root} and {this_route}';
 /** [/getPath] **/
+
+/** [getDefaultPage] **/
+/* start of the process */
+$GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['start'] = 'Starting to get the default page of this route';
+/* unknown type */
+$GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['unknown_type'] = '{type} is not a defined type for a route\Route';
+/* default page is itself */
+$GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['itself'] = 'The route is a page, its default page is itself';
+/* end of the process */
+$GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['end'] = 'Default page found';
+/** [/getDefaultPage] **/
 
 /** [loadSubFiles] **/
 /* start the process */

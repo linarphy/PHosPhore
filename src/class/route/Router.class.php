@@ -46,33 +46,36 @@ class Router
 	public function buildNode($array_of_available_routes, $row, $column)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
-		$Node = \structure\Node($array_of_available_routes[$row][$column]);
+		$Node = new \structure\Node($array_of_available_routes[$row][$column]);
 
-		if (count($array_of_available_routes) >= $row)
+		if (count($array_of_available_routes) <= $row) // there is less available route that the route number we want
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], array('index' => $row));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], array('index' => $row));
 
 			return False;
 		}
-		else
+
+		if (count($array_of_available_routes) === $row + 1) // last Node (end of recursion)
 		{
-			foreach ($array_of_available_routes[$row + 1] as $key => $route)
+			return $Node;
+		}
+
+		foreach ($array_of_available_routes[$row] as $key => $route)
+		{
+			if ($route->getPath($Node->get('data')->get('id')) !== False) // check if it is defined bug
 			{
-				if ($route->getPath($Node->get('data') != False))
+				$Child = $this->buildNode($array_of_available_routes, $row + 1, $key); // recursion
+				if ($Child !== False) // check if it is defined, if not, it cannot be the route we want
 				{
-					$Child = $this->buildNode($array_of_available_routes, $row + 1, $key);
-					if ($Child != False)
-					{
-						$Node->addChild($Child);
-					}
+					$Node->addChild($Child);
 				}
 			}
-			if (empty($Node->get('children')))
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
+		}
+		if (empty($Node->get('children'))) // no childern but recursion (we are a the end of the recursion)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
 
-				return False;
-			}
+			return False;
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['end']);
@@ -376,27 +379,58 @@ class Router
 		}
 		if (\phosphore_count($url) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
 
 			$RouteManager = new \route\RouteManager();
 
-			return $RouteManager->retrieveBy(array(
-				'id' => 0,
+			$route = $RouteManager->retrieveBy(array(
+				'id' => $GLOBALS['config']['class']['route']['root']['id'],
 			))[0];
+
+
+			if ((bool) $route->get('type') !== \route\Route::TYPES['page']) // not a page
+			{
+				$route = $route->getDefaultPage();
+			}
+
+			$Page = new \user\Page(array(
+				'id' => $route->get('id'),
+			));
+
+			$GLOBALS['Visitor']->set('page', $Page);
+
+			$GLOBALS['Visitor']->get('page')->retrieve();
+
+			$GLOBALS['Visitor']->get('page')->set('parameters', $parameters);
+
 		}
-		switch ($this->mode)
+		else
 		{
-			case $this::MODES['get']:
-				return $this->decodeWithGet($url);
-			case $this::MODES['mixed']:
-				return $this->decodeWithMixed($url);
-			case $this::MODES['route']:
-				return $this->decodeWithRoute($url);
-			default:
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
-				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
-				exit();
+			switch ($this->mode)
+			{
+				case $this::MODES['get']:
+					$route = $this->decodeWithGet($url);
+					break;
+				case $this::MODES['mixed']:
+					$route = $this->decodeWithMixed($url);
+					break;
+				case $this::MODES['route']:
+					$route = $this->decodeWithRoute($url);
+					break;
+				default:
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], array('mode' => $this->mode));
+					throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
+					exit();
+			}
 		}
+
+
+		if ((bool) $route->get('type') !== \route\Route::TYPES['page']) // not a page
+		{
+			$route = $route->getDefaultPage();
+		}
+
+		return $route;
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode get
@@ -524,10 +558,6 @@ class Router
 			{
 				break;
 			}
-
-			$arr_av_routes[] = $RouteManager->retrieveBy(array(
-				'name' => $path,
-			));
 		}
 		if ($path === ' ') // parameter list
 		{
@@ -537,6 +567,10 @@ class Router
 				$parameters[] = $param;
 			}
 		}
+
+		$arr_av_routes[] = $RouteManager->retrieveBy(array(
+			'name' => $path,
+		));
 
 		/** TIME CONSUMING OPERATION */
 
@@ -554,15 +588,34 @@ class Router
 				$tree_routes->get('root')->addChild($Child);
 			}
 		}
+
 		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
+
 		if ($routes === False)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'], array('url' => $url));
+
+			return False;
 		}
+
+		foreach ($routes as $index => $node)
+		{
+			$routes[$index] = $node->get('data');
+		}
+
+		$route = \end($routes);
+
+		$Page = new \user\Page(array(
+			'id' => $route->get('id'),
+		));
+
+		$GLOBALS['Visitor']->set('page', $Page);
+
+		$GLOBALS['Visitor']->get('page')->retrieve();
 
 		$GLOBALS['Visitor']->get('page')->set('parameters', $parameters);
 
-		return \end($routes);
+		return $route;
 	}
 	/**
 	 * Get the actual mode of the router

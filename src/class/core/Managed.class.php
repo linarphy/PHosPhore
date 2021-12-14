@@ -288,7 +288,7 @@ abstract class Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
-		if ($this->$attribute === null)
+		if (!property_exists($this, $attribute))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['get']['not_defined'], array('class' => get_class($this), 'attribute' => $attribute));
 

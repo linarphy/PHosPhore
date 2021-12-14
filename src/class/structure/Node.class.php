@@ -129,9 +129,9 @@ class Node
 		foreach ($this->children as $child)
 		{
 			$result = $child->getBranchDepth($depth - 1);
-			if ($result != False)
+			if ($result !== False)
 			{
-				return array_merge($this, $result);
+				return array_merge(array($this), $result);
 			}
 		}
 		return False;
@@ -164,7 +164,7 @@ class Node
 		$height = array();
 		foreach ($this->children as $child)
 		{
-			$height[] = $child->height();
+			$height[] = $child->getHeight();
 		}
 
 		return max($height) + 1;

@@ -100,9 +100,9 @@ try
 
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception_1->getMessage()));
 		}
-	}
 
-	$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception->getMessage()));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception->getMessage()));
+	}
 }
 catch (\Exception $exception) // FATAL ERROR
 {

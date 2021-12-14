@@ -631,7 +631,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function retrieveBy($values, $operations = null, $bounds = null, $class_name= '', $attributes_conversion = array())
+	public function retrieveBy($values, $operations = null, $bounds = null, $class_name = '', $attributes_conversion = array())
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['start'], array('class' => get_class($this)));
 
@@ -683,7 +683,7 @@ abstract class Manager
 							unset($result[$key]);
 						}
 					}
-					$Objects[] = $manager->retrieveBy($result);
+					$Objects[] = $manager->retrieveBy($result)[0];
 				}
 			}
 		}

@@ -74,15 +74,7 @@ class Visitor extends \user\User
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['start']);
 
-		$Page = new \user\Page(array(
-			'id' => $route->get('id'),
-		));
-
-		$this->set('page', $Page);
-
-		$this->get('page')->retrieve();
-
-		if (!$this->checkPermission($Page))
+		if (!$this->checkPermission($this->get('page')))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission']);
 
