@@ -56,9 +56,6 @@ class Page extends \core\Managed
 		}
 		$Route = $this->retrieveRoute();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['loading_files']);
-		$Route->loadSubFiles();
-
 		$this->retrieveParameters();
 
 		$PageElement = new \content\pageelement\PageElement(array()); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now

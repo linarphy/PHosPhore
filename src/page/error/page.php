@@ -3,8 +3,10 @@
 $PageElement = $GLOBALS['Visitor']->get('page')->get('page_element');
 $Content = new \content\pageelement\PageElement(array(
 	'elements' => array(
-		'title'   => 'This is an error page',
-		'message' => $GLOBALS['exception']->getMessage(),
+		'locale'    => $GLOBALS['locale']['core']['locale']['abbr'],
+		'title'     => $GLOBALS['locale']['page']['error']['title'],
+		'important' => $GLOBALS['locale']['page']['error']['important'],
+		'message'   => $GLOBALS['exception']->getMessage(),
 	),
 	'template' => 'error/content.html',
 ));

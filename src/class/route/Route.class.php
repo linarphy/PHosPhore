@@ -181,10 +181,10 @@ class Route extends \core\Managed
 		{
 			foreach ($routes as $route)
 			{
-				if (key_exists($route->get('id'), array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles']))) // avoid circular reference
+				if (!key_exists($route->get('id'), array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles']))) // avoid circular reference
 				{
 					$route->loadSubFiles();
-					$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'][] = $route['id'];
+					$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'][] = $route->get('id');
 				}
 			}
 		}

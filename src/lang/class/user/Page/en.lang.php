@@ -7,8 +7,6 @@ $GLOBALS['lang']['class']['user']['Page']['__construct']['start'] = 'Start const
 $GLOBALS['lang']['class']['user']['Page']['__construct']['no_attributes'] = 'Page cannot be constructed, attributes are empty or invalid';
 /* no route defined */
 $GLOBALS['lang']['class']['user']['Page']['__construct']['no_route'] = 'Page cannot be constructed, id was not defined';
-/* loading route */
-$GLOBALS['lang']['class']['user']['Page']['__construct']['loading_files'] = 'Constructing Page, loading files';
 /* there is an existing preset */
 $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'] = 'Using existing preset "{preset}" to construct the Page';
 /* inserting notifications */
