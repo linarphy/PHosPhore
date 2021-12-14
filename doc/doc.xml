@@ -13,7 +13,7 @@
 		<cache>
 			<description>
 				cache contient les données "en cache", qui ont de grandes chance d'être utilisé plusieurs fois et qui sont assez lourde pour le justifier
-			</description>date'], array('date' => $content->getElement('date'));
+			</description>
 			<accès>
 				GLOBALS['cache']
 			</accès>
@@ -1896,6 +1896,14 @@
 						False|string
 					</type>
 				</getPath>
+				<getDefaultPage>
+					<description>
+						Récupère la première route de type page trouvé dans cette route
+					</description>
+					<valeur>
+						False | \route\Route
+					</valeur>
+				</getDefaultPage>
 				<loadSubFiles>
 					<description>
 						Charge tous les fichiers (configuration, locale, messages de log) en partant du bas (si multiples, le premier dans la base de donnée).
