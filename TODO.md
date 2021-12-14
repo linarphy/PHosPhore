@@ -2,8 +2,6 @@
 
 For now I'm currently:
 - correct SQL instruction (auto increment, default to current timestamp, etc...)
-- check current log for errors I don't see (~ 1000 lines to check)
-- update error page presentation with translation
 
 Then,
 - Each retrieve method (retrieve<Something>()) return what it retrieves even if it's stored
