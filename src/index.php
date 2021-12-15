@@ -82,6 +82,14 @@ try
 				'id' => $GLOBALS['config']['core']['route']['error']['id'],
 			));
 			$Route->retrieve();
+
+			$Page = new \user\Page(array(
+				'id' => $Route->get('id'),
+			));
+
+			$GLOBALS['Visitor']->set('page', $Page);
+			$GLOBALS['Visitor']->get('page')->retrieve();
+
 			$GLOBALS['exception'] = $exception;
 			echo $GLOBALS['Visitor']->loadPage($Route)->display();
 		}

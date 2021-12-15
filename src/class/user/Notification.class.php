@@ -248,7 +248,7 @@ class Notification extends \core\Managed
 		$LinkNotificationUser = new \user\LinkNotificationUser();
 		$notifications_from_db = $LinkNotificationUser->retrieveBy(array(
 			'id_user' => $id_user,
-		), '=', class_name: get_class_name('\class\user\Notification'), attributes_conversion: array('id_notification' => 'id'));
+		), '=', class_name: '\user\Notification', attributes_conversion: array('id_notification' => 'id'));
 
 		if (!empty($notifications_from_db))
 		{

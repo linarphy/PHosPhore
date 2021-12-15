@@ -400,9 +400,6 @@ class Router
 			$GLOBALS['Visitor']->set('page', $Page);
 
 			$GLOBALS['Visitor']->get('page')->retrieve();
-
-			$GLOBALS['Visitor']->get('page')->set('parameters', $parameters);
-
 		}
 		else
 		{
