@@ -388,7 +388,7 @@ class Router
 			))[0];
 
 
-			if ((bool) $route->get('type') !== \route\Route::TYPES['page']) // not a page
+			if ($route->get('type') !== \route\Route::TYPES['page']) // not a page
 			{
 				$route = $route->getDefaultPage();
 			}
@@ -422,7 +422,7 @@ class Router
 		}
 
 
-		if ((bool) $route->get('type') !== \route\Route::TYPES['page']) // not a page
+		if ($route->get('type') !== \route\Route::TYPES['page']) // not a page
 		{
 			$route = $route->getDefaultPage();
 		}
