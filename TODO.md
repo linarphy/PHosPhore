@@ -1,7 +1,8 @@
 # TODO
 
 For now I'm currently:
-- Add property type in core\Managed
+- Fix \core\Router->decodeWithGet, \core\Router->decodeWithMixed
+- Better display if error page is accessed directly
 - Each retrieve method (retrieve<Something>()) return what it retrieves even if it's stored
 
 Then,
