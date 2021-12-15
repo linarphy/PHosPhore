@@ -56,6 +56,17 @@ class User extends \core\Managed
 	 */
 	protected $roles;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'                => 'int',
+		'date_registration' => 'string',
+		'date_login'        => 'string',
+		'nickname'          => 'string',
+	);
+	/**
 	 * check if the user can access a page
 	 *
 	 * @param \user\Page $page

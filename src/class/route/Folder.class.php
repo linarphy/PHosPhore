@@ -30,6 +30,16 @@ class Folder extends \core\Managed
 	 *
 	 * @return string
 	 */
+	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'        => 'int',
+		'name'      => 'string',
+		'id_parent' => 'int',
+	);
 	public function display()
 	{
 		if ($this->id_parent === -1)

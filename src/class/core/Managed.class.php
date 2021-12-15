@@ -13,6 +13,11 @@ abstract class Managed
 	 * @var array
 	 */
 	const INDEX = array('id');
+	/** Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array();
 	/**
 	 * Constructor
 	 *
@@ -389,7 +394,7 @@ abstract class Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], array('class_1' => get_class($this), 'class_2' => get_class($objet)));
 
-		if (get_class($this) != get_class($this))
+		if (get_class($this) !== get_class($this))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], array('class_1' => get_class($this), 'class_2' => get_class($objet)));
 			return False;
@@ -401,7 +406,7 @@ abstract class Managed
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['missing_index'], array('class_1' => get_class($this), 'class_2' => get_class($objet), 'attribute' => $attribute));
 				return False;
 			}
-			if ($this->get($attribute) != $object->get($attribute))
+			if ($this->get($attribute) !== $object->get($attribute))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_index'], array('class_1' => get_class($this), 'class_2' => get_class($objet), 'attribute' => $attribute));
 				return False;
@@ -470,11 +475,11 @@ abstract class Managed
 	 */
 	public function set($attribute, $value)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['start'], array('class' => get_class($this), 'attribute' => $attribute, 'value' => $value));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
 		if (!property_exists($this, $attribute))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute, 'value' => $value));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['set']['undefined'], array('class' => get_class($this), 'attribute' => $attribute));
 
 			return False;
 		}
@@ -484,9 +489,36 @@ abstract class Managed
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'], array('class' => get_class($this), 'attribute' => $attribute, 'method' => $method));
 
+			var_dump($this::ATTRIBUTES);
+
+
 			return $this->$method($value);
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['default_method'], array('class' => get_class($this), 'attribute' => $attribute, 'value' => $value));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['default_method'], array('class' => get_class($this), 'attribute' => $attribute));
+		if (key_exists($attribute, $this::ATTRIBUTES))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['typed_attribute'], array('class' => get_class($this), 'attribute' => $attribute));
+
+			switch ($this::ATTRIBUTES[$attribute])
+			{
+				case 'int':
+					$value = (int) $value;
+					break;
+				case 'string':
+					$value = (string) $value;
+					break;
+				case 'bool':
+					$value = (bool)  $value;
+					break;
+				default:
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['set']['unkown_type'], array('type' => $this::ATTRIBUTES[$attribute]));
+					break;
+			}
+		}
+		else
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['not_typed'], array('class' => get_class($this), 'attribute' => $attribute));
+		}
 
 		$this->$attribute = $value; // No type checking !
 

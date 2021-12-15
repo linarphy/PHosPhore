@@ -32,6 +32,17 @@ class Configuration extends \core\Managed
 	 */
 	protected $value;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'      => 'int',
+		'id_user' => 'int',
+		'name'    => 'string',
+		'value'   => 'string',
+	);
+	/**
 	 * display the configuration in a friendly way
 	 *
 	 * @return string

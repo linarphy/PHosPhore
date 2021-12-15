@@ -25,6 +25,16 @@ class Parameter extends \core\Managed
 	 * @var string
 	 */
 	protected $value;
+	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id_page' => 'int',
+		'key'     => 'string',
+		'value'   => 'string',
+	);
 }
 
 ?>

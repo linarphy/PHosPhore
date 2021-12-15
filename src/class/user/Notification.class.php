@@ -44,6 +44,19 @@ class Notification extends \core\Managed
 	 */
 	protected $type;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTE = array(
+		'content'      => 'string',
+		'date'         => 'string',
+		'id'           => 'int',
+		'id_content'   => 'int',
+		'substitution' => 'string',
+		'type'         => 'string',
+	);
+	/**
 	 * vanilla possible types
 	 *
 	 * @var array

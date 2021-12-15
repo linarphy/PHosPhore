@@ -26,6 +26,16 @@ class Password extends \core\Managed
 	 */
 	protected $password_hashed;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'              => 'int',
+		'password_clear'  => 'string',
+		'password_hashed' => 'string',
+	);
+	/**
 	 * Check the validity of the clear password in relation to the one hashed stored in the database
 	 *
 	 * @return bool

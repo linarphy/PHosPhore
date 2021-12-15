@@ -35,6 +35,16 @@ class Content extends \core\Managed
 	 *
 	 * @return string
 	 */
+	/** Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id_content'    => 'int',
+		'lang'          => 'string',
+		'text'          => 'string',
+		'date_creation' => 'string',
+	);
 	public function display()
 	{
 		return htmlspecialchars($this->displayer('text'));

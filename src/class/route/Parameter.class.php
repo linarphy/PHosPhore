@@ -32,6 +32,17 @@ class Parameter extends \core\Managed
 	 */
 	protected $necessary;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'        => 'int',
+		'name'      => 'string',
+		'regex'     => 'string',
+		'necessary' => 'bool',
+	);
+	/**
 	 * Return the "true" regex (the regex with delimiter, even if no set in $regex)
 	 *
 	 * @return string

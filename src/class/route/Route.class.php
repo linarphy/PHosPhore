@@ -34,6 +34,15 @@ class Route extends \core\Managed
 		'page'   => True,
 		'folder' => False,
 	);
+	/* Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'   => 'int',
+		'name' => 'string',
+		'type' => 'bool',
+	);
 	/**
 	 * Get the "default" page to this folder route
 	 *
@@ -43,7 +52,7 @@ class Route extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['start']);
 
-		if ((bool)$this->get('type') === $this::TYPES['page'])
+		if ($this->get('type') === $this::TYPES['page'])
 		{
 			return $this;
 		}
@@ -53,7 +62,7 @@ class Route extends \core\Managed
 
 			return False;
 		}
-		if ((bool)$this->get('type') !== $this::TYPES['folder'])
+		if ($this->get('type') !== $this::TYPES['folder'])
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Route']['unknown_type'], array('type' => $this->get('type')));
 
@@ -76,7 +85,7 @@ class Route extends \core\Managed
 
 		foreach ($routes_child as $route) // quicker for one level
 		{
-			if ((bool)$route->get('type') === $this::TYPES['page'])
+			if ($route->get('type') === $this::TYPES['page'])
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['end']);
 

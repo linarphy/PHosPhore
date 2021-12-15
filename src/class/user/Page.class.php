@@ -32,6 +32,15 @@ class Page extends \core\Managed
 	 */
 	protected $parameters;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'   => 'int',
+		'name' => 'string',
+	);
+	/**
 	 * constructor
 	 *
 	 * @param array $attributes Attributes of the page

@@ -26,6 +26,16 @@ class Permission extends \core\Managed
 	 */
 	protected $name_role;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'id'        => 'int',
+		'id_route'  => 'int',
+		'name_role' => 'string',
+	);
+	/**
 	 * retrieves the route
 	 *
 	 * @return \route\Route

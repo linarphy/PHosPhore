@@ -20,6 +20,14 @@ class PageElement
 	 */
 	protected $elements;
 	/**
+	 * Attributes with type
+	 *
+	 * @var array
+	 */
+	const ATTRIBUTES = array(
+		'template' => 'string',
+	);
+	/**
 	 * Constructor
 	 *
 	 * @param array $attributes Attributes of this object

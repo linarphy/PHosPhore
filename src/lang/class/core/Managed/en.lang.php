@@ -95,13 +95,19 @@ $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'] = '{class} retri
 
 /** [set] **/
 /* start the process */
-$GLOBALS['lang']['class']['core']['Managed']['set']['start'] = 'start to set the value to {value} of the attribute {attribute} of the class {class}';
+$GLOBALS['lang']['class']['core']['Managed']['set']['start'] = 'start to set a value for the attribute {attribute} of the class {class}';
 /* attribute does not exist */
-$GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set the value {value} to the attribute {attribute} of the class {class} because this attribute does not exist in this class';
+$GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set a value for the attribute attribute {attribute} of the class {class} because this attribute does not exist in this class';
 /* custom method exists */
-$GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'] = 'custom setter found, defining {attribute} to {value} for {class}';
+$GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'] = 'custom setter found: {method} , defining {attribute} for {class}';
+/* attribute is typed */
+$GLOBALS['lang']['class']['core']['Managed']['set']['typed_attribute'] = 'attribute {attribute} is typed for the class {class}';
+/* unknown attribute type */
+$GLOBALS['lang']['class']['core']['Managed']['set']['unknown_type'] = 'unknown type {type}';
+/* attribute is note typed */
+$GLOBALS['lang']['class']['core']['Managed']['set']['not_typed'] = 'attribute {attribute} is not typed for the class {class}';
 /* no custom method */
-$GLOBALS['lang']['class']['core']['Managed']['set']['default_method'] = 'custom setter not found, defining {attribute} to {value} for {class} with default method (no type checking)';
+$GLOBALS['lang']['class']['core']['Managed']['set']['default_method'] = 'custom setter not found, defining {attribute} for {class} with default method';
 /** [/set] **/
 
 /** [table] **/
