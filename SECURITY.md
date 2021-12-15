@@ -12,6 +12,6 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, open an issue or contant me by e-mail.
+To report a vulnerability, open an issue or contact me by e-mail.
 
 Update will come as soon as I can if a vulnerability is announced.
