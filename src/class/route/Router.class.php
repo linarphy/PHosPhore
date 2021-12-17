@@ -464,13 +464,13 @@ class Router
 			foreach ($arr_av_routes[0] as $key => $av_routes)
 			{
 				$Child = $this->buildNode($arr_av_routes, 0, $key);
-				if ($Child != False)
+				if ($Child !== False)
 				{
 					$tree_routes->get('root')->addChild($Child);
 				}
 			}
 			$routes = $tree_routes->get('root')->getBranchDepth(count($arr_av_routes));
-			if ($routes == False)
+			if ($routes === False)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['unknown_route'], array('url' => $url));
 			}
@@ -479,12 +479,14 @@ class Router
 		$Page = new \user\Page(array(
 			'id' => end($routes)->get('id'),
 		));
-		$Page->retrieve();
-		return [
-			'routes'     => $routes,
-			'parameters' => $this->cleanparameters($_get, $Page),
-			'page'       => $Page,
-		];
+
+		$GLOBALS['Visitor']->set('page', $Page);
+
+		$GLOBALS['Visitor']->get('page')->retrieve();
+
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
+
+		return \end($routes);
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode mixed
@@ -513,26 +515,28 @@ class Router
 		foreach ($arr_av_routes[0] as $key => $av_routes)
 		{
 			$Child = $this->buildNode($arr_av_routes, 0, $key);
-			if ($Child != False)
+			if ($Child !== False)
 			{
 				$tree_routes->get('root')->addChild($Child);
 			}
 		}
 		$routes = $tree_routes->get('root')->getBranchDepth(count($arr_av_routes));
-		if ($routes == False)
+		if ($routes === False)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route'], array('url' => $url));
 		}
 
 		$Page = new \user\Page(array(
-			'id' => end($routes)->get('id'),
+			'id' => \end($routes)->get('id'),
 		));
-		$Page->retrieve();
-		return [
-			'routes'     => $routes,
-			'parameters' => $this->cleanparameters($_get, $Page),
-			'page'       => $Page,
-		];
+
+		$GLOBALS['Visitor']->set('page', $Page);
+
+		$GLOBALS['Visitor']->get('page')->retrieve();
+
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
+
+		return \end($routes);
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode route
@@ -610,7 +614,7 @@ class Router
 
 		$GLOBALS['Visitor']->get('page')->retrieve();
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $parameters);
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($parameters, $GLOBALS['Visitor']->get('page')));
 
 		return $route;
 	}
