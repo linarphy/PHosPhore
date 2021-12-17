@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-- Better display if error page is accessed directly
 - Each retrieve method (retrieve<Something>()) return what it retrieves even if it's stored
 
 Then,
