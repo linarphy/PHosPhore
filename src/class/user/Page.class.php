@@ -150,6 +150,7 @@ class Page extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
 
 		$Route = $this->retrieveRoute();
+
 		$Folder = $Route->retrieveFolder();
 
 		$file = $GLOBALS['config']['core']['path']['page'] . $Folder->getPath() . $GLOBALS['config']['class']['user']['Page']['filename'];
@@ -218,8 +219,8 @@ class Page extends \core\Managed
 		}
 
 		$this->set('route', $routeManager->retrieveBy(array(
-			'id' => $this->get('id');
-		)));
+			'id' => $this->get('id'),
+		))[0]);
 
 		return $this->get('route');
 	}
