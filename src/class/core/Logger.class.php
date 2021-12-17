@@ -34,7 +34,7 @@ class Logger
 	 *
 	 * @param array $substitution Substitution array, which contains list of string to replace placeholder
 	 */
-	public function log($type, $message, $substitution = array())
+	public function log(string $type, string $message, array $substitution = array())
 	{
 		$config = $GLOBALS['config']['class']['core']['Logger'];
 

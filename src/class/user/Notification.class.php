@@ -103,7 +103,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function create($id_users)
+	public function create(array $id_users)
 	{
 		if ($this->id_content === null)
 		{

@@ -81,7 +81,7 @@ class Node
 	 *
 	 * @return mixed
 	 */
-	public function get($attribute)
+	public function get(string $attribute)
 	{
 		if ($this->$attribute === null)
 		{
@@ -112,7 +112,7 @@ class Node
 	 *
 	 * @return False|array
 	 */
-	public function getBranchDepth($depth)
+	public function getBranchDepth(int $depth)
 	{
 		if ($depth === 0)
 		{
@@ -211,7 +211,7 @@ class Node
 	 *
 	 * @return bool
 	 */
-	protected function set($attribute, $value)
+	protected function set(string $attribute, $value)
 	{
 		if (!property_exists($this, $attribute))
 		{

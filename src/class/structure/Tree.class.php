@@ -34,7 +34,7 @@ class Tree
 	 *
 	 * @return mixed
 	 */
-	public function get($attribute)
+	public function get(string $attribute)
 	{
 		if ($this->$attribute === null)
 		{
@@ -54,7 +54,7 @@ class Tree
 	 *
 	 * @return bool
 	 */
-	protected function set($attribute, $value)
+	protected function set(string $attribute, $value)
 	{
 		$this->$attribute = $value;
 	}

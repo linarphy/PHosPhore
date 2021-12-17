@@ -128,7 +128,7 @@ class Route extends \core\Managed
 	 *
 	 * @return False|string
 	 */
-	public function getPath($root_id = null, $loaded = array())
+	public function getPath(int $root_id = null, array $loaded = array())
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['start'], array('this_route' => $this->id, 'id_root' => $root_id));
 

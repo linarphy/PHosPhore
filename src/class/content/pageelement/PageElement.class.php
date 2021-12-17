@@ -233,7 +233,7 @@ class PageElement
 	 *
 	 * @return string
 	 */
-	public function displayArray($list)
+	public function displayArray(array $list)
 	{
 		$display = '';
 		foreach ($list as $element)
@@ -297,7 +297,7 @@ class PageElement
 	 *
 	 * @return null|mixed
 	 */
-	public function setElement($key, $value, $strict = True)
+	public function setElement($key, $value, bool $strict = True)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['start'], array('key' => $key, 'value' => $value, 'strict' => $strict));
 

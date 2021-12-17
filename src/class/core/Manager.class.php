@@ -57,7 +57,7 @@ abstract class Manager
 	 *
 	 * @return array|bool
 	 */
-	public function add($attributes)
+	public function add(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['start'], array('class' => get_class($this)));
 
@@ -96,7 +96,7 @@ abstract class Manager
 	 *
 	 * @return string|False
 	 */
-	public function boundaryInterpreter($bounds)
+	public function boundaryInterpreter(array $bounds)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['start'], array('class' => get_class($this)));
 
@@ -183,7 +183,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function cleanAttributes($attributes)
+	public function cleanAttributes(array $attributes)
 	{
 		return array_intersect_key($attributes, array_flip($this::ATTRIBUTES));
 	}
@@ -196,7 +196,7 @@ abstract class Manager
 	 *
 	 * @return array|False
 	 */
-	public function conditionCreator($values, $operations = null)
+	public function conditionCreator(array $values, $operations = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['start'], array('class' => get_class($this)));
 
@@ -288,7 +288,7 @@ abstract class Manager
 	 *
 	 * @return int
 	 */
-	public function countBy($values, $conditions = null)
+	public function countBy(array $values, $conditions = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['start'], array('class' => get_class($this)));
 
@@ -320,7 +320,7 @@ abstract class Manager
 	 *
 	 * @return bool
 	 */
-	public function delete($index)
+	public function delete(array $index)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['start'], array('class', get_class($this)));
 
@@ -354,7 +354,7 @@ abstract class Manager
 	 *
 	 * @return int Number of deleted entries
 	 */
-	public function deleteBy($values, $conditions = null)
+	public function deleteBy(array $values, $conditions = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['start'], array('class' => get_class($this)));
 
@@ -387,7 +387,7 @@ abstract class Manager
 	 *
 	 * @return bool
 	 */
-	public function exist($index)
+	public function exist(array $index)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['exist']['start'], array('class' => get_class($this)));
 
@@ -417,7 +417,7 @@ abstract class Manager
 	 *
 	 * @return bool
 	 */
-	public function existBy($values, $operations = null)
+	public function existBy(array $values, $operations = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['existBy'], array('class' => get_class($this)));
 		return $this->countBy($values, $operations) != 0;
@@ -429,7 +429,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function get($index)
+	public function get(array $index)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['start'], array('class' => get_class($this)));
 
@@ -465,7 +465,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function getBy($values, $operations = null, $bounds = null)
+	public function getBy(array $values, $operations = null, array $bounds = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['start'], array('class' => get_class($this)));
 
@@ -518,7 +518,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function getIdBy($values, $operations = null)
+	public function getIdBy(array $values, $operations = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['start'], array('class' => get_class($this)));
 
@@ -553,7 +553,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function getIdByPos($attribute, $position = 0, $direction = 'DESC')
+	public function getIdByPos(array $attribute, int $position = 0, string $direction = 'DESC')
 	{
 		$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['start'], array('class' => get_class($this)));
 
@@ -602,7 +602,7 @@ abstract class Manager
 	 *
 	 * @return mixed
 	 */
-	public function managed($table)
+	public function managed(array $table)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['managed']['start'], array('class' => get_class($this)));
 
@@ -631,7 +631,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function retrieveBy($values, $operations = null, $bounds = null, $class_name = '', $attributes_conversion = array())
+	public function retrieveBy(array $values, $operations = null, array $bounds = null, string $class_name = '', array $attributes_conversion = array())
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['start'], array('class' => get_class($this)));
 
@@ -717,7 +717,7 @@ abstract class Manager
 	 *
 	 * @return bool
 	 */
-	public function update($values, $index)
+	public function update(array $values, array $index)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['start'], array('class' => get_class($this)));
 
@@ -763,7 +763,7 @@ abstract class Manager
 	 *
 	 * @return int Number of updated values
 	 */
-	public function updateBy($values_get, $values_update, $operations = null)
+	public function updateBy(array $values_get, array $values_update, $operations = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['start'], array('class' => get_class($this)));
 

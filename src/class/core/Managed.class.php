@@ -23,7 +23,7 @@ abstract class Managed
 	 *
 	 * @param array $attributes Defined values of the object attributes
 	 */
-	public function __construct($attributes)
+	public function __construct(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['__construct'], array('class' => get_class($this)));
 
@@ -60,7 +60,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function arrDisp($list)
+	public static function arrDisp(array $list)
 	{
 		$display = '';
 		if (count($list) === 0)
@@ -172,7 +172,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public function displayer($attribute)
+	public function displayer(string $attribute)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['displayer']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
@@ -263,7 +263,7 @@ abstract class Managed
 	 *
 	 * @return int Number of attributes set
 	 */
-	public function hydrate($attributes)
+	public function hydrate(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['hydrate']['start'], array('class' => get_class($this)));
 
@@ -289,7 +289,7 @@ abstract class Managed
 	 *
 	 * @return mixed
 	 */
-	public function get($attribute)
+	public function get(string $attribute)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
@@ -318,7 +318,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getDisp($attribute)
+	public static function getDisp(string $attribute)
 	{
 		if (\phosphore_count($attribute) === 0)
 		{
@@ -333,7 +333,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getGet($attribute)
+	public static function getGet(string $attribute)
 	{
 		if (\phosphore_count($attribute) === 0)
 		{
@@ -375,7 +375,7 @@ abstract class Managed
 	 *
 	 * @return string
 	 */
-	public static function getSet($attribute)
+	public static function getSet(string $attribute)
 	{
 		if (\phosphore_count($attribute) === 0)
 		{
@@ -476,7 +476,7 @@ abstract class Managed
 	 *
 	 * @return bool
 	 */
-	public function set($attribute, $value)
+	public function set(string $attribute, $value)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['start'], array('class' => get_class($this), 'attribute' => $attribute));
 
@@ -537,7 +537,7 @@ abstract class Managed
 	 *
 	 * @return array
 	 */
-	public function table($depth = 0, $object = null)
+	public function table(int $depth = 0, $object = null)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['table']['start'], array('class' => get_class($this), 'depth' => $depth));
 
