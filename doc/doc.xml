@@ -350,11 +350,17 @@
 					<description>
 						Affiche le contenu sous une forme lisible et sécurisé
 					</description>
+					<valeur>
+						string
+					</valeur>
 				</display>
 				<retrieveText>
 					<description>
 						Récupère le texte avec son id et sa langue
 					</description>
+					<valeur>
+						string
+					</valeur>
 				</retrieveText>
 			</méthodes>
 		</Content>
@@ -1842,6 +1848,14 @@
 						int
 					</type>
 				</id>
+				<folder>
+					<description>
+						Dossier lié à la route
+					</description>
+					<type>
+						\folder\Folder
+					</type>
+				</folder>
 				<name>
 					<description>
 						Nom de la route
@@ -1850,6 +1864,14 @@
 						string
 					</type>
 				</name>
+				<parameter>
+					<description>
+						Paramètre lié à la route
+					</description>
+					<type>
+						array
+					</type>
+				</parameter>
 				<type>
 					<description>
 						Si la route ne contient pas d'autre route (page)
@@ -2794,10 +2816,10 @@
 				</parameters>
 				<route>
 					<description>
-						Chemin vers la page
+						route associé à la page
 					</description>
 					<type>
-						array
+						\route\Route
 					</type>
 				</route>
 			</attributs>
@@ -2867,7 +2889,7 @@
 						Récupères les paramètres de la page dans la base de donnée
 					</description>
 					<valeur>
-						bool
+						array
 					</valeur>
 				</retrieveParameters>
 				<retrieveRoute>
@@ -3270,26 +3292,41 @@
 					<description>
 						Récupère les données de l'utilisateur à partir des informations déjà renseigné
 					</description>
+					<valeur>
+						\user\User
+					</valeur>
 				</retrieve>
 				<retrieveConfigurations>
 					<description>
 						Récupère les configurations du visiteur
 					</description>
+					<valeur>
+						array
+					</valeur>
 				</retrieveConfigurations>
 				<retrieveNotifications>
 					<description>
 						Récupère les notifications envoyés à l'utilisateur
 					</description>
+					<valeur>
+						array
+					</valeur>
 				</retrieveNotifications>
 				<retrievePassword>
 					<description>
 						Récupère le mot de passe de l'utilisateur
 					</description>
+					<valeur>
+						\user\Password
+					</valeur>
 				</retrievePassword>
 				<retrieveRoles>
 					<description>
 						Récupère les rôle de l'utilisateur
 					</description>
+					<valeur>
+						array
+					</valeur>
 				</retrieveRoles>
 				<setConfiguration>
 					<description>

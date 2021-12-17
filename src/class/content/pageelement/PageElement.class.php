@@ -32,7 +32,7 @@ class PageElement
 	 *
 	 * @param array $attributes Attributes of this object
 	 */
-	public function __construct($attributes)
+	public function __construct(array $attributes)
 	{
 		foreach ($attributes as $key => $value)
 		{
