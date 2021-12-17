@@ -462,7 +462,10 @@ abstract class Managed
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'], array('class' => get_class($this)));
-		return $this->hydrate($this->manager()->get($index));
+
+		$this->hydrate($this->manager()->get($index));
+
+		return $this;
 	}
 	/**
 	 * Set the value of an attribute

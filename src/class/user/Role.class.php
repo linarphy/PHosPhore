@@ -80,6 +80,8 @@ class Role
 		$this->permissions = $PermissionManager->retrieveBy(array(
 			'name_role' => $this->name,
 		));
+
+		return $this->permissions;
 	}
 }
 

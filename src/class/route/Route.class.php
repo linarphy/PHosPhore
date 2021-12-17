@@ -14,11 +14,23 @@ class Route extends \core\Managed
 	 */
 	protected $id;
 	/**
+	 * folder of the route
+	 *
+	 * @var \route\Folder
+	 */
+	protected $folder;
+	/**
 	 * name of the route
 	 *
 	 * @var string
 	 */
 	protected $name;
+	/**
+	 * parameters of the route
+	 *
+	 * @var array
+	 */
+	protected $parameters;
 	/**
 	 * type of the route
 	 *
@@ -249,7 +261,9 @@ class Route extends \core\Managed
 		));
 		$Folder->retrieve();
 
-		return $Folder;
+		$this->folder = $Folder;
+
+		return $this->folder;
 	}
 	/**
 	 * Retrieve route parameter
@@ -267,7 +281,7 @@ class Route extends \core\Managed
 
 		$parameters = array();
 
-		if (count($routes) != 0) // not root route
+		if (count($routes) !== 0) // not root route
 		{
 			foreach ($routes as $route)
 			{
@@ -290,9 +304,11 @@ class Route extends \core\Managed
 		}
 
 		$LinkManager = \route\LinkRouteParameter();
-		return array_merge($parameters, $LinkManager->RetrieveBy(array(
+		$this->parameters = array_merge($parameters, $LinkManager->retrieveBy(array(
 			'id_route' => $this->id,
 		)));
+
+		return $this->parameters;
 	}
 }
 

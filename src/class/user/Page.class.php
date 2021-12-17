@@ -32,6 +32,12 @@ class Page extends \core\Managed
 	 */
 	protected $parameters;
 	/**
+	 * route associated to this page
+	 *
+	 * @var \route\Route
+	 */
+	protected $route;
+	/**
 	 * Attributes with type
 	 *
 	 * @var array
@@ -166,12 +172,18 @@ class Page extends \core\Managed
 	/**
 	 * Retrieve parameters of the page in the database
 	 *
-	 * @return bool
+	 * @return array
 	 */
 	public function retrieveParameters()
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start']);
 
+		if ($this->get('parameters') !== null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['already_defined']);
+
+			return $this->get('parameters');
+		}
 		$LinkPageParameters = new \user\LinkPageParameter();
 		$parameters = $LinkPageParameters->retrieveBy(array(
 			'id_page' => $this->get('id'),
@@ -181,7 +193,7 @@ class Page extends \core\Managed
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'], array('number' => count($parameters)));
 
-		return count($parameters) != 0;
+		return $this->get('parameters');
 	}
 	/**
 	 * Retrieve route of the page
@@ -198,9 +210,18 @@ class Page extends \core\Managed
 			return False;
 		}
 
-		return $routeManager->retrieveBy(array(
-			'id' => $this->get('id'),
-		))[0];
+		if ($this->get('route') !== null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['already_defined']);
+
+			return $this->get('route');
+		}
+
+		$this->set('route', $routeManager->retrieveBy(array(
+			'id' => $this->get('id');
+		)));
+
+		return $this->get('route');
 	}
 }
 

@@ -30,11 +30,6 @@ class Content extends \core\Managed
 	 * @var string
 	 **/
 	protected $date_creation;
-	/**
-	 * Display the content within a readable and safe form
-	 *
-	 * @return string
-	 */
 	/** Attributes with type
 	 *
 	 * @var array
@@ -45,6 +40,11 @@ class Content extends \core\Managed
 		'text'          => 'string',
 		'date_creation' => 'string',
 	);
+	/**
+	 * Display the content within a readable and safe form
+	 *
+	 * @return string
+	 */
 	public function display()
 	{
 		return htmlspecialchars($this->displayer('text'));
@@ -95,6 +95,8 @@ class Content extends \core\Managed
 			$this->text = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default'];
 			$this->date_creation = $GLOBALS['locale']['class']['content']['content']['default_date_creation'];
 		}
+
+		return $this->text;
 	}
 }
 

@@ -133,6 +133,8 @@ class User extends \core\Managed
 	}
 	/**
 	 * retrieves the user
+	 *
+	 * @return \user\User
 	 */
 	public function retrieve()
 	{
@@ -143,9 +145,13 @@ class User extends \core\Managed
 		$this->retrieveNotifications();
 		$this->retrievePassword();
 		$this->retrieveRoles();
+
+		return $this;
 	}
 	/**
 	 * retrieves the configurations of this user
+	 *
+	 * @return array
 	 */
 	public function retrieveConfigurations()
 	{
@@ -164,9 +170,13 @@ class User extends \core\Managed
 		$this->set('configurations', array_merge($configurations, $ConfigurationManager->retrieveBy(array(
 			'id_user' => $this->get('id'),
 		))));
+
+		return $this->get('configurations');
 	}
 	/**
 	 * retrieves the notifications of this user
+	 *
+	 * @return array
 	 */
 	public function retrieveNotifications()
 	{
@@ -187,9 +197,13 @@ class User extends \core\Managed
 		), class_name: '\user\Notification', attributes_conversion: array(
 			'id_notification' => 'id',
 		))));
+
+		return $this->get('notifications');
 	}
 	/**
 	 * retrieves the password of this user
+	 *
+	 * @return \user\Password
 	 */
 	public function retrievePassword()
 	{
@@ -206,9 +220,13 @@ class User extends \core\Managed
 		}
 
 		$this->set('password', $Password);
+
+		return $this->get('password');
 	}
 	/**
 	 * retrieves the roles of this user
+	 *
+	 * @return array
 	 */
 	public function retrieveRoles()
 	{
@@ -236,6 +254,8 @@ class User extends \core\Managed
 			));
 		}
 		$this->set('roles', array_merge($roles, $Roles));
+
+		return $this->get('roles');
 	}
 	/**
 	 * Add a value to user configuration definitively (can replace)

@@ -41,6 +41,8 @@ $GLOBALS['lang']['class']['user']['Page']['load']['include'] = 'Start to include
 /** [retrieveParameters] **/
 /* start the retrieval */
 $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start'] = 'Retrieval of Page parameters';
+/* already retrieved */
+$GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['already_defined'] = 'parameters already retrieved before';
 /* parameters retrieved */
 $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'] = 'Retrieved {number} parameters for the Page';
 /** [/retrieveParameters] **/
@@ -48,6 +50,8 @@ $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'] = 'Ret
 /** [retrieveRoute] **/
 /* the route does not exist */
 $GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['no_exist'] = 'The route associated to this page does not exist';
+/* route already retrieved */
+$GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['already_defined'] = 'route already retrieved';
 /** [/retrieveRoute] **/
 
 ?>
