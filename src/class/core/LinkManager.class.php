@@ -51,7 +51,7 @@ class LinkManager extends \core\Manager
 	 *
 	 * @return bool
 	 */
-	public function addBy(array $variants, array $invariants)
+	public function addBy(array $variants, array $invariants) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start']);
 

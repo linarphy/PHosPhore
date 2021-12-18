@@ -139,7 +139,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function delete()
+	public function delete() : bool
 	{
 		if ($this->id_content === null || $this->id === null)
 		{
@@ -171,7 +171,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		return $this->displayer('type') . ': ' . $this->displayer('content');
 	}

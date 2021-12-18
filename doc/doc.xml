@@ -410,6 +410,9 @@
 								</type>
 							</attributes>
 						</arguments>
+						<valeur>
+							\content\pageelement\PageElement
+						</valeur>
 					</__construct>
 					<addElement>
 						<description>
@@ -834,6 +837,9 @@
 							</type>
 						</attributes>
 					</arguments>
+					<valeur>
+						\core\Managed
+					</valeur>
 				</__construct>
 				<add>
 					<description>

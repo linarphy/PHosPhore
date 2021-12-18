@@ -12,13 +12,13 @@ class PageElement
 	 *
 	 * @var string
 	 */
-	protected $template;
+	protected ?string $template = null;
 	/**
 	 * Elements to insert in the template
 	 *
 	 * @var array
 	 */
-	protected $elements;
+	protected ?array $elements = null;
 	/**
 	 * Attributes with type
 	 *
@@ -53,6 +53,8 @@ class PageElement
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], array('key' => $key, 'value' => $value, 'method' => $method));
 			}
 		}
+
+		return $this;
 	}
 	/**
 	 * Add an element to the elements
@@ -63,7 +65,7 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	public function addElement($key, $value)
+	public function addElement(string|int $key, mixed $value) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['start'], array('key' => $key, 'value' => $value));
 
@@ -87,7 +89,7 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	public function addValueElement($key, $value, $new_key)
+	public function addValueElement(string|int $key, mixed $value, string|int $new_key) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['start'], array('key' => $key, 'value' => $value, 'new_key' => $new_key));
 
@@ -110,7 +112,7 @@ class PageElement
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
 
@@ -233,7 +235,7 @@ class PageElement
 	 *
 	 * @return string
 	 */
-	public function displayArray(array $list)
+	public function displayArray(array $list) : string
 	{
 		$display = '';
 		foreach ($list as $element)
@@ -265,9 +267,9 @@ class PageElement
 	 *
 	 * @param string|int $key Key corresponding to the element
 	 *
-	 * @return bool|mixed
+	 * @return null|mixed
 	 */
-	public function getElement($key)
+	public function getElement(string|int $key) : mixed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'], array('key' => $key));
 
@@ -276,7 +278,7 @@ class PageElement
 			$this->elements = array();
 
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null']);
-			return False;
+			return null;
 		}
 		if (key_exists($key, $this->elements))
 		{
@@ -284,7 +286,7 @@ class PageElement
 			return $this->elements[$key];
 		}
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['failure'], array('key' => $key));
-		return False; // The element does not exist
+		return null; // The element does not exist
 	}
 	/**
 	 * Setter of an element of elements, return false if the elements does not exist
@@ -297,11 +299,11 @@ class PageElement
 	 *
 	 * @return null|mixed
 	 */
-	public function setElement($key, $value, bool $strict = True)
+	public function setElement(string|int $key, mixed $value, bool $strict = True) : mixed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['start'], array('key' => $key, 'value' => $value, 'strict' => $strict));
 
-		if ($this->getElement($key) !== False)
+		if ($this->getElement($key) !== null)
 		{
 			$old_value = $this->elements[$key];
 			$this->elements[$key] = $value;
@@ -325,7 +327,7 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	protected function setElements(array $elements)
+	protected function setElements(array $elements) : bool
 	{
 		if ($this->elements !== null)
 		{
@@ -342,7 +344,7 @@ class PageElement
 	 *
 	 * @return bool
 	 */
-	protected function setTemplate(string $template)
+	protected function setTemplate(string $template) : bool
 	{
 		if ($this->template !== null)
 		{

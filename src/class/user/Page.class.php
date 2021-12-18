@@ -53,7 +53,7 @@ class Page extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function __construct($attributes)
+	public function __construct(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['start']);
 
@@ -99,7 +99,7 @@ class Page extends \core\Managed
 	/**
 	 * Add a custom temporal parameter to the page
 	 *
-	 * @param string $key Parameter name
+	 * @param string|int $key Parameter name
 	 *
 	 * @param mixed $value Parameter value
 	 *
@@ -134,7 +134,7 @@ class Page extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['display']);
 

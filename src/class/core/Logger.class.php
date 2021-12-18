@@ -12,7 +12,7 @@ class Logger
 	 *
 	 * @var string
 	 */
-	protected $folder;
+	protected ?string $folder = null;
 	/**
 	 * Vanilla types
 	 *

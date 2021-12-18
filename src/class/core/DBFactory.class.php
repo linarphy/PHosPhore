@@ -32,7 +32,7 @@ class DBFactory
 	 *
 	 * @return \PDO The database connection
 	 */
-	public static function MysqlConnection(string $db_name = null, string $db_host = null, string $db_username = null, string $db_password = null, array $db_options = null)
+	public static function MysqlConnection(string $db_name = null, string $db_host = null, string $db_username = null, string $db_password = null, array $db_options = null) : \PDO
 	{
 		$config = $GLOBALS['config']['class']['core']['DBFactory'];
 

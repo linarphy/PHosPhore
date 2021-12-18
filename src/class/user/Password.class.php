@@ -88,7 +88,7 @@ class Password extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		return $this->get('password_hashed');
 	}

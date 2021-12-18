@@ -12,7 +12,7 @@ class Router
 	 *
 	 * @var int
 	 */
-	protected $mode;
+	protected ?int $mode = null;
 	/**
 	 * List of operating modes for Router
 	 *
@@ -41,9 +41,9 @@ class Router
 	 *
 	 * @param int $column Key of the data corresponding of the node
 	 *
-	 * @return \structure\Node|False
+	 * @return \structure\Node|null
 	 */
-	public function buildNode(array $array_of_available_routes, int $row, int $column)
+	public function buildNode(array $array_of_available_routes, int $row, int $column) : ?\structure\Node
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
 		$Node = new \structure\Node($array_of_available_routes[$row][$column]);
@@ -52,7 +52,7 @@ class Router
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], array('index' => $row));
 
-			return False;
+			return null;
 		}
 
 		if (count($array_of_available_routes) === $row + 1) // last Node (end of recursion)
@@ -62,10 +62,10 @@ class Router
 
 		foreach ($array_of_available_routes[$row] as $key => $route)
 		{
-			if ($route->getPath($Node->get('data')->get('id')) !== False) // check if it is defined bug
+			if ($route->getPath($Node->get('data')->get('id')) !== null) // check if it is defined bug
 			{
 				$Child = $this->buildNode($array_of_available_routes, $row + 1, $key); // recursion
-				if ($Child !== False) // check if it is defined, if not, it cannot be the route we want
+				if ($Child !== null) // check if it is defined, if not, it cannot be the route we want
 				{
 					$Node->addChild($Child);
 				}
@@ -75,7 +75,7 @@ class Router
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
 
-			return False;
+			return null;
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['end']);
@@ -91,7 +91,7 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters(array $parameters, $page)
+	public function cleanParameters(array $parameters, \route\Route $page) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], array('page' => $page->display()));
 
@@ -149,7 +149,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLink(array $routes, array $parameters = array())
+	public function createLink(array $routes, array $parameters = array()) : string
 	{
 		if (count($routes) === 0)
 		{
@@ -178,7 +178,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkGet(array $routes, array $parameters = array())
+	public function createLinkGet(array $routes, array $parameters = array()) : string
 	{
 		if (count($routes) === 0)
 		{
@@ -236,7 +236,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkMixed(array $routes, array $parameters = array())
+	public function createLinkMixed(array $routes, array $parameters = array()) : string
 	{
 		if (count($routes) === 0)
 		{
@@ -299,7 +299,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkRoute(array $routes, array $parameters = array())
+	public function createLinkRoute(array $routes, array $parameters = array()) : string
 	{
 		if (count($routes) === 0)
 		{
@@ -359,9 +359,9 @@ class Router
 	 *
 	 * @param string $url Link to decode
 	 *
-	 * @return array
+	 * @return \route\Route
 	 */
-	public function decodeRoute(string $url)
+	public function decodeRoute(string $url) : \route\Route
 	{
 		if (\phosphore_count($url) > 0)
 		{
@@ -434,9 +434,9 @@ class Router
 	 *
 	 * @param string $url Link to decode
 	 *
-	 * @return array
+	 * @return \route\Route
 	 */
-	public function decodeWithGet(string $url)
+	public function decodeWithGet(string $url) : \route\Route
 	{
 		if (!isset($_GET['__path__']))
 		{
@@ -493,9 +493,9 @@ class Router
 	 *
 	 * @param string $url Link to decode
 	 *
-	 * @return array
+	 * @return \route\Route
 	 */
-	public function decodeWithMixed(string $url)
+	public function decodeWithMixed(string $url) : \route\Route
 	{
 		$paths = explode('/', rawurldecode(strtok($url, '?')));
 
@@ -543,9 +543,9 @@ class Router
 	 *
 	 * @param string $url Links to decode
 	 *
-	 * @return array
+	 * @return \route\Route
 	 */
-	public function decodeWithRoute(string $url)
+	public function decodeWithRoute(string $url) : \route\Route
 	{
 		$paths = explode('/', rawurldecode(strtok($url, '?')));
 		$parameters = [];
@@ -623,7 +623,7 @@ class Router
 	 *
 	 * @return int
 	 */
-	public function getMode()
+	public function getMode() : int
 	{
 		return $this->mode;
 	}
@@ -634,7 +634,7 @@ class Router
 	 *
 	 * @return bool
 	 */
-	protected function setMode(int $mode)
+	protected function setMode(int $mode) : bool
 	{
 		if (!in_array($mode, $this::MODES))
 		{

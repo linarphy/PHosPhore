@@ -106,7 +106,7 @@ class User extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		return $this->displayer('nickname') . '#' . $this->displayer('id');
 	}
@@ -136,7 +136,7 @@ class User extends \core\Managed
 	 *
 	 * @return \user\User
 	 */
-	public function retrieve()
+	public function retrieve() : self
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieve']);
 

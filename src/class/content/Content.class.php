@@ -12,24 +12,24 @@ class Content extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id_content;
+	protected ?int $id_content = null;
 	/** Code corresponding to a language ()
 	 *
 	 * @var string
 	 **/
-	protected $lang;
+	protected ?string $lang = null;
 	/**
 	 * Content (which is found with the id_content and the lang, or defined without)
 	 *
 	 * @var string
 	 */
-	protected $text;
+	protected ?string $text = null;
 	/**
 	 * Date of the content creation
 	 *
 	 * @var string
 	 **/
-	protected $date_creation;
+	protected ?string $date_creation = null;
 	/** Attributes with type
 	 *
 	 * @var array

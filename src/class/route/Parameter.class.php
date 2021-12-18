@@ -12,25 +12,25 @@ class Parameter extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * Name of the parameter
 	 *
 	 * @var string
 	 */
-	protected $name;
+	protected ?string $name = null;
 	/**
 	 * Regex which rule the value
 	 *
 	 * @var string
 	 */
-	protected $regex;
+	protected ?string $regex = null;
 	/**
 	 * If the parameter is necessary
 	 *
 	 * @var bool
 	 */
-	protected $necessary;
+	protected ?bool $necessary = null;
 	/**
 	 * Attributes with type
 	 *
@@ -47,7 +47,7 @@ class Parameter extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function getFullRegex()
+	public function getFullRegex() : string
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], array('regex' => $this->regex()));
 		if (\phosphore_count($this->regex) === 0)

@@ -2,6 +2,7 @@
 
 For now I'm currently:
 - Each typed method argument must be preceded by its type: What to do when multiple possible type for an arg ?
+- Add return type too
 
 Then,
 - Use token based auth (see split token here (https://paragonie.com/blog/2017/02/split-tokens-token-based-authentication-protocols-without-side-channels) and here (https://stackoverflow.com/questions/3128985/php-login-system-remember-me-persistent-cookie/, note already in class/user/Visitor.class.php in connect method))
