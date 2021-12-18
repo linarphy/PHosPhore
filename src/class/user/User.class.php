@@ -12,49 +12,49 @@ class User extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * configurations of the user
 	 *
 	 * @var array
 	 */
-	protected $configurations;
+	protected ?array $configurations = null;
 	/**
 	 * date of the registration of the user
 	 *
 	 * @var string
 	 */
-	protected $date_registration;
+	protected ?string $date_registration = null;
 	/**
 	 * date of the last login of the user
 	 *
 	 * @var string
 	 */
-	protected $date_login;
+	protected ?string $date_login = null;
 	/**
 	 * nickname of the user
 	 *
 	 * @var string
 	 */
-	protected $nickname;
+	protected ?string $nickname = null;
 	/**
 	 * notifications of the user
 	 *
 	 * @var array
 	 */
-	protected $notifications;
+	protected ?array $notifications = null;
 	/**
 	 * password of the used
 	 *
 	 * @var \user\Password
 	 */
-	protected $password;
+	protected ?\user\Password $password = null;
 	/**
 	 * roles of the user
 	 *
 	 * @var array
 	 */
-	protected $roles;
+	protected ?array $roles = null;
 	/**
 	 * Attributes with type
 	 *
@@ -73,7 +73,7 @@ class User extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function checkPermission(\user\Page $page)
+	public function checkPermission(\user\Page $page) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['start'], array('user' => $this->get('id'), 'page' => $page->get('id')));
 		foreach ($this->roles as $Role)
@@ -117,7 +117,7 @@ class User extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function isConnected($interval)
+	public function isConnected(\DateInterval $interval) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['isConnected']);
 
@@ -153,7 +153,7 @@ class User extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public function retrieveConfigurations()
+	public function retrieveConfigurations() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveConfigurations']);
 
@@ -178,7 +178,7 @@ class User extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public function retrieveNotifications()
+	public function retrieveNotifications() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveNotifications']);
 
@@ -205,7 +205,7 @@ class User extends \core\Managed
 	 *
 	 * @return \user\Password
 	 */
-	public function retrievePassword()
+	public function retrievePassword() : \user\Password
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrievePassword']);
 
@@ -228,7 +228,7 @@ class User extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public function retrieveRoles()
+	public function retrieveRoles() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieveRoles']);
 
@@ -266,7 +266,7 @@ class User extends \core\Managed
 	 *
 	 * @return True
 	 */
-	public function setConfiguration($key, $value)
+	public function setConfiguration(string $key, mixed $value) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['setConfiguration']['start']);
 

@@ -12,19 +12,19 @@ class Node
 	 *
 	 * @var array
 	 */
-	protected $children;
+	protected ?array $children = null;
 	/**
 	 * Data of this node
 	 *
 	 * @var mixed
 	 */
-	protected $data;
+	protected mixed $data = null;
 	/**
 	 * Parent of this node
 	 *
 	 * @var \structure\Node|null
 	 */
-	protected $parent;
+	protected ?\structure\Node $parent = null;
 	/**
 	 * constructor
 	 *
@@ -34,11 +34,13 @@ class Node
 	 *
 	 * @return \structure\Node
 	 */
-	public function __construct($data, $parent = null)
+	public function __construct(mixed $data, ?\structure\Node $parent = null)
 	{
 		$this->set('data', $data);
 		$this->set('children', array());
 		$this->set('parent', $parent);
+
+		return $this;
 	}
 	/**
 	 * Add a child node
@@ -47,7 +49,7 @@ class Node
 	 *
 	 * @return \structure\Node
 	 */
-	public function addChild($child)
+	public function addChild(\structure\Node $child) : \structure\Node
 	{
 		$child->set('parent', $this);
 		$this->children[] = $child;
@@ -59,20 +61,20 @@ class Node
 	 *
 	 * @param \structure\Node $child Child node to delete
 	 *
-	 * @return bool
+	 * @return null|\structure\Node
 	 */
-	public function removeChild($child)
+	public function removeChild(\structure\Node $child) : ?\structure\Node
 	{
-		$return = False;
 		foreach ($this->children as $key => $try_child)
 		{
 			if ($child === $try_child)
 			{
-				$return = True;
+				$temp = $this->children[$key];
 				unset($this->children[$key]);
+				return $temp;
 			}
 		}
-		return $return;
+		return null;
 	}
 	/**
 	 * Get the value of a given attribute
@@ -81,7 +83,7 @@ class Node
 	 *
 	 * @return mixed
 	 */
-	public function get(string $attribute)
+	public function get(string $attribute) : mixed
 	{
 		if ($this->$attribute === null)
 		{
@@ -97,7 +99,7 @@ class Node
 	 *
 	 * @return array
 	 */
-	public function getAncestors()
+	public function getAncestors() : array
 	{
 		if ($this->parent === null)
 		{
@@ -112,7 +114,7 @@ class Node
 	 *
 	 * @return False|array
 	 */
-	public function getBranchDepth(int $depth)
+	public function getBranchDepth(int $depth) : ?array
 	{
 		if ($depth === 0)
 		{
@@ -120,11 +122,11 @@ class Node
 			{
 				return array($this);
 			}
-			return False;
+			return null;
 		}
 		if (empty($this->children))
 		{
-			return False;
+			return null;
 		}
 		foreach ($this->children as $child)
 		{
@@ -134,14 +136,14 @@ class Node
 				return array_merge(array($this), $result);
 			}
 		}
-		return False;
+		return null;
 	}
 	/**
 	 * Get depth of this node in the tree
 	 *
 	 * @return int
 	 */
-	public function getDepth()
+	public function getDepth() : int
 	{
 		if (this->parent === null)
 		{
@@ -154,7 +156,7 @@ class Node
 	 *
 	 * @return int
 	 */
-	public function getHeight()
+	public function getHeight() : int
 	{
 		if (empty($this->children))
 		{
@@ -174,7 +176,7 @@ class Node
 	 *
 	 * @return array
 	 */
-	public function getNeighbors()
+	public function getNeighbors() : array
 	{
 		$neighbors = $this->parent->get('children');
 
@@ -193,7 +195,7 @@ class Node
 	 *
 	 * @return \structure\Node
 	 */
-	public function getRoot()
+	public function getRoot() : \Structure\Node
 	{
 		if ($this->parent === null)
 		{
@@ -211,15 +213,17 @@ class Node
 	 *
 	 * @return bool
 	 */
-	protected function set(string $attribute, $value)
+	protected function set(string $attribute, mixed $value) : mixed
 	{
 		if (!property_exists($this, $attribute))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['structure']['Node']['set']['not_found'], array('attribute' => $attribute));
 
-			return False;
+			return null;
 		}
+
 		$this->$attribute = $value;
+		return $value;
 	}
 }
 

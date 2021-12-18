@@ -12,31 +12,31 @@ class Page extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * name of the page
 	 *
 	 * @var string
 	 */
-	protected $name;
+	protected ?string $name = null;
 	/**
 	 * content element of the page
 	 *
 	 * @var \content\pageelement\PageElement
 	 */
-	protected $page_element;
+	protected ?\content\pageelement\PageElement $page_element = null;
 	/**
 	 * parameters of the page
 	 *
 	 * @var array
 	 */
-	protected $parameters;
+	protected ?array $parameters = null;
 	/**
 	 * route associated to this page
 	 *
 	 * @var \route\Route
 	 */
-	protected $route;
+	protected ?\route\Route $route = null;
 	/**
 	 * Attributes with type
 	 *
@@ -105,7 +105,7 @@ class Page extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function addParameter($key, $value)
+	public function addParameter(string|int $key, mixed $value) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['addParameter']['start'], array('key' => $key, 'value' => $value));
 
@@ -145,7 +145,7 @@ class Page extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function load()
+	public function load() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
 
@@ -175,7 +175,7 @@ class Page extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public function retrieveParameters()
+	public function retrieveParameters() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start']);
 
@@ -199,16 +199,16 @@ class Page extends \core\Managed
 	/**
 	 * Retrieve route of the page
 	 *
-	 * @return \route\Route|False
+	 * @return \route\Route|null
 	 */
-	public function retrieveRoute()
+	public function retrieveRoute() : ?\route\Route
 	{
 		$routeManager = new \route\RouteManager();
 		if (!$routeManager->exist(array('id' => $this->get('id'))))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['no_exist']);
 
-			return False;
+			return null;
 		}
 
 		if ($this->get('route') !== null)

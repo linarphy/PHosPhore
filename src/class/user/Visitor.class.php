@@ -12,13 +12,13 @@ class Visitor extends \user\User
 	 *
 	 * @var \user\Page
 	 */
-	protected $page;
+	protected ?\user\Page $page = null;
 	/**
 	 * connect the user (add $_SESSION, check password and $GLOBALS['Visitor'])
 	 *
 	 * @var bool
 	 */
-	public function connect()
+	public function connect() : bool
 	{
 		if ($this->get('id') === null)
 		{
@@ -68,9 +68,9 @@ class Visitor extends \user\User
 	 *
 	 * @param \route\Route $route Route to load
 	 *
-	 * @return \user\Page|False
+	 * @return \user\Page|null
 	 */
-	public function loadPage($route)
+	public function loadPage($route) : ?\user\Page
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['start']);
 
@@ -89,7 +89,7 @@ class Visitor extends \user\User
 	 *
 	 * @return bool
 	 */
-	public function register()
+	public function register() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['register']['start']);
 		if ($this->get('password') === null)

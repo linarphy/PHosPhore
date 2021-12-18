@@ -12,13 +12,13 @@ class Role
 	 *
 	 * @var string
 	 */
-	protected $name;
+	protected ?string $name = null;
 	/**
 	 * permissions of the role
 	 *
 	 * @var array
 	 */
-	protected $permissions;
+	protected ?array $permissions = null;
 	/**
 	 * constructor
 	 *
@@ -43,7 +43,7 @@ class Role
 	 *
 	 * @param array $id list of indexes of the new permissions
 	 */
-	public function addPermissions($id)
+	public function addPermissions(array $id) : void
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], array('permissions' => $id, 'role' => $this->name));
 
@@ -64,14 +64,16 @@ class Role
 	 *
 	 * @return array
 	 */
-	public function getPermissions()
+	public function getPermissions() : array
 	{
 		return $this->permissions;
 	}
 	/**
 	 * retrieves permissions of the role
+	 *
+	 * @return array
 	 */
-	public function retrievePermissions()
+	public function retrievePermissions() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Role']['retrievePermissions']);
 

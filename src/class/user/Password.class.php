@@ -12,19 +12,19 @@ class Password extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * Clear password of the user /!\ warning
 	 *
 	 * @var string
 	 */
-	protected $password_clear;
+	protected ?string $password_clear = null;
 	/**
 	 * Hashed password of the user
 	 *
 	 * @var string
 	 */
-	protected $password_hashed;
+	protected ?string $password_hashed = null;
 	/**
 	 * Attributes with type
 	 *
@@ -40,7 +40,7 @@ class Password extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function check()
+	public function check() : bool
 	{
 		if ($this->get('password_hashed'))
 		{
@@ -97,7 +97,7 @@ class Password extends \core\Managed
 	 *
 	 * @return string
 	 */
-	protected function displayPassword_clear()
+	protected function displayPassword_clear() : string
 	{
 		return htmlspecialchars($this->get('password_clear'));
 	}
@@ -106,7 +106,7 @@ class Password extends \core\Managed
 	 *
 	 * @return string
 	 */
-	protected function getPassword_clear()
+	protected function getPassword_clear() : string
 	{
 		return $this->password_clear;
 	}

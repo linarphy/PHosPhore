@@ -12,19 +12,19 @@ class Permission extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * index of the route in the database
 	 *
 	 * @var int
 	 */
-	protected $id_route;
+	protected ?int $id_route = null;
 	/**
 	 * name of the role in the database
 	 *
 	 * @var string
 	 */
-	protected $name_role;
+	protected ?string $name_role = null;
 	/**
 	 * Attributes with type
 	 *
@@ -40,7 +40,7 @@ class Permission extends \core\Managed
 	 *
 	 * @return \route\Route
 	 */
-	public function retrieveRoute()
+	public function retrieveRoute() : \route\Route
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Permission']['retrieveRoute']);
 		$Route = new \route\Route(array(

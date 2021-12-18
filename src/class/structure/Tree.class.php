@@ -12,7 +12,7 @@ class Tree
 	 *
 	 * @var \structure\Node
 	 */
-	protected $root;
+	protected ?\structure\Node $root = null;
 	/**
 	 * constructor
 	 *
@@ -34,7 +34,7 @@ class Tree
 	 *
 	 * @return mixed
 	 */
-	public function get(string $attribute)
+	public function get(string $attribute) : mixed
 	{
 		if ($this->$attribute === null)
 		{
@@ -54,9 +54,10 @@ class Tree
 	 *
 	 * @return bool
 	 */
-	protected function set(string $attribute, $value)
+	protected function set(string $attribute, mixed $value) : mixed
 	{
 		$this->$attribute = $value;
+		return $value;
 	}
 }
 

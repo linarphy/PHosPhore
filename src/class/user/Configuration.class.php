@@ -12,25 +12,25 @@ class Configuration extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * user id
 	 *
 	 * @var int
 	 */
-	protected $id_user;
+	protected ?int $id_user = null;
 	/**
 	 * name of the configuration
 	 *
 	 * @var string
 	 */
-	protected $name;
+	protected ?string $name = null;
 	/**
 	 * value of the configuration
 	 *
 	 * @var string
 	 */
-	protected $value;
+	protected ?string $value = null;
 	/**
 	 * Attributes with type
 	 *
@@ -47,7 +47,7 @@ class Configuration extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function display()
+	public function display() : string
 	{
 		return $this->displayer('id') . ': ' . $this->displayer('name') . ' => ' . $this->displayer('value');
 	}

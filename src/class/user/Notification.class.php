@@ -12,37 +12,37 @@ class Notification extends \core\Managed
 	 *
 	 * @var string
 	 */
-	protected $content;
+	protected ?string $content = null;
 	/**
 	 * notification date
 	 *
 	 * @var string
 	 */
-	protected $date;
+	protected ?string $date = null;
 	/**
 	 * index of the notification in the database
 	 *
 	 * @var int
 	 */
-	protected $id;
+	protected ?int $id = null;
 	/**
 	 * index of the content of the notification
 	 *
 	 * @var int
 	 */
-	protected $id_content;
+	protected ?int $id_content = null;
 	/**
 	 * substitution array to complete the notification with dynamics values
 	 *
 	 * @var array
 	 */
-	protected $substitution;
+	protected ?array $substitution = null;
 	/**
 	 * notification type
 	 *
 	 * @var string
 	 */
-	protected $type;
+	protected ?string $type = null;
 	/**
 	 * Attributes with type
 	 *
@@ -74,7 +74,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function addToSession()
+	public function addToSession() : bool
 	{
 		if ($this->id_content === null && $this->content === null)
 		{
@@ -103,7 +103,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return bool
 	 */
-	public function create(array $id_users)
+	public function create(array $id_users) : bool
 	{
 		if ($this->id_content === null)
 		{
@@ -180,7 +180,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function displayContent()
+	public function displayContent() : string
 	{
 		if ($this->content !== null)
 		{
@@ -217,7 +217,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public static function getNotifications(\content\pageelement\PageElement $element)
+	public static function getNotifications(\content\pageelement\PageElement $element) : array
 	{
 		if ($element->getElement('content') !== False)
 		{
@@ -286,9 +286,9 @@ class Notification extends \core\Managed
 	/**
 	 * retrieve the associated \content\Content
 	 *
-	 * @return \content\Content|False
+	 * @return \content\Content|null
 	 */
-	public function retrieveContent()
+	public function retrieveContent() : ?\content\Content
 	{
 		$locale = $GLOBALS['locale']['core']['locale'];
 
@@ -308,7 +308,7 @@ class Notification extends \core\Managed
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['retrieveContent']['no_content']);
 
-			return False;
+			return null;
 		}
 
 		return $Contents[0];
@@ -318,7 +318,7 @@ class Notification extends \core\Managed
 	 *
 	 * @return array
 	 */
-	public function retrieveUsers()
+	public function retrieveUsers() : array
 	{
 		$userManager = new \user\UserManager();
 		return $userManager->retrieveBy(array(

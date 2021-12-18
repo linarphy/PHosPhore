@@ -12,19 +12,19 @@ class Parameter extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected $id_page;
+	protected ?int $id_page = null;
 	/**
 	 * Key of the parameter
 	 *
 	 * @var string
 	 */
-	protected $key;
+	protected ?string $key = null;
 	/**
 	 * Value of the parameter
 	 *
 	 * @var string
 	 */
-	protected $value;
+	protected ?string $value = null;
 	/**
 	 * Attributes with type
 	 *
