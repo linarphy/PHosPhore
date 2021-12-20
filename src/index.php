@@ -1,6 +1,7 @@
 <?php
 
 session_start();	// $_SESSION init at the very start
+date_default_timezone_set('UTC');
 
 function custom_error_handler($errno, $errstr, $errfile, $errline)
 {

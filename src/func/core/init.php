@@ -124,24 +124,41 @@ function init_router()
  */
 function init_visitor()
 {
-	if (isset($_SESSION['__login__']['id']) && isset($_SESSION['__login__']['password']))
+	if (!isset($_SESSION['__login__']['selector']) || !isset($_SESSION['__login__']['validator']))
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['login']['session']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['login']['no_session']);
 
 		$Password = new \user\Password(array(
-			'password_clear' => $_SESSION['__login__']['password'],
+			'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
 		));
+
 		return array(
-			'id'       => $_SESSION['__login__']['id'],
+			'id'       => $GLOBALS['config']['core']['login']['guest']['id'],
 			'password' => $Password,
 		);
 	}
-	$Password = new \user\Password(array(
-		'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
+
+	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['login']['session']);
+
+	$Token = new \user\Token(array(
+		'selector'        => $_SESSION['__login__']['selector'],
+		'validator_clear' => $_SESSION['__login__']['validator'],
 	));
+
+	$id_user = $Token->check();
+
+	if ($id_user === False)
+	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['login']['bad_credential']);
+
+		unset($_SESSION['__login__']);
+
+		return init_visitor();
+	}
+
 	return array(
-		'id'       => $GLOBALS['config']['core']['login']['guest']['id'],
-		'password' => $Password,
+		'id'    => $id_user,
+		'has_token' => True,
 	);
 }
 /**

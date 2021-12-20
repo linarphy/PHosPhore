@@ -6,7 +6,7 @@ $GLOBALS['lang']['class']['user']['Password']['check']['loading_hashed'] = 'hash
 /* cannot retrieve hashed password */
 $GLOBALS['lang']['class']['user']['Password']['check']['cannot_retrieve_hashed'] = 'there is no password with this hash';
 /* hashed password is not defined */
-$GLOBALS['lang']['class']['user']['Password']['check']['no_hashed'] = 'no hashed password defined, aborting';
+$GLOBALS['lang']['class']['user']['Password']['check']['no_clear'] = 'no clear password defined, aborting';
 /* clear password is verified */
 $GLOBALS['lang']['class']['user']['Password']['check']['verified'] = 'clear and hashed password match';
 /* password needs to be rehashed */

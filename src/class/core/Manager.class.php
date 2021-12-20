@@ -325,6 +325,7 @@ abstract class Manager
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['start'], array('class', get_class($this)));
 
 		$indexes = array();
+		$values = array();
 		foreach ($this::INDEX as $name)
 		{
 			if ($index[$name] === null)
@@ -333,6 +334,7 @@ abstract class Manager
 
 				return False;
 			}
+			$values[] = $index[$name];
 			$indexes[] = $name .= '=?';
 		}
 
@@ -341,7 +343,7 @@ abstract class Manager
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['end'], array('class' => get_class($this), 'query' => $query));
 
 		$request = $this->db->prepare($query);
-		$request->execute();
+		$request->execute($values);
 
 		return True;
 	}
@@ -533,14 +535,14 @@ abstract class Manager
 
 		$condition = $this->conditionCreator($values, $operations);
 
-		$query = 'SELECT ' . implode(', ', $this::INDEX) . ' FROM ' . $this::TABLE . ' ' . implode(' AND ', $condition[0]);
+		$query = 'SELECT ' . implode(', ', $this::INDEX) . ' FROM ' . $this::TABLE . ' WHERE ' . implode(' AND ', $condition[0]);
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['end'], array('class' => get_class($this), 'query' => $query));
 
 		$request = $this->db->prepare($query);
 		$request->execute(array_values($condition[1]));
 
-		return $return->fetchAll();
+		return $request->fetchAll();
 	}
 	/**
 	 * Get an index of the nth entry for an attribute

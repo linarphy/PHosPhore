@@ -27,7 +27,7 @@ $GLOBALS['lang']['class']['core']['Managed']['delete']['not_exist'] = 'the objec
 /* the index of the object is missing */
 $GLOBALS['lang']['class']['core']['Managed']['delete']['missing_index'] = 'the object {class} cannot be deleted because its index is missing';
 /* success */
-$GLOBALS['lang']['class']['core']['Managed']['delete']['end'] = 'the object {class} has been deleted from the database';
+$GLOBALS['lang']['class']['core']['Managed']['delete']['success'] = 'the object {class} has been deleted from the database';
 /** [/delete] **/
 
 /** [displayer] **/
@@ -61,6 +61,11 @@ $GLOBALS['lang']['class']['core']['Managed']['get']['getter'] = 'custom method f
 /* no custom method */
 $GLOBALS['lang']['class']['core']['Managed']['get']['default'] = 'no custom method found for accessing the attribute {attribute} of the class {class}, default one will be used';
 /** [/get] **/
+
+/** [getIndex] **/
+/* index attribute not defined */
+$GLOBALS['lang']['class']['core']['Managed']['getIndex'] = 'attribute {attribute} is an index but is not defined';
+/** [/getIndex] **/
 
 /** [isIdentical] **/
 /* start the check */

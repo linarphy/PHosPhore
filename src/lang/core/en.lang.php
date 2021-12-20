@@ -41,6 +41,15 @@ $GLOBALS['lang']['core']['cannot_display_error'] = 'error cannot be displayed, t
 $GLOBALS['lang']['core']['end'] = 'successfull recovery for the error: {error}';
 /** [/LOG] **/
 
+/** [LOGIN] **/
+/* no token stored in session */
+$GLOBALS['lang']['core']['login']['no_session'] = 'no token stored in session, connect with guest';
+/* token stored in session */
+$GLOBALS['lang']['core']['login']['session'] = 'token stored in session';
+/* bad token */
+$GLOBALS['lang']['core']['login']['bad_credential'] = 'token invalid';
+/** [/LOGIN] **/
+
 /** [TYPE] **/
 /* unknown type */
 $GLOBALS['lang']['core']['type']['unknown'] = 'unknown type'

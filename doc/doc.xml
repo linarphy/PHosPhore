@@ -3168,6 +3168,76 @@
 				</retrievePermissions>
 			</méthodes>
 		</Role>
+		<Token>
+			<description>
+				token de connexion (permet de ne pas stocker le mdp en clair dans la session)
+			</description>
+			<extend>
+				\core\Managed
+			</extend>
+			<attributs>
+				<date_expiration>
+				</date_expiration>
+				<id_user>
+					<description>
+						id de l'utilisateur relié au token
+					</description>
+					<type>
+						int
+					</type>
+				</id_user>
+				<selector>
+					<description>
+						sélecteur (jouant le rôle de pseudo)
+					</description>
+					<type>
+						string
+					</type>
+				</selector>
+				<validator_clear>
+					<description>
+						valideur (jouant le rôle du mot de passe)
+					</description>
+					<type>
+						string
+					</type>
+				</validator_clear>
+				<validator_hashed>
+					<description>
+						valideur hashé
+					</description>
+					<type>
+						string
+					</type>
+				</validator_hashed>
+			</attributs>
+			<méthodes>
+				<check>
+					<description>
+						vérifie la validité du token
+					</description>
+					<valeur>
+						int|bool
+					</valeur>
+				</check>
+				<create>
+					<description>
+						créé le token
+					</description>
+					<valeur>
+						bool
+					</valeur>
+				</create>
+			</méthodes>
+		</Token>
+		<TokenManager>
+			<description>
+				Gestionnaire de \user\Token dans la base de donnée
+			</description>
+			<extend>
+				\core\Manager
+			</extend>
+		</TokenManager>
 		<User>
 			<description>
 				Utilisateur du site
@@ -3378,6 +3448,14 @@
 				\user\User
 			</extend>
 			<attributs>
+				<has_token>
+					<description>
+						Si l'utilisateur est déjà connecté avec un token
+					</description>
+					<type>
+						bool
+					</type>
+				</has_token>
 				<page>
 					<description>
 						Page vu par le visiteur

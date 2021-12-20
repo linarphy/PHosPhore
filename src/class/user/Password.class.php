@@ -12,7 +12,7 @@ class Password extends \core\Managed
 	 *
 	 * @var int
 	 */
-	protected ?int $id = null;
+	protected int $id;
 	/**
 	 * Clear password of the user /!\ warning
 	 *
@@ -42,23 +42,22 @@ class Password extends \core\Managed
 	 */
 	public function check() : bool
 	{
-		if ($this->get('password_hashed'))
+		if ($this->get('password_clear') === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Password']['check']['loading_hashed']);
-
-			if ($this->retrieve() === 0)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Password']['check']['cannot_retrieve_hashed']);
-
-				return False;
-			}
-		}
-		else
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Password']['check']['no_hashed']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Password']['check']['no_clear']);
 
 			return False;
 		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Password']['check']['loading_hashed']);
+
+		if ($this->retrieve()->get('password_hashed') === null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Password']['check']['cannot_retrieve_hashed']);
+
+			return False;
+		}
+
 		if (password_verify($this->get('password_clear'), $this->get('password_hashed')))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Password']['check']['verified']);
@@ -73,8 +72,6 @@ class Password extends \core\Managed
 					'password_hashed' => $this->get('password_hashed'),
 				), $this->get('id'));
 			}
-
-			$this->set('password_clear', $this->get('password_clear'));
 
 			return True;
 		}

@@ -156,7 +156,7 @@ abstract class Managed
 			return False;
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], array('class' => get_class($this)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], array('class' => get_class($this)));
 
 		return $this->manager()->delete($this->getIndex());
 	}
@@ -366,7 +366,8 @@ abstract class Managed
 			$value = $this->get($attribute);
 			if ($value === null)
 			{
-				return null;
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Managed']['getIndex'], array('attribute' => $attribute));
+				throw new \Exception($GLOBALS['locale']['class']['core']['Managed']['getIndex']);
 			}
 			$index[$attribute] = $value;
 		}

@@ -14,4 +14,9 @@ $GLOBALS['locale']['core']['bad_credentials'] = 'Cannot login, the nickname or p
 $GLOBALS['locale']['core']['cannot_display_error_page'] = 'An unknown error occured, please contact the website owner, if you are, check that any visitor has the permission to access the error page';
 /** [/index.php] **/
 
+/** [func/core/init.php] **/
+/* token invalid, session expired ? */
+$GLOBALS['locale']['core']['login']['session_expired'] = 'cannot connect, the session expired';
+/** [/func/core/init.php] **/
+
 ?>

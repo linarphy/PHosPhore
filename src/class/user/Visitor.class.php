@@ -8,6 +8,12 @@ namespace user;
 class Visitor extends \user\User
 {
 	/**
+	 * if the user is authentifiate with a token
+	 *
+	 * @var bool
+	 */
+	protected bool $has_token = False;
+	/**
 	 * page of the user
 	 *
 	 * @var \user\Page
@@ -25,7 +31,7 @@ class Visitor extends \user\User
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['no_id']);
 			return False;
 		}
-		if ($this->get('password') === null)
+		if ($this->get('password') === null && $this->get('has_token') === False)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['no_password']);
 			return False;
@@ -36,21 +42,28 @@ class Visitor extends \user\User
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['invalid_id']);
 			return False;
 		}
-		if (!$this->get('password')->check())
+		if ($this->get('token') === False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['bad_credential']);
-			return False;
+			if (!$this->get('password')->check())
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['bad_credential']);
+				return False;
+			}
 		}
 
 		$UserManager->update(array( // update last time login in database
 			'id' => $this->get('id'),
 		), array(
-			'date_login' => date($GLOBALS['config']['core']['format']['date']),
+			'date_login' => \date($GLOBALS['config']['core']['format']['date']),
 		));
 
-		/* see https://stackoverflow.com/questions/3128985/php-login-system-remember-me-persistent-cookie/ */
-		$_SESSION['user']['id'] = $this->get('id');
-		$_SESSION['user']['password'] = $this->get('password');
+		/* Token auth */
+		$Token = new \user\Token(array(
+			'id_user' => $this->get('id'),
+		));
+		$Token->create();
+		$_SESSION['__login__']['selector'] = $Token->get('selector');
+		$_SESSION['__login__']['validator'] = $Token->get('validator_clear');
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['success']);
 		return True;
