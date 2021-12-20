@@ -53,7 +53,7 @@ class Password extends \core\Managed
 
 		if ($this->retrieve()->get('password_hashed') === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Password']['check']['cannot_retrieve_hashed']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Password']['check']['cannot_retrieve_hashed']);
 
 			return False;
 		}
