@@ -18,13 +18,13 @@ class Logger
 	 *
 	 * @var array
 	 */
-	const TYPES = array(
+	const TYPES = [
 		'debug'   => 'debug',
 		'info'    => 'info',
 		'warning' => 'warning',
 		'error'   => 'error',
 		'others'  => 'others',
-	);
+	];
 	/**
 	 * Log an event in the logs
 	 *
@@ -34,34 +34,34 @@ class Logger
 	 *
 	 * @param array $substitution Substitution array, which contains list of string to replace placeholder
 	 */
-	public function log(string $type, string $message, array $substitution = array())
+	public function log(string $type, string $message, array $substitution = [])
 	{
 		$config = $GLOBALS['config']['class']['core']['Logger'];
 
 		/* manage content */
 
-		$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		if (count($substitution) > 0)
+		if (\count($substitution) > 0)
 		{
 			foreach ($substitution as $name => $value)
 			{
-				if (in_array('{' . $name . '}', $tokens))
+				if (\in_array('{' . $name . '}', $tokens))
 				{
-					foreach (array_keys($tokens, '{' . $name . '}') as $key)
+					foreach (\array_keys($tokens, '{' . $name . '}') as $key)
 					{
-						$tokens[$key] = phosphore_display($value);
+						$tokens[$key] = \phosphore_display($value);
 					}
 				}
 			}
 		}
 
-		$message = implode($tokens);
+		$message = \implode($tokens);
 
-		$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $config['format'], -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $config['format'], -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		$backtrace = debug_backtrace();
-		$key = array_search(__FUNCTION__, array_column($backtrace, 'function'));
+		$backtrace = \debug_backtrace();
+		$key = \array_search(__FUNCTION__, \array_column($backtrace, 'function'));
 		$backtrace = $backtrace[$key];
 
 		foreach ($tokens as $key => $token)
@@ -69,7 +69,7 @@ class Logger
 			switch ($token)
 			{
 				case '{date}':
-					$tokens[$key] = date($config['date_format']);
+					$tokens[$key] = \date($config['date_format']);
 					break;
 				case '{file}':
 					$tokens[$key] = $backtrace['file'];
@@ -85,36 +85,36 @@ class Logger
 					break;
 			}
 		}
-		$content = implode($tokens) . PHP_EOL;
+		$content = \implode($tokens) . PHP_EOL;
 
 		/* manage file */
 
-		if ( $config['logged_types'] === '*' || in_array($type, $config['logged_types']))
+		if ( $config['logged_types'] === '*' || \in_array($type, $config['logged_types']))
 		{
-			if (!is_dir($config['directory']))
+			if (!\is_dir($config['directory']))
 			{
-				if (!mkdir($config['directory'], 0774))
+				if (!\mkdir($config['directory'], 0774))
 				{
 					throw new \Exception('cannot create the directory ' . $config['directory'] . '. Please check permissions');
 				}
 			}
 
 			$directory = $config['directory'] . DIRECTORY_SEPARATOR . $type;
-			if (!is_dir($directory))
+			if (!\is_dir($directory))
 			{
-				if (!mkdir($directory, 0774))
+				if (!\mkdir($directory, 0774))
 				{
 					throw new \Exception('cannot create the directory ' . $directory . '. Please check permissions');
 				}
 			}
 
-			$file = fopen($directory . DIRECTORY_SEPARATOR . 'log.txt', 'a');
+			$file = \fopen($directory . DIRECTORY_SEPARATOR . 'log.txt', 'a');
 			if (!$file)
 			{
 				throw new \Exception('cannot create the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
 			}
-			fwrite($file, $content);
-			if (!fclose($file))
+			\fwrite($file, $content);
+			if (!\fclose($file))
 			{
 				throw new \Exception('cannot close the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
 			}

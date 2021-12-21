@@ -42,19 +42,27 @@ class Route extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const TYPES = array(
+	const TYPES = [
 		'page'   => True,
 		'folder' => False,
-	);
+	];
 	/* Attributes with type
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'   => 'int',
 		'name' => 'string',
 		'type' => 'bool',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * Get the "default" page to this folder route
 	 *
@@ -76,17 +84,17 @@ class Route extends \core\Managed
 		}
 		if ($this->get('type') !== $this::TYPES['folder'])
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Route']['unknown_type'], array('type' => $this->get('type')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Route']['unknown_type'], ['type' => $this->get('type')]);
 
 			return null;
 		}
 
 		$LinkRouteManager = new \route\LinkRouteRoute();
-		$routes_child = $LinkRouteManager->retrieveBy(array(
+		$routes_child = $LinkRouteManager->retrieveBy([
 			'id_route_parent' => $this->get('id'),
-		), class_name: 'route\Route', attributes_conversion: array(
+		], class_name: 'route\Route', attributes_conversion: [
 			'id_route_child' => 'id',
-		));
+		]);
 
 		if (empty($routes_child))
 		{
@@ -128,36 +136,36 @@ class Route extends \core\Managed
 	 *
 	 * @return null|string
 	 */
-	public function getPath(int $root_id = null, array $loaded = array()) : ?string
+	public function getPath(int $root_id = null, array $loaded = []) : ?string
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['start'], array('this_route' => $this->id, 'id_root' => $root_id));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['start'], ['this_route' => $this->id, 'id_root' => $root_id]);
 
 		if ($this->id === $root_id)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['found_itself'], array('this_route' => $this->id, 'id_root' => $root_id));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['found_itself'], ['this_route' => $this->id, 'id_root' => $root_id]);
 			return $this->name . '/';
 		}
 
 		if (in_array($this->id, $loaded)) // break infinite recursion
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Route']['getPath']['infinite_recursion'], array('this_route' => $this->id, 'id_root' => $root_id));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Route']['getPath']['infinite_recursion'], ['this_route' => $this->id, 'id_root' => $root_id]);
 			return null;
 		}
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
-		$routes = $LinkRouteRoute->retrieveBy(array(
+		$routes = $LinkRouteRoute->retrieveBy([
 			'id_route_child' => $this->id,
-		));
+		]);
 
 		if (empty($routes)) // root route
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['no_parent'], array('this_route' => $this->id, 'id_root' => $root_id));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['no_parent'], ['this_route' => $this->id, 'id_root' => $root_id]);
 			if ($root_id === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['empty_id'], array('this_route' => $this->id));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['empty_id'], ['this_route' => $this->id]);
 				return $this->name . '/';
 			}
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['path_not_exist'], array('this_route' => $this->id, 'id_root' => $root_id));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['path_not_exist'], ['this_route' => $this->id, 'id_root' => $root_id]);
 			return null;
 		}
 		foreach ($routes as $route)
@@ -171,11 +179,11 @@ class Route extends \core\Managed
 				{
 					$path .= '/';
 				}
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['found'], array('this_route' => $this->id, 'id_root' => $root_id, 'path' => $path));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['found'], ['this_route' => $this->id, 'id_root' => $root_id, 'path' => $path]);
 				return $path;
 			}
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['not_found'], array('this_route' => $this->id, 'id_root' => $root_id));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getPath']['not_found'], ['this_route' => $this->id, 'id_root' => $root_id]);
 		return null;
 	}
 	/**
@@ -187,22 +195,22 @@ class Route extends \core\Managed
 	{
 		if (!isset($GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles']))
 		{
-			$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'] = array();
+			$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'] = [];
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], array('name' => $this->displayer('name')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], ['name' => $this->displayer('name')]);
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
-		$routes = $LinkRouteRoute->retrieveBy(array(
+		$routes = $LinkRouteRoute->retrieveBy([
 			'id_route_child' => $this->id,
-		), class_name: '\route\Route', attributes_conversion: array(
+		], class_name: '\route\Route', attributes_conversion: [
 			'id_route_parent' => 'id',
-		));
+		]);
 
-		if (count($routes) !== 0) // not root route
+		if (\count($routes) !== 0) // not root route
 		{
 			foreach ($routes as $route)
 			{
-				if (!key_exists($route->get('id'), array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles']))) // avoid circular reference
+				if (!\key_exists($route->get('id'), \array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles']))) // avoid circular reference
 				{
 					$route->loadSubFiles();
 					$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'][] = $route->get('id');
@@ -212,7 +220,7 @@ class Route extends \core\Managed
 
 		$Folder = $this->retrieveFolder();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], array('name' => $this->displayer('name')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], ['name' => $this->displayer('name')]);
 
 		$count = 0;
 
@@ -220,32 +228,32 @@ class Route extends \core\Managed
 		$path_locale = $Folder->getLocaleFile();
 		$path_lang   = $Folder->getLangFile();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['list_files'], array(
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['list_files'], [
 			'config' => $path_config,
 			'locale' => $path_locale,
 			'lang'   => $path_lang,
-		));
+		]);
 
-		if (is_file($path_config))
+		if (\is_file($path_config))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['config'], array('path' => $path_config));
-			include($path_config);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['config'], ['path' => $path_config]);
+			\include($path_config);
 			$count += 1;
 		}
-		if (is_file($path_locale))
+		if (\is_file($path_locale))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['locale'], array('path' => $path_locale));
-			include($path_locale);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['locale'], ['path' => $path_locale]);
+			\include($path_locale);
 			$count += 1;
 		}
-		if (is_file($path_lang))
+		if (\is_file($path_lang))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['lang'], array('path' => $path_lang));
-			include($path_lang);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['lang'], ['path' => $path_lang]);
+			\include($path_lang);
 			$count += 1;
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], array('name' => $this->displayer('name')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->displayer('name')]);
 
 		return $count === 3;
 	}
@@ -256,9 +264,9 @@ class Route extends \core\Managed
 	 */
 	public function retrieveFolder() : \route\Folder
 	{
-		$Folder = new \route\Folder(array(
+		$Folder = new \route\Folder([
 			'id' => $this->id,
-		));
+		]);
 		$Folder->retrieve();
 
 		$this->folder = $Folder;
@@ -275,26 +283,26 @@ class Route extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['start']);
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
-		$routes = $LinkRouteRoute->retrieveBy(array(
+		$routes = $LinkRouteRoute->retrieveBy([
 			'id_route_child' => $this->id,
-		), class_name: '\route\Route');
+		], class_name: '\route\Route');
 
-		$parameters = array();
+		$parameters = [];
 
-		if (count($routes) !== 0) // not root route
+		if (\count($routes) !== 0) // not root route
 		{
 			foreach ($routes as $route)
 			{
-				if (array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')] != null) // avoid circular reference
+				if (\array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')] !== null) // avoid circular reference
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['loading_parameters']);
 
-					$parameters = array_merge($parameters, $route->retrieveParameters());
+					$parameters = \array_merge($parameters, $route->retrieveParameters());
 					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $result['id_route_parent'];
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['already_loaded'], array('route' => $route->get('name')));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['already_loaded'], ['route' => $route->get('name')]);
 				}
 			}
 		}
@@ -304,9 +312,9 @@ class Route extends \core\Managed
 		}
 
 		$LinkManager = \route\LinkRouteParameter();
-		$this->parameters = array_merge($parameters, $LinkManager->retrieveBy(array(
+		$this->parameters = \array_merge($parameters, $LinkManager->retrieveBy([
 			'id_route' => $this->id,
-		)));
+		]));
 
 		return $this->parameters;
 	}

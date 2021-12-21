@@ -18,19 +18,19 @@ class LinkRouteRoute extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id_route_parent',
 		'id_route_child',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id_route_parent',
 		'id_route_child',
-	);
+	];
 }
 
 ?>

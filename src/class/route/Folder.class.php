@@ -30,11 +30,19 @@ class Folder extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'        => 'int',
 		'name'      => 'string',
 		'id_parent' => 'int',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * Display the folder. Only use to display ('/' as directory separator is not a FULL standard, badly)
 	 *

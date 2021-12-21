@@ -55,7 +55,7 @@ class LinkManager extends \core\Manager
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start']);
 
-		if (count($variants) === 0)
+		if (\count($variants) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants']);
 			return False;
@@ -63,29 +63,29 @@ class LinkManager extends \core\Manager
 		foreach ($variants as $key => $variant)
 		{
 			$variants[$key] = $this->cleanAttributes($variant);
-			if (count($variants[$key]) === 0)
+			if (\count($variants[$key]) === 0)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant']);
 				return False;
 			}
 		}
 		$invariants = $this->cleanAttributes($invariants);
-		if (count($invariants) === 0)
+		if (\count($invariants) === 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants']);
 			return False;
 		}
 
-		$attributes = array_merge(array_keys($variants[\array_key_first($variants)]), array_keys($invariants));
+		$attributes = \array_merge(\array_keys($variants[\array_key_first($variants)]), \array_keys($invariants));
 
 		foreach ($variants as $variant)
 		{
-			$query = 'INSERT INTO ' . $this::TABLE . '(' . implode(',', $attributes) . ') VALUES (' . implode(',', array_fill(0, count($attributes), '?')) . ')';
+			$query = 'INSERT INTO ' . $this::TABLE . '(' . \implode(',', $attributes) . ') VALUES (' . \implode(',', \array_fill(0, \count($attributes), '?')) . ')';
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'], array('query' => $query));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'], ['query' => $query]);
 
 			$request = $this->bdd->prepare($query);
-			$request->execute(array_merge($variant, $invariants)); // Order is important here
+			$request->execute(\array_merge($variant, $invariants)); // Order is important here
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end']);

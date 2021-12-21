@@ -18,21 +18,21 @@ class ContentManager extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id_content',
 		'lang',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id_content',
 		'lang',
 		'text',
 		'date_creation',
-	);
+	];
 }
 
 ?>

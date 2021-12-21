@@ -18,19 +18,19 @@ class LinkRouteParameter extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id_parameter',
 		'id_route',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATRIBUTES = array(
+	const ATRIBUTES = [
 		'id_parameter',
 		'id_route',
-	);
+	];
 }
 
 ?>

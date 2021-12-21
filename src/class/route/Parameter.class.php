@@ -36,12 +36,20 @@ class Parameter extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'        => 'int',
 		'name'      => 'string',
 		'regex'     => 'string',
 		'necessary' => 'bool',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * Return the "true" regex (the regex with delimiter, even if no set in $regex)
 	 *
@@ -49,10 +57,10 @@ class Parameter extends \core\Managed
 	 */
 	public function getFullRegex() : string
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], array('regex' => $this->regex()));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], ['regex' => $this->regex()]);
 		if (\phosphore_count($this->regex) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], array('regex' => $this->regex));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], ['regex' => $this->regex]);
 
 			return '##'; // always false
 		}
@@ -60,15 +68,15 @@ class Parameter extends \core\Managed
 		{
 			$regex = '#\\' . $this->regex . '#';
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['one_escaped'], array('regex' => $regex));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['one_escaped'], ['regex' => $regex]);
 
 			return $regex;
 		}
 		if ($this->regex[0] === $this->regex[phosphore_count($this->regex)])
 		{
-			if (in_array($this->regex[0], []))
+			if (in_[$this->regex[0], []))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], array('regex' => $this->regex));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], ['regex' => $this->regex]);
 
 				return $this->regex;
 			}
@@ -76,7 +84,7 @@ class Parameter extends \core\Managed
 
 		$regex = '#' . $this->regex . '#';
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['no_delimiter'], array('regex' => $regex));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['no_delimiter'], ['regex' => $regex]);
 
 		return $regex;
 	}

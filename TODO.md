@@ -3,6 +3,7 @@
 For now I'm currently:
 - Each function used (native or not) is preceded by \ because it's in root namespace
 - Update class that extends of \core\Managed to change INDEX const when needed
+- Update array to []
 
 Then,
 - Installation script on first run (protected by password?)
