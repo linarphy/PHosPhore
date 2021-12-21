@@ -8,19 +8,19 @@
  */
 function phosphore_count(mixed $var)
 {
-	if (is_array($var))
+	if (\is_array($var))
 	{
-		return count($var);
+		return \count($var);
 	}
-	else if (is_string($var))
+	else if (\is_string($var))
 	{
-		return iconv_strlen($var, 'UTF-8') ? : 0;	// return False
+		return \iconv_strlen($var, 'UTF-8') ? : 0;	// return False
 	}
-	else if (is_object($var))
+	else if (\is_object($var))
 	{
-		return count(array_filter((array)$var, function($element)	// return defined properties (not null)
+		return \count(\array_filter((array)$var, function($element)	// return defined properties (not null)
 		{
-			return !is_null($element);
+			return !\is_null($element);
 		}));
 	}
 	return 0;
@@ -33,27 +33,27 @@ function phosphore_count(mixed $var)
  */
 function phosphore_display(mixed $var)
 {
-	if (is_string($var))
+	if (\is_string($var))
 	{
 		return $var;
 	}
-	if (is_bool($var))
+	if (\is_bool($var))
 	{
 		return ($var ? 'True' : 'False');
 	}
-	if (is_int($var) || is_float($var))
+	if (\is_int($var) || \is_float($var))
 	{
 		return (string) $var;
 	}
-	if (is_null($var))
+	if (\is_null($var))
 	{
 		return 'null';
 	}
-	if (is_resource($var))
+	if (\is_resource($var))
 	{
-		return get_resource_type($var);
+		return \get_resource_type($var);
 	}
-	if (is_array($var))
+	if (\is_array($var))
 	{
 		$ret = 'array (';
 		foreach ($var as $key => $el)
@@ -62,11 +62,11 @@ function phosphore_display(mixed $var)
 		}
 		return $ret . ' )';
 	}
-	if (is_object($var))
+	if (\is_object($var))
 	{
-		return get_class($var) . ' : ' . phosphore_display((array) $var);
+		return \get_class($var) . ' : ' . phosphore_display((array) $var);
 	}
-	if (is_callable($var))
+	if (\is_callable($var))
 	{
 		if ($var instanceOf \Closure)
 		{
@@ -74,7 +74,7 @@ function phosphore_display(mixed $var)
 		}
 		return 'unknown callable';
 	}
-	if (is_iterable($var))
+	if (\is_iterable($var))
 	{
 		return 'iterable';
 	}
