@@ -30,11 +30,20 @@ class Parameter extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id_page' => 'int',
 		'key'     => 'string',
 		'value'   => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id_page',
+		'key',
+	];
 }
 
 ?>

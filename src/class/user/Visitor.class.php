@@ -37,7 +37,7 @@ class Visitor extends \user\User
 			return False;
 		}
 		$UserManager = new \user\UserManager();
-		if (!$UserManager->exist(array('id' => $this->get('id'))))
+		if (!$UserManager->exist(['id' => $this->get('id')]))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['invalid_id']);
 			return False;
@@ -51,16 +51,16 @@ class Visitor extends \user\User
 			}
 		}
 
-		$UserManager->update(array( // update last time login in database
+		$UserManager->update([ // update last time login in database
 			'id' => $this->get('id'),
-		), array(
+		], [
 			'date_login' => \date($GLOBALS['config']['core']['format']['date']),
-		));
+		]);
 
 		/* Token auth */
-		$Token = new \user\Token(array(
+		$Token = new \user\Token([
 			'id_user' => $this->get('id'),
-		));
+		]);
 		$Token->create();
 		$_SESSION['__login__']['selector'] = $Token->get('selector');
 		$_SESSION['__login__']['validator'] = $Token->get('validator_clear');
@@ -91,7 +91,7 @@ class Visitor extends \user\User
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission']);
 
-			throw new \Exception($GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission']);
+			throw new \Exception($GLOBALS['locale']['class']['user']['Visitor']['loadPage']['no_permission']);
 		}
 
 		$this->get('page')->load();

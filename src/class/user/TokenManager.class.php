@@ -18,20 +18,20 @@ class TokenManager extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'selector',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'date_expiration',
 		'id_user',
 		'selector',
 		'validator_hashed',
-	);
+	];
 }
 
 ?>

@@ -18,20 +18,20 @@ class ConfigurationManager extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id',
 		'id_user',
 		'name',
 		'value',
-	);
+	];
 }
 
 ?>

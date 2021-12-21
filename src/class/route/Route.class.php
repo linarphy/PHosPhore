@@ -237,19 +237,19 @@ class Route extends \core\Managed
 		if (\is_file($path_config))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['config'], ['path' => $path_config]);
-			\include($path_config);
+			include($path_config);
 			$count += 1;
 		}
 		if (\is_file($path_locale))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['locale'], ['path' => $path_locale]);
-			\include($path_locale);
+			include($path_locale);
 			$count += 1;
 		}
 		if (\is_file($path_lang))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['lang'], ['path' => $path_lang]);
-			\include($path_lang);
+			include($path_lang);
 			$count += 1;
 		}
 

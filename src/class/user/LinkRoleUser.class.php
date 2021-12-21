@@ -18,19 +18,19 @@ class LinkRoleUser extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'name_role',
 		'id_user',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'name_role',
 		'id_user',
-	);
+	];
 }
 
 ?>

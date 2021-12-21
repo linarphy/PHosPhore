@@ -18,20 +18,20 @@ class NotificationManager extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'date',
 		'id',
 		'id_content',
 		'type',
-	);
+	];
 }
 
 ?>

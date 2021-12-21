@@ -30,7 +30,7 @@ class Role
 
 		foreach ($attributes as $attribute => $value)
 		{
-			if (property_exists($this, $attribute))
+			if (\property_exists($this, $attribute))
 			{
 				$this->$attribute = $value;
 			}
@@ -45,19 +45,19 @@ class Role
 	 */
 	public function addPermissions(array $id) : void
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], array('permissions' => $id, 'role' => $this->name));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], ['permissions' => $id, 'role' => $this->name]);
 
 		$LinkPermissionRole = new \user\LinkPermission\Role();
 
-		$results = array();
+		$results = [];
 		foreach ($id as $index)
 		{
-			$results[] = array('id_permission' => $index);
+			$results[] = ['id_permission' => $index];
 		}
 
-		$LinkPermissionRole->addBy($results, array(
+		$LinkPermissionRole->addBy($results, [
 			'name_role' => $this->name,
-		));
+		]);
 	}
 	/**
 	 * access to permissions property
@@ -79,9 +79,9 @@ class Role
 
 		$PermissionManager = new \user\PermissionManager();
 
-		$this->permissions = $PermissionManager->retrieveBy(array(
+		$this->permissions = $PermissionManager->retrieveBy([
 			'name_role' => $this->name,
-		));
+		]);
 
 		return $this->permissions;
 	}

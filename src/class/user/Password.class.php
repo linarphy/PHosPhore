@@ -30,11 +30,19 @@ class Password extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'              => 'int',
 		'password_clear'  => 'string',
 		'password_hashed' => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * Check the validity of the clear password in relation to the one hashed stored in the database
 	 *
@@ -58,19 +66,19 @@ class Password extends \core\Managed
 			return False;
 		}
 
-		if (password_verify($this->get('password_clear'), $this->get('password_hashed')))
+		if (\password_verify($this->get('password_clear'), $this->get('password_hashed')))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Password']['check']['verified']);
 
-			if (password_needs_rehash($this->get('password_hashed'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']))
+			if (\password_needs_rehash($this->get('password_hashed'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Password']['check']['need_rehash']);
 
-				$this->set('password_hashed', password_hash($this->get('password_clear'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']));
+				$this->set('password_hashed', \password_hash($this->get('password_clear'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']));
 
-				$this->manager()->update(array(
+				$this->manager()->update([
 					'password_hashed' => $this->get('password_hashed'),
-				), $this->get('id'));
+				], $this->get('id'));
 			}
 
 			return True;
@@ -96,7 +104,7 @@ class Password extends \core\Managed
 	 */
 	protected function displayPassword_clear() : string
 	{
-		return htmlspecialchars($this->get('password_clear'));
+		return \htmlspecialchars($this->get('password_clear'));
 	}
 	/**
 	 * Return the clear password
@@ -112,7 +120,7 @@ class Password extends \core\Managed
 	 */
 	public function hash()
 	{
-		$this->set('password_hashed', password_hash($this->get('password_clear'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']));
+		$this->set('password_hashed', \password_hash($this->get('password_clear'), $GLOBALS['config']['class']['user']['Password']['algorithm'], $GLOBALS['config']['class']['user']['Password']['options']));
 	}
 }
 

@@ -60,12 +60,20 @@ class User extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'                => 'int',
 		'date_registration' => 'string',
 		'date_login'        => 'string',
 		'nickname'          => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * check if the user can access a page
 	 *
@@ -75,19 +83,19 @@ class User extends \core\Managed
 	 */
 	public function checkPermission(\user\Page $page) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['start'], array('user' => $this->get('id'), 'page' => $page->get('id')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['start'], ['user' => $this->get('id'), 'page' => $page->get('id')]);
 		foreach ($this->roles as $Role)
 		{
 			foreach ($Role->getPermissions() as $Permission)
 			{
 				if ($Permission->get('id_route') === $page->get('id'))
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['found'], array('user' => $this->get('id'), 'page' => $page->get('id')));
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['found'], ['user' => $this->get('id'), 'page' => $page->get('id')]);
 					return True;
 				}
 			}
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['not_found'], array('user' => $this->get('id'), 'page' => $page->get('id')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['checkPermission']['not_found'], ['user' => $this->get('id'), 'page' => $page->get('id')]);
 		return False;
 	}
 	/**
@@ -97,9 +105,9 @@ class User extends \core\Managed
 	 */
 	public function remove()
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['User']['remove']['start'], array('user' => $this->get('id')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['User']['remove']['start'], ['user' => $this->get('id')]);
 		$this->delete();
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['remove']['deleting_user'], array('user' => $this->get('id')));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['remove']['deleting_user'], ['user' => $this->get('id')]);
 	}
 	/**
 	 * display the user
@@ -124,7 +132,7 @@ class User extends \core\Managed
 		$date = new \DateTime('now');
 		$date->sub(new \DateInterval($interval));
 
-		if ($this->get('date_login') != null)
+		if ($this->get('date_login') !== null)
 		{
 			$this->retrieve();
 		}
@@ -159,7 +167,7 @@ class User extends \core\Managed
 
 		if ($this->get('configurations') === null)
 		{
-			$configurations = array();
+			$configurations = [];
 		}
 		else
 		{
@@ -167,9 +175,9 @@ class User extends \core\Managed
 		}
 
 		$ConfigurationManager = new \user\ConfigurationManager();
-		$this->set('configurations', array_merge($configurations, $ConfigurationManager->retrieveBy(array(
+		$this->set('configurations', \array_merge($configurations, $ConfigurationManager->retrieveBy([
 			'id_user' => $this->get('id'),
-		))));
+		])));
 
 		return $this->get('configurations');
 	}
@@ -184,7 +192,7 @@ class User extends \core\Managed
 
 		if ($this->get('notifications') === null)
 		{
-			$notifications = array();
+			$notifications = [];
 		}
 		else
 		{
@@ -192,11 +200,11 @@ class User extends \core\Managed
 		}
 
 		$LinkNotificationUser = new \user\LinkNotificationUser();
-		$this->set('notifications', array_merge($notifications, $LinkNotificationUser->retrieveBy(array(
+		$this->set('notifications', \array_merge($notifications, $LinkNotificationUser->retrieveBy([
 			'id_user' => $this->get('id'),
-		), class_name: '\user\Notification', attributes_conversion: array(
+		], class_name: '\user\Notification', attributes_conversion: [
 			'id_notification' => 'id',
-		))));
+		])));
 
 		return $this->get('notifications');
 	}
@@ -210,9 +218,9 @@ class User extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrievePassword']);
 
 		$PasswordManager = new \user\PasswordManager();
-		$Password = $PasswordManager->retrieveBy(array(
+		$Password = $PasswordManager->retrieveBy([
 			'id' => $this->get('id'),
-		))[0];
+		])[0];
 
 		if ($this->get('password') !== null)
 		{
@@ -234,7 +242,7 @@ class User extends \core\Managed
 
 		if ($this->get('roles') === null)
 		{
-			$roles = array();
+			$roles = [];
 		}
 		else
 		{
@@ -242,18 +250,18 @@ class User extends \core\Managed
 		}
 
 		$LinkRoleUser = new \user\LinkRoleUser();
-		$results = $LinkRoleUser->getBy(array(
+		$results = $LinkRoleUser->getBy([
 			'id_user' => $this->get('id'),
-		));
+		]);
 
-		$Roles = array();
+		$Roles = [];
 		foreach ($results as $result)
 		{
-			$Roles[] = new \user\Role(array(
+			$Roles[] = new \user\Role([
 				'name' => $result['name_role'],
-			));
+			]);
 		}
-		$this->set('roles', array_merge($roles, $Roles));
+		$this->set('roles', \array_merge($roles, $Roles));
 
 		return $this->get('roles');
 	}
@@ -284,9 +292,9 @@ class User extends \core\Managed
 				if ($value !== $configuration->get('value'))
 				{
 					$configuration->set('value', $value);
-					$ConfigurationManager->update($configuration, array(
+					$ConfigurationManager->update($configuration, [
 						'id' => $configuration->get('id'),
-					));
+					]);
 					$this->set('configurations', $configurations);
 				}
 
@@ -295,11 +303,11 @@ class User extends \core\Managed
 				return True;
 			}
 		}
-		$Configuration = new \user\Configuration(array(
+		$Configuration = new \user\Configuration([
 			'id_user' => $this->get('id'),
 			'name'    => $key,
 			'value'   => $value,
-		));
+		]);
 		$Configuration->set('id', $ConfigurationManager->add($Configuration->table()));
 		$configurations[] = $Configuration;
 		$this->set('configurations', $configurations);

@@ -18,19 +18,19 @@ class LinkNotificationUser extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id_notification',
 		'id_user',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id_notification',
 		'id_user',
-	);
+	];
 }
 
 ?>

@@ -30,11 +30,19 @@ class Permission extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'        => 'int',
 		'id_route'  => 'int',
 		'name_role' => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * retrieves the route
 	 *
@@ -43,9 +51,9 @@ class Permission extends \core\Managed
 	public function retrieveRoute() : \route\Route
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Permission']['retrieveRoute']);
-		$Route = new \route\Route(array(
+		$Route = new \route\Route([
 			'id' => $this->get('id_route'),
-		));
+		]);
 		$Route->retrieve();
 
 		return $Route;

@@ -36,12 +36,20 @@ class Configuration extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'      => 'int',
 		'id_user' => 'int',
 		'name'    => 'string',
 		'value'   => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * display the configuration in a friendly way
 	 *

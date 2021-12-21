@@ -48,27 +48,35 @@ class Notification extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTE = array(
+	const ATTRIBUTE = [
 		'content'      => 'string',
 		'date'         => 'string',
 		'id'           => 'int',
 		'id_content'   => 'int',
 		'substitution' => 'string',
 		'type'         => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * vanilla possible types
 	 *
 	 * @var array
 	 */
-	const TYPES = array(
+	const TYPES = [
 		'debug',
 		'info',
 		'notice',
 		'warning',
 		'error',
 		'fatal_error',
-	);
+	];
 	/**
 	 * add notification of this user to the session
 	 *
@@ -91,8 +99,7 @@ class Notification extends \core\Managed
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['success']);
 
-		/** NOT SURE ABOUT SERIALIZE (no connection) **/
-		$_SESSION['__notifications__'][] = serialize($this);
+		$_SESSION['__notifications__'][] = $this->table;
 
 		return True;
 	}
@@ -120,17 +127,17 @@ class Notification extends \core\Managed
 
 		$linkNotificationUser = new \user\LinkNotificationUser();
 
-		$variants = array();
+		$variants = [];
 		foreach ($id_users as $id_user)
 		{
-			$variants[] = array('id_user' => $id_user); // can be optimized for sure
+			$variants[] = ['id_user' => $id_user]; // can be optimized for sure
 		}
 
 		$this->set('id', $this->Manager()->add($this->table()));
 
-		$linkNotificationUser->addBy($variants, array(
+		$linkNotificationUser->addBy($variants, [
 			'id_notification' => $this->get('id'),
-		));
+		]);
 
 		return True;
 	}
@@ -150,19 +157,19 @@ class Notification extends \core\Managed
 
 		$id = $this->get('id');
 
-		if (!$this->Manager()->delete(array('id' => $id)))
+		if (!$this->Manager()->delete(['id' => $id]))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['delete']['not_exist'], array('id' => $id));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Notification']['delete']['not_exist'], ['id' => $id]);
 
 			return False;
 		}
 
 		$linkNotificationUser = new \user\LinkNotificationUser();
-		$number = $LinkNotificationUser->deleteBy(array(
+		$number = $LinkNotificationUser->deleteBy([
 			'id_notification' => $id,
-		));
+		]);
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['delete']['success'], array('number' => $number));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['delete']['success'], ['number' => $number]);
 
 		return True;
 	}
@@ -184,7 +191,7 @@ class Notification extends \core\Managed
 	{
 		if ($this->content !== null)
 		{
-			return htmlspecialchars($this->get('content'));
+			return \htmlspecialchars($this->get('content'));
 		}
 
 		$Content = $this->retrieveContent();
@@ -195,7 +202,7 @@ class Notification extends \core\Managed
 			return '';
 		}
 
-		$tokens = preg_split('/({(?:\\}|[^\\}])+})/Um', $Content->displayer('text'), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $Content->displayer('text'), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		foreach ($tokens as $key => $token)
 		{
@@ -208,7 +215,7 @@ class Notification extends \core\Managed
 				}
 			}
 		}
-		return htmlspecialchars(implode($tokens));
+		return \htmlspecialchars(\implode($tokens));
 	}
 	/**
 	 * retrieve notification to display in this request
@@ -221,22 +228,30 @@ class Notification extends \core\Managed
 	{
 		if ($element->getElement('content') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], array('content' => $element->getElement('content')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], ['content' => $element->getElement('content')]);
 		}
 		if ($element->getElement('date') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], array('date' => $element->getElement('date')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], ['date' => $element->getElement('date')]);
 		}
 		if  ($element->getElement('type') !== False)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], array('type' => $element->getElement('type')));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], ['type' => $element->getElement('type')]);
 		}
 
-		$notifications = array();
+		$notifications = [];
 		if (key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
 		{
-			$notifications = $_SESSION['__notifications__'];
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], array('number' => count($_SESSION['__notifications__'])));
+			if (\is_array($_SESSION['__notification']))
+			{
+				$notifications = [];
+				foreach ($_SESSION['__notifications__'] as $notification)
+				{
+					$Notification = new \user\Notification($notification);
+					$notifications[] = $Notification;
+				}
+			}
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], ['number' => count($_SESSION['__notifications__'])]);
 		}
 
 		$id_user = $GLOBALS['config']['core']['login']['guest']['id'];
@@ -246,17 +261,17 @@ class Notification extends \core\Managed
 		}
 
 		$LinkNotificationUser = new \user\LinkNotificationUser();
-		$notifications_from_db = $LinkNotificationUser->retrieveBy(array(
+		$notifications_from_db = $LinkNotificationUser->retrieveBy([
 			'id_user' => $id_user,
-		), '=', class_name: '\user\Notification', attributes_conversion: array('id_notification' => 'id'));
+		], '=', class_name: '\user\Notification', attributes_conversion: ['id_notification' => 'id']);
 
 		if (!empty($notifications_from_db))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_db'], array('number' => count($notifications_from_db)));
-			$notifications = array_merge($notifications, $notifications_from_db);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_db'], ['number' => count($notifications_from_db)]);
+			$notifications = \array_merge($notifications, $notifications_from_db);
 		}
 
-		$Notifications = array();
+		$Notifications = [];
 
 		foreach ($notifications as $notification)
 		{
@@ -272,7 +287,7 @@ class Notification extends \core\Managed
 			else
 			{
 				/* retrieve content */
-				$Content = new \content\Content(array('id' => $notification->get('id_content')));
+				$Content = new \content\Content(['id' => $notification->get('id_content')]);
 				$Content->retrieveText();
 
 				$Notification->setElement('content', $Content->display());
@@ -294,15 +309,15 @@ class Notification extends \core\Managed
 
 		$contentManager = new \content\ContentManager();
 
-		$Contents = $contentManager->retrieveBy(array(
+		$Contents = $contentManager->retrieveBy([
 			'id'     => $this->get('id_content'),
 			'locale' => $locale,
-		));
+		]);
 		if (empty($Contents))
 		{
-			$Contents = $contentManager->retrieveBy(array(
+			$Contents = $contentManager->retrieveBy([
 				'id' => $this->get('id_content'),
-			));
+			]);
 		}
 		if (empty($Contents))
 		{
@@ -321,11 +336,11 @@ class Notification extends \core\Managed
 	public function retrieveUsers() : array
 	{
 		$userManager = new \user\UserManager();
-		return $userManager->retrieveBy(array(
+		return $userManager->retrieveBy([
 			'id' => $this->get('id_users'),
-		), array(
+		], [
 			'id' => 'IN',
-		));
+		]);
 	}
 }
 

@@ -18,20 +18,20 @@ class UserManager extends \core\Manager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id',
 		'date_registration',
 		'date_login',
 		'nickname',
-	);
+	];
 }
 
 ?>

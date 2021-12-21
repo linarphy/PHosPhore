@@ -42,19 +42,21 @@ class Token extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'date_expiration'  => 'string',
 		'id_user'          => 'int',
 		'selector'         => 'string',
 		'validator_clear'  => 'string',
 		'validator_hashed' => 'string',
-	);
+	];
 	/**
 	 * unique index
 	 *
 	 * @var array
 	 */
-	const INDEX = array('selector');
+	const INDEX = [
+		'selector'
+	];
 	/**
 	 * check if the selector and validator are correct
 	 *
@@ -77,13 +79,13 @@ class Token extends \core\Managed
 			return False;
 		}
 
-		$data = $this->manager()->getBy(array(
-			'date_expiration' => date($GLOBALS['config']['core']['format']['date']),
+		$data = $this->manager()->getBy([
+			'date_expiration' => \date($GLOBALS['config']['core']['format']['date']),
 			'selector'        => $this->selector,
-		), array(
+		], [
 			'date_expiration' => '>',
 			'selector'        => '=',
-		));
+		]);
 
 		if ($data === null || empty($data))
 		{
@@ -94,7 +96,7 @@ class Token extends \core\Managed
 
 		$this->hydrate($data[0]);
 
-		if (password_verify($this->get('validator_clear'), $this->get('validator_hashed')))
+		if (\password_verify($this->get('validator_clear'), $this->get('validator_hashed')))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Token']['check']['correct']);
 

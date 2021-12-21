@@ -42,10 +42,18 @@ class Page extends \core\Managed
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id'   => 'int',
 		'name' => 'string',
-	);
+	];
+	/**
+	 * unique index
+	 *
+	 * @var array
+	 */
+	const INDEX = [
+		'id',
+	];
 	/**
 	 * constructor
 	 *
@@ -73,24 +81,24 @@ class Page extends \core\Managed
 
 		$this->retrieveParameters();
 
-		$PageElement = new \content\pageelement\PageElement(array()); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
+		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
 		if (isset($this->get('parameters')['preset']) && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']])
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], array('preset' => $this->get('parameters')['preset']));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $this->get('parameters')['preset']]);
 
-			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element'](array());
-			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element'](array());
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element']([]);
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element']([]);
 		}
 		else
 		{
-			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element'](array());
-			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element'](array());
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']([]);
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']([]);
 		}
 
 		$Notifications = \user\Notification::getNotifications($notification_element);
 		$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], array('number' => count($Notifications)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], ['number' => \count($Notifications)]);
 
 		$this->set('page_element', $page_element);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
@@ -107,11 +115,11 @@ class Page extends \core\Managed
 	 */
 	public function addParameter(string|int $key, mixed $value) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['addParameter']['start'], array('key' => $key, 'value' => $value));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['addParameter']['start'], ['key' => $key, 'value' => $value]);
 
-		if (count($this->get('parameters')) == 0)
+		if (\count($this->get('parameters')) === 0)
 		{
-			$this->set('parameters', array($key => $value));
+			$this->set('parameters', [$key => $value]);
 
 			return True;
 		}
@@ -119,7 +127,7 @@ class Page extends \core\Managed
 		{
 			if ($this->get('parameters')[$key] != null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Page']['addParameter']['already'], array('key' => $key, 'value' => $value, 'old' => $this->get('parameters')[$key]));
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Page']['addParameter']['already'], ['key' => $key, 'value' => $value, 'old' => $this->get('parameters')[$key]]);
 
 				return False;
 			}
@@ -155,9 +163,9 @@ class Page extends \core\Managed
 
 		$file = $GLOBALS['config']['core']['path']['page'] . $Folder->getPath() . $GLOBALS['config']['class']['user']['Page']['filename'];
 
-		if (!is_file($file))
+		if (!\is_file($file))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Page']['load']['no_file'], array('file' => $file));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Page']['load']['no_file'], ['file' => $file]);
 
 			return False;
 		}
@@ -166,7 +174,7 @@ class Page extends \core\Managed
 
 		$Route->loadSubFiles();
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['include'], array('file' => $file));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['include'], ['file' => $file]);
 
 		return include($file);
 	}
@@ -186,13 +194,13 @@ class Page extends \core\Managed
 			return $this->get('parameters');
 		}
 		$LinkPageParameters = new \user\LinkPageParameter();
-		$parameters = $LinkPageParameters->retrieveBy(array(
+		$parameters = $LinkPageParameters->retrieveBy([
 			'id_page' => $this->get('id'),
-		), class_name: '\user\Parameter');
+		], class_name: '\user\Parameter');
 
 		$this->set('parameters', $parameters);
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'], array('number' => count($parameters)));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'], ['number' => \count($parameters)]);
 
 		return $this->get('parameters');
 	}
@@ -204,7 +212,7 @@ class Page extends \core\Managed
 	public function retrieveRoute() : ?\route\Route
 	{
 		$routeManager = new \route\RouteManager();
-		if (!$routeManager->exist(array('id' => $this->get('id'))))
+		if (!$routeManager->exist(['id' => $this->get('id')]))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['user']['Page']['retrieveRoute']['no_exist']);
 
@@ -218,9 +226,9 @@ class Page extends \core\Managed
 			return $this->get('route');
 		}
 
-		$this->set('route', $routeManager->retrieveBy(array(
+		$this->set('route', $routeManager->retrieveBy([
 			'id' => $this->get('id'),
-		))[0]);
+		])[0]);
 
 		return $this->get('route');
 	}

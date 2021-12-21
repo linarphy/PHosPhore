@@ -18,19 +18,19 @@ class LinkPageParameter extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const INDEX = array(
+	const INDEX = [
 		'id_page',
 		'id_parameter',
-	);
+	];
 	/**
 	 * attributes
 	 *
 	 * @var array
 	 */
-	const ATTRIBUTES = array(
+	const ATTRIBUTES = [
 		'id_page',
 		'id_parameter',
-	);
+	];
 }
 
 ?>
