@@ -659,6 +659,39 @@
 				</MysqlConnection>
 			</méthodes>
 		</DBFactory>
+		<Hook>
+			<description>
+				Gestionnaire du système de hook
+			</description>
+			<méthodes>
+				<load>
+					<description>
+						Charge le hook associé à cet événement
+					</description>
+					<arguments>
+						<event>
+							<description>
+								événement
+							</description>
+							<type>
+								array
+							</type>
+						</event>
+						<param>
+							<description>
+								Paramètre accessible pour le hook
+							</description>
+							<type>
+								mixed
+							</type>
+						</param>
+					</arguments>
+					<valeur>
+						int
+					</valeur>
+				</load>
+			</méthodes>
+		</Hook>
 		<LinkManager>
 			<description>
 				Gestionnaire de lien entre deux tables (gestionnaire d'une table many-to-many en somme)
@@ -782,10 +815,10 @@
 					<arguments>
 						<type>
 							<description>
-								Le type d'événement, aussi utilisé comme nom du dossier dans lequel le fichier sera généré
+								Les types de l'événement, aussi utilisé comme nom du dossier dans lequel le fichier sera généré
 							</description>
 							<type>
-								string
+								string|array
 							</type>
 						</type>
 						<message>

@@ -15,6 +15,8 @@ $GLOBALS['config']['core']['path']['class'] = 'class' . DIRECTORY_SEPARATOR;
 $GLOBALS['config']['core']['path']['config'] = 'config' . DIRECTORY_SEPARATOR;
 /* path to func folder */
 $GLOBALS['config']['core']['path']['func'] = 'func' . DIRECTORY_SEPARATOR;
+/* path to hook folder */
+$GLOBALS['config']['core']['path']['hook'] = 'hook' . DIRECTORY_SEPARATOR;
 /* path to lang folder */
 $GLOBALS['config']['core']['path']['lang'] = 'lang' . DIRECTORY_SEPARATOR;
 /* path to locale folder */

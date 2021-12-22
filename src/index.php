@@ -28,6 +28,7 @@ try
 {
 	require(join(DIRECTORY_SEPARATOR, array('func', 'core', 'init.php')));
 
+	$GLOBALS['Hook'] = new \core\Hook();
 	$GLOBALS['Logger'] = new \core\Logger();													// need to load Logger first to log the rest
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['start']);	// first message to log
 	$GLOBALS['Router'] = new \route\Router(init_router());

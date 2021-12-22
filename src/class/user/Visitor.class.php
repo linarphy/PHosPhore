@@ -36,6 +36,8 @@ class Visitor extends \user\User
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['no_password']);
 			return False;
 		}
+
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'test'], $this);
 		$UserManager = new \user\UserManager();
 		if (!$UserManager->exist(['id' => $this->get('id')]))
 		{
