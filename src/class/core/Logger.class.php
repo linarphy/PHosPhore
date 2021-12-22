@@ -28,13 +28,13 @@ class Logger
 	/**
 	 * Log an event in the logs
 	 *
-	 * @param string $type Type of the event
+	 * @param string|array $types Types of the event
 	 *
 	 * @param string $message Message of the event
 	 *
 	 * @param array $substitution Substitution array, which contains list of string to replace placeholder
 	 */
-	public function log(string $type, string $message, array $substitution = [])
+	public function log(string|array $types, string $message, array $substitution = [])
 	{
 		$config = $GLOBALS['config']['class']['core']['Logger'];
 
@@ -64,6 +64,11 @@ class Logger
 		$key = \array_search(__FUNCTION__, \array_column($backtrace, 'function'));
 		$backtrace = $backtrace[$key];
 
+		if (\is_string($types))
+		{
+			$types = [$types];
+		}
+
 		foreach ($tokens as $key => $token)
 		{
 			switch ($token)
@@ -80,8 +85,8 @@ class Logger
 				case '{message}':
 					$tokens[$key] = $message;
 					break;
-				case '{type}':
-					$tokens[$key] = $type;
+				case '{types}':
+					$tokens[$key] = \implode(',', $types);
 					break;
 			}
 		}
@@ -89,34 +94,37 @@ class Logger
 
 		/* manage file */
 
-		if ( $config['logged_types'] === '*' || \in_array($type, $config['logged_types']))
+		foreach ($types as $type)
 		{
-			if (!\is_dir($config['directory']))
+			if ( $config['logged_types'] === '*' || \in_array($type, $config['logged_types']))
 			{
-				if (!\mkdir($config['directory'], 0774))
+				if (!\is_dir($config['directory']))
 				{
-					throw new \Exception('cannot create the directory ' . $config['directory'] . '. Please check permissions');
+					if (!\mkdir($config['directory'], 0774))
+					{
+						throw new \Exception('cannot create the directory ' . $config['directory'] . '. Please check permissions');
+					}
 				}
-			}
 
-			$directory = $config['directory'] . DIRECTORY_SEPARATOR . $type;
-			if (!\is_dir($directory))
-			{
-				if (!\mkdir($directory, 0774))
+				$directory = $config['directory'] . DIRECTORY_SEPARATOR . $type;
+				if (!\is_dir($directory))
 				{
-					throw new \Exception('cannot create the directory ' . $directory . '. Please check permissions');
+					if (!\mkdir($directory, 0774))
+					{
+						throw new \Exception('cannot create the directory ' . $directory . '. Please check permissions');
+					}
 				}
-			}
 
-			$file = \fopen($directory . DIRECTORY_SEPARATOR . 'log.txt', 'a');
-			if (!$file)
-			{
-				throw new \Exception('cannot create the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
-			}
-			\fwrite($file, $content);
-			if (!\fclose($file))
-			{
-				throw new \Exception('cannot close the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
+				$file = \fopen($directory . DIRECTORY_SEPARATOR . 'log.txt', 'a');
+				if (!$file)
+				{
+					throw new \Exception('cannot create the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
+				}
+				\fwrite($file, $content);
+				if (!\fclose($file))
+				{
+					throw new \Exception('cannot close the log file ' . $directory . DIRECTORY_SEPARATOR . 'log.txt');
+				}
 			}
 		}
 	}
