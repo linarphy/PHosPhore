@@ -89,6 +89,23 @@ class Route extends \core\Managed
 			return null;
 		}
 
+		$Page = new \user\Page([
+			'id' => $this->get('id'),
+		]);
+		$Page->retrieve();
+
+		foreach ($Page->get('parameters') as $Parameter)
+		{
+			if ($Parameter->get('key') === 'default_page')
+			{
+				$route = new \route\Route([
+					'id' => $Parameter->get('value'),
+				]);
+				$route->retrieve();
+				return $route->getDefaultPage();
+			}
+		}
+
 		$LinkRouteManager = new \route\LinkRouteRoute();
 		$routes_child = $LinkRouteManager->retrieveBy([
 			'id_route_parent' => $this->get('id'),
@@ -288,7 +305,7 @@ class Route extends \core\Managed
 			'id_route_child' => $this->id,
 		], class_name: '\route\Route');
 
-		$parameters = $this->get('parameters');
+		$parameters = [];
 
 		if (\count($routes) !== 0) // not root route
 		{

@@ -1,7 +1,7 @@
 # TODO
 
 For now I'm currently:
-- Check route parameter to get default page before going too far
+- Add css to default template
 
 Then,
 - Update DBFactory to integrate other database driver
