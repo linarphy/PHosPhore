@@ -3,12 +3,12 @@
 namespace content\pageelement\preset\default\html;
 
 /**
- * Simple html PageElement
+ * Simple html notification element
  */
-class PageElement extends \content\pageelement\PageElement
+class NotificationElement extends \content\pageelement\PageElement
 {
 	/**
-	 * Constructor
+	 * constructor
 	 *
 	 * @param array $attributes Attributes of this object
 	 */
@@ -19,10 +19,11 @@ class PageElement extends \content\pageelement\PageElement
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['content']['pageelement']['preset']['already_template'], array('template' => $attributes['template']));
 		}
 
-		$attributes['template'] = $GLOBALS['config']['class']['content']['pageelement']['preset']['template_folder'] . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . 'PageElement.html';
+		$attributes['template'] = $GLOBALS['config']['class']['content']['pageelement']['preset']['template_folder'] . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . 'NotificationElement.html';
 
 		parent::__construct($attributes);
 	}
 }
+
 
 ?>

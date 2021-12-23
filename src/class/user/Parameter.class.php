@@ -8,11 +8,11 @@ namespace user;
 class Parameter extends \core\Managed
 {
 	/**
-	 * Id of the page
+	 * Id of the parameter
 	 *
 	 * @var int
 	 */
-	protected ?int $id_page = null;
+	protected ?int $id = null;
 	/**
 	 * Key of the parameter
 	 *
@@ -31,7 +31,7 @@ class Parameter extends \core\Managed
 	 * @var array
 	 */
 	const ATTRIBUTES = [
-		'id_page' => 'int',
+		'id' => 'int',
 		'key'     => 'string',
 		'value'   => 'string',
 	];
@@ -41,8 +41,7 @@ class Parameter extends \core\Managed
 	 * @var array
 	 */
 	const INDEX = [
-		'id_page',
-		'key',
+		'id',
 	];
 }
 

@@ -1,0 +1,27 @@
+body
+{
+	--color-dark-background: rgba(0, 0, 0, 1);
+	--color-dark-text: rgba(255, 255, 255, 1);
+	--color-light-background: rgba(255, 255, 255, 1);
+	--color-light-text: rgba(0, 0, 0, 1);
+
+	color: var(--color-text);
+	background: var(--color-background);
+}
+
+@media (prefers-color-scheme: dark)
+{
+	body
+	{
+		--color-background: var(--color-dark-background);
+		--color-text: var(--color-dark-text);
+	}
+}
+@media (prefers-color-scheme: light)
+{
+	body
+	{
+		--color-background: var(--color-light-background);
+		--color-text: var(--color-light-text);
+	}
+}

@@ -32,6 +32,14 @@ abstract class Manager
 	 */
 	const INDEX = [];
 	/**
+	 * Reserved Keyword for database column
+	 *
+	 * @var array
+	 */
+	const RESERVED_KEYWORD = [
+		'KEY',
+	];
+	/**
 	 * Constructor
 	 *
 	 * @param \PDO|null $db PDO database connection.
@@ -185,7 +193,16 @@ abstract class Manager
 	 */
 	public function cleanAttributes(array $attributes) : array
 	{
-		return \array_intersect_key($attributes, \array_flip($this::ATTRIBUTES));
+		$values = \array_intersect_key($attributes, \array_flip($this::ATTRIBUTES));
+		foreach ($values as $key => $value)
+		{
+			if (\in_array(\strtoupper($key), $this::RESERVED_KEYWORD))
+			{
+				unset($values[$key]);
+				$values['`' . $key . '`'] = $value;
+			}
+		}
+		return $values;
 	}
 	/**
 	 * Convert an association operation/value to an association attributes/(operation with value)
@@ -447,7 +464,20 @@ abstract class Manager
 			$indexes[] = $name . '=?';
 		}
 
-		$query = 'SELECT ' . \implode(', ', $this::ATTRIBUTES) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $indexes);
+		$attributes = [];
+		foreach ($this::ATTRIBUTES as $attribute)
+		{
+			if (\in_array(\strtoupper($attribute), $this::RESERVED_KEYWORD))
+			{
+				$attributes[] = '`' . $attribute . '`';
+			}
+			else
+			{
+				$attributes[] = $attribute;
+			}
+		}
+
+		$query = 'SELECT ' . \implode(', ', $attributes) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $indexes);
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['end'], ['class' => \get_class($this), 'query' => $query]);
 
@@ -467,7 +497,7 @@ abstract class Manager
 	 *
 	 * @return array
 	 */
-	public function getBy(array $values, array|string $operations = null, array $bounds = null) : array
+	public function getBy(array $values, array|string $operations = null, array $bounds = null) : ?array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['start'], ['class' => \get_class($this)]);
 
@@ -477,7 +507,7 @@ abstract class Manager
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['values'], ['class' => \get_class($this)]);
 
-			return False;
+			return null;
 		}
 
 		$condition = $this->conditionCreator($values, $operations);
@@ -493,7 +523,20 @@ abstract class Manager
 			$limit = $this->boundaryInterpreter($bounds);
 		}
 
-		$query = 'SELECT ' . \implode(', ', $this::ATTRIBUTES) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]) . $limit;
+		$attributes = [];
+		foreach ($this::ATTRIBUTES as $attribute)
+		{
+			if (\in_array(\strtoupper($attribute), $this::RESERVED_KEYWORD))
+			{
+				$attributes[] = '`' . $attribute . '`';
+			}
+			else
+			{
+				$attributes[] = $attribute;
+			}
+		}
+
+		$query = 'SELECT ' . \implode(', ', $attributes) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]) . $limit;
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['end'], ['class' => \get_class($this), 'query' => $query]);
 

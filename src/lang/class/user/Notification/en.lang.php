@@ -1,5 +1,14 @@
 <?php
 
+/** [addToSession] **/
+/* no content */
+$GLOBALS['lang']['class']['user']['Notification']['addToSession']['content'] = 'cannot add a notification without content to the session';
+/* no id */
+$GLOBALS['lang']['class']['user']['Notification']['addToSession']['id'] = 'cannot add a notification which has an id but no id_content';
+/* successfuly added notification to the session */
+$GLOBALS['lang']['class']['user']['Notification']['addToSession']['success'] = 'successfully added the notification to the session';
+/** [/addToSession] **/
+
 /** [create] **/
 /* id_content undefined */
 $GLOBALS['lang']['class']['user']['Notification']['create']['id_content'] = 'cannot create notification, id_content not defined';

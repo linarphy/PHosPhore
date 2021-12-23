@@ -70,12 +70,12 @@ class Notification extends \core\Managed
 	 * @var array
 	 */
 	const TYPES = [
-		'debug',
-		'info',
-		'notice',
-		'warning',
-		'error',
-		'fatal_error',
+		'debug'       => 'debug',
+		'info'        => 'info',
+		'notice'      => 'notice',
+		'warning'     => 'warning',
+		'error'       => 'error',
+		'fatal_error' => 'fatal_error',
 	];
 	/**
 	 * add notification of this user to the session
@@ -97,9 +97,9 @@ class Notification extends \core\Managed
 			return False;
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['success']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['addToSession']['success']);
 
-		$_SESSION['__notifications__'][] = $this->table;
+		$_SESSION['__notifications__'][] = $this->table();
 
 		return True;
 	}
@@ -242,7 +242,7 @@ class Notification extends \core\Managed
 		$notifications = [];
 		if (key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
 		{
-			if (\is_array($_SESSION['__notification']))
+			if (\is_array($_SESSION['__notifications__']))
 			{
 				$notifications = [];
 				foreach ($_SESSION['__notifications__'] as $notification)
@@ -275,14 +275,14 @@ class Notification extends \core\Managed
 
 		foreach ($notifications as $notification)
 		{
-			$Notification = $element->clone();
-
-			$Notification->setElement('date', $notification->get('date'));
-			$Notification->setElement('type', $notification->get('type'));
+			$class = get_class($element);
+			$elements = [];
+			$elements['date'] = $notification->get('date');
+			$elements['type'] = $notification->get('type');
 
 			if ($notification->get('id') === null) // notification in session
 			{
-				$Notification->setElement('content', $Notification->get('content'));
+				$elements['content'] = $notification->get('content');
 			}
 			else
 			{
@@ -290,8 +290,13 @@ class Notification extends \core\Managed
 				$Content = new \content\Content(['id' => $notification->get('id_content')]);
 				$Content->retrieveText();
 
-				$Notification->setElement('content', $Content->display());
+				$elements['content'] = $Content->display();
 			}
+
+			$Notification = new $class([
+				'elements' => $elements,
+			]);
+
 
 			$Notifications[] = $Notification;
 		}

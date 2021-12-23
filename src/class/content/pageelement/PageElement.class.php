@@ -12,13 +12,13 @@ class PageElement
 	 *
 	 * @var string
 	 */
-	protected ?string $template = null;
+	public ?string $template = null;
 	/**
 	 * Elements to insert in the template
 	 *
 	 * @var array
 	 */
-	protected ?array $elements = null;
+	public ?array $elements = null;
 	/**
 	 * Attributes with type
 	 *
@@ -135,7 +135,7 @@ $GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__con
 			$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', 'display', 'template'], $this);
 			if (\key_exists($this->template, $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], ['template' => $this->get('template')]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], ['template' => $this->template]);
 			$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', 'display', 'cache'], $this);
 
 				$content = $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template];
@@ -364,7 +364,7 @@ $GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__con
 	 *
 	 * @return bool
 	 */
-	protected function setTemplate(string $template) : bool
+	protected function setTemplate(?string $template) : bool
 	{
 		if ($this->template !== null)
 		{

@@ -78,18 +78,26 @@ class Page extends \core\Managed
 
 			return False;
 		}
-		$Route = $this->retrieveRoute();
 
+		$this->retrieve();
+		$Route = $this->retrieveRoute();
 		$this->retrieveParameters();
 
 		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
-		if (isset($this->get('parameters')['preset']) && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']])
+		foreach ($this->get('parameters') as $Parameter)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $this->get('parameters')['preset']]);
+			if ($Parameter->get('key') === 'preset' && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$Parameter->get('value')])
+			{
+				$preset = $Parameter->get('value');
+			}
+		}
+		if (isset($preset))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $preset]);
 
-			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['page_element']([]);
-			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$this->get('parameters')['preset']]['notification_element']([]);
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['page_element']([]);
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['notification_element']([]);
 		}
 		else
 		{
@@ -98,7 +106,7 @@ class Page extends \core\Managed
 		}
 
 		$Notifications = \user\Notification::getNotifications($notification_element);
-		$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications);
+		$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications, False);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], ['number' => \count($Notifications)]);
 
 		$this->set('page_element', $page_element);
@@ -200,7 +208,9 @@ class Page extends \core\Managed
 		$LinkPageParameters = new \user\LinkPageParameter();
 		$parameters = $LinkPageParameters->retrieveBy([
 			'id_page' => $this->get('id'),
-		], class_name: '\user\Parameter');
+		], class_name: '\user\Parameter', attributes_conversion: [
+			'id_parameter' => 'id',
+		]);
 
 		$this->set('parameters', $parameters);
 

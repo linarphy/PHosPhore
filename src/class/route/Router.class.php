@@ -363,6 +363,7 @@ class Router
 	 */
 	public function decodeRoute(string $url) : \route\Route
 	{
+
 		if (\phosphore_count($url) > 0)
 		{
 			if ($url[\phosphore_count($url) - 1] === '/')
@@ -398,8 +399,6 @@ class Router
 			]);
 
 			$GLOBALS['Visitor']->set('page', $Page);
-
-			$GLOBALS['Visitor']->get('page')->retrieve();
 		}
 		else
 		{
@@ -419,12 +418,6 @@ class Router
 					throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
 					exit();
 			}
-		}
-
-
-		if ($route->get('type') !== \route\Route::TYPES['page']) // not a page
-		{
-			$route = $route->getDefaultPage();
 		}
 
 		return $route;
@@ -477,12 +470,10 @@ class Router
 		}
 
 		$Page = new \user\Page([
-			'id' => end($routes)->get('id'),
+			'id' => \end($routes)->getDefaultPage()->get('id'),
 		]);
 
 		$GLOBALS['Visitor']->set('page', $Page);
-
-		$GLOBALS['Visitor']->get('page')->retrieve();
 
 		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
 
@@ -527,12 +518,10 @@ class Router
 		}
 
 		$Page = new \user\Page([
-			'id' => \end($routes)->get('id'),
+			'id' => \end($routes)->getDefaultPage()->get('id'),
 		]);
 
 		$GLOBALS['Visitor']->set('page', $Page);
-
-		$GLOBALS['Visitor']->get('page')->retrieve();
 
 		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
 
@@ -604,15 +593,13 @@ class Router
 			$routes[$index] = $node->get('data');
 		}
 
-		$route = \end($routes);
+		$route = \end($routes)->getDefaultPage();
 
 		$Page = new \user\Page([
 			'id' => $route->get('id'),
 		]);
 
 		$GLOBALS['Visitor']->set('page', $Page);
-
-		$GLOBALS['Visitor']->get('page')->retrieve();
 
 		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($parameters, $GLOBALS['Visitor']->get('page')));
 

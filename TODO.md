@@ -1,7 +1,7 @@
 # TODO
 
 For now I'm currently:
-- Add css to default template
+- fix notification issue (delete once they appear, etc...)
 
 Then,
 - Update DBFactory to integrate other database driver

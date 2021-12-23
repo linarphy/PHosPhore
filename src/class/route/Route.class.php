@@ -92,7 +92,6 @@ class Route extends \core\Managed
 		$Page = new \user\Page([
 			'id' => $this->get('id'),
 		]);
-		$Page->retrieve();
 
 		foreach ($Page->get('parameters') as $Parameter)
 		{
