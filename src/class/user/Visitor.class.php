@@ -26,6 +26,8 @@ class Visitor extends \user\User
 	 */
 	public function connect() : bool
 	{
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'start'], $this);
+
 		if ($this->get('id') === null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['no_id']);
@@ -37,7 +39,8 @@ class Visitor extends \user\User
 			return False;
 		}
 
-		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'test'], $this);
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'check'], $this);
+
 		$UserManager = new \user\UserManager();
 		if (!$UserManager->exist(['id' => $this->get('id')]))
 		{
@@ -58,6 +61,7 @@ class Visitor extends \user\User
 		], [
 			'date_login' => \date($GLOBALS['config']['core']['format']['date']),
 		]);
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'update'], $this);
 
 		/* Token auth */
 		$Token = new \user\Token([
@@ -66,7 +70,9 @@ class Visitor extends \user\User
 		$Token->create();
 		$_SESSION['__login__']['selector'] = $Token->get('selector');
 		$_SESSION['__login__']['validator'] = $Token->get('validator_clear');
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'token'], $this);
 
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['success']);
 		return True;
 	}
@@ -75,7 +81,9 @@ class Visitor extends \user\User
 	 */
 	public function disconnect()
 	{
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'disconnect', 'start'], $this);
 		unset($_SESSION);
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'disconnect', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['disconnect']);
 	}
 	/**
@@ -88,6 +96,7 @@ class Visitor extends \user\User
 	public function loadPage($route) : ?\user\Page
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['start']);
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'loadPage', 'start'], $this);
 
 		if (!$this->checkPermission($this->get('page')))
 		{
@@ -96,8 +105,10 @@ class Visitor extends \user\User
 			throw new \Exception($GLOBALS['locale']['class']['user']['Visitor']['loadPage']['no_permission']);
 		}
 
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'loadPage', 'load'], $this);
 		$this->get('page')->load();
 
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'loadPage', 'end'], $this);
 		return $this->get('page');
 	}
 	/** register a new user (need password and roles to be fullfilled, but not created)
@@ -107,6 +118,7 @@ class Visitor extends \user\User
 	public function register() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['register']['start']);
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'start'], $this);
 		if ($this->get('password') === null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['register']['no_password']);
@@ -118,6 +130,7 @@ class Visitor extends \user\User
 			return False;
 		}
 
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'check'], $this);
 		$this->set('id', $UserManager->add($this->table())['id']);
 		$PasswordManager = new \user\PasswordManager();
 
@@ -130,7 +143,9 @@ class Visitor extends \user\User
 			$role->set('id', $this->get('id'));
 			$RoleManager->add($role->table());
 		}
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'mysql'], $this);
 
+		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Visitor']['register']['end']);
 
 		return True;

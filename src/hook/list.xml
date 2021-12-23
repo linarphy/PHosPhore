@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<hook>
+	<class>
+		<content>
+			<Content>
+				<retrieveText>
+					<start />
+					<end />
+				</retrieveText>
+			</Content>
+			<pageelement>
+				<PageElement>
+					<__construct>
+						<start />
+						<end />
+					</__construct>
+					<addElement>
+						<start />
+						<new />
+						<end />
+					</addElement>
+					<addValueElement>
+						<start />
+						<new />
+						<end />
+					</addValueElement>
+					<display>
+						<start />
+						<template />
+						<cache />
+						<no_cache />
+						<no_template />
+						<elements />
+						<end />
+					</display>
+					<getElement>
+						<start />
+						<null />
+						<end />
+					</getElement>
+					<setElement>
+						<start />
+					</setElement>
+				</PageElement>
+			</pageelement>
+		</content>
+		<core>
+			<DBFactory>
+				<MysqlConnection>
+					<end />
+				</MysqlConnection>
+			</DBFactory>
+			<Managed>
+				<__construct>
+					<start />
+					<end />
+				</__construct>
+				<add>
+					<start />
+					<end />
+				</add>
+				<clone>
+					<end />
+				</clone>
+				<delete>
+					<start />
+					<end />
+				</delete>
+				<exist>
+					<end />
+				</exist>
+				<hydrate>
+					<start />
+					<end />
+				</hydrate>
+				<get>
+					<start />
+					<end />
+				</get>
+				<isIdentical>
+					<start />
+					<end />
+				</isIdentical>
+				<manager>
+					<end />
+				</manager>
+				<retrieve>
+					<start />
+					<check />
+					<end />
+				</retrieve>
+				<set>
+					<start />
+					<check />
+					<end />
+				</set>
+				<table>
+					<start />
+					<check />
+					<end />
+				</table>
+				<update>
+					<start />
+					<end />
+				</update>
+			</Managed>
+		</core>
+		<route>
+			<Route>
+				<loadSubFiles>
+					<include />
+				</loadSubFiles>
+			</Route>
+		</route>
+		<user>
+			<Page>
+				<__construct>
+					<start />
+					<end />
+				</__construct>
+				<load>
+					<start />
+					<end />
+				</load>
+			</Page>
+			<User>
+				<remove>
+					<start />
+					<end />
+				</remove>
+				<retrieve>
+					<start />
+					<end />
+				</retrieve>
+			</User>
+			<Visitor>
+				<connect>
+					<start />
+					<check />
+					<update />
+					<token />
+					<end />
+				</connect>
+				<disconnect>
+					<start />
+					<end />
+				</disconnect>
+				<loadPage>
+					<start />
+					<load />
+					<end />
+				</loadPage>
+				<register>
+					<start />
+					<check />
+					<mysql />
+					<end />
+				</register>
+			</Visitor>
+		</user>
+	</class>
+</hook>

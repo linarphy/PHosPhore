@@ -26,9 +26,11 @@ abstract class Managed
 	public function __construct(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['__construct'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', '__construct', 'start'], [$this, $attributes]);
 
 		$this->hydrate($attributes);
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', '__construct', 'end'], [$this, $attributes]);
 		return $this;
 	}
 	/**
@@ -39,6 +41,7 @@ abstract class Managed
 	public function add() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'add', 'start'], $this);
 
 		$index = $this->manager()->add($this->table());
 
@@ -52,6 +55,7 @@ abstract class Managed
 		{
 			$this->set($name, $value);
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'add', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['success'], ['class' => \get_class($this)]);
 		return True;
 	}
@@ -130,6 +134,7 @@ abstract class Managed
 	public function clone() : self
 	{
 		$class = \get_class($this);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'clone', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['clone'], ['class' => $class]);
 		return new $class($this->table());
 	}
@@ -141,6 +146,7 @@ abstract class Managed
 	public function delete() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['start'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'delete', 'start'], $this);
 
 		if (!$this->exist())
 		{
@@ -148,6 +154,7 @@ abstract class Managed
 
 			return False;
 		}
+
 		$index = $this->getIndex();
 		if ($index === False)
 		{
@@ -156,6 +163,7 @@ abstract class Managed
 			return False;
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'delete', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], ['class' => \get_class($this)]);
 
 		return $this->manager()->delete($this->getIndex());
@@ -258,6 +266,7 @@ abstract class Managed
 
 			return False;
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'exist', 'end'], $this);
 		return $this->manager()->exist($index);
 	}
 	/**
@@ -270,6 +279,7 @@ abstract class Managed
 	public function hydrate(array $attributes) : int
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['hydrate']['start'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'hydrate', 'start'], [$this, $attributes]);
 
 		$count = 0;
 		foreach ($attributes as $attribute => $value)
@@ -283,6 +293,7 @@ abstract class Managed
 			}
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'hydrate', 'end'], [$this, $attributes]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['hydrate']['end'], ['class' => \get_class($this), 'count' => $count]);
 		return $count;
 	}
@@ -296,6 +307,7 @@ abstract class Managed
 	public function get(string $attribute) : mixed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'get', 'start'], [$this, $attribute]);
 
 		if (!\property_exists($this, $attribute))
 		{
@@ -311,6 +323,7 @@ abstract class Managed
 
 			return $this->$method();
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'get', 'end'], [$this, $attribute]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute]);
 
 		return $this->$attribute;
@@ -398,6 +411,7 @@ abstract class Managed
 	public function isIdentical($objet) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'isIdentical', 'start'], [$this, $object]);
 
 		if (\get_class($this) !== \get_class($this))
 		{
@@ -417,6 +431,7 @@ abstract class Managed
 				return False;
 			}
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'isIdentical', 'end'], [$this, $object]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['same'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet)]);
 		return True;
 	}
@@ -439,6 +454,7 @@ abstract class Managed
 			return null;
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'manager', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['end'], ['class' => \get_class($this)]);
 		return new $manager($connection);
 	}
@@ -450,6 +466,7 @@ abstract class Managed
 	public function retrieve() : self
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['start'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'start'], $this);
 
 		$count = 0;
 
@@ -459,6 +476,7 @@ abstract class Managed
 
 			return $count;
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'check'], $this);
 
 		$index = [];
 		foreach ($this::INDEX as $attribute)
@@ -466,6 +484,7 @@ abstract class Managed
 			$index[$attribute] = $this->get($attribute);
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'], ['class' => \get_class($this)]);
 
 		$this->hydrate($this->manager()->get($index));
@@ -484,6 +503,7 @@ abstract class Managed
 	public function set(string $attribute, mixed $value) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'start'], [$this, $attribute, $value]);
 
 		if (!\property_exists($this, $attribute))
 		{
@@ -525,7 +545,9 @@ abstract class Managed
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['not_typed'], ['class' => \get_class($this), 'attribute' => $attribute]);
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'check'], $this);
 		$this->$attribute = $value; // No type checking !
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'end'], $this);
 
 		return True;
 	}
@@ -542,6 +564,7 @@ abstract class Managed
 	public function table(int $depth = 0, object $object = null) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['table']['start'], ['class' => \get_class($this), 'depth' => $depth]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'start'], [$this, $depth, $object]);
 
 		$attributes = [];
 
@@ -554,6 +577,7 @@ abstract class Managed
 		{
 			$object = $this;
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'check'], [$this, $depth, $object]);
 
 		foreach (\array_keys(\get_class_vars(\get_class($object))) as $attribute)
 		{
@@ -577,6 +601,7 @@ abstract class Managed
 				$attributes[$attribute] = $this->$attribute;
 			}
 		}
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'end'], [$this, $depth, $object]);
 		return $attributes;
 	}
 	/**
@@ -587,6 +612,7 @@ abstract class Managed
 	public function update() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'], ['class' => \get_class($this)]);
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'update', 'start'], $this);
 
 		if (!$this->exist())
 		{
@@ -603,6 +629,7 @@ abstract class Managed
 			return False;
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'update', 'end'], $this);
 		$this->manager()->update($this->table(), $this->getIndex());
 	}
 }

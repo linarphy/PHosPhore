@@ -32,7 +32,7 @@ class DBFactory
 	 *
 	 * @return \PDO The database connection
 	 */
-	public static function MysqlConnection(string $db_name = null, string $db_host = null, string $db_username = null, string $db_password = null, array $db_options = null) : \PDO
+	public static function MysqlConnection(?string $db_name = null, ?string $db_host = null, ?string $db_username = null, ?string $db_password = null, ?array $db_options = null) : \PDO
 	{
 		$config = $GLOBALS['config']['class']['core']['DBFactory'];
 
@@ -57,6 +57,7 @@ class DBFactory
 			$db_options = $config['database']['options'];
 		}
 
+		$GLOBALS['Hook']->load(['class', 'core', 'DBFactory', 'MysqlConnection', 'end'], [$db_name, $db_host, $db_username, $db_password, $db_options]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['MysqlConnection']);
 
 		return new \PDO('mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8', $db_username, $db_password, $db_options);

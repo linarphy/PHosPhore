@@ -121,6 +121,17 @@
 				</page>
 			</liste>
 		</config>
+		<Hook>
+			<description>
+				Hook permet de charger dynamiquement les hook
+			</description>
+			<accès>
+				$GLOBALS['Hook']
+			</accès>
+			<type>
+				\core\Hook
+			</type>
+		</Hook>
 		<lang>
 			<description>
 				lang contient les chaînes de caractères ou autres données dépendant de la langue du serveur
