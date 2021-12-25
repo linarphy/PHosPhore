@@ -25,6 +25,17 @@ $GLOBALS['lang']['class']['user']['Notification']['delete']['not_exist'] = 'cann
 $GLOBALS['lang']['class']['user']['Notification']['delete']['success'] = 'successfuly deleted {number} notifications';
 /** [/delete] **/
 
+/** [deleteNotifications] **/
+/* start to delete notifications */
+$GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['start'] = 'starting to delete notifications';
+/* delete notifications in session */
+$GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['session'] = 'deleting {number} notifications in session';
+/* delete notifications in database */
+$GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['db'] = 'deleting {number} notifications in database';
+/* notifications deleted */
+$GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['end'] = 'successfuly deleted {number} notifications';
+/** [/deleteNotifications] **/
+
 /** [displayContent] **/
 /* no content */
 $GLOBALS['lang']['class']['user']['Notification']['displayContent']['no_content'] = 'nothing to display, content is not defined';

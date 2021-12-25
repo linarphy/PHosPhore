@@ -2756,6 +2756,14 @@
 						bool
 					</valeur>
 				</delete>
+				<deleteNotifications static="yes">
+					<description>
+						Supprime les notifications récupéré avec getNotifications (unset la Session et supprime les lignes de la base de donnée)
+					</description>
+					<valeur>
+						int
+					</valeur>
+				</deleteNotifications>
 				<display>
 					<description>
 						Affiche la notification de façon lisible et sécurisé

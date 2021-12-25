@@ -83,33 +83,6 @@ class Page extends \core\Managed
 		$Route = $this->retrieveRoute();
 		$this->retrieveParameters();
 
-		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
-
-		foreach ($this->get('parameters') as $Parameter)
-		{
-			if ($Parameter->get('key') === 'preset' && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$Parameter->get('value')])
-			{
-				$preset = $Parameter->get('value');
-			}
-		}
-		if (isset($preset))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $preset]);
-
-			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['page_element']([]);
-			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['notification_element']([]);
-		}
-		else
-		{
-			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']([]);
-			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']([]);
-		}
-
-		$Notifications = \user\Notification::getNotifications($notification_element);
-		$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications, False);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['notifications'], ['number' => \count($Notifications)]);
-
-		$this->set('page_element', $page_element);
 		$GLOBALS['Hook']->load(['class', 'user', 'Page', '__construct', 'end'], [$this, $attributes]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
 		return True;
@@ -168,6 +141,49 @@ class Page extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
 		$GLOBALS['Hook']->load(['class', 'user', 'Page', 'load', 'start'], $this);
 
+		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
+
+		$no_notification = False; // the page can display notifications
+		foreach ($this->get('parameters') as $Parameter)
+		{
+			if ($Parameter->get('key') === 'preset' && $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$Parameter->get('value')])
+			{
+				$preset = $Parameter->get('value'); // there is a preset associated to this page
+			}
+			if ($Parameter->get('key') === 'no_notification')
+			{
+				$no_notification = True; // this page cannot display notification
+			}
+		}
+		if (isset($preset))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $preset]);
+
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['page_element']([]);
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['notification_element']([]);
+		}
+		else
+		{
+			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['page_element']([]);
+			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']([]);
+		}
+
+		if (!$no_notification)
+		{
+			$Notifications = \user\Notification::getNotifications($notification_element);
+			$page_element->setElement($GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'], $Notifications, False);
+			$number = \user\Notification::deleteNotifications();
+
+			if ($number !== count($Notifications)) // cannot happens
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['user']['Page']['load']['different_number'], ['number_fetch' => count($Notifications), 'number_delete' => $number]);
+				throw new \Exception($GLOBALS['locale']['core']['error']['internal']);
+			}
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['notifications'], ['number' => \count($Notifications)]);
+		}
+
+		$this->set('page_element', $page_element);
 		$Route = $this->retrieveRoute();
 
 		$Folder = $Route->retrieveFolder();

@@ -1,5 +1,10 @@
 <?php
 
+/** [error] **/
+/* internal error (bug) */
+$GLOBALS['locale']['core']['error']['internal'] = 'Internal error due to PHosPhore, please, contact the developer';
+/** [/error] **/
+
 /** [locale] **/
 /* abbreviation of the locale */
 $GLOBALS['locale']['core']['locale']['abbr'] = 'en';

@@ -174,6 +174,47 @@ class Notification extends \core\Managed
 		return True;
 	}
 	/**
+	 * delete notifications you can get with getNotifications method
+	 *
+	 * @return int
+	 */
+	public static function deleteNotifications()
+	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['start']);
+		$number = 0;
+		if (\key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
+		{
+			if (\is_array($_SESSION['__notifications__']))
+			{
+				$number += \count($_SESSION['__notifications__']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['session'], ['number' => \count($_SESSION['__notifications__'])]);
+				unset($_SESSION['__notifications__']);
+			}
+		}
+
+		$id_user = $GLOBALS['config']['core']['login']['guest']['id'];
+		if ($GLOBALS['Visitor'] !== null)
+		{
+			$id_user = $GLOBALS['Visitor']->get('id');
+		}
+
+		$LinkNotificationUser = new \user\LinkNotificationUser();
+		$notifications_from_db = $LinkNotificationUser->getBy([
+			'id_user' => $id_user,
+		]);
+		if (!empty($notifications_from_db))
+		{
+			$number += \count($notifications_from_db);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['db'], ['number' => \count($notifications_from_db)]);
+			$LinkNotificationUser->deleteBy([
+				'id_user' => $id_user,
+			]);
+		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['deleteNotifications']['end'], ['number' => $number]);
+		return $number;
+	}
+	/**
 	 * display notification with a friendly and safe way
 	 *
 	 * @return string
@@ -226,21 +267,21 @@ class Notification extends \core\Managed
 	 */
 	public static function getNotifications(\content\pageelement\PageElement $element) : array
 	{
-		if ($element->getElement('content') !== False)
+		if ($element->getElement('content') !== null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], ['content' => $element->getElement('content')]);
 		}
-		if ($element->getElement('date') !== False)
+		if ($element->getElement('date') !== null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], ['date' => $element->getElement('date')]);
 		}
-		if  ($element->getElement('type') !== False)
+		if  ($element->getElement('type') !== null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], ['type' => $element->getElement('type')]);
 		}
 
 		$notifications = [];
-		if (key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
+		if (\key_exists('__notifications__', $_SESSION)) // there is at least one notification stored in the session
 		{
 			if (\is_array($_SESSION['__notifications__']))
 			{
@@ -251,7 +292,7 @@ class Notification extends \core\Managed
 					$notifications[] = $Notification;
 				}
 			}
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], ['number' => count($_SESSION['__notifications__'])]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_session'], ['number' => \count($_SESSION['__notifications__'])]);
 		}
 
 		$id_user = $GLOBALS['config']['core']['login']['guest']['id'];
@@ -267,7 +308,7 @@ class Notification extends \core\Managed
 
 		if (!empty($notifications_from_db))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_db'], ['number' => count($notifications_from_db)]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['in_db'], ['number' => \count($notifications_from_db)]);
 			$notifications = \array_merge($notifications, $notifications_from_db);
 		}
 
