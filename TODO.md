@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-- Update DBFactory to integrate other database driver
+- Installation script on first run (protected by password?)
 
 Then,
-- Installation script on first run (protected by password?)

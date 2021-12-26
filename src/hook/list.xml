@@ -45,11 +45,6 @@
 			</pageelement>
 		</content>
 		<core>
-			<DBFactory>
-				<MysqlConnection>
-					<end />
-				</MysqlConnection>
-			</DBFactory>
 			<Managed>
 				<__construct>
 					<start />
