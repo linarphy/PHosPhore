@@ -618,56 +618,56 @@
 				Outil de connexion à la base de donnée
 			</description>
 			<méthodes>
-				<MysqlConnection static="yes">
+				<Connection static="yes">
 					<description>
-						Création d'une connexion à la base de donnée
+						Création d'une connexion à une base de donnée
 					</description>
 					<arguments>
-						<db_name>
+						<driver>
 							<description>
-								Nom de la base de donnée à laquelle se connecter
+								Pilote de gestion de base de donnée utilisé
 							</description>
 							<type>
 								string
 							</type>
-						</db_name>
-						<db_host>
+						</driver>
+						<dsn_parameters>
 							<description>
-								Le nom de l'hôte dans lequel est la base de donnée
+								Paramètres utilisé pour la génération des chaînes de caractères DSN
+							</description>
+							<type>
+								array
+							</type>
+						</dsn_parameters>
+						<username>
+							<description>
+								Nom de l'utilisateur se connectant à la base de donnée
 							</description>
 							<type>
 								string
 							</type>
-						</db_host>
-						<db_username>
+						</username>
+						<password>
 							<description>
-								Le nom de l'utilisateur se connectant dans la base de donnée
+								Mot de passe de l'utilisateur se connectant à la base de donnée
 							</description>
 							<type>
 								string
 							</type>
-						</db_username>
-						<db_password>
-							<description>
-								Le mot de passe correspondant à l'utilisateur
-							</description>
-							<type>
-								string
-							</type>
-						</db_password>
-						<db_options>
+						</password>
+						<options>
 							<description>
 								Liste d'options spécifiques
 							</description>
 							<type>
 								array
 							</type>
-						</db_options>
+						</options>
 					</arguments>
 					<valeur>
 						\PDO
 					</valeur>
-				</MysqlConnection>
+				</Connection>
 			</méthodes>
 		</DBFactory>
 		<Hook>
