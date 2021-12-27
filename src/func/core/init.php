@@ -11,7 +11,10 @@ function init()
 	/** config section **/
 
 	require_once(\join(DIRECTORY_SEPARATOR, ['config', 'core', 'config.php']));
-	require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
+	if (is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
+	{
+		require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
+	}
 
 	/** base function **/
 
@@ -76,7 +79,10 @@ function init()
 		}
 	}
 
-	require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
+	if (is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
+	{
+		require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
+	}
 
 	$index_file = $GLOBALS['config']['core']['path']['mod'] . $GLOBALS['config']['core']['mod']['index_file'];
 	if (\is_file($index_file))
