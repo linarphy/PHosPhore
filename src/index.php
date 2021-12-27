@@ -29,12 +29,16 @@ try
 	require(join(DIRECTORY_SEPARATOR, array('func', 'core', 'init.php')));
 
 	$GLOBALS['Hook'] = new \core\Hook();
+	$GLOBALS['Hook']->load(['core', 'index', 'start'], []);
 	$GLOBALS['Logger'] = new \core\Logger();													// need to load Logger first to log the rest
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['start']);	// first message to log
+	$GLOBALS['Hook']->load(['core', 'index', 'start_after_logger'], []);
 	$GLOBALS['Router'] = new \route\Router(init_router());
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['router_init']);
+	$GLOBALS['Hook']->load(['core', 'index', 'start_after_router'], []);
 	$GLOBALS['Visitor'] = new \user\Visitor(init_visitor());
 	$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['visitor_init']);
+	$GLOBALS['Hook']->load(['core', 'index', 'start_after_visitor'], []);
 
 	try
 	{
@@ -42,10 +46,13 @@ try
 		if ($GLOBALS['Visitor']->connect())
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['visitor_connect']);
+			$GLOBALS['Hook']->load(['core', 'index', 'start_connect'], []);
 			echo $GLOBALS['Visitor']->loadPage($GLOBALS['Router']->decodeRoute($_SERVER['REQUEST_URI']))->display();
+			$GLOBALS['Hook']->load(['core', 'index', 'end_connected'], []);
 		}
 		else	// cannot connect
 		{
+			$GLOBALS['Hook']->load(['core', 'index', 'start_connect_guest'], []);
 			$Password = new \user\Password(array(
 				'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
 			));
@@ -57,6 +64,7 @@ try
 
 			if ($GLOBALS['Visitor']->connect())
 			{
+				$GLOBALS['Hook']->load(['core', 'index', 'success_connect_guest'], []);
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['bad_cred']);
 
 				// Notify the visitor
@@ -71,9 +79,12 @@ try
 			else	// guest configuration is wrong, check your configuration !
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['guest_missmatch']);
+				$GLOBALS['Hook']->load(['core', 'index', 'start_bad_connect'], []);
 				throw new \Exception($GLOBALS['lang']['core']['guest_missmatch']);
 			}
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['end']);
 		}
+		$GLOBALS['Hook']->load(['core', 'index', 'end_connect'], []);
 	}
 	catch (\Exception $exception)
 	{
@@ -93,7 +104,9 @@ try
 			$GLOBALS['Visitor']->get('page')->retrieve();
 
 			$GLOBALS['exception'] = $exception;
+			$GLOBALS['Hook']->load(['core', 'index', 'start_error_page'], [$exception]);
 			echo $GLOBALS['Visitor']->loadPage($Route)->display();
+			$GLOBALS['Hook']->load(['core', 'index', 'end_error_page'], [$exception]);
 		}
 		catch (\Exception $exception_1)	// $exception already taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
 		{
@@ -108,10 +121,9 @@ try
 				throw $exception;
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception_1->getMessage()));
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end'], array('error' => $exception->getMessage()));
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end_error'], array('error' => $exception->getMessage()));
 	}
 }
 catch (\Exception $exception) // FATAL ERROR

@@ -37,8 +37,10 @@ $GLOBALS['lang']['core']['exception_threw'] = 'exception threwed, trying to reco
 $GLOBALS['lang']['core']['cannot_display_error_page'] = 'cannot display the error page, trying to recover';
 /* cannot display at all */
 $GLOBALS['lang']['core']['cannot_display_error'] = 'error cannot be displayed, trying to recover';
+/* page loaded fine */
+$GLOBALS['lang']['core']['end'] = 'end of the script, goodbye o/';
 /* recovery ended */
-$GLOBALS['lang']['core']['end'] = 'successfull recovery for the error: {error}';
+$GLOBALS['lang']['core']['end_error'] = 'successfull recovery for the error: {error}';
 /** [/LOG] **/
 
 /** [LOGIN] **/

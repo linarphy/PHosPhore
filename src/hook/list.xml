@@ -154,4 +154,19 @@
 			</Visitor>
 		</user>
 	</class>
+	<core>
+		<index>
+			<start />
+			<start_after_logger />
+			<start_after_router />
+			<start_after_visitor />
+			<start_connect />
+			<start_connect_guest />
+			<success_cannot_guest />
+			<start_bad_connect />
+			<end_connect />
+			<start_error_page />
+			<end_error_page />
+		</index>
+	</core>
 </hook>
