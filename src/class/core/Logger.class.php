@@ -86,7 +86,7 @@ class Logger
 					$tokens[$key] = $message;
 					break;
 				case '{types}':
-					$tokens[$key] = \implode(',', $types);
+					$tokens[$key] = \implode(', ', $types);
 					break;
 			}
 		}
