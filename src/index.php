@@ -23,6 +23,26 @@ function custom_error_handler($errno, $errstr, $errfile, $errline)
     }
 }
 set_error_handler('custom_error_handler');	// try to catch as many errors as possible
+function fatal_handler()
+{
+	$error = error_get_last();
+
+	if ($error !== NULL)
+	{
+		$errno = $error['type'];
+		$errfile = $error['file'];
+		$errstr = $error['message'];
+		$errline = $error['line'];
+
+		var_dump([
+			'errfile' => $errfile,
+			'errstr'  => $errstr,
+			'errno'   => $errno,
+			'errline' => $errline,
+		]);
+	}
+}
+register_shutdown_function('fatal_handler'); // try to catch fatal error
 
 try
 {
