@@ -19,7 +19,7 @@ class Router
 	 * @var array
 	 */
 	const MODES = [
-		'get' => 1,
+		'get'   => 1,
 		'mixed' => 2,
 		'route' => 3,
 	];

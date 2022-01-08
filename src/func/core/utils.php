@@ -14,7 +14,7 @@ function phosphore_count(mixed $var)
 	}
 	else if (\is_string($var))
 	{
-		return \iconv_strlen($var, 'UTF-8') ? : False;	// return False
+		return \iconv_strlen($var, 'UTF-8') ? : 0;	// return False
 	}
 	else if (\is_object($var))
 	{

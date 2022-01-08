@@ -96,7 +96,8 @@ try
 		}
 	}
 
-	if ($stage === 2)
+
+	if ($stage === -1)
 	{
 		$stage_file = \fopen($stage_file, 'w');
 		if (!$stage_file)
@@ -160,6 +161,33 @@ try
 				]);
 
 				$drivers = [];
+
+				if (isset($_POST['username']))
+				{
+					if (!empty($_POST['username']))
+					{
+						$drivers[] = new \content\pageelement\PageElement([
+							'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_username',
+							'elements' => [
+								'driver'   => $_POST['driver'],
+								'username' => $_POST['username'],
+							],
+						]);
+					}
+				}
+				if (isset($_POST['password']))
+				{
+					if (!empty($_POST['password']))
+					{
+						$drivers[] = new \content\pageelement\PageElement([
+							'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_password',
+							'elements' => [
+								'driver'   => $_POST['driver'],
+								'password' => $_POST['password'],
+							],
+						]);
+					}
+				}
 
 				switch ($_POST['driver'])
 				{
@@ -228,6 +256,7 @@ try
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
 		}
+		exit();
 	}
 	if ($stage === 0) // database & website configuration
 	{
@@ -289,8 +318,8 @@ try
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
 		}
+		exit();
 	}
-	exit();
 }
 catch (\exception\PHosPhoreInstallationException $error)
 {
