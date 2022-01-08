@@ -1,0 +1,2 @@
+/* charset used */
+$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['dsn_parameters']['charset'] = '{charset}';

@@ -1,0 +1,2 @@
+/* unix socket */
+$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['dsn_parameters']['unix_socket'] = '{unix_socket}';

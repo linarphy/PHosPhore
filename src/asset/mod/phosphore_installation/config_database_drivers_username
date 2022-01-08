@@ -1,0 +1,2 @@
+/* name of the user which will connect to the database */
+$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['username'] = '{username}';

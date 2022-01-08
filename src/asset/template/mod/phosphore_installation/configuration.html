@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{lang}">
+	<head>
+		<title>{title}</title>
+		<link rel="stylesheet" href="asset/css/core/main.css" />
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<form action="{action}" method="{method}">
+			<fieldset>
+				<legend>{legend}</legend>
+				<label for="lang">{label_lang}</label>
+				<input type="text" name="lang" value="{value_lang}" />
+				<label for="locale">{label_locale}</label>
+				<input type="text" name="locale" value="{value_locale}" />
+				<fieldset>
+					<legend>{database_legend}</legend>
+					<label for="username">{label_username}</label>
+					<input type="text" name="username" value="{value_username}" />
+					<label for="password">{label_password}</label>
+					<input type="text" name="password" value="{value_password}" />
+					<label for="driver">{label_driver}</label>
+					<select name="driver">
+						{select_driver}
+					</select>
+					<fieldset>
+						<legend>{driver_options_legend}</legend>
+						<label for="host">{label_host}</label>
+						<input type="text" name="host" value="{value_host}" />
+						<label for="port">{label_port}</label>
+						<input type="text" name="port" value="{value_port}" />
+						<label for="dbname">{label_dbname}</label>
+						<input type="text" name="dbname" value="{value_dbname}" />
+						<label for="unix_socket">{label_unix_socket}</label>
+						<input type="text" name="unix_socket" value="{value_unix_socket}" />
+						<label for="charset">{label_charset}</label>
+						<input type="text" name="charset" value="{value_charset}" />
+						<label for="role">{label_role}</label>
+						<input type="text" name="role" value="{value_role}" />
+						<label for="dialect">{label_dialect}</label>
+						<input type="text" name="dialect" value="{value_dialect}" />
+						<label for="memory">{label_memory}</label>
+						<input type="checkbox" name="memory" value="{value_memory}" />
+						<label for="path">{label_path}</label>
+						<input type="text" name="path" value="{value_path}" />
+					</fieldset>
+				</fieldset>
+				<input type="submit" value="{submit}" />
+			</fieldset>
+		</form>
+	</body>
+</html>

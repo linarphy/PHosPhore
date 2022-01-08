@@ -11,7 +11,7 @@ function init()
 	/** config section **/
 
 	require_once(\join(DIRECTORY_SEPARATOR, ['config', 'core', 'config.php']));
-	if (is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
+	if (\is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
 	{
 		require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
 	}
@@ -79,7 +79,7 @@ function init()
 		}
 	}
 
-	if (is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
+	if (\is_file($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']))
 	{
 		require($GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename']);
 	}
@@ -249,7 +249,10 @@ function load_class($class_name)
 		}
 	}
 
-	require(\join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $GLOBALS['config']['core']['config']['filename']]));
+	if (\is_file(\join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $GLOBALS['config']['core']['config']['filename']])))
+	{
+		require \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $GLOBALS['config']['core']['config']['filename']]);
+	}
 
 	if (\is_file($full_file_name))
 	{

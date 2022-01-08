@@ -55,7 +55,7 @@ class PageElement
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], ['key' => $key, 'value' => $value, 'method' => $method]);
 			}
 		}
-$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'end'], $this);
+		$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'end'], $this);
 		return $this;
 	}
 	/**
