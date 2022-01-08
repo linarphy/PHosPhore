@@ -1,5 +1,4 @@
 /** [drivers] **/
 /** [{driver}] **/
-{drivers}
-/** [/{driver}] **/
+{drivers}/** [/{driver}] **/
 /** [/drivers] **/

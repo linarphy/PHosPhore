@@ -2,8 +2,7 @@
 /** [core] **/
 /** [DBFactory] **/
 /** [database] **/
-{database}
-/** [/database] **/
+{database}/** [/database] **/
 /** [/DBFactory] **/
 /** [/core] **/
 /** [/class] **/

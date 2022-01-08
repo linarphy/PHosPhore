@@ -35,6 +35,8 @@ $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_role
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_dialect'] = '(Firebase) database dialect (1 or 3)';
 /* label for memory */
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_memory'] = '(SQLite) if the database must be created in memory';
+/* label for path */
+$GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_path'] = '(SQLite) path to the database';
 /* submit button */
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['submit'] = 'validate configuration';
 /** [/config_elements] **/

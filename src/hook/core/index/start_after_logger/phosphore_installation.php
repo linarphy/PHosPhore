@@ -96,6 +96,19 @@ try
 		}
 	}
 
+	if ($stage === 2)
+	{
+		$stage_file = \fopen($stage_file, 'w');
+		if (!$stage_file)
+		{
+			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
+		}
+		\fwrite($stage_file, '0');
+		if (!\fclose($stage_file))
+		{
+			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
+		}
+	}
 	if ($stage === 1)
 	{
 		$config_path = $GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename'];
@@ -105,12 +118,115 @@ try
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
 		}
-		if (isset($_POST['lang']))
+		\fwrite($config_file, '<?php
+
+');
+
+		/** start **/
+		foreach (['lang', 'locale'] as $key)
 		{
-			\fwrite($config_file, '');
+			if (isset($_POST[$key]))
+			{
+				if (!empty($_POST[$key]))
+				{
+					$pageElement = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_' . $key,
+						'elements' => [
+							$key => $_POST[$key],
+						],
+					]);
+					\fwrite($config_file, $pageElement->display());
+				}
+			}
+		}
+
+		if (isset($_POST['driver']))
+		{
+			if (!empty($_POST['driver']))
+			{
+				if (!in_array($_POST['driver'], \core\DBFactory::DRIVERS))
+				{
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['unknown_driver'], ['driver' => $_POST['driver']]);
+
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['unknown_driver']);
+				}
+				$database = [];
+
+				$database[] = new \content\pageelement\PageElement([
+					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_driver',
+					'elements' => [
+						'driver' => $_POST['driver'],
+					],
+				]);
+
+				$drivers = [];
+
+				switch ($_POST['driver'])
+				{
+					case 'MYSQL':
+						$keys = ['host', 'port', 'dbname', 'unix_socket', 'charset'];
+						break;
+					case 'POSTGRESQL':
+						$keys = ['host', 'port', 'dbname'];
+						break;
+					case 'FIREBIRD':
+						$keys = ['role', 'dialect'];
+						break;
+					case 'SQLITE':
+						$keys = ['memory', 'path'];
+						break;
+				}
+				foreach ($keys as $key)
+				{
+					if (isset($_POST[$key]))
+					{
+						if (!empty($_POST[$key]))
+						{
+							$drivers[] = new \content\pageelement\PageElement([
+								'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_' . $key,
+								'elements' => [
+									'driver' => $_POST['driver'],
+									$key     => $_POST[$key],
+								],
+							]);
+						}
+					}
+				}
+
+				$database[] = new \content\pageelement\PageElement([
+					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers',
+					'elements' => [
+						'driver'  => $_POST['driver'],
+						'drivers' => $drivers,
+					],
+				]);
+				$Database = new \content\pageelement\PageElement([
+					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database',
+					'elements' => [
+						'database' => $database,
+					],
+				]);
+				\fwrite($config_file, $Database->display());
+			}
+		}
+		/** end **/
+
+		\fwrite($config_file, '
+?>');
 		if (!\fclose($config_file))
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+		}
+
+		$stage_file = \fopen($stage_file, 'w');
+		if (!$stage_file)
+		{
+			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
+		}
+		\fwrite($stage_file, '2');
+		if (!\fclose($stage_file))
+		{
+			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
 		}
 	}
 	if ($stage === 0) // database & website configuration
@@ -143,18 +259,21 @@ try
 				'label_host'            => $elements_lang['label_host'],
 				'value_host'            => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['host'],
 				'label_port'            => $elements_lang['label_port'],
-				'value_port'            => '',
+				'value_port'            => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['port'],
 				'label_dbname'          => $elements_lang['label_dbname'],
 				'value_dbname'          => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['dbname'],
 				'label_unix_socket'     => $elements_lang['label_unix_socket'],
-				'value_unix_socket'     => '',
+				'value_unix_socket'     => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['unix_socket'],
 				'label_charset'         => $elements_lang['label_charset'],
+				'value_charset'         => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['charset'],
 				'label_role'            => $elements_lang['label_role'],
-				'value_role'            => '',
+				'value_role'            => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['FIREBIRD']['dsn_parameters']['role'],
 				'label_dialect'         => $elements_lang['label_dialect'],
-				'value_dialect'         => '',
+				'value_dialect'         => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['FIREBIRD']['dsn_parameters']['dialect'],
 				'label_memory'          => $elements_lang['label_memory'],
-				'value_memory'          => '',
+				'value_memory'          => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['SQLITE']['dsn_parameters']['memory'],
+				'label_path'            => $elements_lang['label_path'],
+				'value_path'            => $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['SQLITE']['dsn_parameters']['path'],
 				'submit'                => $elements_lang['submit'],
 			],
 		]);
@@ -171,7 +290,6 @@ try
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
 		}
 	}
-	var_dump($stage);
 	exit();
 }
 catch (\exception\PHosPhoreInstallationException $error)
