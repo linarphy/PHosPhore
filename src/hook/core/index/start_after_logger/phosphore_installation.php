@@ -364,6 +364,7 @@ try
 			$Password = new \user\Password([
 				'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
 			]);
+			$Password->hash();
 			$Permissions = [];
 			$Permissions[] = new \user\Permission([
 				'id_route'  => $ErrorRoute->get('id'),
@@ -388,20 +389,17 @@ try
 					$Role
 				],
 			]);
-			$Visitor->register
+			$Visitor->register();
 
-			$stage_file = \fopen($stage_file, 'w');
-			if (!$stage_file)
+			if (\is_file($stage_file))
 			{
-				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
+				\unlink($stage_file);
 			}
-			\fwrite($stage_file, '2');
-			if (!\fclose($stage_file))
-			{
-				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
-			}
-			echo $GLOBALS['locale']['mod']['phosphore_installation']['stage_2_display'];
-			exit();
+			$Notification = new \user\Notification([
+				'text' => $GLOBALS['locale']['mod']['phosphore_installation']['success_installation_notification'],
+				'type' => \user\Notification::TYPES['success'],
+			]);
+			$Notification->addToSession();
 		}
 		catch (\PDOException $exception)
 		{
@@ -431,7 +429,10 @@ try
 				}
 			}
 
+			echo $GLOBALS['locale']['mod']['phosphore_installation']['display_error_stage_1'];
+
 			$stage = 0;
+			exit();
 		}
 	}
 	if ($stage === 0) // database & website configuration

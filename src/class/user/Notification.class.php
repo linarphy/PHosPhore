@@ -71,11 +71,12 @@ class Notification extends \core\Managed
 	 */
 	const TYPES = [
 		'debug'       => 'debug',
-		'info'        => 'info',
-		'notice'      => 'notice',
-		'warning'     => 'warning',
 		'error'       => 'error',
 		'fatal_error' => 'fatal_error',
+		'info'        => 'info',
+		'notice'      => 'notice',
+		'success'     => 'success',
+		'warning'     => 'warning',
 	];
 	/**
 	 * add notification of this user to the session
