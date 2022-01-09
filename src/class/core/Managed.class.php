@@ -36,9 +36,9 @@ abstract class Managed
 	/**
 	 * Insert the object in the database
 	 *
-	 * @return bool
+	 * @return bool|int
 	 */
-	public function add() : bool
+	public function add() : array|bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'add', 'start'], $this);

@@ -131,17 +131,15 @@ class Visitor extends \user\User
 		}
 
 		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'check'], $this);
-		$this->set('id', $UserManager->add($this->table())['id']);
-		$PasswordManager = new \user\PasswordManager();
+		$this->set('id', $this->add()['id']);
 
 		$this->get('password')->set('id', $this->get('id'));
-		$PasswordManager->add($this->get('password')->table());
+		$this->get('password')->add();
 
-		$RoleManager = new \user\RoleManager();
 		foreach ($this->get('roles') as $role)
 		{
 			$role->set('id', $this->get('id'));
-			$RoleManager->add($role->table());
+			$role->add();
 		}
 		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'mysql'], $this);
 

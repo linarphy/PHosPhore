@@ -12,9 +12,9 @@ $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_loca
 /* legend for database fieldset */
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['database_legend'] = 'Database configuration';
 /* label for username */
-$GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_username'] = 'Name of the user which will connect to the database';
+$GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_username'] = 'Name of the user which will CREATE the database';
 /* label for password */
-$GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_password'] = 'Password of the user which will connect to the database';
+$GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_password'] = 'Password of the user which will CREATE the database';
 /* label for drivers */
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_driver'] = 'Database driver (see <a href="https://www.php.net/manual/pdo.drivers.php">here</a>)';
 /* label for drivers options */

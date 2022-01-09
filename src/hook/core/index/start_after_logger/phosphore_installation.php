@@ -97,14 +97,14 @@ try
 	}
 
 
-	if ($stage === -1)
+	if ($stage === 2)
 	{
 		$stage_file = \fopen($stage_file, 'w');
 		if (!$stage_file)
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
 		}
-		\fwrite($stage_file, '0');
+		\fwrite($stage_file, '3');
 		if (!\fclose($stage_file))
 		{
 			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
@@ -112,151 +112,327 @@ try
 	}
 	if ($stage === 1)
 	{
-		$config_path = $GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename'];
-
-		$config_file = \fopen($config_path, 'a');
-		if (!$config_file)
+		try
 		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
-		}
-		\fwrite($config_file, '<?php
+			$config_path = $GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename'];
 
-');
-
-		/** start **/
-		foreach (['lang', 'locale'] as $key)
-		{
-			if (isset($_POST[$key]))
+			if (!\is_file($config_path))
 			{
-				if (!empty($_POST[$key]))
+				$config_content = '<?php
+
+	');
+				$old_content = ''; // backup (useless)
+
+			}
+			else
+			{
+				if ($config_content = \file_get_contents($config_path))
 				{
-					$pageElement = new \content\pageelement\PageElement([
-						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_' . $key,
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
+
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+				}
+
+				$old_content = $config_content; // backup (useful)
+
+				$config_content = \trim($config_content);
+
+				if (\substr($config_content, -2) === '?>') // delete end of the file
+				{
+					$config_content = \substr($config_content, 0, -2);
+				}
+			}
+
+			/** start of config.php generation **/
+			foreach (['lang', 'locale'] as $key)
+			{
+				if (isset($_POST[$key]))
+				{
+					if (!empty($_POST[$key]))
+					{
+						$pageElement = new \content\pageelement\PageElement([
+							'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_' . $key,
+							'elements' => [
+								$key => $_POST[$key],
+							],
+						]);
+						$config_content .= $pageElement->display();
+					}
+				}
+			}
+
+			if (isset($_POST['driver']))
+			{
+				if (!empty($_POST['driver']))
+				{
+					if (!in_array($_POST['driver'], \core\DBFactory::DRIVERS))
+					{
+						$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['unknown_driver'], ['driver' => $_POST['driver']]);
+
+						throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['unknown_driver']);
+					}
+					$database = [];
+
+					$database[] = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_driver',
 						'elements' => [
-							$key => $_POST[$key],
+							'driver' => $_POST['driver'],
 						],
 					]);
-					\fwrite($config_file, $pageElement->display());
-				}
-			}
-		}
 
-		if (isset($_POST['driver']))
-		{
-			if (!empty($_POST['driver']))
-			{
-				if (!in_array($_POST['driver'], \core\DBFactory::DRIVERS))
-				{
-					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['unknown_driver'], ['driver' => $_POST['driver']]);
+					$drivers = [];
 
-					throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['unknown_driver']);
-				}
-				$database = [];
+					/** generating username and password for created user **/
+					$username = 'phosphore_user';
+					$password = \bin2hex(\random_bytes($GLOBALS['config']['mod']['phosphore_installation']['database_user_password_length']));
 
-				$database[] = new \content\pageelement\PageElement([
-					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_driver',
-					'elements' => [
-						'driver' => $_POST['driver'],
-					],
-				]);
+					$drivers[] = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_username',
+						'elements' => [
+							'driver'   => $_POST['driver'],
+							'username' => $username,
+						],
+					]);
 
-				$drivers = [];
+					$drivers[] = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_password',
+						'elements' => [
+							'driver'   => $_POST['driver'],
+							'password' => $password;
+						],
+					]);
 
-				if (isset($_POST['username']))
-				{
-					if (!empty($_POST['username']))
+					switch ($_POST['driver'])
 					{
-						$drivers[] = new \content\pageelement\PageElement([
-							'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_username',
-							'elements' => [
-								'driver'   => $_POST['driver'],
-								'username' => $_POST['username'],
-							],
-						]);
+						case 'MYSQL':
+							$keys = ['host', 'port', 'dbname', 'unix_socket', 'charset'];
+							break;
+						case 'POSTGRESQL':
+							$keys = ['host', 'port', 'dbname'];
+							break;
+						case 'FIREBIRD':
+							$keys = ['role', 'dialect'];
+							break;
+						case 'SQLITE':
+							$keys = ['memory', 'path'];
+							break;
 					}
-				}
-				if (isset($_POST['password']))
-				{
-					if (!empty($_POST['password']))
+					foreach ($keys as $key)
 					{
-						$drivers[] = new \content\pageelement\PageElement([
-							'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_password',
-							'elements' => [
-								'driver'   => $_POST['driver'],
-								'password' => $_POST['password'],
-							],
-						]);
-					}
-				}
-
-				switch ($_POST['driver'])
-				{
-					case 'MYSQL':
-						$keys = ['host', 'port', 'dbname', 'unix_socket', 'charset'];
-						break;
-					case 'POSTGRESQL':
-						$keys = ['host', 'port', 'dbname'];
-						break;
-					case 'FIREBIRD':
-						$keys = ['role', 'dialect'];
-						break;
-					case 'SQLITE':
-						$keys = ['memory', 'path'];
-						break;
-				}
-				foreach ($keys as $key)
-				{
-					if (isset($_POST[$key]))
-					{
-						if (!empty($_POST[$key]))
+						if (isset($_POST[$key]))
 						{
-							$drivers[] = new \content\pageelement\PageElement([
-								'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_' . $key,
-								'elements' => [
-									'driver' => $_POST['driver'],
-									$key     => $_POST[$key],
-								],
-							]);
+							if (!empty($_POST[$key]))
+							{
+								$drivers[] = new \content\pageelement\PageElement([
+									'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_' . $key,
+									'elements' => [
+										'driver' => $_POST['driver'],
+										$key     => $_POST[$key],
+									],
+								]);
+							}
 						}
 					}
+
+					$database[] = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers',
+						'elements' => [
+							'driver'  => $_POST['driver'],
+							'drivers' => $drivers,
+						],
+					]);
+					$Database = new \content\pageelement\PageElement([
+						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database',
+						'elements' => [
+							'database' => $database,
+						],
+					]);
+					$config_content .= $Database->display();
 				}
-
-				$database[] = new \content\pageelement\PageElement([
-					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers',
-					'elements' => [
-						'driver'  => $_POST['driver'],
-						'drivers' => $drivers,
-					],
-				]);
-				$Database = new \content\pageelement\PageElement([
-					'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database',
-					'elements' => [
-						'database' => $database,
-					],
-				]);
-				\fwrite($config_file, $Database->display());
 			}
-		}
-		/** end **/
+			/** end of config.php generation **/
 
-		\fwrite($config_file, '
-?>');
-		if (!\fclose($config_file))
-		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
-		}
+			$config_content .= '
+	?>';
 
-		$stage_file = \fopen($stage_file, 'w');
-		if (!$stage_file)
-		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
+			if ($config_file = \fopen($config_path, 'w')) // delete file if exist
+			{
+				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
+
+				throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+			}
+
+			\fwrite($config_file, $config_content);
+
+			if (!\fclose($config_file))
+			{
+				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+			}
+
+			include($config_path);
+
+			/** try database connection with parameter **/
+
+			$pdo = \core\DBFactory::connection(username: $_POST['username'], password: $_POST['password']);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$config_dbfactory = $GLOBALS['config']['class']['core']['DBFactory']['database'];
+
+			/** create user **/
+			if ($config_dbfactory['driver'] === 'MYSQL')
+			{
+				$request = $pdo->prepare('CREATE USER ? IDENTIFIED BY ?');
+				$request->execute('\'' . [$config_dbfactory['drivers']['MYSQL']['username'] . '\'@\'localhost\'', '\'' . $config_dbfactory['drivers']['MYSQL']['password'] . '\'']);
+			}
+			else if ($config_dbfactory['driver'] === 'POSTGRESQL')
+			{
+				$request = $pdo->prepare('CREATE USER ? WITH PASSWORD ?');
+				$request->execute('\'' . [$config_dbfactory['drivers']['POSTGRESQL']['username'] . '\'@\'localhost\'', '\'' . $config_dbfactory['drivers']['POSTGRESQL']['password'] . '\'']);
+			}
+
+			/** create database **/
+			if ($config_dbfactory['driver'] === 'MYSQL')
+			{
+				$request = $pdo->prepare('CREATE DATABASE ?');
+				$request->execute(['\'' . $config_dbfactory['drivers']['POSTGRESQL']['dsn_parameters']['dbname'] . '\'']);
+
+				$request = $pdo->prepare('GRANT ALL PRIVILEGES ON ? TO ?');
+				$request->execute([$config_dbfactory['drivers']['MYSQL']['dsn_parameters']['dbname'] . '.*', '\'' . $config_dbfactory['drivers']['MYSQL']['username'] . '\'@\'localhost\'']);
+			}
+			else if ($config_dbfactory['driver'] === 'POSTGRESQL')
+			{
+				$request = $pdo->prepare('CREATE DATABASE ? WITH OWNER = ?');
+				$request->execute(['\'' . $config_dbfactory['drivers']['POSTGRESQL']['dsn_parameters']['dbname'] . '\'', '\'' . $config_dbfactory['drivers']['POSTGRESQL']['username'] . '\'@\'localhost\'']);
+			}
+
+			$pdo = \core\DBFactory::connection(); // user is created with the good permission
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			/** create table **/
+			if (\in_array($config_dbfactory['driver'], ['MYSQL', 'POSTGRESQL']))
+			{
+				$request_content = \file_get_contents($GLOBALS['config']['core']['path']['asset'] . 'sql' . DIRECTORY_SEPARATOR . 'mod' . DIRECTORY_SEPARATOR . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'table_creation.sql');
+
+				$request = $pdo->prepare($request_content);
+				$request->execute([]);
+			}
+
+			/** insert necessary elements **/
+			$ErrorFolder = new \route\Folder([
+				'name' => 'error',
+			]);
+			$ErrorFolder->add();
+			$MainFolder = new \route\Folder([
+				'name' => 'main',
+			]);
+			$MainFolder->add();
+			$HomeFolder = new \route\Folder([
+				'name' => 'home',
+				'id_parent' => $RootRoute->get('id'),
+			]);
+			$HomeFolder->add();
+			$ErrorRoute = new \route\Route([
+				'name' => 'error',
+				'type' => \route\Route::TYPES['page'],
+			]);
+			$ErrorRoute->add();
+			$MainRoute = new \route\Route([
+				'name' => 'main',
+				'type' => \route\Route::TYPES['page'],
+			]);
+			$MainRoute->add();
+			$HomeRoute = new \route\Route([
+				'name' => 'home',
+				'type' => \route\Route::TYPES['page'],
+			]);
+			$HomeRoute->add();
+			$LinkRouteRoute = new \route\LinkRouteRoute();
+			$LinkRouteRoute->add(
+				'id_route_parent' => $MainRoute->get('id'),
+				'id_route_child'  => $HomeRoute->get('id'),
+			);
+			$MainParameter = new \user\Parameter([
+				'key'   => 'preset',
+				'value' => 'default_html',
+			]);
+			$MainParameter->add();
+			$LinkPageParameter = new \user\LinkPageParameter();
+			$LinkPageParameter->add([
+				'id_page'      => $MainRoute->get('id'),
+				'id_parameter' => $MainParameter->get('id'),
+			]);
+			$Password = new \user\Password([
+				'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
+			]);
+			$Permissions = [];
+			$Permissions[] = new \user\Permission([
+				'id_route'  => $ErrorRoute->get('id'),
+				'name_role' => 'all',
+			]);
+			$Permissions[] = new \user\Permission([
+				'id_route'  => $HomeRoute->get('id'),
+				'name_role' => 'all',
+			]);
+			foreach ($Permissions as $Permission)
+			{
+				$Permission->add();
+			}
+			$Role = new \user\Role([
+				'name'        => 'all',
+				'permissions' => $Permissions,
+			]);
+			$Visitor = new \user\Visitor([
+				'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],
+				'password' => $Password,
+				'roles'    => [
+					$Role
+				],
+			]);
+			$Visitor->register
+
+			$stage_file = \fopen($stage_file, 'w');
+			if (!$stage_file)
+			{
+				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
+			}
+			\fwrite($stage_file, '2');
+			if (!\fclose($stage_file))
+			{
+				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
+			}
+			echo $GLOBALS['locale']['mod']['phosphore_installation']['stage_2_display'];
+			exit();
 		}
-		\fwrite($stage_file, '2');
-		if (!\fclose($stage_file))
+		catch (\PDOException $exception)
 		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
+			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_connect_database'], array('exception' => $exception));
+
+			if (\is_file($config_path))
+			{
+				if (\phosphore_count($old_content) !== 0) // backup config file
+				{
+					if ($config_file = \fopen($config_path, 'w'))
+					{
+						$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
+
+						throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+					}
+
+					\fwrite($config_file, $old_content);
+
+					if (!\fclose($config_file))
+					{
+						throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+					}
+				}
+				else
+				{
+					\unlink($config_path);
+				}
+			}
+
+			$stage = 0;
 		}
-		exit();
 	}
 	if ($stage === 0) // database & website configuration
 	{

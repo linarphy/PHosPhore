@@ -38,21 +38,25 @@ class Role
 
 		$this->retrievePermissions();
 	}
+	public function add() : void
+	{
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Role']['add']['start']);
+
+		$this->addPermissions();
+	}
 	/**
 	 * add permissions to the role
-	 *
-	 * @param array $id list of indexes of the new permissions
 	 */
-	public function addPermissions(array $id) : void
+	public function addPermissions() : void
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Role']['addPermissions'], ['permissions' => $id, 'role' => $this->name]);
 
 		$LinkPermissionRole = new \user\LinkPermission\Role();
 
 		$results = [];
-		foreach ($id as $index)
+		foreach ($this->get('permissions') as $permission)
 		{
-			$results[] = ['id_permission' => $index];
+			$results[] = ['id_permission' => $permission->get('id')];
 		}
 
 		$LinkPermissionRole->addBy($results, [
