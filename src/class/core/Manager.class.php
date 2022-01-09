@@ -196,6 +196,10 @@ abstract class Manager
 		$values = \array_intersect_key($attributes, \array_flip($this::ATTRIBUTES));
 		foreach ($values as $key => $value)
 		{
+			if (\is_bool($value))
+			{
+				$values[$key] = (int)$value;
+			}
 			if (\in_array(\strtoupper($key), $this::RESERVED_KEYWORD))
 			{
 				unset($values[$key]);

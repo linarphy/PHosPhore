@@ -48,10 +48,10 @@ CREATE TABLE phosphore_link_route_route (
 );
 CREATE TABLE phosphore_user (
     id  INT NOT NULL AUTO_INCREMENT,
-    date_registration DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    date_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_registration DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    date_login DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     nickname VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE phosphore_configuration (
