@@ -43,7 +43,7 @@ abstract class Manager
 	 * Constructor
 	 *
 	 * @param \PDO|null $db PDO database connection.
-	 *                        If null, \core\DBConnection::Connection() will be used.
+	 *                        If null, \core\DBConnection::connection() will be used.
 	 *                        Default to null
 	 *
 	 */
@@ -53,7 +53,7 @@ abstract class Manager
 
 		if ($db === null)
 		{
-			$db = \core\DBFactory::Connection();
+			$db = \core\DBFactory::connection();
 		}
 
 		$this->setDB($db);

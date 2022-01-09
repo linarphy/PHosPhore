@@ -63,7 +63,7 @@ try
 	{
 		$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['no_locale']);
 
-		throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['no_locale']);
+		throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['no_locale']);
 	}
 
 	$stage_file = $GLOBALS['config']['mod']['phosphore_installation']['path']['stage'];
@@ -74,7 +74,7 @@ try
 		{
 			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['bad_stage']);
 
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['bad_stage']);
+			throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['bad_stage']);
 		}
 		$stage = (int)$contents[0];
 	}
@@ -83,12 +83,6 @@ try
 		try
 		{
 			$pdo = \core\DBFactory::connection();
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$request = $pdo->prepare('SHOW TABLES;');
-			$request->execute([]);
-
-			$results = $request->fetchAll();
-			var_dump($results);
 		}
 		catch (\PDOException $error)
 		{
@@ -97,21 +91,10 @@ try
 	}
 
 
-	if ($stage === 2)
-	{
-		$stage_file = \fopen($stage_file, 'w');
-		if (!$stage_file)
-		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage']);
-		}
-		\fwrite($stage_file, '3');
-		if (!\fclose($stage_file))
-		{
-			throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage']);
-		}
-	}
 	if ($stage === 1)
 	{
+		$GLOBALS['Logger']->log([\core\Logger::TYPES['debug'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['start']);
+
 		try
 		{
 			$config_path = $GLOBALS['config']['core']['path']['config'] . $GLOBALS['config']['core']['config']['filename'];
@@ -120,7 +103,7 @@ try
 			{
 				$config_content = '<?php
 
-	');
+	';
 				$old_content = ''; // backup (useless)
 
 			}
@@ -198,7 +181,7 @@ try
 						'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_files'] . 'config_database_drivers_password',
 						'elements' => [
 							'driver'   => $_POST['driver'],
-							'password' => $password;
+							'password' => $password,
 						],
 					]);
 
@@ -255,7 +238,7 @@ try
 			$config_content .= '
 	?>';
 
-			if ($config_file = \fopen($config_path, 'w')) // delete file if exist
+			if (!$config_file = \fopen($config_path, 'w')) // delete file if exist
 			{
 				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
 
@@ -266,6 +249,8 @@ try
 
 			if (!\fclose($config_file))
 			{
+				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+
 				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
 			}
 
@@ -273,62 +258,75 @@ try
 
 			/** try database connection with parameter **/
 
-			$pdo = \core\DBFactory::connection(username: $_POST['username'], password: $_POST['password']);
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 			$config_dbfactory = $GLOBALS['config']['class']['core']['DBFactory']['database'];
+
+			if (\in_array($config_dbfactory['driver'], ['MYSQL', 'POSTGRESQL']))
+			{
+				$dsn_parameters = $config_dbfactory['drivers'][$config_dbfactory['driver']]['dsn_parameters'];
+				unset($dsn_parameters['dbname']);
+				$pdo = \core\DBFactory::connection(dsn_parameters: $dsn_parameters,username: $_POST['username'], password: $_POST['password']);
+				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			}
 
 			/** create user **/
 			if ($config_dbfactory['driver'] === 'MYSQL')
 			{
-				$request = $pdo->prepare('CREATE USER ? IDENTIFIED BY ?');
-				$request->execute('\'' . [$config_dbfactory['drivers']['MYSQL']['username'] . '\'@\'localhost\'', '\'' . $config_dbfactory['drivers']['MYSQL']['password'] . '\'']);
+				$request = $pdo->prepare('CREATE USER `' . $config_dbfactory['drivers']['MYSQL']['username'] . '`@`localhost` IDENTIFIED BY \'' . $config_dbfactory['drivers']['MYSQL']['password'] . '\'');
+				$request->execute([]);
 			}
 			else if ($config_dbfactory['driver'] === 'POSTGRESQL')
 			{
 				$request = $pdo->prepare('CREATE USER ? WITH PASSWORD ?');
-				$request->execute('\'' . [$config_dbfactory['drivers']['POSTGRESQL']['username'] . '\'@\'localhost\'', '\'' . $config_dbfactory['drivers']['POSTGRESQL']['password'] . '\'']);
+				$request->execute(['`' . $config_dbfactory['drivers']['POSTGRESQL']['username'] . '`@`localhost`', '\'' . $config_dbfactory['drivers']['POSTGRESQL']['password'] . '\'']);
 			}
 
 			/** create database **/
 			if ($config_dbfactory['driver'] === 'MYSQL')
 			{
-				$request = $pdo->prepare('CREATE DATABASE ?');
-				$request->execute(['\'' . $config_dbfactory['drivers']['POSTGRESQL']['dsn_parameters']['dbname'] . '\'']);
+				$request = $pdo->prepare('CREATE DATABASE `' . $config_dbfactory['drivers']['MYSQL']['dsn_parameters']['dbname'] . '`');
+				$request->execute();
 
-				$request = $pdo->prepare('GRANT ALL PRIVILEGES ON ? TO ?');
-				$request->execute([$config_dbfactory['drivers']['MYSQL']['dsn_parameters']['dbname'] . '.*', '\'' . $config_dbfactory['drivers']['MYSQL']['username'] . '\'@\'localhost\'']);
+				$request = $pdo->prepare('GRANT ALL PRIVILEGES ON `' . $config_dbfactory['drivers']['MYSQL']['dsn_parameters']['dbname'] . '`.* TO ' . '`' . $config_dbfactory['drivers']['MYSQL']['username'] . '`@`localhost`');
+				$request->execute([]);
 			}
 			else if ($config_dbfactory['driver'] === 'POSTGRESQL')
 			{
 				$request = $pdo->prepare('CREATE DATABASE ? WITH OWNER = ?');
-				$request->execute(['\'' . $config_dbfactory['drivers']['POSTGRESQL']['dsn_parameters']['dbname'] . '\'', '\'' . $config_dbfactory['drivers']['POSTGRESQL']['username'] . '\'@\'localhost\'']);
+				$request->execute([$config_dbfactory['drivers']['POSTGRESQL']['dsn_parameters']['dbname'], '`' . $config_dbfactory['drivers']['POSTGRESQL']['username'] . '`@`localhost`']);
 			}
 
-			$pdo = \core\DBFactory::connection(); // user is created with the good permission
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$request = $pdo->prepare('FLUSH PRIVILEGES');
+			$request->execute();
+
+			$pdo_user = \core\DBFactory::connection(); // user is created with the good permission
+			$pdo_user->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			/** create table **/
 			if (\in_array($config_dbfactory['driver'], ['MYSQL', 'POSTGRESQL']))
 			{
 				$request_content = \file_get_contents($GLOBALS['config']['core']['path']['asset'] . 'sql' . DIRECTORY_SEPARATOR . 'mod' . DIRECTORY_SEPARATOR . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'table_creation.sql');
 
-				$request = $pdo->prepare($request_content);
+				$request = $pdo_user->prepare($request_content);
 				$request->execute([]);
 			}
 
+			$request = $pdo->prepare('FLUSH TABLES');
+			$request->execute([]);
+
 			/** insert necessary elements **/
 			$ErrorFolder = new \route\Folder([
-				'name' => 'error',
+				'name'      => 'error',
+				'id_parent' => -1,
 			]);
 			$ErrorFolder->add();
 			$MainFolder = new \route\Folder([
-				'name' => 'main',
+				'name'      => 'main',
+				'id_parent' => -1,
 			]);
 			$MainFolder->add();
 			$HomeFolder = new \route\Folder([
 				'name' => 'home',
-				'id_parent' => $RootRoute->get('id'),
+				'id_parent' => $MainFolder->get('id'),
 			]);
 			$HomeFolder->add();
 			$ErrorRoute = new \route\Route([
@@ -347,10 +345,10 @@ try
 			]);
 			$HomeRoute->add();
 			$LinkRouteRoute = new \route\LinkRouteRoute();
-			$LinkRouteRoute->add(
+			$LinkRouteRoute->add([
 				'id_route_parent' => $MainRoute->get('id'),
 				'id_route_child'  => $HomeRoute->get('id'),
-			);
+			]);
 			$MainParameter = new \user\Parameter([
 				'key'   => 'preset',
 				'value' => 'default_html',
@@ -403,7 +401,7 @@ try
 		}
 		catch (\PDOException $exception)
 		{
-			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_connect_database'], array('exception' => $exception));
+			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_connect_database'], array('exception' => $exception->getMessage()));
 
 			if (\is_file($config_path))
 			{
@@ -420,7 +418,9 @@ try
 
 					if (!\fclose($config_file))
 					{
-						throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+						$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+
+						throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_close_config']);
 					}
 				}
 				else
@@ -432,8 +432,9 @@ try
 			echo $GLOBALS['locale']['mod']['phosphore_installation']['display_error_stage_1'];
 
 			$stage = 0;
-			exit();
 		}
+
+		$GLOBALS['Logger']->log([\core\Logger::TYPES['debug'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['end']);
 	}
 	if ($stage === 0) // database & website configuration
 	{
@@ -500,6 +501,7 @@ try
 }
 catch (\exception\PHosPhoreInstallationException $error)
 {
+	var_dump($error);
 	echo $error->getMessage();
 
 	exit();

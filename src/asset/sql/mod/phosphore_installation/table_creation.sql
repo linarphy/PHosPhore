@@ -14,7 +14,7 @@ CREATE TABLE phosphore_route (
 CREATE TABLE phosphore_folder (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
-	id_parent INT DEFAULT -1,
+	id_parent INT NOT NULL DEFAULT -1,
 	PRIMARY KEY (id)
 );
 CREATE TABLE phosphore_route_parameter (

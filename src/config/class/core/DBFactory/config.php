@@ -9,7 +9,7 @@ $GLOBALS['config']['class']['core']['DBFactory']['database']['driver'] = 'MYSQL'
 /* host which possess the database */
 $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['host'] = 'localhost';
 /* port associated to the database server */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['port'] = 3306;
+$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['port'] = null;
 /* name of the database */
 $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']['dsn_parameters']['dbname'] = 'website';
 /* unix socket used */
@@ -29,7 +29,7 @@ $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['MYSQL']
 /* host which possess the database */
 $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['POSTGRESQL']['dsn_parameters']['host'] = 'localhost';
 /* port associated to the database server */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['POSTGRESQL']['dsn_parameters']['port'] = 5432;
+$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['POSTGRESQL']['dsn_parameters']['port'] = null;
 /* name of the database */
 $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['POSTGRESQL']['dsn_parameters']['dbname'] = 'website';
 /** [/dsn_parameters] **/

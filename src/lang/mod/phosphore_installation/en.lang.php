@@ -41,4 +41,30 @@ $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['label_path
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['submit'] = 'validate configuration';
 /** [/config_elements] **/
 
+/** [error] **/
+/* no locale file */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['no_locale'] = 'Error during mod initialization for phosphore_installation: missing locale file';
+/* stage file missformed */
+$GLOABLS['lang']['mod']['phosphore_installation']['error']['bad_stage'] = 'stage file corrupted, it does not contains one number';
+/* stage file cannot be opened */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_stage'] = 'stage file cannot be opened';
+/* stage file cannot be closed */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_stage'] = 'stage file cannot be closed';
+/* configuration file cannot be opened */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config'] = 'personnal configuration file cannot be opened';
+/* unknown driver chose */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['unknown_driver'] = 'the database driver {driver} is not supported';
+/* configuration file cannot be closed */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config'] = 'personnal configuration file cannot be closed';
+/* cannot connect to the database with the given parameter */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_connect_database'] = 'cannot connect to the database with the given parameter: error: {exception}';
+/** [/error] **/
+
+/** [stage_1] **/
+/* start to applying configuration and creating database */
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['start'] = 'start stage 1: applying configuration and creation database';
+/* end stage 1 */
+/** [/stage_1] **/
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['end'] = 'end stage 1';
+
 ?>
