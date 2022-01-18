@@ -395,8 +395,7 @@ try
 							$request->execute([]);
 
 							$Role = new \user\Role([
-								'name'        => 'all',
-								'permissions' => $Permissions,
+								'name_role' => 'all',
 							]);
 							$Visitor = new \user\Visitor([
 								'nickname' => $GLOBALS['config']['core']['login']['guest']['nickname'],

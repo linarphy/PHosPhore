@@ -1,18 +1,13 @@
 <?php
 
-/** [__construct] **/
-/* Start the process */
-$GLOBALS['lang']['class']['user']['Role']['__construct'] = 'Begin to construct the Role';
-/** [/__construct] **/
-
 /** [addPermissions] **/
 /* Add the permissions */
-$GLOBALS['lang']['class']['user']['Role']['addPermissions'] = 'Adding permissions {permissions} to {role}';
+$GLOBALS['lang']['class']['user']['Role']['add']['start'] = 'start to create the role-user: {role}-{user} association';
 /** [/addPermissions] **/
 
 /** [retrievePermissions] **/
 /* Retrieve the Permissions of this Role */
-$GLOBALS['lang']['class']['user']['Role']['retrievePermissions'] = 'Retrieving Permissions of this Role';
+$GLOBALS['lang']['class']['user']['Role']['getPermissions'] = 'Retrieving Permissions of this Role';
 /** [/retrievePermissions] **/
 
 ?>

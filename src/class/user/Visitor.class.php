@@ -140,7 +140,7 @@ class Visitor extends \user\User
 
 		foreach ($this->get('roles') as $role)
 		{
-			$role->set('id', $this->get('id'));
+			$role->set('id_user', $this->get('id'));
 			$role->add();
 		}
 		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'mysql'], $this);

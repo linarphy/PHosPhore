@@ -63,7 +63,7 @@ abstract class Manager
 	 *
 	 * @param array $attributes
 	 *
-	 * @return array|bool
+	 * @return array|null
 	 */
 	public function add(array $attributes) : ?array
 	{
