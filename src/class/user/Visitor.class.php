@@ -56,10 +56,10 @@ class Visitor extends \user\User
 			}
 		}
 
-		$UserManager->update([ // update last time login in database
-			'id' => $this->get('id'),
-		], [
+		$UserManager->update([
 			'date_login' => \date($GLOBALS['config']['core']['format']['date']),
+		], [ // update last time login in database
+			'id' => $this->get('id'),
 		]);
 		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'connect', 'update'], $this);
 

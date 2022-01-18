@@ -386,7 +386,8 @@ class Router
 
 			$route = $RouteManager->retrieveBy([
 				'id' => $GLOBALS['config']['class']['route']['root']['id'],
-			])[0];
+			]);
+			$route = $route[0];
 
 
 			if ($route->get('type') !== \route\Route::TYPES['page']) // not a page

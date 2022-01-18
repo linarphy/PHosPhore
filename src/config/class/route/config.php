@@ -2,7 +2,7 @@
 
 /** [root] **/
 /* id */
-$GLOBALS['config']['class']['route']['root']['id'] = 0;
+$GLOBALS['config']['class']['route']['root']['id'] = 2;
 /** [/root] **/
 
 ?>

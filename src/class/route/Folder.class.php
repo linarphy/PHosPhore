@@ -111,7 +111,7 @@ class Folder extends \core\Managed
 		{
 			return DIRECTORY_SEPARATOR . $this->name . DIRECTORY_SEPARATOR;
 		}
-		return $this->getParent()->get('name') . $this->name . DIRECTORY_SEPARATOR;
+		return $this->getParent()->getPath() . $this->name . DIRECTORY_SEPARATOR;
 	}
 }
 

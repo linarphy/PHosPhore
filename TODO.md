@@ -1,8 +1,6 @@
 # TODO
 
 For now I'm currently:
-- Installation script on first run (protected by password?)
+- Protect installation script with token
 
 Then,
-- Delete expired tokens
-- Protect installation script with token

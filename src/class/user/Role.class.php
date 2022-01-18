@@ -51,12 +51,9 @@ class Role extends \core\Managed
 
 		$PermissionManager = new \user\PermissionManager();
 
-		$this->permissions = $PermissionManager->retrieveBy([
+		return $PermissionManager->retrieveBy([
 			'name_role' => $this->get('name_role'),
 		]);
-
-		return $this->permissions;
-
 	}
 }
 

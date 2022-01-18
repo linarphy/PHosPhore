@@ -394,12 +394,12 @@ abstract class Manager
 
 		$condition = $this->conditionCreator($values, $conditions);
 
-		$query = 'DELETE FROM ' . $this::TABLE . 'WHERE ' . \implode(' AND ', $condition[0]);
+		$query = 'DELETE FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]);
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['end'], ['class' => \get_class($this), 'query' => $query]);
 
 		$request = $this->db->prepare($query);
-		$request->execute(\array_values($operation[1]));
+		$request->execute(\array_values($condition[1]));
 
 		return $number;
 	}

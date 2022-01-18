@@ -263,7 +263,7 @@ class User extends \core\Managed
 		foreach ($results as $result)
 		{
 			$Roles[] = new \user\Role([
-				'name' => $result['name_role'],
+				'name_role' => $result['name_role'],
 			]);
 		}
 		$this->set('roles', \array_merge($roles, $Roles));

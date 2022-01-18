@@ -113,9 +113,9 @@ class Token extends \core\Managed
 	/**
 	 * create a token
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
-	public function create() : bool
+	public function create() : bool|array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Token']['create']['start']);
 		if ($this->get('id_user') === null)
@@ -130,7 +130,20 @@ class Token extends \core\Managed
 		$this->set('validator_hashed', \password_hash($this->get('validator_clear'), $GLOBALS['config']['class']['user']['Token']['algorithm'], $GLOBALS['config']['class']['user']['Token']['options']));
 		$date_expiration = new \DateTime('now');
 		$date_expiration->add(new \DateInterval($GLOBALS['config']['class']['user']['Token']['period_before_expiration']));
+		$date_expirate = new \DateTime('now');
+		$date_expirate->sub(new \DateInterval($GLOBALS['config']['class']['user']['Token']['period_before_expiration']));
 		$this->set('date_expiration', $date_expiration->format($GLOBALS['config']['core']['format']['date']));
+		$Manager = $this->manager();
+		$Manager->deleteBy([
+			'id_user'         => $GLOBALS['config']['core']['login']['guest']['id'],
+			'date_expiration' => $date_expiration->format($GLOBALS['config']['core']['format']['date']),
+		],[
+			'id_user'         => '!=',
+			'date_expiration' => '<',
+		]);
+		$Manager->deleteBy([
+			'id_user'         => $this->get('id_user'),
+		]);
 		return $this->add();
 	}
 }
