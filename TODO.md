@@ -5,3 +5,4 @@ For now I'm currently:
 
 Then,
 - Delete expired tokens
+- Protect installation script with token
