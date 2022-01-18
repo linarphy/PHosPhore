@@ -136,6 +136,7 @@ class Visitor extends \user\User
 		$this->retrieve();
 
 		$this->get('password')->set('id', $this->get('id'));
+		$this->get('password')->hash();
 		$this->get('password')->update();
 
 		foreach ($this->get('roles') as $role)

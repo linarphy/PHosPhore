@@ -238,20 +238,41 @@ try
 			$config_content .= '
 ?>';
 
-			if (!$config_file = \fopen($config_path, 'w')) // delete file if exist
+			if (!\is_file($config_path))
 			{
-				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
+				if (!$config_file = \fopen($config_path, 'w')) // delete file if not exist
+				{
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
 
-				throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+				}
+
+				\fwrite($config_file, $config_content);
+
+				if (!\fclose($config_file))
+				{
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+				}
 			}
-
-			\fwrite($config_file, $config_content);
-
-			if (!\fclose($config_file))
+			else
 			{
-				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+				if ($config_file = \fopen($config_path, 'a')) // update file if exist
+				{
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']);
 
-				throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['cannot_open_config']);
+				}
+
+				\fwrite($config_file, $config_content);
+
+				if (!\fclose($config_file))
+				{
+					$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+
+					throw new \exception\PHosPhoreInstallationException($GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config']);
+				}
 			}
 
 			include($config_path);
