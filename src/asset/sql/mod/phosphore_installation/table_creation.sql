@@ -14,7 +14,7 @@ CREATE TABLE phosphore_route (
 CREATE TABLE phosphore_folder (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
-	id_parent INT NOT NULL DEFAULT -1,
+	id_parent INT DEFAULT -1,
 	PRIMARY KEY (id)
 );
 CREATE TABLE phosphore_route_parameter (
@@ -48,10 +48,10 @@ CREATE TABLE phosphore_link_route_route (
 );
 CREATE TABLE phosphore_user (
     id  INT NOT NULL AUTO_INCREMENT,
-    date_registration DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    date_login DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    date_registration DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_login DATETIME DEFAULT CURRENT_TIMESTAMP,
     nickname VARCHAR(255) NOT NULL,
-    password VARCHAR(255) DEFAULT NULL,
+    password_hashed VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE phosphore_configuration (
@@ -67,7 +67,7 @@ CREATE TABLE phosphore_configuration (
 CREATE TABLE phosphore_notification (
     id  INT NOT NULL AUTO_INCREMENT,
     id_content INT NOT NULL,
-    date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
     type VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_content)

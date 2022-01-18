@@ -78,7 +78,7 @@ abstract class Manager
 			return null;
 		}
 
-		$query = 'INSERT INTO ' . $this::TABLE . '(' . \implode(', ', \array_keys($attributes)) . ') VALUES (' . \implode(', ', \array_fill(0, \count($attributes), '?')) . ')';
+		$query = 'INSERT INTO ' . $this::TABLE . ' (' . \implode(', ', \array_keys($attributes)) . ') VALUES (' . \implode(', ', \array_fill(0, \count($attributes), '?')) . ')';
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['query'], ['class' => \get_class($this), 'query' => $query]);
 
 		$request = $this->db->prepare($query);
@@ -773,7 +773,7 @@ abstract class Manager
 		$indexes = [];
 		foreach ($this::INDEX as $name)
 		{
-			if ($values[$name] === null)
+			if ($index[$name] === null)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['update']['missing_index'], ['class' => \get_class($this), 'attribute' => $name]);
 

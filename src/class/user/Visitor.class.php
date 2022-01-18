@@ -131,10 +131,12 @@ class Visitor extends \user\User
 		}
 
 		$GLOBALS['Hook']->load(['class', 'user', 'Visitor', 'register', 'check'], $this);
-		$this->set('id', $this->add()['id']);
+		$this->add();
+
+		$this->retrieve();
 
 		$this->get('password')->set('id', $this->get('id'));
-		$this->get('password')->add();
+		$this->get('password')->update();
 
 		foreach ($this->get('roles') as $role)
 		{

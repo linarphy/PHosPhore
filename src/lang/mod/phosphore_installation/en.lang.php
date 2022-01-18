@@ -56,13 +56,29 @@ $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_open_config']
 $GLOBALS['lang']['mod']['phosphore_installation']['error']['unknown_driver'] = 'the database driver {driver} is not supported';
 /* configuration file cannot be closed */
 $GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_close_config'] = 'personnal configuration file cannot be closed';
+/* cannot feed the table in the database with default value */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['feeding_table'] = 'cannot feed the table with the default value: error: {exception}';
+/* cannot create the table in the database */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['create_table'] = 'cannot create the table in the database: error: {exception}';
+/* cannot create the user in the database */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['create_user'] = 'cannot create the user in the database: error: {exception}';
 /* cannot connect to the database with the given parameter */
-$GLOBALS['lang']['mod']['phosphore_installation']['error']['cannot_connect_database'] = 'cannot connect to the database with the given parameter: error: {exception}';
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['connect_database'] = 'cannot connect to the database with the given parameter: error: {exception}';
+/* cannot create/update config file */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['config_creation'] = 'cannot create/update configuration file config/config.php: error: {exception}';
 /** [/error] **/
 
 /** [stage_1] **/
 /* start to applying configuration and creating database */
 $GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['start'] = 'start stage 1: applying configuration and creation database';
+/* successfuly deleted the table for recovery */
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['deleted_table'] = 'recovery: successfuly deleted the table in the database';
+/* successfuly deleted the user for recovery */
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['deleted_user'] = 'recovery: successfuly deleted the user in the database';
+/* successfuly deleted the configuration file for recovery */
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['deleted_config'] = 'recovery: successfuly deleted the configuration file';
+/* successfuly restored the configuration file for recovery */
+$GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['restored_config'] = 'recovery: successfuly restored the configuration file';
 /* end stage 1 */
 /** [/stage_1] **/
 $GLOBALS['lang']['mod']['phosphore_installation']['stage_1']['end'] = 'end stage 1';

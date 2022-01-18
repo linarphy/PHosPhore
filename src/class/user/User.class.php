@@ -222,9 +222,10 @@ class User extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrievePassword']);
 
 		$PasswordManager = new \user\PasswordManager();
-		$Password = $PasswordManager->retrieveBy([
+		$results = $PasswordManager->retrieveBy([
 			'id' => $this->get('id'),
-		])[0];
+		]);
+		$Password = $results[0];
 
 		if ($this->get('password') !== null)
 		{

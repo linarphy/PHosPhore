@@ -36,14 +36,14 @@ abstract class Managed
 	/**
 	 * Insert the object in the database
 	 *
-	 * @return bool|int
+	 * @return array
 	 */
-	public function add() : array|bool
+	public function add() : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'add', 'start'], $this);
 
-		$index = $this->manager()->add($this->table());
+		$index = $this->manager()->add($this->table())[0];
 
 		if ($index === False || \phosphore_count($index) === 0)
 		{
@@ -57,7 +57,7 @@ abstract class Managed
 		}
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'add', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['success'], ['class' => \get_class($this)]);
-		return True;
+		return $index;
 	}
 	/**
 	 * Display a given array into a readable and safe form
@@ -380,7 +380,6 @@ abstract class Managed
 			if ($value === null)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Managed']['getIndex'], ['attribute' => $attribute]);
-				throw new \Exception($GLOBALS['locale']['class']['core']['Managed']['getIndex']);
 			}
 			$index[$attribute] = $value;
 		}
@@ -468,13 +467,11 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'start'], $this);
 
-		$count = 0;
-
 		if (!$this->exist())
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['not_defined'], ['class' => \get_class($this)]);
 
-			return $count;
+			return $this;
 		}
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'check'], $this);
 
@@ -596,7 +593,7 @@ abstract class Managed
 					$attributes[$attribute] = $this->table($depth, $this->$attribute);
 				}
 			}
-			else
+			else if ($this->$attribute !== null)
 			{
 				$attributes[$attribute] = $this->$attribute;
 			}
@@ -630,7 +627,9 @@ abstract class Managed
 		}
 
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'update', 'end'], $this);
-		$this->manager()->update($this->table(), $this->getIndex());
+		$this->manager()->update(\array_diff_key($this->table(), $this->getIndex()), $this->getIndex());
+
+		return True;
 	}
 }
 
