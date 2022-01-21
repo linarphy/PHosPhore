@@ -3,3 +3,4 @@
 /src/config/config.php
 /src/tags
 /src/mod/phosphore_installation/stage
+/src/mod/phosphore_installation/secret

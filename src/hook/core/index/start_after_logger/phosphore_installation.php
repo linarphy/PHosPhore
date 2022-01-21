@@ -526,6 +526,10 @@ try
 							{
 								\unlink($stage_file);
 							}
+							if (\is_file($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file']))
+							{
+								\unlink($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file']);
+							}
 							$Notification = new \user\Notification([
 								'text' => $GLOBALS['locale']['mod']['phosphore_installation']['success_installation_notification'],
 								'type' => \user\Notification::TYPES['success'],
