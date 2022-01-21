@@ -66,6 +66,87 @@ try
 		throw new \exception\PHosPhoreInstallationException($GLOBALS['locale']['mod']['phosphore_installation']['error']['no_locale']);
 	}
 
+	/* two possibility, connected or not connected */
+	if (!\is_file($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file']))
+	{
+		$secret_file = \fopen($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file'], 'w');
+
+		if (!$secret_file)
+		{
+			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['open_secret_file']);
+
+			exit();
+		}
+
+		$content = \bin2hex(\random_bytes(16));
+
+		\fwrite($secret_file, $content);
+
+		if (!\fclose($secret_file))
+		{
+			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['close_secret_file']);
+
+			exit();
+		}
+	}
+
+	if (isset($_POST['phosphore_installation_secret']))
+	{
+		$_SESSION['phosphore_installation']['secret'] = $_POST['phosphore_installation_secret'];
+	}
+
+	if (isset($_SESSION['phosphore_installation']['secret']))
+	{
+		if ($_SESSION['phosphore_installation']['secret'] != \file_get_contents($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file']))
+		{
+			$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['wrong_secret']);
+			echo $GLOBALS['locale']['mod']['phosphore_installation']['error']['wrong_secret'];
+
+			unset($_SESSION['phosphore_installation']['secret']);
+
+			/* change secret */
+			$secret_file = \fopen($GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file'], 'w');
+
+			if (!$secret_file)
+			{
+				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['open_secret_file']);
+
+				exit();
+			}
+
+			$content = \bin2hex(\random_bytes(16));
+
+			\fwrite($secret_file, $content);
+
+			if (!\fclose($secret_file))
+			{
+				$GLOBALS['Logger']->log([\core\Logger::TYPES['error'], 'mod', 'phosphore_installation'], $GLOBALS['lang']['mod']['phosphore_installation']['error']['close_secret_file']);
+
+				exit();
+			}
+			exit();
+		}
+	}
+	else
+	{
+		$elements_lang = $GLOBALS['lang']['mod']['phosphore_installation']['secret_elements'];
+		$pageElement = new \content\pageelement\PageElement([
+			'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['secret_template'],
+			'elements' => [
+				'lang'                  => $GLOBALS['lang']['core']['lang']['abbr'],
+				'title'                 => $elements_lang['title'],
+				'action'                => '',
+				'method'                => 'POST',
+				'legend'                => $elements_lang['legend'],
+				'label_secret'          => $elements_lang['label_secret'],
+				'value_secret'          => 	'',
+				'submit'                => $elements_lang['submit'],
+			],
+		]);
+		echo $pageElement->display();
+		exit();
+	}
+
 	$stage_file = $GLOBALS['config']['mod']['phosphore_installation']['path']['stage'];
 	if (\is_file($stage_file))
 	{
@@ -556,6 +637,7 @@ try
 			$pageElement = new \content\pageelement\PageElement([
 				'template' => $GLOBALS['config']['mod']['phosphore_installation']['path']['config_template'],
 				'elements' => [
+					'lang'                  => $GLOBALS['lang']['core']['lang']['abbr'],
 					'title'                 => $elements_lang['title'],
 					'action'                => '',
 					'method'                => 'POST',

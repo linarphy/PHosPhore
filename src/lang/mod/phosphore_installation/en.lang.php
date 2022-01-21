@@ -1,5 +1,16 @@
 <?php
 
+/** [secret_elements] **/
+/* title of the page */
+$GLOBALS['lang']['mod']['phosphore_installation']['secret_elements']['title'] = 'Password for installation';
+/* main form legend */
+$GLOBALS['lang']['mod']['phosphore_installation']['secret_elements']['legend'] = 'Secret';
+/* label for server secret */
+$GLOBALS['lang']['mod']['phosphore_installation']['secret_elements']['label_secret'] = 'this installation secret, it is the content of the file mod/phosphore_installation/secret';
+/* submit button */
+$GLOBALS['lang']['mod']['phosphore_installation']['secret_elements']['submit'] = 'validate secret';
+/** [/secret_elements] **/
+
 /** [config_elements] **/
 /* title of the page */
 $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['title'] = 'Server configuration';
@@ -44,6 +55,12 @@ $GLOBALS['lang']['mod']['phosphore_installation']['config_elements']['submit'] =
 /** [error] **/
 /* no locale file */
 $GLOBALS['lang']['mod']['phosphore_installation']['error']['no_locale'] = 'Error during mod initialization for phosphore_installation: missing locale file';
+/* wrong secret */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['wrong_secret'] = 'wrong secret';
+/* cannot open secret file */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['open_secret_file'] = 'cannot open the secret file';
+/* cannot close secret file */
+$GLOBALS['lang']['mod']['phosphore_installation']['error']['close_secret_file'] = 'cannot close the secret file';
 /* stage file missformed */
 $GLOABLS['lang']['mod']['phosphore_installation']['error']['bad_stage'] = 'stage file corrupted, it does not contains one number';
 /* stage file cannot be opened */

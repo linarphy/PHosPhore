@@ -10,6 +10,10 @@ $GLOBALS['config']['mod']['phosphore_installation']['default']['locale'] = 'en';
 /** [path] **/
 /* stage file */
 $GLOBALS['config']['mod']['phosphore_installation']['path']['stage'] = $GLOBALS['config']['core']['path']['mod'] . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'stage';
+/* secret file */
+$GLOBALS['config']['mod']['phosphore_installation']['path']['secret_file'] = $GLOBALS['config']['core']['path']['mod'] . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'secret';
+/* secret login template file */
+$GLOBALS['config']['mod']['phosphore_installation']['path']['secret_template'] = $GLOBALS['config']['core']['path']['mod'] . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'secret.html';
 /* configuration template file */
 $GLOBALS['config']['mod']['phosphore_installation']['path']['config_template'] = $GLOBALS['config']['core']['path']['mod'] . 'phosphore_installation' . DIRECTORY_SEPARATOR . 'configuration.html';
 /* templates file for config generation */

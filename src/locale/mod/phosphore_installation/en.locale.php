@@ -3,6 +3,8 @@
 /** [error] **/
 /* no locale file */
 $GLOBALS['locale']['mod']['phosphore_installation']['error']['no_locale'] = 'Error during mod initialization for phosphore_installation: missing locale file';
+/* wrong secret */
+$GLOBALS['locale']['mod']['phosphore_installation']['error']['wrong_secret'] = 'Cannot continu PHosPhore installation, incorrect secret, reload the page and put the correct secret (a new secret will be set)';
 /* stage file missformed */
 $GLOABLS['locale']['mod']['phosphore_installation']['error']['bad_stage'] = 'stage file corrupted, it does not contains one number';
 /* stage file cannot be opened */
