@@ -5,6 +5,8 @@
  * (return 0 for non valid element)
  *
  * @var mixed $var variable to count
+ *
+ * @return int
  */
 function phosphore_count(mixed $var)
 {

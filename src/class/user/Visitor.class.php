@@ -65,7 +65,7 @@ class Visitor extends \user\User
 
 		/* Token auth */
 		$Token = new \user\Token([
-			'id_user' => $this->get('id'),
+			'id' => $this->get('id'),
 		]);
 		$Token->create();
 		$_SESSION['__login__']['selector'] = $Token->get('selector');

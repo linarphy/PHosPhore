@@ -121,11 +121,11 @@ CREATE TABLE phosphore_link_role_user (
 );
 CREATE TABLE phosphore_login_token (
 	date_expiration DATETIME NOT NULL,
-	id_user INT NOT NULL,
+	id INT NOT NULL,
 	selector VARCHAR(255) NOT NULL,
 	validator_hashed VARCHAR(255) NOT NULL,
 	PRIMARY KEY (selector),
-	FOREIGN KEY (id_user)
+	FOREIGN KEY (id)
 		REFERENCES phosphore_user (id)
 		ON UPDATE CASCADE ON DELETE CASCADE
 );

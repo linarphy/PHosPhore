@@ -5,7 +5,7 @@ namespace user;
 /**
  * Manager of \user\Token
  */
-class TokenManager extends \core\Manager
+class TokenManager extends \core\TokenManager
 {
 	/**
 	 * table used
@@ -13,25 +13,6 @@ class TokenManager extends \core\Manager
 	 * @var string
 	 */
 	const TABLE = 'phosphore_login_token';
-	/**
-	 * index used
-	 *
-	 * @var array
-	 */
-	const INDEX = [
-		'selector',
-	];
-	/**
-	 * attributes
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'date_expiration',
-		'id_user',
-		'selector',
-		'validator_hashed',
-	];
 }
 
 ?>
