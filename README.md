@@ -1,6 +1,6 @@
 # PHosPhore
  
- A simple PHP framework
+ A PHP framework
 
 ## DISCLAIMER
 
