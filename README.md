@@ -2,47 +2,24 @@
  
  A PHP framework
 
-## DISCLAIMER
-
-Phosphore has been rebuilt and is now WIP (again), instructions here may be out of date for now.
-
 ## Getting started
 
-This framework is based on a special project architecture. It is a set of files that you have to complete and modify according to your preferences and needs.
+PHosPhore is a PHP framework which create multiple page for a website which can easily be integrated with plugin module.
+This framework is based on a special project architecture. It is a set of files you have to complete.
 
-### Prerequisites
+## Prerequisites
 
-* PHP >= 7.2 (no verification performed below this version)
-* MYSQL > 5.5 or MariaDB > 5.5 (no verification performed below this version)
+* PHP >= 8.0
+* MYSQL >= 5.5 (no verification performed below) | MARIADB >= 5.5 (no verification performed below) | POSTGRESQL >= (no verification performed yet)
 
-### Installation
+## Installation
 
-To use this framework, you have to copy the [src](https://github.com/gugus2000/PHosPhore/tree/dev/src) folder content into your web directory. One it's done, import the "example.sql" into a database in your Mysql server.
+Drag and drop [src](src) folder content into your web directory. Once it's done, you can install the [PHosPhore_installation](https://github.com/gugus2000/PHosPhore_installation) module to install the configuration file and the database.
+If one cannot install the PHosPhore_installation module, one can install PHosPhore manually.
 
-#### Local
+## Documentation
 
-Notice: if you are on local and you want to use it in a directory inside the "htdocs" or "www" directory, you have to use Virtual Host to make the default router mode works. The manipulations are explained below. However, you can just change the router mode by adding at the end of ``config/config.php`` :
-```php
-/* [ROUTER] */
-/* Default Router mode */
-$GLOBALS['config']['route_mode']=1;
-```
-
-##### Windows
-
-See [here](https://stackoverflow.com/questions/2658173/setup-apache-virtualhost-windows).
-
-##### Linux
-
-See [here](https://thelinuxos.com/how-to-setup-apache-virtual-hosts-on-ubuntu-18-04-and-16-04/).
-
-##### Mac
-See [here](https://jasonmccreary.me/articles/configure-apache-virtualhost-mac-os-x/).
-
-## How to use
-
-The doc is available [here](https://www.phosphore.org).
-You can use examples website (in the examples folder) to help you to understand how this framework works.
+When there is no easily readable documentation yet, one can check all the differents function, variable and class of the PHosPhore framework here: [doc/doc.xml](doc/doc.xml).
 
 ## Authors
 
@@ -54,4 +31,4 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ## License
 
-This project is licensed under the Chocolate-Ware License - see the [LICENSE](LICENSE) file for details
+This project is licensied under the Chocolate-Ware License - see the [LICENSE](LICENSE) file for more information.

@@ -1,6 +1,7 @@
 # TODO
 
 For now I'm currently:
-rewrite README.md
+update documentation
 
 Then,
+create readable documentation
