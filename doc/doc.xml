@@ -1673,6 +1673,116 @@
 				</updateBy>
 			</méthodes>
 		</Manager>
+		<Token>
+			<description>
+				Un token temporaire
+			</description>
+			<extends>
+				\core\Managed
+			</extends>
+			<attributs>
+				<date_expiration>
+					<description>
+						Date à laquelle expire le token
+					</description>
+					<type>
+						string
+					</type>
+				</date_expiration>
+				<selector>
+					<description>
+						sélecteur (jouant le rôle de pseudo)
+					</description>
+					<type>
+						string
+					</type>
+				</selector>
+				<validator_clear>
+					<description>
+						valideur (jouant le rôle du mot de passe)
+					</description>
+					<type>
+						string
+					</type>
+				</validator_clear>
+				<validator_hashed>
+					<description>
+						valideur hashé
+					</description>
+					<type>
+						string
+					</type>
+				</validator_hashed>
+			</attributs>
+			<constantes>
+				<BYTES_NUMBER_SELECTOR>
+					<description>
+						Nombre de bit utilisé pour générer le sélecteur
+					</description>
+					<type>
+						int
+					</type>
+				</BYTES_NUMBER_SELECTOR>
+				<BYTES_NUMBER_VALIDATOR>
+					<description>
+						Nombre de bit utilisé pour générer le valideur
+					</description>
+					<type>
+						int
+					</type>
+				</BYTES_NUMBER_VALIDATOR>
+				<HASH_ALGORITHM>
+					<description>
+						Méthode de hashage utilisé pour hasher le valideur
+					</description>
+					<type>
+						int
+					</type>
+				</HASH_ALGORITHM>
+				<HASH_OPTIONS>
+					<description>
+						Options utilisé pour le hashage du valideur
+					</description>
+					<type>
+						array
+					</type>
+				</HASH_OPTIONS>
+				<TIME_EXPIRATION>
+					<description>
+						Intervalle de temps (voir https://www.php.net/manual/dateinterval.construct.php) avant que le token n'expire
+					</description>
+					<type>
+						string
+					</type>
+				</TIME_EXPIRATION>
+			</constantes>
+			<méthodes>
+				<check>
+					<description>
+						vérifie la validité du token
+					</description>
+					<valeur>
+						int|bool
+					</valeur>
+				</check>
+				<create>
+					<description>
+						créé le token
+					</description>
+					<valeur>
+						bool|array
+					</valeur>
+				</create>
+			</méthodes>
+		</Token>
+		<TokenManager>
+			<description>
+				Gestionnaire de \core\Token, qui définit l'index et les attributs de n'importe quel type de token
+			</description>
+			<extends>
+				\core\Manager
+			</extends>
+		</TokenManager>
 	</core>
 	<route>
 		<Folder>
@@ -3225,69 +3335,25 @@
 				token de connexion (permet de ne pas stocker le mdp en clair dans la session)
 			</description>
 			<extend>
-				\core\Managed
+				\core\Token
 			</extend>
 			<attributs>
-				<date_expiration>
-				</date_expiration>
-				<id_user>
+				<id>
 					<description>
 						id de l'utilisateur relié au token
 					</description>
 					<type>
 						int
 					</type>
-				</id_user>
-				<selector>
-					<description>
-						sélecteur (jouant le rôle de pseudo)
-					</description>
-					<type>
-						string
-					</type>
-				</selector>
-				<validator_clear>
-					<description>
-						valideur (jouant le rôle du mot de passe)
-					</description>
-					<type>
-						string
-					</type>
-				</validator_clear>
-				<validator_hashed>
-					<description>
-						valideur hashé
-					</description>
-					<type>
-						string
-					</type>
-				</validator_hashed>
+				</id>
 			</attributs>
-			<méthodes>
-				<check>
-					<description>
-						vérifie la validité du token
-					</description>
-					<valeur>
-						int|bool
-					</valeur>
-				</check>
-				<create>
-					<description>
-						créé le token
-					</description>
-					<valeur>
-						bool
-					</valeur>
-				</create>
-			</méthodes>
 		</Token>
 		<TokenManager>
 			<description>
 				Gestionnaire de \user\Token dans la base de donnée
 			</description>
 			<extend>
-				\core\Manager
+				\core\TokenManager
 			</extend>
 		</TokenManager>
 		<User>
