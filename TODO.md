@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-update documentation
+create readable documentation
 
 Then,
-create readable documentation

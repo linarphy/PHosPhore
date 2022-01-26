@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>Folders &#8212; PHosPhore 2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Classes" href="classes.html" />
+  
+   
+
+  </head>
+  <body dir=ltr
+        data-md-color-primary=blue-grey data-md-color-accent=blue>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#references/folders" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../index.html" title="PHosPhore 2.0 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#128366</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">PHosPhore</span>
+          <span class="md-header-nav__topic"> Folders </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/gugus2000/PHosPhore/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    PHosPhore
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <script src="../_static/javascripts/version_dropdown.js"></script>
+  <script>
+    var json_loc = "../"versions.json"",
+        target_loc = "../../",
+        text = "Versions";
+    $( document ).ready( add_version_dropdown(json_loc, target_loc, text));
+  </script>
+  
+
+    </div>
+  </nav>
+</header>
+
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">PHosPhore 2.0 documentation</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../index.html" title="PHosPhore 2.0 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#128366</i>
+      
+    </a>
+    <a href="../index.html"
+       title="PHosPhore 2.0 documentation">PHosPhore</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/gugus2000/PHosPhore/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    PHosPhore
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Guides to quickly start using PHosPhore:</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../guides/installation.html" class="md-nav__link">Installation</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../guides/configuration.html" class="md-nav__link">Configuration</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">PHP reference:</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="classes.html" class="md-nav__link">Classes</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> Folders </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">Folders</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#references-folders--page-root" class="md-nav__link">Folders</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#root-folder" class="md-nav__link">root folder</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#description" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#layout" class="md-nav__link">Layout</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#assets" class="md-nav__link">assets</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id3" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#class" class="md-nav__link">class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id5" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config" class="md-nav__link">config</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id7" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id8" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#config-class" class="md-nav__link">config/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id10" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config-core" class="md-nav__link">config/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id12" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config-mod" class="md-nav__link">config/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id14" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#func" class="md-nav__link">func</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id16" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#hook" class="md-nav__link">hook</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id18" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang" class="md-nav__link">lang</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id20" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id21" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#lang-class" class="md-nav__link">lang/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id23" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-core" class="md-nav__link">lang/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id25" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-mod" class="md-nav__link">lang/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id27" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-page" class="md-nav__link">lang/page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id29" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale" class="md-nav__link">locale</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id31" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id32" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#locale-class" class="md-nav__link">locale/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#definition" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-core" class="md-nav__link">locale/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id35" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-mod" class="md-nav__link">locale/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id37" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-page" class="md-nav__link">locale/page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id39" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#mod" class="md-nav__link">mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id41" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#page" class="md-nav__link">page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id43" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+    
+<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/references/folders.rst.txt">Show Source</a> </li>
+
+  </ul>
+</nav>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#references-folders--page-root" class="md-nav__link">Folders</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#root-folder" class="md-nav__link">root folder</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#description" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#layout" class="md-nav__link">Layout</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#assets" class="md-nav__link">assets</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id3" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#class" class="md-nav__link">class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id5" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config" class="md-nav__link">config</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id7" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id8" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#config-class" class="md-nav__link">config/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id10" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config-core" class="md-nav__link">config/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id12" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#config-mod" class="md-nav__link">config/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id14" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#func" class="md-nav__link">func</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id16" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#hook" class="md-nav__link">hook</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id18" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang" class="md-nav__link">lang</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id20" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id21" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#lang-class" class="md-nav__link">lang/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id23" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-core" class="md-nav__link">lang/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id25" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-mod" class="md-nav__link">lang/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id27" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#lang-page" class="md-nav__link">lang/page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id29" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale" class="md-nav__link">locale</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id31" class="md-nav__link">Description</a>
+        </li>
+        <li class="md-nav__item"><a href="#id32" class="md-nav__link">Layout</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#locale-class" class="md-nav__link">locale/class</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#definition" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-core" class="md-nav__link">locale/core</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id35" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-mod" class="md-nav__link">locale/mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id37" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#locale-page" class="md-nav__link">locale/page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id39" class="md-nav__link">Definition</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#mod" class="md-nav__link">mod</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id41" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li>
+        <li class="md-nav__item"><a href="#page" class="md-nav__link">page</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#id43" class="md-nav__link">Description</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+    
+<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/references/folders.rst.txt">Show Source</a> </li>
+
+<li id="searchbox" class="md-nav__item"></li>
+
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="folders">
+<h1 id="references-folders--page-root">Folders<a class="headerlink" href="#references-folders--page-root" title="Permalink to this headline">¶</a></h1>
+<p>PHosPhore use many different folder to separate each type of data:</p>
+<section id="root-folder">
+<span id="id1"></span><h2 id="root-folder">root folder<a class="headerlink" href="#root-folder" title="Permalink to this headline">¶</a></h2>
+<section id="description">
+<h3 id="description">Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p>The root folder is the framework folder, where you installed PHosPHore.</p>
+</section>
+<section id="layout">
+<h3 id="layout">Layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">index.php</span></code></p></li>
+<li><p><a class="reference internal" href="#assets"><span class="std std-ref">assets</span></a></p></li>
+<li><p><a class="reference internal" href="#class"><span class="std std-ref">class</span></a></p></li>
+<li><p><a class="reference internal" href="#config"><span class="std std-ref">config</span></a></p></li>
+<li><p><a class="reference internal" href="#func"><span class="std std-ref">func</span></a></p></li>
+<li><p><a class="reference internal" href="#hook"><span class="std std-ref">hook</span></a></p></li>
+<li><p><a class="reference internal" href="#lang"><span class="std std-ref">lang</span></a></p></li>
+<li><p><a class="reference internal" href="#locale"><span class="std std-ref">locale</span></a></p></li>
+<li><p><a class="reference internal" href="#mod"><span class="std std-ref">mod</span></a></p></li>
+<li><p><a class="reference internal" href="#page"><span class="std std-ref">page</span></a></p></li>
+</ul>
+</section>
+</section>
+<section id="assets">
+<span id="id2"></span><h2 id="assets">assets<a class="headerlink" href="#assets" title="Permalink to this headline">¶</a></h2>
+<section id="id3">
+<h3 id="id3">Description<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">assets</span></code> folder contains all the static files, like <code class="docutils literal notranslate"><span class="pre">CSS</span></code>, <code class="docutils literal notranslate"><span class="pre">HTML</span></code> or <code class="docutils literal notranslate"><span class="pre">Javascript</span></code> files.</p>
+</section>
+</section>
+<section id="class">
+<span id="id4"></span><h2 id="class">class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<section id="id5">
+<h3 id="id5">Description<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">class</span></code> folder contains all the PHP classes files. They are organized as the class namespace.</p>
+</section>
+</section>
+<section id="config">
+<span id="id6"></span><h2 id="config">config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<section id="id7">
+<h3 id="id7">Description<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">config</span></code> folder contains all the PHP configuration files.</p>
+</section>
+<section id="id8">
+<h3 id="id8">Layout<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">config.php</span></code></p></li>
+<li><p><a class="reference internal" href="#config-class"><span class="std std-ref">config/class</span></a></p></li>
+<li><p><a class="reference internal" href="#config-core"><span class="std std-ref">config/core</span></a></p></li>
+<li><p><a class="reference internal" href="#config-mod"><span class="std std-ref">config/mod</span></a></p></li>
+</ul>
+<section id="config-class">
+<span id="id9"></span><h4 id="config-class">config/class<a class="headerlink" href="#config-class" title="Permalink to this headline">¶</a></h4>
+<section id="id10">
+<h5 id="id10">Description<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h5>
+<p>Contains class configuration.</p>
+</section>
+</section>
+<section id="config-core">
+<span id="id11"></span><h4 id="config-core">config/core<a class="headerlink" href="#config-core" title="Permalink to this headline">¶</a></h4>
+<section id="id12">
+<h5 id="id12">Description<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h5>
+<p>Contains configuration file for the framework core.</p>
+</section>
+</section>
+<section id="config-mod">
+<span id="id13"></span><h4 id="config-mod">config/mod<a class="headerlink" href="#config-mod" title="Permalink to this headline">¶</a></h4>
+<section id="id14">
+<h5 id="id14">Description<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h5>
+<p>Contains configuration files for module, stored in different subfolder.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="func">
+<span id="id15"></span><h2 id="func">func<a class="headerlink" href="#func" title="Permalink to this headline">¶</a></h2>
+<section id="id16">
+<h3 id="id16">Description<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">func</span></code> folder contains all the PHP functions files.</p>
+</section>
+</section>
+<section id="hook">
+<span id="id17"></span><h2 id="hook">hook<a class="headerlink" href="#hook" title="Permalink to this headline">¶</a></h2>
+<section id="id18">
+<h3 id="id18">Description<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">hook</span></code> folder contains all the PHP hook files.</p>
+</section>
+</section>
+<section id="lang">
+<span id="id19"></span><h2 id="lang">lang<a class="headerlink" href="#lang" title="Permalink to this headline">¶</a></h2>
+<section id="id20">
+<h3 id="id20">Description<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">lang</span></code> folder contains all the server lang files.</p>
+</section>
+<section id="id21">
+<h3 id="id21">Layout<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="#lang-class"><span class="std std-ref">lang/class</span></a></p></li>
+<li><p><a class="reference internal" href="#lang-core"><span class="std std-ref">lang/core</span></a></p></li>
+<li><p><a class="reference internal" href="#lang-mod"><span class="std std-ref">lang/mod</span></a></p></li>
+<li><p><a class="reference internal" href="#lang-page"><span class="std std-ref">lang/page</span></a></p></li>
+</ul>
+<section id="lang-class">
+<span id="id22"></span><h4 id="lang-class">lang/class<a class="headerlink" href="#lang-class" title="Permalink to this headline">¶</a></h4>
+<section id="id23">
+<h5 id="id23">Description<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains server language files used in the class definition.</p>
+</section>
+</section>
+<section id="lang-core">
+<span id="id24"></span><h4 id="lang-core">lang/core<a class="headerlink" href="#lang-core" title="Permalink to this headline">¶</a></h4>
+<section id="id25">
+<h5 id="id25">Description<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains server language files used in the framework core.</p>
+</section>
+</section>
+<section id="lang-mod">
+<span id="id26"></span><h4 id="lang-mod">lang/mod<a class="headerlink" href="#lang-mod" title="Permalink to this headline">¶</a></h4>
+<section id="id27">
+<h5 id="id27">Description<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains server language files used in PHosPhore modules, stored in different subfolder.</p>
+</section>
+</section>
+<section id="lang-page">
+<span id="id28"></span><h4 id="lang-page">lang/page<a class="headerlink" href="#lang-page" title="Permalink to this headline">¶</a></h4>
+<section id="id29">
+<h5 id="id29">Description<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains server language files used in webpage.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="locale">
+<span id="id30"></span><h2 id="locale">locale<a class="headerlink" href="#locale" title="Permalink to this headline">¶</a></h2>
+<section id="id31">
+<h3 id="id31">Description<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">locale</span></code> folder contains all the user lang files.</p>
+</section>
+<section id="id32">
+<h3 id="id32">Layout<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="#locale-class"><span class="std std-ref">locale/class</span></a></p></li>
+<li><p><a class="reference internal" href="#locale-core"><span class="std std-ref">locale/core</span></a></p></li>
+<li><p><a class="reference internal" href="#locale-mod"><span class="std std-ref">locale/mod</span></a></p></li>
+<li><p><a class="reference internal" href="#locale-page"><span class="std std-ref">locale/page</span></a></p></li>
+</ul>
+<section id="locale-class">
+<span id="id33"></span><h4 id="locale-class">locale/class<a class="headerlink" href="#locale-class" title="Permalink to this headline">¶</a></h4>
+<section id="definition">
+<h5 id="definition">Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains user language file used in classes.</p>
+</section>
+</section>
+<section id="locale-core">
+<span id="id34"></span><h4 id="locale-core">locale/core<a class="headerlink" href="#locale-core" title="Permalink to this headline">¶</a></h4>
+<section id="id35">
+<h5 id="id35">Definition<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains user language file used in the framework core.</p>
+</section>
+</section>
+<section id="locale-mod">
+<span id="id36"></span><h4 id="locale-mod">locale/mod<a class="headerlink" href="#locale-mod" title="Permalink to this headline">¶</a></h4>
+<section id="id37">
+<h5 id="id37">Definition<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains user language file used in PHosPhore modules, stored in different subfolder.</p>
+</section>
+</section>
+<section id="locale-page">
+<span id="id38"></span><h4 id="locale-page">locale/page<a class="headerlink" href="#locale-page" title="Permalink to this headline">¶</a></h4>
+<section id="id39">
+<h5 id="id39">Definition<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h5>
+<p>This folder contains user language file used in webpage.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="mod">
+<span id="id40"></span><h2 id="mod">mod<a class="headerlink" href="#mod" title="Permalink to this headline">¶</a></h2>
+<section id="id41">
+<h3 id="id41">Description<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">mod</span></code> folder contains all the module files.</p>
+</section>
+</section>
+<section id="page">
+<span id="id42"></span><h2 id="page">page<a class="headerlink" href="#page" title="Permalink to this headline">¶</a></h2>
+<section id="id43">
+<h3 id="id43">Description<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">page</span></code> folder contains all page definition files.</p>
+</section>
+</section>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="classes.html" title="Classes"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> Classes </span>
+              </div>
+            </a>
+          
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>
