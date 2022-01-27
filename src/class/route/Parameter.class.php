@@ -64,7 +64,7 @@ class Parameter extends \core\Managed
 
 			return '##'; // always false
 		}
-		if (phosphore_count($this->regex) === 1))
+		if (\phosphore_count($this->regex) === 1)
 		{
 			$regex = '#\\' . $this->regex . '#';
 
@@ -74,7 +74,7 @@ class Parameter extends \core\Managed
 		}
 		if ($this->regex[0] === $this->regex[phosphore_count($this->regex)])
 		{
-			if (in_[$this->regex[0], []))
+			if (\in_array($this->regex[0], ['#', '/']))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], ['regex' => $this->regex]);
 

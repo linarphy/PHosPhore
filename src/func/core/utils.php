@@ -4,9 +4,9 @@
  * count the number of element in an array, character in a string or defined properties in an object
  * (return 0 for non valid element)
  *
- * @var mixed $var variable to count
+ * @param mixed $var variable to count
  *
- * @return int
+ * @return int number of elements
  */
 function phosphore_count(mixed $var)
 {
@@ -31,7 +31,9 @@ function phosphore_count(mixed $var)
 /**
  * convert nearly anything to a string (not protected for html, use html_special_chars)
  *
- * @var mixed $var Variable to convert
+ * @param mixed $var Variable to convert
+ *
+ * @return string string conversion result
  */
 function phosphore_display(mixed $var)
 {

@@ -3,7 +3,7 @@
 /**
  * Initialize config, locale and modules
  *
- * @return bool
+ * @return bool Can only be true or throw an exception
  */
 function init()
 {
@@ -113,7 +113,7 @@ function init()
 /**
  * Get right router constructor param
  *
- * @return int
+ * @return int Router mode
  */
 function init_router()
 {
@@ -126,7 +126,7 @@ function init_router()
 /**
  * Get right visitor constructor param
  *
- * @return array
+ * @return array Array needed to initialize the Visitor constructor contains id and password or has_token
  */
 function init_visitor()
 {
@@ -171,6 +171,8 @@ function init_visitor()
  * Autoloading function
  *
  * @param string $class_name Name of the class (with namespace)
+ *
+ * @return bool Can only be true or throw an exception
  */
 function load_class($class_name)
 {
@@ -263,13 +265,15 @@ function load_class($class_name)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['end'], ['class' => $class_name]);
 	}
+
+	return True;
 }
 /**
  * Get class name without namespace
  *
  * @param string $class_name Name of the class with namespace
  *
- * @return string
+ * @return string Name of the class without namespace
  */
 function get_class_name($class_name)
 {

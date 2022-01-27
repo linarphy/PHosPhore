@@ -3,7 +3,20 @@
 session_start();	// $_SESSION init at the very start
 date_default_timezone_set('UTC');
 
-function custom_error_handler($errno, $errstr, $errfile, $errline)
+/**
+ * a custom error handler to avoid crash and allows "pretty" recovery
+ *
+ * @param int $errno Error number
+ *
+ * @param string $errstr Error message
+ *
+ * @param string $errfile Path to the file where the error ocurred
+ *
+ * @param int $errline Line where the error ocurred
+ *
+ * @return False allows this error to be handled by vanilla php logging
+ */
+function custom_error_handler($errno, $errstr, $errfile, $errline) : bool
 {
     // Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
     $error_is_enabled = (bool)($errno & ini_get('error_reporting') );
@@ -23,6 +36,9 @@ function custom_error_handler($errno, $errstr, $errfile, $errline)
     }
 }
 set_error_handler('custom_error_handler');	// try to catch as many errors as possible
+/**
+ * a fatal error handler to crash in a "good" manner when a fatal error occur
+ */
 function fatal_handler()
 {
 	$error = error_get_last();
