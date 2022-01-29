@@ -18,10 +18,7 @@
 			<default-package-name>PHosPHore</default-package-name>
 			<include-source>true</include-source>
 		</api>
-		<guide format="rst">
-			<source dsn=".">
-				<path>sphinx/</path>
-			</source>
-		</guide>
 	</version>
+	<template name="phpDocumentor/template-default/template.xml" location="phpDocumentor/template-default" >
+	</template>
 </phpdocumentor>

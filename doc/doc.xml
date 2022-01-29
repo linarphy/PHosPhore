@@ -3703,7 +3703,7 @@
 	<introduction>
 		Il est possible de charger des modules pour le site. Ils se présentent sous la forme de dossier dont le contenu est à copier à l'intérieur du dossier racine du site. Pour une meilleur gestion de la suppression, mise à jour et installation, un gestionnaire de module est en cours de développement.
 		Un module ne doit jamais modifier un fichier de l'installation de base, ceci pour deux raisons: la compatibilité et qu'une mise à jour (qui elle modifie les fichiers de l'installation de base) ne casse pas le module.
-		Un module peut donc ajouter des pages, des fichiers de configuration et des fichiers de langues, mais peut aussi exécuter du code à la première installation du module. Pour le moment, un module ne peut pas intéragir par d'autre méthode que celle-ci.
+		Un module peut donc ajouter des pages, des fichiers de configuration et des fichiers de langues, utiliser des hooks, ou encore exécuter du code à la première installation du module.
 	</introduction>
 	<composition>
 		<dossier>
