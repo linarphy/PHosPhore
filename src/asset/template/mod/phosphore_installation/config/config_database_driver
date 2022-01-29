@@ -1,2 +1,0 @@
-/* default driver used */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['driver'] = '{driver}';

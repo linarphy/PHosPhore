@@ -1,4 +1,0 @@
-/** [LANG] **/
-/* lang of the server */
-$GLOBALS['config']['core']['lang']['server'] = '{lang}';
-/** [/LANG] **/

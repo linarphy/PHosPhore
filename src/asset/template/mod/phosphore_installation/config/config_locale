@@ -1,4 +1,0 @@
-/** [LOCALE] **/
-/* default user locale */
-$GLOBALS['config']['core']['locale']['default'] = '{locale}';
-/** [/LOCALE] **/

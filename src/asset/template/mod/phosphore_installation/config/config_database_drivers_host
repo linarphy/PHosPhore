@@ -1,2 +1,0 @@
-/* host which possess the database */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['dsn_parameters']['host'] = '{host}';

@@ -1,2 +1,0 @@
-/* if database is stored in memory */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['dsn_parameters']['memory'] = {memory};

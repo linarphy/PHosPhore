@@ -1,2 +1,0 @@
-/* port associated to the database server */
-$GLOBALS['config']['class']['core']['DBFactory']['database']['drivers']['{driver}']['dsn_parameters']['port'] = {port};
