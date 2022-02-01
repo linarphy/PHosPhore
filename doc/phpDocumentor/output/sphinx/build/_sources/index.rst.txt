@@ -23,8 +23,11 @@ References
    :maxdepth: 2
    :caption: PHP reference:
 
+   references/process
    references/folders
    references/database
+
+`Api`_
 
 Indices and tables
 ==================
@@ -32,3 +35,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _`Api`: ../../

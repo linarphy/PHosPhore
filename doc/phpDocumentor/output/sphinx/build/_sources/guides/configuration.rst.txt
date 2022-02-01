@@ -11,9 +11,10 @@ There is currently two way to configure PHosPhore.
 Manual
 ------
 
-To manually install this framework, you need to setup the database. To do this, you'll need to read the documentation of the :any:`database structure`.
+To manually install this framework, you need to setup the database. To do this, you'll need to read the documentation of the :ref:`database structure`.
 
 Then you'll need to manually add default element into the database:
+
 - error folder
 - main folder
 - home folder (which is inside the main folder)
@@ -52,7 +53,7 @@ Description
 
 PHosPhore_installation is an example of what a PHosPhore module can do.
 
-Modules come in the form of a folder whose content is to be copied into the :any:`root folder`. For a better management of module deletion, update and installation, a module manager is under development.
+Modules come in the form of a folder whose content is to be copied into the :ref:`root folder`. For a better management of module deletion, update and installation, a module manager is under development.
 A module must never modify a file which already exist for two reasons:
 
 - compatibility between module
@@ -65,7 +66,7 @@ Folder structure
 
 For a module named <module name>
 
-- :any:`mod`:
+- :ref:`/mod`:
 
   - `<module name>`
 

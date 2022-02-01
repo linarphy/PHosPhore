@@ -56,7 +56,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Folders" href="../references/folders.html" />
+    <link rel="next" title="Process" href="../references/process.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   
    
@@ -272,6 +272,13 @@
     <li class="md-nav__item">
     
     
+      <a href="../references/process.html" class="md-nav__link">Process</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../references/folders.html" class="md-nav__link">Folders</a>
       
     
@@ -365,22 +372,21 @@
 <section id="manual">
 <span id="id1"></span><h2 id="manual">Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h2>
 <p>To manually install this framework, you need to setup the database. To do this, you’ll need to read the documentation of the <a class="reference internal" href="../references/database.html#database-structure"><span class="std std-ref">Database structure</span></a>.</p>
-<p>Then you’ll need to manually add default element into the database:
-- error folder
-- main folder
-- home folder (which is inside the main folder)
-- error route
-- main route
-- home route
-- link between main (parent) and home (child)
-- main page parameter:</p>
-<blockquote>
-<div><ul class="simple">
+<p>Then you’ll need to manually add default element into the database:</p>
+<ul class="simple">
+<li><p>error folder</p></li>
+<li><p>main folder</p></li>
+<li><p>home folder (which is inside the main folder)</p></li>
+<li><p>error route</p></li>
+<li><p>main route</p></li>
+<li><p>home route</p></li>
+<li><p>link between main (parent) and home (child)</p></li>
+<li><p>main page parameter:</p>
+<ul>
 <li><p>key: preset</p></li>
 <li><p>value: default_html</p></li>
 </ul>
-</div></blockquote>
-<ul class="simple">
+</li>
 <li><p>guest user</p></li>
 <li><p>permission associated to home and error route</p></li>
 </ul>
@@ -412,7 +418,7 @@ A module must never modify a file which already exist for two reasons:</p>
 <h2 id="folder-structure">Folder structure<a class="headerlink" href="#folder-structure" title="Permalink to this headline">¶</a></h2>
 <p>For a module named &lt;module name&gt;</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="../references/folders.html#mod"><span class="std std-ref">mod</span></a>:</p>
+<li><p><a class="reference internal" href="../references/folders.html#mod"><span class="std std-ref">/mod</span></a>:</p>
 <ul>
 <li><p><cite>&lt;module name&gt;</cite></p>
 <ul>
@@ -520,12 +526,12 @@ A module must never modify a file which already exist for two reasons:</p>
             </a>
           
           
-            <a href="../references/folders.html" title="Folders"
+            <a href="../references/process.html" title="Process"
                class="md-flex md-footer-nav__link md-footer-nav__link--next"
                rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
                 class="md-flex__ellipsis"> <span
-                class="md-footer-nav__direction"> Next </span> Folders </span>
+                class="md-footer-nav__direction"> Next </span> Process </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink"><i
                 class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>

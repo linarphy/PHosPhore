@@ -20,22 +20,34 @@ The root folder is the framework folder, where you installed PHosPHore.
 Layout
 ~~~~~~
 
-- ``index.php``
-- :ref:`assets`
-- :ref:`class`
-- :ref:`config`
-- :ref:`func`
-- :ref:`hook`
-- :ref:`lang`
-- :ref:`locale`
-- :ref:`mod`
-- :ref:`page`
+- :ref:`/index.php`
+- :ref:`/assets`
+- :ref:`/class`
+- :ref:`/config`
+- :ref:`/func`
+- :ref:`/hook`
+- :ref:`/lang`
+- :ref:`/locale`
+- :ref:`/mod`
+- :ref:`/page`
 
-.. _assets:
+.. _/index.php:
 
-------
-assets
-------
+----------
+/index.php
+----------
+
+~~~~~~~~~~~
+Description
+~~~~~~~~~~~
+
+``index.php`` is the starting point of the framework.
+
+.. _/assets:
+
+-------
+/assets
+-------
 
 ~~~~~~~~~~~
 Description
@@ -43,11 +55,11 @@ Description
 
 The ``assets`` folder contains all the static files, like ``CSS``, ``HTML`` or ``Javascript`` files.
 
-.. _class:
+.. _/class:
 
------
-class
------
+------
+/class
+------
 
 ~~~~~~~~~~~
 Description
@@ -55,11 +67,11 @@ Description
 
 The ``class`` folder contains all the PHP classes files. They are organized as the class namespace.
 
-.. _config:
+.. _/config:
 
-------
-config
-------
+-------
+/config
+-------
 
 ~~~~~~~~~~~
 Description
@@ -71,46 +83,56 @@ The ``config`` folder contains all the PHP configuration files.
 Layout
 ~~~~~~
 
-- ``config.php``
-- :ref:`config/class`
-- :ref:`config/core`
-- :ref:`config/mod`
+- :ref:`/config/config.php`
+- :ref:`/config/class`
+- :ref:`/config/core`
+- :ref:`/config/mod`
 
-.. _`config/class`:
+.. _`/config/config.php`:
 
-config/class
-------------
+/config/config.php
+------------------
+
+Description
+~~~~~~~~~~~
+
+Define user configuration.
+
+.. _`/config/class`:
+
+/config/class
+-------------
 
 Description
 ~~~~~~~~~~~
 
 Contains class configuration.
 
-.. _`config/core`:
+.. _`/config/core`:
 
-config/core
------------
+/config/core
+------------
 
 Description
 ~~~~~~~~~~~
 
 Contains configuration file for the framework core.
 
-.. _`config/mod`:
+.. _`/config/mod`:
 
-config/mod
-----------
+/config/mod
+-----------
 
 Description
 ~~~~~~~~~~~
 
 Contains configuration files for module, stored in different subfolder.
 
-.. _func:
+.. _/func:
 
-----
-func
-----
+-----
+/func
+-----
 
 ~~~~~~~~~~~
 Description
@@ -118,11 +140,38 @@ Description
 
 The ``func`` folder contains all the PHP functions files.
 
-.. _hook:
+~~~~~~
+Layout
+~~~~~~
 
-----
-hook
-----
+- :ref:`/func/core/init.php`
+- :ref:`/func/core/utils.php`
+
+.. _`/func/core/init.php`:
+
+/func/core/init.php
+-------------------
+
+Description
+~~~~~~~~~~~
+
+Define functions used at framework initialization.
+
+.. _`/func/core/utils.php`:
+
+/func/core/utils.php
+--------------------
+
+Description
+~~~~~~~~~~~
+
+Define functions used by the framework.
+
+.. _/hook:
+
+-----
+\hook
+-----
 
 ~~~~~~~~~~~
 Description
@@ -130,11 +179,11 @@ Description
 
 The ``hook`` folder contains all the PHP hook files.
 
-.. _lang:
+.. _/lang:
 
-----
-lang
-----
+-----
+/lang
+-----
 
 ~~~~~~~~~~~
 Description
@@ -146,56 +195,56 @@ The ``lang`` folder contains all the server lang files.
 Layout
 ~~~~~~
 
-- :ref:`lang/class`
-- :ref:`lang/core`
-- :ref:`lang/mod`
-- :ref:`lang/page`
+- :ref:`/lang/class`
+- :ref:`/lang/core`
+- :ref:`/lang/mod`
+- :ref:`/lang/page`
 
-.. _`lang/class`:
+.. _`/lang/class`:
 
-lang/class
-----------
+/lang/class
+-----------
 
 Description
 ~~~~~~~~~~~
 
 This folder contains server language files used in the class definition.
 
-.. _`lang/core`:
+.. _`/lang/core`:
 
-lang/core
----------
+/lang/core
+----------
 
 Description
 ~~~~~~~~~~~
 
 This folder contains server language files used in the framework core.
 
-.. _`lang/mod`:
+.. _`/lang/mod`:
 
-lang/mod
---------
+/lang/mod
+---------
 
 Description
 ~~~~~~~~~~~
 
 This folder contains server language files used in PHosPhore modules, stored in different subfolder.
 
-.. _`lang/page`:
+.. _`/lang/page`:
 
-lang/page
----------
+/lang/page
+----------
 
 Description
 ~~~~~~~~~~~
 
 This folder contains server language files used in webpage.
 
-.. _locale:
+.. _/locale:
 
-------
-locale
-------
+-------
+/locale
+-------
 
 ~~~~~~~~~~~
 Description
@@ -207,56 +256,56 @@ The ``locale`` folder contains all the user lang files.
 Layout
 ~~~~~~
 
-- :ref:`locale/class`
-- :ref:`locale/core`
-- :ref:`locale/mod`
-- :ref:`locale/page`
+- :ref:`/locale/class`
+- :ref:`/locale/core`
+- :ref:`/locale/mod`
+- :ref:`/locale/page`
 
-.. _`locale/class`:
+.. _`/locale/class`:
 
-locale/class
-------------
+/locale/class
+-------------
 
 Definition
 ~~~~~~~~~~
 
 This folder contains user language file used in classes.
 
-.. _`locale/core`:
+.. _`/locale/core`:
 
-locale/core
------------
+/locale/core
+------------
 
 Definition
 ~~~~~~~~~~
 
 This folder contains user language file used in the framework core.
 
-.. _`locale/mod`:
+.. _`/locale/mod`:
 
-locale/mod
-----------
+/locale/mod
+-----------
 
 Definition
 ~~~~~~~~~~
 
 This folder contains user language file used in PHosPhore modules, stored in different subfolder.
 
-.. _`locale/page`:
+.. _`/locale/page`:
 
-locale/page
------------
+/locale/page
+------------
 
 Definition
 ~~~~~~~~~~
 
 This folder contains user language file used in webpage.
 
-.. _mod:
+.. _/mod:
 
----
-mod
----
+----
+/mod
+----
 
 ~~~~~~~~~~~
 Description
@@ -264,11 +313,27 @@ Description
 
 The ``mod`` folder contains all the module files.
 
-.. _page:
+~~~~~~
+Layout
+~~~~~~
 
-----
-page
-----
+- :ref:`/mod/installed`
+
+.. _`/mod/installed`:
+
+/mod/installed
+--------------
+
+Description
+~~~~~~~~~~~
+
+List of installed module
+
+.. _/page:
+
+-----
+/page
+-----
 
 ~~~~~~~~~~~
 Description
