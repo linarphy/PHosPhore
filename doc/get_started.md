@@ -13,4 +13,4 @@ API references
 - [Directory structure](references/folders.md)
 - [Database structure](references/database.md)
 - [Globals variables](references/globals.md)
-- [API](references/api/main.md)
+- [API](references/api.md)
