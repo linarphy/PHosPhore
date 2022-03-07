@@ -16,7 +16,7 @@ Clone the module repository into a temporary place
 git clone https://github.com/gugus2000/PHosPhore_installation
 ```
 
-Once it's done, move the `src` folder into your PHosPhore `root folder`.
+Once it's done, move the `src` folder into your PHosPhore `root folder`, and load the website (for the first time).
 
 ### Manual
 
