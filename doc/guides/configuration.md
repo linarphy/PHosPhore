@@ -5,7 +5,7 @@
 There is currently two way to configure PHosPHore.
 
 - [Manual](#Manual)
-- [Using PHosPhore_installation module](#Automatic configuration)
+- [Using PHosPhore_installation module](#Automatic-configuration)
 
 ### Automatic configuration
 
