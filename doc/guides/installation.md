@@ -29,11 +29,11 @@ git clone https://github.com/gugus2000/PHosPhore
 If several websites are to be hosted by the server, virtual hosts should be used.
 The method varies depending on the web servers used, check on internet to setup the configuration.
 
-The root folder of this website is [`src`](../src) (be free to rename it).
+The root folder of this website is [`src`](../../src) (be free to rename it).
 
 ### Single host
 
-Move the content of [`src`](../src) folder into your web directory folder.
+Move the content of [`src`](../../src) folder into your web directory folder.
 
 
 From now on, this directory will be the `root folder`.
