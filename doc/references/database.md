@@ -75,8 +75,8 @@ primary (id_notification, id_user)
 
 foreign key:
 
-- id_notification => id for :ref:`phosphore_notification`, on update cascade, on delete restrict
-- id_user => id for :ref:`phosphore_user`, on update cascade, on delete restrict
+- id_notification => id for [`phosphore_notification`](#phosphore_notification), on update cascade, on delete restrict
+- id_user => id for [`phosphore_user`](#phosphore_user), on update cascade, on delete restrict
 
 ### phosphore_link_page_page_parameter
 
@@ -91,8 +91,8 @@ primary (id_page, id_parameter)
 
 foreign key:
 
-- id_page => id for :ref:`phosphore_route`, on update cascade, on delete restrict
-- id_parameter => id for :ref:`phosphore_page_parameter`, on update cascade, on delete restrict
+- id_page => id for [`phosphore_route`](#phosphore_route), on update cascade, on delete restrict
+- id_parameter => id for [`phosphore_page_parameter`](#phosphore_page_parameter), on update cascade, on delete restrict
 
 
 ### phosphore_link_role_user
@@ -108,7 +108,7 @@ primary (name_role, id_user)
 
 foreign key:
 
-- id_user => id for :ref:`phosphore_user`, on update cascade, on delete cascade
+- id_user => id for [`phosphore_user`](#phosphore_user), on update cascade, on delete cascade
 
 ### phosphore_link_route_route
 
@@ -123,8 +123,8 @@ primary (id_route_parent, id_route_child)
 
 foreign key:
 
-- id_route_parent => id for :ref:`phosphore_route`, on update cascade, on delete restrict
-- id_route_child => id for :ref:`phosphore_route`, on update cascade, on delete restrict
+- id_route_parent => id for [`phosphore_route`](#phosphore_route), on update cascade, on delete restrict
+- id_route_child => id for [`phosphore_route`](#phosphore_route), on update cascade, on delete restrict
 
 ### phosphore_link_route_route_parameter
 
@@ -139,8 +139,8 @@ primary (id_parameter, id_route)
 
 foreign key:
 
-- id_parameter => id for :ref:`phosphore_route_parameter`, on update cascade, on delete restrict
-- id_route => id for :ref:`phosphore_route`, on update cascade, on delete restrict
+- id_parameter => id for [`phosphore_route_parameter`](#phosphore_route_parameter), on update cascade, on delete restrict
+- id_route => id for [`phosphore_route`](#phosphore_route), on update cascade, on delete restrict
 
 ### phosphore_login_token
 
@@ -157,7 +157,7 @@ primary (selecto)
 
 foreign key:
 
-- id => id for :ref:`phosphore_user`, on update cascade, on delete cascade
+- id => id for [`phosphore_user`](#phosphore_user), on update cascade, on delete cascade
 
 ### phosphore_notification
 
@@ -174,7 +174,7 @@ primary (id)
 
 foreign key:
 
-- id_content => id_content for :ref:`phosphore_content`, on update cascade, on delete cascade
+- id_content => id_content for [`phosphore_content`](#phosphore_content), on update cascade, on delete cascade
 
 ### phosphore_page_parameter
 
@@ -202,7 +202,7 @@ primary (id)
 
 foreign key:
 
-- id_route => id for :ref:`phosphore_route`, on update cascade, on delete cascade
+- id_route => id for [`phosphore_route`](#phosphore_route), on update cascade, on delete cascade
 
 ### phosphore_route
 
