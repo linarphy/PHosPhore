@@ -9,7 +9,7 @@ There is currently two way to configure PHosPHore.
 
 ### Automatic configuration
 
-It's the easiest methode, which needs [git](https://git-scm.com).
+It's the easiest method, which needs [git](https://git-scm.com).
 
 Clone the module repository into a temporary place
 ```shell

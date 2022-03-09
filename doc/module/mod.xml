@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<mod>
+  <name>
+    module name
+  </name>
+  <authors>
+    <author>
+      <name>
+        author name
+      </name>
+      <contacts>
+        <contact type="email">
+          example@example.org
+        </contact>
+        <contact type="twitter">
+          @example
+        </contact>
+      </contacts>
+      <work>
+        Work done by him
+      </work>
+    </author>
+  </authors>
+  <description>
+    The module does that and that, next it does that.
+    Finally that works too.
+  </description>
+  <version>
+    1.1.1
+  </version>
+  <license>
+    MIT License
+  </license>
+  <requirements>
+    <requirement type="module" link="https://example.com" minVersion="1.0" maxVersion="latest">
+      example module
+    </requirement>
+  </requirements>
+  <structure>
+    <folder name="test">
+      <folder name="other test">
+      </folder>
+      <file name="test.md" />
+    </folder>
+    <file name="this.md" />
+  </structure>
+</mod>

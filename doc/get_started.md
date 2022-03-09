@@ -5,6 +5,7 @@ Guides to quickly start using PHosPhore:
 
 - [Installation](guides/installation.md)
 - [Configuration](guides/configuration.md)
+- [Modules](guides/modules.md)
 
 ## References
 API references

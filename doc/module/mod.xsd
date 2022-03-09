@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="mod">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotations>
+					<xs:documentation>
+						Name of the module.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:element>
+			<xs:complexType name="authors">
+				<xs:sequence>
+					<xs:complexType maxOccurs="unbounded" name="author">
+						<xs:element name="name" type="xs:string">
+							<xs:annotations>
+								<xs:documentation>
+									Name of the author.
+								</xs:documentation>
+							</xs:annotations>
+						</xs:element>
+						<xs:complexType name="contacts">
+							<xs:sequence>
+								<xs:complexType maxOccurs="unbounded" name="contact">
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="type" type="xs:string">
+												<xs:annotations>
+													<xs:documentation>
+														Contact type (email, twitter account, etc.).
+													</xs:documentation>
+												</xs:annotations>
+											</xs:attribute>
+										</xs:extension>
+									</xs:simpleContent>
+									<xs:annotations>
+										<xs:documentation>
+											Contact of the author.
+										</xs:documentation>
+									</xs:annotations>
+								</xs:complexType>
+								<xs:annotations>
+									<xs:documentation>
+										Contact list.
+									</xs:documentation>
+								</xs:annotations>
+							</xs:complexType>
+							<xs:element name="work" type="xs:string">
+								<xs:annotations>
+									<xs:documentation>
+										Description of the work done by this author.
+									</xs:documentation>
+								</xs:annotations>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:sequence>
+				<xs:annotations>
+					<xs:documentation>
+						Author list.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:complexType>
+			<xs:element name="description" type="xs:string">
+				<xs:annotations>
+					<xs:documentation>
+						Description of the module.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:element>
+			<xs:element name="version" type="xs:string">
+				<xs:annotations>
+					<xs:documentation>
+						Version of the module (use of semver (https://semver.org) recommended, as the module manager will use it to update.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:element>
+			<xs:element name="license" type="xs:string">
+				<xs:annotations>
+					<xs:documentation>
+						License of the module.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:element>
+			<xs:complexType name="requirements">
+				<xs:sequence>
+					<xs:complexType maxOccurs="unbounded" name="requirement">
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="type" type="xs:string">
+									<xs:annotations>
+										<xs:documentation>
+											Requirement type (PHosPhore module, external programm, etc.).
+										</xs:documentation>
+									</xs:annotations>
+								</xs:attribute>
+								<xs:attribute name="link" type="xs:string">
+									<xs:annotations>
+										<xs:documentation>
+											Link to the requirement.
+										</xs:documentation>
+									</xs:annotations>
+								</xs:attribute>
+								<xs:attribute name="minVersion" type="xs:string">
+									<xs:annotations>
+										<xs:documentation>
+											Minimum version needed.
+										</xs:documentation>
+									</xs:annotations>
+								</xs:attribute>
+								<xs:attribute name="maxVersion" type="xs:string">
+									<xs:annotations>
+										<xs:documentation>
+											Maximum version needed.
+										</xs:documentation>
+									</xs:annotations>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+						<xs:annotations>
+							<xs:documentation>
+								Requirement of the module.
+							</xs:documentation>
+						</xs:annotations>
+					</xs:complexType>
+				</xs:sequence>
+				<xs:annotations>
+					<xs:documentation>
+						Requirements of the module.
+					</xs:documentation>
+				</xs:annotations>
+			</xs:complexType>
+			<xs:complexType name="structure">
+				<xs:sequence>
+					<xs:complexType maxOccurs="unbounded" name="folder">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" ref="folder"/>
+							<xs:element maxOccurs="unbounded" ref="file"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string">
+							<xs:annotations>
+								<xs:documentation>
+									Name of the folder.
+								</xs:documentation>
+							</xs:annotations>
+						</xs:attribute>
+						<xs:annotations>
+							<xs:documentation>
+								A module folder.
+							</xs:documentation>
+						</xs:annotations>
+					</xs:complexType>
+					<xs:complexType maxOccurs="unbounded" name="file">
+						<xs:attribute name="name" type="xs:string">
+							<xs:annotations>
+								<xs:documentation>
+									Name of the file.
+								</xs:documentation>
+							</xs:annotations>
+						</xs:attribute>
+						<xs:annotations>
+							<xs:documentation>
+								A module file.
+							</xs:documentation>
+						</xs:annotations>
+					</xs:complexType>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
