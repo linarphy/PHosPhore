@@ -26,3 +26,26 @@ Array used to store redundant data.
 ```php
 echo 'These templates are already loaded ' . $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'];
 ```
+
+### Structure
+
+- [`cache > class`](#cache->-class)
+- [`cache > core`](#cache->-core)
+- [`cache > mod`](#cache->-mod)
+- [`cache > page`](#cache->-page)
+
+#### cache > class
+
+Store data used by classes.
+
+#### cache > core
+
+Store data used internaly by the framework.
+
+#### cache > mod
+
+Store data used by module.
+
+#### cache > page
+
+Store data used in page.
