@@ -37,13 +37,25 @@ Folder that contains all the PHP configuration files.
 
 Layout:
 
-- [`/config/config.php`](#/config/config.php)
-- [`/config/class`](#class)
-- [`/config/core`](#core)
-- [`/config/mod`](#mod)
+- [`/config/config.php`](#configconfig.php)
+- [`/config/class`](#configclass)
+- [`/config/core`](#configcore)
+- [`/config/mod`](#configmod)
 
 #### /config/config.php
 
 Define user configuration.
 
-**It is the only file to modify to change the user configuration**
+**It is the only file to modify to change the user configuration.**
+
+#### /config/class
+
+Folder that contains class configuration.
+
+#### /config/core
+
+Folder that contains configuration file for the framework core.
+
+#### /config/mod
+
+Folder that contains configuration file for modules.
