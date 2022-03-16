@@ -117,9 +117,9 @@ Same thing than before, it's interesting to see how this file is linked with the
 
 `page.php` use some content in `$GLOBALS['locale']['page']['main']['welcome']`, which does not exist, let's resolve that!
 
-`locale/page/main/welcome/EN.locale.php` will be the file that will define this array so `page.php` will use existing value.
+`locale/page/main/welcome/en.locale.php` will be the file that will define this array so `page.php` will use existing value.
 
-`locale/page/main/welcome/EN.locale.php` content:
+`locale/page/main/welcome/en.locale.php` content:
 
 ``` php
 /* title of the page */
