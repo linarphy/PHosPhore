@@ -19,7 +19,8 @@ If one cannot install the PHosPhore_installation module, one can install PHosPho
 
 ## Documentation
 
-When there is no easily readable documentation yet, one can check all the differents function, variable and class of the PHosPhore framework here: [doc/doc.xml](doc/doc.xml).
+Documentation is still WIP but there are already some guides to understand better how this framework works.
+For now documentation take the form of markdown files which are available [here](doc/get_started.md).
 
 ## Authors
 
