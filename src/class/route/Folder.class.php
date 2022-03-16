@@ -92,7 +92,7 @@ class Folder extends \core\Managed
 	{
 		if ($this->id_parent === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Folder']['getParent']['null']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Folder']['getParent']['null']);
 		}
 		$Folder = new \route\Folder(array(
 			'id' => $this->id_parent,
@@ -110,6 +110,11 @@ class Folder extends \core\Managed
 		if ($this->id_parent === -1)
 		{
 			return DIRECTORY_SEPARATOR . $this->name . DIRECTORY_SEPARATOR;
+		}
+		if ($this->id_parent === null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Folder']['getPath']['null']);
+			throw new \Exception($GLOBALS['locale']['class']['route']['Folder']['getPath']['null']);
 		}
 		return $this->getParent()->getPath() . $this->name . DIRECTORY_SEPARATOR;
 	}

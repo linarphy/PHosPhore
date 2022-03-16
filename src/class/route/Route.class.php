@@ -236,6 +236,14 @@ class Route extends \core\Managed
 
 		$Folder = $this->retrieveFolder();
 
+		if ($Folder->get('name') === null)
+		{
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->displayer('name')]);
+
+			return 0;
+		}
+
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], ['name' => $this->displayer('name')]);
 
 		$count = 0;

@@ -91,7 +91,7 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters(array $parameters, \route\Route $page) : array
+	public function cleanParameters(array $parameters, \user\Page $page) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $page->display()]);
 
