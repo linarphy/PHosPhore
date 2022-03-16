@@ -27,9 +27,12 @@ Then you'll need to manually add default element into the database:
 - error folder
 - main folder
 - home folder (which is inside the main folder)
+- root route (id = 0)
 - error route
 - main route
 - home route
+- link between root (parent) and main (child)
+- link between root (parent) and error (child)
 - link between main (parent) and home (child)
 - main page parameter:
 
