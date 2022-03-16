@@ -45,6 +45,12 @@ $GLOBALS['lang']['class']['user']['Page']['load']['include'] = 'Start to include
 $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start'] = 'Retrieval of Page parameters';
 /* already retrieved */
 $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['already_defined'] = 'parameters already retrieved before';
+/* parameters of parent loading */
+$GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loading_parameters'] = 'loading parameter of parent route';
+/* parameteres of this parent is already loaded */
+$GLOBALS['lang']['class']['user']['Page']['retrievedParameters']['already_loaded'] = 'Parameters of this parent already loaded';
+/* no parameteres to load, root route */
+$GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['root_parameters'] = 'Root, page, no more parameters to load';
 /* parameters retrieved */
 $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loaded'] = 'Retrieved {number} parameters for the Page';
 /** [/retrieveParameters] **/

@@ -93,15 +93,18 @@ class Route extends \core\Managed
 			'id' => $this->get('id'),
 		]);
 
-		foreach ($Page->get('parameters') as $Parameter)
+		if (\phosphore_count($Page->get('parameters')) !== 0)
 		{
-			if ($Parameter->get('key') === 'default_page')
+			foreach ($Page->get('parameters') as $Parameter)
 			{
-				$route = new \route\Route([
-					'id' => $Parameter->get('value'),
-				]);
-				$route->retrieve();
-				return $route->getDefaultPage();
+				if ($Parameter->get('key') === 'default_page')
+				{
+					$route = new \route\Route([
+						'id' => $Parameter->get('value'),
+					]);
+					$route->retrieve();
+					return $route->getDefaultPage();
+				}
 			}
 		}
 
@@ -301,29 +304,36 @@ class Route extends \core\Managed
 	/**
 	 * Retrieve route parameter
 	 *
+	 * @param int $level depth of the stack
+	 *
 	 * @return array
 	 */
-	public function retrieveParameters() : array
+	public function retrieveParameters(int $level = 0) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['start']);
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy([
 			'id_route_child' => $this->id,
-		], class_name: '\route\Route');
+		], class_name: '\route\Route', attributes_conversion: ['id_route_parent' => 'id']);
 
 		$parameters = [];
+
+		if ($level === 0)
+		{
+			$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'] = [];
+		}
 
 		if (\count($routes) !== 0) // not root route
 		{
 			foreach ($routes as $route)
 			{
-				if (\array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')] !== null) // avoid circular reference
+				if (!isset(\array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')])) // avoid circular reference
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['loading_parameters']);
 
-					$parameters = \array_merge($parameters, $route->retrieveParameters());
-					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $result['id_route_parent'];
+					$parameters = \array_merge($parameters, $route->retrieveParameters($level + 1));
+					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $route->get('id_route_parent');
 				}
 				else
 				{
@@ -336,10 +346,10 @@ class Route extends \core\Managed
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['root_parameters']);
 		}
 
-		$LinkManager = \route\LinkRouteParameter();
+		$LinkManager = new \route\LinkRouteParameter();
 		$this->parameters = \array_merge($parameters, $LinkManager->retrieveBy([
 			'id_route' => $this->id,
-		]));
+		], class_name: '\route\Parameter', attributes_conversion: ['id_parameter' => 'id']));
 
 		return $this->get('parameters');
 	}

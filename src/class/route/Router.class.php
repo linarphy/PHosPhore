@@ -95,9 +95,14 @@ class Router
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $page->display()]);
 
-		$page->retrieveParameters();
+		$route = new \route\Route([
+			'id' => $page->get('id'),
+		]);
+		$route->retrieve();
 
-		$expected_parameters = $page->get('parameters');
+		$route->retrieveParameters();
+
+		$expected_parameters = $route->get('parameters');
 		$cleaned_parameters = [];
 
 		foreach ($expected_parameters as $expected_parameter)
@@ -476,7 +481,7 @@ class Router
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($_GET, $GLOBALS['Visitor']->get('page')));
 
 		return \end($routes);
 	}
@@ -524,7 +529,7 @@ class Router
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($_GET, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($_GET, $GLOBALS['Visitor']->get('page')));
 
 		return \end($routes);
 	}
@@ -602,7 +607,7 @@ class Router
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanparameters($parameters, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($parameters, $GLOBALS['Visitor']->get('page')));
 
 		return $route;
 	}

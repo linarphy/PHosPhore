@@ -676,7 +676,7 @@ abstract class Manager
 	 *
 	 * @param string $class_name Class name if different (LinkManager for example)
 	 *
-	 * @param array $attributes_conversion Convert attribute name if custom class. For example: ['id_route' => 'id') convert id_route attribute to id to retrieve \route\Route object
+	 * @param array $attributes_conversion Convert attribute name if custom class. For example: ['id_route' => 'id'] convert id_route attribute to id to retrieve \route\Route object
 	 *
 	 * @return array
 	 */
@@ -713,26 +713,29 @@ abstract class Manager
 
 			$manager = new $class_manager_name();
 
-			if (empty($attributes_conversion))
+			if (\phosphore_count($results) !== 0)
 			{
-				foreach ($results as $result)
+				if (empty($attributes_conversion))
 				{
-					$Objects[] = new $class_name($result);
-				}
-			}
-			else
-			{
-				foreach ($results as $id => $result)
-				{
-					foreach ($result as $key => $value)
+					foreach ($results as $result)
 					{
-						if (isset($attributes_conversion[$key]))
-						{
-							$result[$attributes_conversion[$key]] = $value;
-							unset($result[$key]);
-						}
+						$Objects[] = new $class_name($result);
 					}
-					$Objects[] = $manager->retrieveBy($result)[0];
+				}
+				else
+				{
+					foreach ($results as $id => $result)
+					{
+						foreach ($result as $key => $value)
+						{
+							if (isset($attributes_conversion[$key]))
+							{
+								$result[$attributes_conversion[$key]] = $value;
+								unset($result[$key]);
+							}
+						}
+						$Objects[] = $manager->retrieveBy($result)[0];
+					}
 				}
 			}
 		}

@@ -12,13 +12,13 @@ else
 }
 $Content = new \content\pageelement\PageElement([
 	'elements' => [
-		'locale'    => $GLOBALS['locale']['core']['locale']['abbr'],
-		'title'     => $GLOBALS['locale']['page']['error']['title'],
 		'important' => $GLOBALS['locale']['page']['error']['important'],
 		'message'   => $message,
+		'version'   => implode('.', $GLOBALS['config']['core']['version']),
 	],
 	'template' => 'error/content.html',
 ]);
-$PageElement->addElement('content', $Content);
+$PageElement->addElement('body', $Content);
+$PageElement->addElement('head', '<title>' . $GLOBALS['locale']['page']['error']['title'] . '</title>');
 
 ?>

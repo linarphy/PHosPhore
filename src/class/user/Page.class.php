@@ -81,7 +81,6 @@ class Page extends \core\Managed
 
 		$this->retrieve();
 		$Route = $this->retrieveRoute();
-		$this->retrieveParameters();
 
 		$GLOBALS['Hook']->load(['class', 'user', 'Page', '__construct', 'end'], [$this, $attributes]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
@@ -141,6 +140,7 @@ class Page extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
 		$GLOBALS['Hook']->load(['class', 'user', 'Page', 'load', 'start'], $this);
 
+		$this->retrieveParameters();
 		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
 		$no_notification = False; // the page can display notifications
@@ -209,24 +209,65 @@ class Page extends \core\Managed
 	/**
 	 * Retrieve parameters of the page in the database
 	 *
+	 * @param int $level Level of the stack
+	 *
 	 * @return array
 	 */
-	public function retrieveParameters() : array
+	public function retrieveParameters(int $level = 0) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['start']);
 
-		if ($this->get('parameters') !== null)
+		if (\phosphore_count($this->get('parameters')) !== 0)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['already_defined']);
 
 			return $this->get('parameters');
 		}
 		$LinkPageParameters = new \user\LinkPageParameter();
-		$parameters = $LinkPageParameters->retrieveBy([
+		$LinkRouteRoute = new \route\LinkRouteRoute();
+
+		$routes = $LinkRouteRoute->retrieveBy([
+			'id_route_child' => $this->get('id'),
+		], class_name: '\route\Route', attributes_conversion: ['id_route_parent' => 'id']);
+
+		$parameters = [];
+
+		if ($level === 0)
+		{
+			$GLOBALS['cache']['class']['user']['Page']['loaded']['parameters'] = [];
+		}
+
+		if (\count($routes) !== 0)
+		{
+			foreach ($routes as $route)
+			{
+				if (!isset(\array_flip($GLOBALS['cache']['class']['user']['Page']['loaded']['parameters'])[$route->get('id')])) // avoid circular references
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loading_parameters']);
+
+					$page = new \user\Page([
+						'id' => $route->get('id'),
+					]);
+
+					$parameters = \array_merge($parameters, $page->retrieveParameters($level + 1));
+					$GLOBALS['cache']['class']['user']['Page']['loaded']['parameters'][] = $route->get('id');
+				}
+				else
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['already_loaded'], ['route' => $route->get('name')]);
+				}
+			}
+		}
+		else
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['root_parameters']);
+		}
+
+		$parameters = \array_merge($parameters, $LinkPageParameters->retrieveBy([
 			'id_page' => $this->get('id'),
 		], class_name: '\user\Parameter', attributes_conversion: [
 			'id_parameter' => 'id',
-		]);
+		]));
 
 		$this->set('parameters', $parameters);
 
