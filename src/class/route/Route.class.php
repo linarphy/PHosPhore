@@ -347,6 +347,7 @@ class Route extends \core\Managed
 		}
 
 		$LinkManager = new \route\LinkRouteParameter();
+
 		$this->parameters = \array_merge($parameters, $LinkManager->retrieveBy([
 			'id_route' => $this->id,
 		], class_name: '\route\Parameter', attributes_conversion: ['id_parameter' => 'id']));

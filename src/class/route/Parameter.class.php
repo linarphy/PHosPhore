@@ -57,32 +57,32 @@ class Parameter extends \core\Managed
 	 */
 	public function getFullRegex() : string
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], ['regex' => $this->regex()]);
-		if (\phosphore_count($this->regex) === 0)
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['start'], ['regex' => $this->get('regex')]);
+		if (\phosphore_count($this->get('regex')) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], ['regex' => $this->regex]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['bad_regex'], ['regex' => $this->get('regex')]);
 
 			return '##'; // always false
 		}
-		if (\phosphore_count($this->regex) === 1)
+		if (\phosphore_count($this->get('regex')) === 1)
 		{
-			$regex = '#\\' . $this->regex . '#';
+			$regex = '#\\' . $this->get('regex') . '#';
 
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['one_escaped'], ['regex' => $regex]);
 
 			return $regex;
 		}
-		if ($this->regex[0] === $this->regex[phosphore_count($this->regex)])
+		if ($this->get('regex')[0] === $this->get('regex')[\phosphore_count($this->get('regex')) - 1])
 		{
-			if (\in_array($this->regex[0], ['#', '/']))
+			if (\in_array($this->get('regex')[0], ['#', '/']))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], ['regex' => $this->regex]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['already_done'], ['regex' => $this->get('regex')]);
 
-				return $this->regex;
+				return $this->get('regex');
 			}
 		}
 
-		$regex = '#' . $this->regex . '#';
+		$regex = '#' . $this->get('regex') . '#';
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Parameter']['getFullRegex']['no_delimiter'], ['regex' => $regex]);
 

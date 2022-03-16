@@ -140,7 +140,6 @@ class Page extends \core\Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
 		$GLOBALS['Hook']->load(['class', 'user', 'Page', 'load', 'start'], $this);
 
-		$this->retrieveParameters();
 		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
 		$no_notification = False; // the page can display notifications

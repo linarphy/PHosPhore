@@ -41,7 +41,7 @@ To access a route `form` in a route `login` in a route `user` with parameter
 
 ### Router mode: route
 
-`<WEBSITE_DOMAIN>/login/user/form/gugus2000`
+`<WEBSITE_DOMAIN>/login/user/form/ /gugus2000`
 
 ## Configuration
 

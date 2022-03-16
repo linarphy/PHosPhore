@@ -123,7 +123,7 @@ $GLOBALS['lang']['class']['core']['Manager']['get']['end'] = '{class} query cons
 /* start the process */
 $GLOBALS['lang']['class']['core']['Manager']['getBy']['start'] = '{class} starting to get elements respecting a condition in the database';
 /* empty values */
-$GLOBALS['lang']['class']['core']['Manager']['getBy']['values'] = '{class} cannot get eleements respecting a condition in the database because values is empty, so there is no condition';
+$GLOBALS['lang']['class']['core']['Manager']['getBy']['values'] = '{class} cannot get elements respecting a condition in the database because values is empty, so there is no condition';
 /* end, query constructed */
 $GLOBALS['lang']['class']['core']['Manager']['getBy']['end'] = '{class} query constructed: {query}';
 /** [/getBy] **/

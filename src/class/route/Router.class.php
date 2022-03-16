@@ -91,13 +91,10 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters(array $parameters, \user\Page $page) : array
+	public function cleanParameters(array $parameters, \route\Route $route) : array
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $page->display()]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $route->get('name')]);
 
-		$route = new \route\Route([
-			'id' => $page->get('id'),
-		]);
 		$route->retrieve();
 
 		$route->retrieveParameters();
@@ -111,8 +108,14 @@ class Router
 			{
 				if (\preg_match($expected_parameter->getFullRegex(), $parameter))
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['found'], ['page' => $page->display(), 'name' => $expected_parameter->get('name'), 'value' => $parameter, 'regex' => $expected_parameter->getFullRegex()]);
-					$cleaned_parameters[$expected_parameter->get('name')] = $parameter;
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['found'], ['page' => $route->get('name'), 'name' => $expected_parameter->get('name'), 'value' => $parameter, 'regex' => $expected_parameter->getFullRegex()]);
+
+					$Parameter = new \user\Parameter([
+						'key' => $expected_parameter->get('name'),
+						'value' => $parameter,
+					]);
+
+					$cleaned_parameters[$expected_parameter->get('name')] = $Parameter;
 					break;
 				}
 			}
@@ -120,7 +123,7 @@ class Router
 			{
 				if ($cleaned_parameters[$expected_parameter->get('name')] === null)
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['missing'], ['page' => $page->display(), 'name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->getFullRegex()]);
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['missing'], ['page' => $route->get('name'), 'name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->getFullRegex()]);
 
 					$Notification = new \user\Notification([
 						'text'         => $GLOBALS['locale']['class']['route']['Router']['missing_parameter'],
@@ -141,7 +144,7 @@ class Router
 			}
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['end'], ['page' => $page->display()]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['end'], ['page' => $route->get('name')]);
 
 		return $cleaned_parameters;
 	}
@@ -404,6 +407,8 @@ class Router
 				'id' => $route->get('id'),
 			]);
 
+			$Page->retrieveParameters();
+
 			$GLOBALS['Visitor']->set('page', $Page);
 		}
 		else
@@ -475,13 +480,17 @@ class Router
 			}
 		}
 
+		$route = \end($routes)->getDefaultPage();
+
 		$Page = new \user\Page([
-			'id' => \end($routes)->getDefaultPage()->get('id'),
+			'id' => $route->get('id'),
 		]);
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($_GET, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->retrieveParameters();
+
+		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($_GET, $route)));
 
 		return \end($routes);
 	}
@@ -523,15 +532,18 @@ class Router
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route'], ['url' => $url]);
 		}
 
+		$route = \end($routes)->getDefaultPage();
 		$Page = new \user\Page([
-			'id' => \end($routes)->getDefaultPage()->get('id'),
+			'id' => $route->get('id'),
 		]);
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($_GET, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->retrieveParameters();
 
-		return \end($routes);
+		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($_GET, $route)));
+
+		return $routes;
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode route
@@ -558,7 +570,7 @@ class Router
 		if ($path === ' ') // parameter list
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list']);
-			foreach (array_slice($path, $key + 1) as $param)
+			foreach (array_slice($paths, $key + 1) as $param)
 			{
 				$parameters[] = $param;
 			}
@@ -607,7 +619,9 @@ class Router
 
 		$GLOBALS['Visitor']->set('page', $Page);
 
-		$GLOBALS['Visitor']->get('page')->set('parameters', $this->cleanParameters($parameters, $GLOBALS['Visitor']->get('page')));
+		$GLOBALS['Visitor']->get('page')->retrieveParameters();
+
+		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($parameters, $route)));
 
 		return $route;
 	}

@@ -12,7 +12,7 @@ class LinkRouteParameter extends \core\LinkManager
 	 *
 	 * @var string
 	 */
-	const TABLE = 'posphore_link_route_route_parameter';
+	const TABLE = 'phosphore_link_route_route_parameter';
 	/**
 	 * index used
 	 *
@@ -27,7 +27,7 @@ class LinkRouteParameter extends \core\LinkManager
 	 *
 	 * @var array
 	 */
-	const ATRIBUTES = [
+	const ATTRIBUTES = [
 		'id_parameter',
 		'id_route',
 	];
