@@ -149,6 +149,7 @@ If you have graphical database management system already installed, you can easi
 - `phosphore_folder` table: insert a new entry with name 'welcome' (name of the directory created at the first step) and id_parent as the `main` entry id (should be 2) because `welcome` folder is inside `main` folder.
 - `phosphore_route` table: insert a new entry with name 'welcome' (URL string which will be writed to access the webpage) and type as 1 (it's a page and not a node containing other page).
 - `phosphore_link_route_route` table: insert a new entry with id_route_parent as the `main` route id (should be 2) and id_route_child as the new route id of the 'welcome' entry.
+- `phosphore_permission` table: insert a new entry with id_route as the `welcome` route and name_role as 'all'
 
 ### With PHosPhore
 
@@ -184,6 +185,12 @@ $LinkRouteRoute->add([
 	'id_route_parent' => $MainRoute->get('id'),
 	'id_route_child'  => $WelcomeRoute->get('id'),
 ]);
+
+$WelcomePermission = new \user\Permission([
+	'id_route'  => $WelcomeRoute->get('id'),
+	'name_role' => 'all',
+]);
+$WelcomePermission->add();
 ```
 
 Once it's done, load the page **one time**, and **delete it immediately after**.

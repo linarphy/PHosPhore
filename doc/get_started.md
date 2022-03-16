@@ -15,4 +15,7 @@ API references
 - [Directory structure](references/folders.md)
 - [Database structure](references/database.md)
 - [Globals variables](references/globals.md)
+- [Permission system](references/permission.md)
+- [Routing system](references/route.md)
+- [Logging system](references/log.md)
 - [API](references/api.md)
