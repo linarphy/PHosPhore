@@ -12,6 +12,7 @@ A route can be seen as a node or a leaf in a tree.
 
 Example representation of routes:
 
+```
                     main              ----------------user----------------
 				   /   \              |                                  |
 				  /     \             |                                  |
@@ -19,6 +20,7 @@ Example representation of routes:
 		 /		 \                    |         |             |          |
 		/		  \                   |         |             |          |
 	  about     dashboard            form    activate      activate     form
+```
 
 ## URL
 
