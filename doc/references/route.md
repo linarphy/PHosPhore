@@ -13,13 +13,13 @@ A route can be seen as a node or a leaf in a tree.
 Example representation of routes:
 
 ```
-                    main              ----------------user----------------
-				   /   \              |                                  |
-				  /     \             |                                  |
-	      ------home  welcome       login--------             --------register
-		 /		 \                    |         |             |          |
-		/		  \                   |         |             |          |
-	  about     dashboard            form    activate      activate     form
+                         main              ----------------user----------------
+	       	        /   \              |                                  |
+		       /     \             |                                  |
+	      ------home  welcome          login--------             --------register
+	     /		\                    |         |             |          |
+	    /	         \                   |         |             |          |
+	  about     dashboard               form    activate      activate     form
 ```
 
 ## URL
