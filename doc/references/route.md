@@ -24,7 +24,7 @@ Example representation of routes:
 
 ## URL
 
-There are different modes to create and manager URL internaly in the framework.
+There are different modes to create and manage URL internaly in the framework.
 
 The mode of the `$GLOBALS['Router']` will be the same for all the script.
 
