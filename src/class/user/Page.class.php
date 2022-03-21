@@ -156,7 +156,7 @@ class Page extends \core\Managed
 		}
 		if (isset($preset))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['preset'], ['preset' => $preset]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['preset'], ['preset' => $preset]);
 
 			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['page_element']([]);
 			$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$preset]['notification_element']([]);

@@ -66,7 +66,7 @@ $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['success'] = 'li
 /* empty url */
 $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty'] = 'cannot decode an empty url';
 /* unknown Router mode */
-$GLOBALS['lang']['class']['route']['Router']['decodeRoute']['unknown_mode'] = 'Router mode {mode} does not exist';
+$GLOBALS['lang']['class']['route']['Router']['decodeRoute']['unknown_mode'] = 'router mode {mode} does not exist';
 /** [/decodeRoute] **/
 
 /** [decodeWithGet] **/

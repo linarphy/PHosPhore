@@ -7,7 +7,7 @@ $GLOBALS['lang']['class']['user']['Role']['add']['start'] = 'start to create the
 
 /** [retrievePermissions] **/
 /* Retrieve the Permissions of this Role */
-$GLOBALS['lang']['class']['user']['Role']['getPermissions'] = 'Retrieving Permissions of this Role';
+$GLOBALS['lang']['class']['user']['Role']['getPermissions'] = 'retrieving Permissions of this Role';
 /** [/retrievePermissions] **/
 
 ?>

@@ -27,13 +27,13 @@ $GLOBALS['lang']['class']['user']['Visitor']['loadPage']['no_permission'] = 'vis
 
 /** [register] **/
 /* start to register the visitor */
-$GLOBALS['lang']['class']['user']['Visitor']['register']['start'] = 'Start to register the visitor';
+$GLOBALS['lang']['class']['user']['Visitor']['register']['start'] = 'start to register the visitor';
 /* visitor does not have a defined password attribute */
-$GLOBALS['lang']['class']['user']['Visitor']['register']['no_password'] = 'The visitoe does not have a defined password attribute';
+$GLOBALS['lang']['class']['user']['Visitor']['register']['no_password'] = 'the visitor does not have a defined password attribute';
 /* visitor does not have a defined roles attribute */
-$GLOBALS['lang']['class']['user']['Visitor']['register']['no_roles'] = 'The visitor does not have a defined roles attribute';
+$GLOBALS['lang']['class']['user']['Visitor']['register']['no_roles'] = 'the visitor does not have a defined roles attribute';
 /* visitor registered */
-$GLOBALS['lang']['class']['user']['Visitor']['register']['end'] = 'The visitor is registered';
+$GLOBALS['lang']['class']['user']['Visitor']['register']['end'] = 'the visitor is registered';
 /** [/register] **/
 
 ?>
