@@ -185,7 +185,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="requirements" type="requirements"/>
+      <xs:element minOccurs="0" name="requirements" type="requirements"/>
       <xs:element name="structure" type="structure"/>
     </xs:sequence>
   </xs:complexType>
