@@ -26,7 +26,7 @@ $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['end'] = 'parame
 /* empty array */
 $GLOBALS['lang']['class']['route']['Router']['createLink']['empty'] = 'cannot create a link without any route path to a page';
 /* unknown Router mode */
-$GLOBALS['lang']['class']['route']['Router']['createLink']['unknown_mode'] = 'Router mode {mode} does not exist';
+$GLOBALS['lang']['class']['route']['Router']['createLink']['unknown_mode'] = 'router mode {mode} does not exist';
 /** [/createLink] **/
 
 /** [createLinkGet] **/

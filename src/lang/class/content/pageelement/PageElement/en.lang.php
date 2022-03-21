@@ -18,7 +18,7 @@ $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']
 /* start the process */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['start'] = 'trying to add {new_key} with a value of {value} to the array {key} of the elements attribute';
 /* the value associated with the key $key in elements attribute is not an array */
-$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'] = 'the value associated to the key {key} in the elements attribute is not an array, impossible to add {new_key} => {value} to another object than array';
+$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'] = 'the value associated to the key {key} in the elements attribute is not an array, cannot add {new_key} => {value} to another object than array';
 /* success */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['success'] = 'successfuly added {new_key} with the value of {value} to the array associated to {key} of the elements attribute';
 /* the $new_key is already taken */
@@ -68,7 +68,7 @@ $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']
 /* value changed */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['change'] = 'the element {key} has now the value {value}';
 /* value added */
-$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['add'] = 'because of the strict setting (False), the element {key} was added to the elements list with a value {value}, because it did not exisst before';
+$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['add'] = 'because of the strict setting (False), the element {key} was added to the elements list with a value {value}, because it did not exist before';
 /** [/setElement] **/
 
 ?>

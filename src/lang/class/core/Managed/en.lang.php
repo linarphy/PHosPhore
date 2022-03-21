@@ -102,7 +102,7 @@ $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'] = '{class} retri
 /* start the process */
 $GLOBALS['lang']['class']['core']['Managed']['set']['start'] = 'start to set a value for the attribute {attribute} of the class {class}';
 /* attribute does not exist */
-$GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set a value for the attribute attribute {attribute} of the class {class} because this attribute does not exist in this class';
+$GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set a value for the attribute {attribute} of the class {class} because this attribute does not exist in this class';
 /* custom method exists */
 $GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'] = 'custom setter found: {method} , defining {attribute} for {class}';
 /* attribute is typed */

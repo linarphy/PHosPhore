@@ -29,7 +29,7 @@ $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['group']['en
 /** [/group] **/
 /** [order] **/
 /* order element of the argument array is not an array */
-$GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['not_array'] = '{class} cannot create ORDER BY clause, incorrect argument given: the order element of the array must be an array composed of 2 elements: name, and diretion';
+$GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['not_array'] = '{class} cannot create ORDER BY clause, incorrect argument given: the order element of the array must be an array composed of 2 elements: name and direction';
 /* the name element does not exist or is not in the list of the class'attributes */
 $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['unknown_name'] = '{class} cannot create ORDER BY clause, incorrect argument given: the order element must have a valid name element';
 /* direction must be ASC or DESC to be valid */
@@ -39,7 +39,7 @@ $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['order']['en
 /** [/order] **/
 /** [limit] **/
 /* limit element of the argument array is not an array */
-$GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['not_array'] = '{class} cannot create LIMIT clause, incorrect argument given: the limit element of the array must be an array composed of 2 elements: number, and offset';
+$GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['not_array'] = '{class} cannot create LIMIT clause, incorrect argument given: the limit element of the array must be an array composed of 2 elements: number and offset';
 /* invalid value for number or/and offset */
 $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['limit']['invalid'] = '{class} cannot create the LIMIT clause, incorrect argument given: the number and the offset element of the limit element must be integer';
 /* end, query constructed */
@@ -173,7 +173,7 @@ $GLOBALS['lang']['class']['core']['Manager']['retrievedBy']['end'] = '{class} ob
 
 /** [setDb] **/
 /* trying to set a db which is not an instance of \PDO */
-$GLOBALS['lang']['class']['core']['Manager']['seetDb'] = '{class} cannot set db to this new value because this is not an instance of \PDO';
+$GLOBALS['lang']['class']['core']['Manager']['seetDb'] = '{class} cannot set db to this new value because this is not an instance of \\PDO';
 /** [/setDb] **/
 
 /** [update] **/
