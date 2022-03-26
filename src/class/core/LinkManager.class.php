@@ -53,11 +53,11 @@ class LinkManager extends \core\Manager
 	 */
 	public function addBy(array $variants, array $invariants) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start'], ['class' => \get_class($this)]);
 
 		if (\count($variants) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants'], ['class' => \get_class($this)]);
 			return False;
 		}
 		foreach ($variants as $key => $variant)
@@ -65,14 +65,14 @@ class LinkManager extends \core\Manager
 			$variants[$key] = $this->cleanAttributes($variant);
 			if (\count($variants[$key]) === 0)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant'], ['class' => \get_class($this)]);
 				return False;
 			}
 		}
 		$invariants = $this->cleanAttributes($invariants);
 		if (\count($invariants) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants'], ['class' => \get_class($this)]);
 			return False;
 		}
 
@@ -82,13 +82,13 @@ class LinkManager extends \core\Manager
 		{
 			$query = 'INSERT INTO ' . $this::TABLE . '(' . \implode(',', $attributes) . ') VALUES (' . \implode(',', \array_fill(0, \count($attributes), '?')) . ')';
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'], ['query' => $query]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'], ['class' => \get_class($this), 'query' => $query]);
 
 			$request = $this->bdd->prepare($query);
 			$request->execute(\array_merge($variant, $invariants)); // Order is important here
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'], ['class' => \get_class($this)]);
 		return True;
 	}
 }
