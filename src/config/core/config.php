@@ -71,6 +71,7 @@ $GLOBALS['config']['core']['mod']['install_file'] = 'install.php';
 /* version of PHosPhore */
 $GLOBALS['config']['core']['version'][] = 2;
 $GLOBALS['config']['core']['version'][] = 0;
+$GLOBALS['config']['core']['version'][] = 0;
 $GLOBALS['config']['core']['version'][] = 'stable';
 /** [/VERSION] **/
 
