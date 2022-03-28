@@ -16,7 +16,7 @@ class PageElement extends \content\pageelement\PageElement
 	{
 		if (\key_exists('template', $attributes))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['content']['pageelement']['preset']['already_template'], array('template' => $attributes['template']));
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['content']['pageelement']['preset']['already_template'], ['template' => $attributes['template']]);
 		}
 
 		$attributes['template'] = $GLOBALS['config']['class']['content']['pageelement']['preset']['template_folder'] . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . 'PageElement.html';
