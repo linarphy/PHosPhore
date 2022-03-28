@@ -212,8 +212,8 @@ function load_class($class_name)
 		{
 			$config_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $path, $GLOBALS['config']['core']['config']['filename']]);
 			$lang_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['lang'], $path, $GLOBALS['config']['core']['lang']['server'] . '.' . $GLOBALS['config']['core']['lang']['filename']]);
-			$locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $path, $GLOBALS['locale']['core']['locale']['abbr'] . '.' . $GLOBALS['config']['core']['locale']['filename']]);
-			$default_locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $path, $GLOBALS['config']['core']['locale']['default'] . '.'  . $GLOBALS['config']['core']['locale']['filename']]);
+			$locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['locale'], $path, $GLOBALS['locale']['core']['locale']['abbr'] . '.' . $GLOBALS['config']['core']['locale']['filename']]);
+			$default_locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['locale'], $path, $GLOBALS['config']['core']['locale']['default'] . '.'  . $GLOBALS['config']['core']['locale']['filename']]);
 			if (\is_file($config_file))
 			{
 				require($config_file);

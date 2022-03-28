@@ -564,20 +564,21 @@ class Router
 		{
 			if ($path === ' ') // go to parameter list
 			{
+				$key -= 1;
 				break;
 			}
 		}
 		if ($path === ' ') // parameter list
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list']);
-			foreach (array_slice($paths, $key + 1) as $param)
+			foreach (array_slice($paths, $key + 2) as $param)
 			{
 				$parameters[] = $param;
 			}
 		}
 
 		$arr_av_routes[] = $RouteManager->retrieveBy([
-			'name' => $paths[$key - 1],
+			'name' => $paths[$key],
 		]);
 
 		/** TIME CONSUMING OPERATION */
