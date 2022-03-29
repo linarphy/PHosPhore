@@ -194,8 +194,7 @@ catch (\Exception $exception) // FATAL ERROR
 	}
 	catch (\Exception $exception_1)
 	{
-		echo 'Cannot write logs';
-		var_dump($exception_1);
+		echo 'Cannot write logs, check your permissions on the web directory';
 	}
 }
 

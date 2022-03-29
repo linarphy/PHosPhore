@@ -21,6 +21,8 @@ class PageElement extends \content\pageelement\PageElement
 
 		$attributes['template'] = $GLOBALS['config']['class']['content']['pageelement']['preset']['template_folder'] . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'html' . DIRECTORY_SEPARATOR . 'PageElement.html';
 
+		header('Content-Type: text/html');
+
 		parent::__construct($attributes);
 	}
 }
