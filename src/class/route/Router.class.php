@@ -584,7 +584,7 @@ class Router
 		/** TIME CONSUMING OPERATION */
 
 		$root_route = $RouteManager->retrieveBy([
-			'id' => 0,
+			'id' => 1,
 		])[0];
 
 		$tree_routes = new \structure\Tree($root_route);
