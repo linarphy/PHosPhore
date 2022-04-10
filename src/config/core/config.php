@@ -81,7 +81,7 @@ $GLOBALS['config']['core']['version'][] = 'stable';
 
 /** [ROUTE] **/
 /* default error route id */
-$GLOBALS['config']['core']['route']['error']['id'] = 1;
+$GLOBALS['config']['core']['route']['error']['id'] = 2;
 /** [/ROUTE] **/
 
 /** [LANG] **/
