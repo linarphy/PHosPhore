@@ -64,7 +64,7 @@ Here is an Apache http server configuration for the framework over http (https i
 </VirtualHost>
 ```
 
-Where `<server.admin.email.@go.there>` is the email of this server admin and `<path to the root folder>` is the path to the `root_folder`.
+Where `<server.admin.email.@go.there>` is the email of this server admin and `<path to the root folder>` is the path to the `root folder`.
 
 ### File & Folder permissions
 
@@ -83,6 +83,6 @@ sudo chmod -R 770 <path/to/root_folder>/mod
 ```
 
 Where `<username>` is the username of the server admin, `<webserver group>` is the name of the group associated to the webserver (for apache, it can be httpd or www-data for example).
-`<path/to/root_folder>` is the path to the `root_folder`.
+`<path/to/root_folder>` is the path to the `root folder`.
 
 PHosPhore is now installed, the framework [configuration](configuration.md) can now be started.
