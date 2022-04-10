@@ -211,6 +211,7 @@ function load_class($class_name)
 		if (!\in_array($path, $GLOBALS['cache']['core']['class_loaded']))
 		{
 			$config_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['config'], $path, $GLOBALS['config']['core']['config']['filename']]);
+			$default_lang_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['lang'], $path, 'en' . '.' . $GLOBALS['config']['core']['lang']['filename']]);
 			$lang_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['lang'], $path, $GLOBALS['config']['core']['lang']['server'] . '.' . $GLOBALS['config']['core']['lang']['filename']]);
 			$locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['locale'], $path, $GLOBALS['locale']['core']['locale']['abbr'] . '.' . $GLOBALS['config']['core']['locale']['filename']]);
 			$default_locale_file = \join(DIRECTORY_SEPARATOR, [$GLOBALS['config']['core']['path']['locale'], $path, $GLOBALS['config']['core']['locale']['default'] . '.'  . $GLOBALS['config']['core']['locale']['filename']]);
@@ -220,6 +221,14 @@ function load_class($class_name)
 				if ($log)
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['config_file'], ['class' => $class_name, 'path' => $config_file]);
+				}
+			}
+			if (\is_file($default_lang_file))
+			{
+				require($default_lang_file);
+				if ($log)
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['lang_file'], ['class' => $class_name, 'path' => $default_lang_file]);
 				}
 			}
 			if (\is_file($lang_file))
