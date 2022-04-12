@@ -121,25 +121,11 @@ class Router
 			}
 			if ($expected_parameter->get('necessary'))
 			{
-				if ($cleaned_parameters[$expected_parameter->get('name')] === null)
+				if (!\key_exists($expected_parameter->get('name'), $cleaned_parameters))
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['missing'], ['page' => $route->get('name'), 'name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->getFullRegex()]);
 
-					$Notification = new \user\Notification([
-						'text'         => $GLOBALS['locale']['class']['route']['Router']['missing_parameter'],
-						'substitution' => ['name' => $expected_parameter->get('name'), 'regex' => $expected_parameter->get('regex')],
-						'type'         => \user\Notification::TYPES['error'],
-					]);
-
-					if ($page != $GLOBALS['config']['core']['route']['error']) // infinite loading
-					{
-						\header('location: ' . $this->createLink($GLOBALS['config']['core']['route']['error']));
-						exit();
-					}
-					else
-					{
-						throw new \Exception($GLOBALS['locale']['class']['route']['Router']['cleanParameters']['missing_parameter']);
-					}
+					throw new \Exception($GLOBALS['locale']['class']['route']['Router']['cleanParameters']['missing_parameter']);
 				}
 			}
 		}
