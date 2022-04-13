@@ -124,7 +124,6 @@ try
 	}
 	catch (\Exception $exception)
 	{
-		var_dump($exception);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['exception_threw']);
 		try
 		{
