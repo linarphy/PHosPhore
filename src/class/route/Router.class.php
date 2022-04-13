@@ -324,7 +324,7 @@ class Router
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['file'], ['file' => $route->get('name')]);
 			}
 		}
-		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['file'])
+		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['page'])
 		{
 			$path = $routes[\count($routes) - 1].getPath($parent);
 			if ($path != False)
