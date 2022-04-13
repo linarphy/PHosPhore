@@ -125,6 +125,7 @@ abstract class Managed
 			}
 			$display .= ',';
 		}
+		return $display;
 	}
 	/**
 	 * Clone the object (return a new one with the same attributes)
