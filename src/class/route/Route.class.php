@@ -173,8 +173,11 @@ class Route extends \core\Managed
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy([
-			'id_route_child' => $this->id,
-		]);
+				'id_route_child' => $this->id,
+			],
+			class_name: '\\route\\Route',
+			attributes_conversion: ['id_route_parent' => 'id'],
+		);
 
 		if (empty($routes)) // root route
 		{
