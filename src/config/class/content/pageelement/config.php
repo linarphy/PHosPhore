@@ -3,7 +3,7 @@
 /** [preset] **/
 /* about pre-existing page preset to construct a Page */
 /* default preset */
-$GLOBALS['config']['class']['content']['pageelement']['preset']['default'] = 'none';
+$GLOBALS['config']['class']['content']['pageelement']['preset']['default_preset'] = 'none';
 /* notifications element name in main content */
 $GLOBALS['config']['class']['content']['pageelement']['preset']['notification_element_name'] = 'notifications';
 /* template directory for preset */
