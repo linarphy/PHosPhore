@@ -326,7 +326,7 @@ class Router
 		}
 		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['page'])
 		{
-			$path = $routes[\count($routes) - 1].getPath($parent);
+			$path = $routes[\count($routes) - 1]->getPath($parent);
 			if ($path != False)
 			{
 				$link .= \implode('/', \array_map('\\rawurlencode', \explode('/', $path)));
@@ -338,7 +338,7 @@ class Router
 		}
 		if (\count($parameters) != 0)
 		{
-			$link .= \rawurlencode(' ') + '/';
+			$link .= \rawurlencode(' ') . '/';
 			foreach ($parameters as $key => $value)
 			{
 				$link .= \urlencode($value) . '/';
