@@ -59,20 +59,22 @@ class Node
 	/**
 	 * Display the node
 	 *
+	 * @var int $level level of the node in the tree to display
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?int $level = 1) : string
 	{
 		$text = '';
 		if ($this->get('data') !== null)
 		{
-			$text .= \phosphore_display($this->get('data')) . PHP_EOL . \str_repeat('-', \phosphore_count($this->get('data'))) . PHP_EOL;
+			$text .= \phosphore_display($this->get('data')) . PHP_EOL;
 		}
 		if (\phosphore_count($this->get('children')) !== 0)
 		{
 			foreach ($this->get('children') as $child)
 			{
-				$text .= '|' . PHP_EOL . '|- ' . $child->display();
+				$text .= \str_repeat('|', $level) . PHP_EOL . \str_repeat('|', $level) . '- ' . $child->display($level+1);
 			}
 		}
 		return $text;
