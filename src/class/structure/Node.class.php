@@ -57,6 +57,27 @@ class Node
 		return $this;
 	}
 	/**
+	 * Display the node
+	 *
+	 * @return string
+	 */
+	public function display() : string
+	{
+		$text = '';
+		if ($this->get('data') !== null)
+		{
+			$text .= \phosphore_display($this->get('data')) . PHP_EOL . \str_repeat('-', \phosphore_count($this->get('data'))) . PHP_EOL;
+		}
+		if (\phosphore_count($this->get('children')) !== 0)
+		{
+			foreach ($this->get('children') as $child)
+			{
+				$text .= '|' . PHP_EOL . '|- ' . $child->display();
+			}
+		}
+		return $text;
+	}
+	/**
 	 * Remove a child node
 	 *
 	 * @param \structure\Node $child Child node to delete

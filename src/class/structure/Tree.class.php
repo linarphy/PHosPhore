@@ -28,6 +28,18 @@ class Tree
 		return $this;
 	}
 	/**
+	 * Display the tree
+	 *
+	 * @return string
+	 */
+	public function display() : string
+	{
+		$root_disp = $this->get('root')->display();
+		$text = '_____ TREE _____' . PHP_EOL . $root_disp;
+		return $text;
+
+	}
+	/**
 	 * Get the value of a given attribute
 	 *
 	 * @param string $attribute Name of the attribute
