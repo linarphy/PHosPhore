@@ -71,7 +71,7 @@ class Router
 				}
 			}
 		}
-		if (empty($Node->get('children'))) // no childern but recursion (we are a the end of the recursion)
+		if (empty($Node->get('children'))) // no children but recursion (we are a the end of the recursion)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
 
