@@ -92,7 +92,7 @@ class Folder extends \core\Managed
 	{
 		if ($this->id_parent === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Folder']['getParent']['null']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Folder']['getParent']['null']);
 		}
 		$Folder = new \route\Folder(array(
 			'id' => $this->id_parent,
