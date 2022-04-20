@@ -70,6 +70,62 @@ if ($GLOBALS['Router']->decodeRoute('root/error')->get('id') !== $GLOBALS['confi
 }
 
 $tests += 1;
+
+
+if ($GLOBALS['Router']->buildNode([[$Page->get('route'), $Page->get('route')], [$Page->get('route')]], 2, 2) !== null)
+{
+	throw new \Exception('test ' . $tests . ' : buildNode should return null, when given row is inferior to the array list');
+}
+
+$tests += 1;
+
+if ($GLOBALS['Router']->buildNode([[$Page->get('route')]], 0, 0)->get('data')->get('id') !== $GLOBALS['config']['core']['route']['error']['id'])
+{
+	throw new \Exception('test ' . $tests . ' : buildNode should return the last route');
+}
+
+$tests += 1;
+
+if ($GLOBALS['Router']->buildNode([],0,0) !== null)
+{
+	throw new \Exception('test ' . $tests . ' : buildNode should return null if nothing is given');
+}
+
+$tests += 1;
+
+if (\phosphore_count($GLOBALS['Router']->cleanParameters([], $Page->get('route'))) !== 0)
+{
+	throw new \Exception('test ' . $tests . ' : cleanParameters should not throw an exception if no parameters are given');
+}
+
+$tests += 1;
+
+if (\phosphore_count($GLOBALS['Router']->cleanParameters(['test' => 'value'], new \route\Route([]))) !== 0)
+{
+	throw new \Exception('test ' . $tests . ' : cleanParameters should return an empty array if nothing is given');
+}
+
+$tests += 1;
+
+if ($GLOBALS['Router']->createLink([$Page->get('route')],['value']) !== 'root/error/%20/value/')
+{
+	throw new \Exception('test ' . $tests . ' : createLink should return "root/error/%20/value/" with the given value');
+}
+
+$tests += 1;
+
+try
+{
+	if ($GLOBALS['Router']->createLink([new \route\Route([])]))
+	{
+		throw new \Exception('test ' . $tests . ' : createLink should thrown an error');
+	}
+}
+catch (\Exception $e)
+{
+	$tests += 1;
+}
+
 echo 'every tests (' . $tests . ') passed';
 
 ?>
