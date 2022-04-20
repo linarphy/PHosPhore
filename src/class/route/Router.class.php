@@ -46,7 +46,13 @@ class Router
 	public function buildNode(array $array_of_available_routes, int $row, int $column) : ?\structure\Node
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
-		$Node = new \structure\Node($array_of_available_routes[$row][$column]);
+
+		if (\phosphore_count($array_of_available_routes) === 0)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array']);
+
+			return null;
+		}
 
 		if (\count($array_of_available_routes) <= $row) // there is less available route that the route number we want
 		{
@@ -54,6 +60,15 @@ class Router
 
 			return null;
 		}
+
+		if (\count($array_of_available_routes[$row]) <= $column)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], ['index' => $row . ', ' . $column]);
+
+			return null;
+		}
+
+		$Node = new \structure\Node($array_of_available_routes[$row][$column]);
 
 		if (\count($array_of_available_routes) === $row + 1) // last Node (end of recursion)
 		{
@@ -95,7 +110,14 @@ class Router
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $route->get('name')]);
 
-		$route->retrieve();
+		try
+		{
+			$route->retrieve();
+		}
+		catch (\Exception $e)
+		{
+			return [];
+		}
 
 		$route->retrieveParameters();
 

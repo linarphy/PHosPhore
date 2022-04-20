@@ -472,7 +472,7 @@ abstract class Managed
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['not_defined'], ['class' => \get_class($this)]);
 
-			return $this;
+			throw new \Exception($GLOBALS['locale']['class']['core']['Managed']['retrieve']['not_exist']);
 		}
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'retrieve', 'check'], $this);
 
