@@ -219,9 +219,13 @@ class Router
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['not_found'], ['route' => $route->id]);
 				}
 			}
-			else
+			else if ($route->get('type') === \route\Route::TYPES['page'])
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkGet']['file'], ['file' => $route->get('name')]);
+			}
+			else
+			{
+				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['createLinkMixed']['unknown_type']);
 			}
 		}
 		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['file'])
@@ -278,9 +282,13 @@ class Router
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['not_found'], ['route' => $route->id]);
 				}
 			}
-			else
+			else if ($route->get('type') === \route\Route::TYPES['page'])
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkMixed']['file'], ['file' => $route->get('name')]);
+			}
+			else
+			{
+				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['createLinkMixed']['unknown_type']);
 			}
 		}
 		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['file'])
@@ -341,9 +349,13 @@ class Router
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['not_found'], ['route' => $route->id]);
 				}
 			}
-			else
+			else if ($route->get('type') === \route\Route::TYPES['page'])
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['file'], ['file' => $route->get('name')]);
+			}
+			else
+			{
+				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['createLinkRoute']['unknown_type']);
 			}
 		}
 		if ($routes[\count($routes) - 1]->get('type') === \route\Route::TYPES['page'])

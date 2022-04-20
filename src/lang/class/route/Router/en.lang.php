@@ -3,6 +3,8 @@
 /** [buildNode] **/
 /* start the process */
 $GLOBALS['lang']['class']['route']['Router']['buildNode']['start'] = 'starting to build the node to check the route path';
+/* empty array */
+$GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array'] = 'cannot use an empty array to build the node';
 /* array is too empty */
 $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'] = 'index out of range, the array does not have {index} rows';
 /* node empty after the process */
