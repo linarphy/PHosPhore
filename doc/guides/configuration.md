@@ -34,10 +34,18 @@ Then you'll need to manually add default element into the database:
 - link between root (parent) and main (child)
 - link between root (parent) and error (child)
 - link between main (parent) and home (child)
-- main page parameter:
+- root page parameter:
 
   - key: preset
   - value: default_html
+
+  - key: default_page
+  - value: `<id of main route>`
+
+- main page parameter:
+
+	- key: default_page
+	- value: `<id of home route>`
 
 - guest user
 - permission associated to home and error route

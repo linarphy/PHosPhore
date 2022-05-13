@@ -211,10 +211,15 @@ Table which store route
 Content:
 
 - id int not null auto increment
+- id_folder int not null
 - name varchar not null
 - type bool
 
 primary (id)
+
+foreign key:
+
+- id_folder => id for [`phosphore_folder`](#phosphore_folder), on update cascade, on delete cascade
 
 ### phosphore_route_parameter
 
