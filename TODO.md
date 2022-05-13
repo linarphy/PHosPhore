@@ -1,7 +1,7 @@
 # TODO
 
 For now I'm currently:
-- clean Routing
+- Link between route & folder
 - test different documentation system
 - Maintain
 

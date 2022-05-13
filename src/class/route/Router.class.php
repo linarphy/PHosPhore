@@ -464,9 +464,10 @@ class Router
 		unset($_GET['__path__']);
 		$paths = \explode('/', $path);
 		$arr_av_routes = [];
+		$routeManager = new \route\RouteManager();
 		foreach ($paths as $path)
 		{
-			$arr_av_routes[] = \route\RouteManager()->retrieveBy([
+			$arr_av_routes[] = $routeManager->retrieveBy([
 				'name' => $path,
 			]);
 		}
@@ -488,9 +489,10 @@ class Router
 		$paths = \explode('/', \rawurldecode(\strtok($url, '?')));
 
 		$arr_av_routes = [];
+		$routeManager = new \route\RouteManager();
 		foreach ($paths as $path)
 		{
-			$arr_av_routes[] = \route\RouteManager()->retrieveBy([
+			$arr_av_routes[] = $routeManager->retrieveBy([
 				'name' => $path,
 			]);
 		}
