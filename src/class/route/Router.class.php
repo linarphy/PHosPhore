@@ -392,20 +392,20 @@ class Router
 			$route = $RouteManager->retrieveBy([
 				'id' => $GLOBALS['config']['class']['route']['root']['id'],
 			])[0];
-			$route = self::initPage($route->getDefaultPage(), []);
+			return self::initPage($route->getDefaultPage(), []);
 		}
 		else
 		{
 			switch ($this->mode)
 			{
 				case $this::MODES['get']:
-					$route = $this::decodeWithGet($url);
+					$results = $this::decodeWithGet($url);
 					break;
 				case $this::MODES['mixed']:
-					$route = $this::decodeWithMixed($url);
+					$results = $this::decodeWithMixed($url);
 					break;
 				case $this::MODES['route']:
-					$route = $this::decodeWithRoute($url);
+					$results = $this::decodeWithRoute($url);
 					break;
 				default:
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], ['mode' => $this->mode]);
@@ -414,7 +414,35 @@ class Router
 			}
 		}
 
-		return $route;
+		$RouteManager = new \route\RouteManager();
+
+		$root_route = $RouteManager->retrieveBy([ // retrieve the root route
+			'id' => 1,
+		])[0];
+
+		$tree_routes = new \structure\Tree($root_route);
+
+		foreach ($results['arr_av_routes'][0] as $av_route)
+		{
+			$Child = self::buildNode($results['arr_av_routes'], 1, $av_routes); // start building a tree
+			if ($Child !== null)
+			{
+				$tree_routes->get('root')->addChild($Child);
+			}
+		}
+
+		if ($tree_routes->get('root')->getHeight() !== \count($arr_av_routes))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['404'], ['url' => $url]);
+			throw new \Exception($GLOBALS['locale']['class']['route']['Router']['decodeRoute']['404']);
+		}
+
+		foreach ($routes as $index => $node)
+		{
+			$routes[$index] = $node->get('data');
+		}
+
+		return self::initPage(\end($routes)->getDefaultPage(), $results['parameters']);
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode get
@@ -428,42 +456,23 @@ class Router
 		if (!isset($_GET['__path__']))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['no_path']);
-			$routes = [];
+			throw new \Exception($GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['no_path']);
 		}
-		else
+		$path = $_GET['__path__'];
+		unset($_GET['__path__']);
+		$paths = \explode('/', $path);
+		$arr_av_routes = [];
+		foreach ($paths as $path)
 		{
-			$path = $_GET['__path__'];
-			unset($_GET['__path__']);
-			$paths = \explode('/', $path);
-			$arr_av_routes = [];
-			foreach ($paths as $path)
-			{
-				$arr_av_routes[] = \route\RouteManager()->retrieveBy([
-					'name' => $path,
-				]);
-			}
-
-			/** TIME CONSUMING OPERATION */
-			$root_route = \route\RouteManager()->retrieveBy([
-				'id' => 0,
-			])[0];
-			$tree_routes = \structure\Tree($root_route);
-			foreach ($arr_av_routes[0] as $key => $av_routes)
-			{
-				$Child = $this->buildNode($arr_av_routes, 0, $key);
-				if ($Child !== False)
-				{
-					$tree_routes->get('root')->addChild($Child);
-				}
-			}
-			$routes = $tree_routes->get('root')->getBranchDepth(\count($arr_av_routes));
-			if ($routes === False)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithGet']['unknown_route'], ['url' => $url]);
-			}
+			$arr_av_routes[] = \route\RouteManager()->retrieveBy([
+				'name' => $path,
+			]);
 		}
 
-		return $this::initPage(\end($routes)->getDefaultPage(), $_GET);
+		return [
+			'arr_av_routes' => $arr_av_routes,
+			'parameters'    => $_GET,
+		];
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode mixed
@@ -484,26 +493,10 @@ class Router
 			]);
 		}
 
-		/** TIME CONSUMING OPERATION */
-		$root_route = \route\RouteManager()->retrieveBy([
-			'id' => 0,
-		])[0];
-		$tree_routes = \structure\Tree($root_route);
-		foreach ($arr_av_routes[0] as $key => $av_routes)
-		{
-			$Child = $this->buildNode($arr_av_routes, 0, $key);
-			if ($Child !== False)
-			{
-				$tree_routes->get('root')->addChild($Child);
-			}
-		}
-		$routes = $tree_routes->get('root')->getBranchDepth(\count($arr_av_routes));
-		if ($routes === False)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route'], ['url' => $url]);
-		}
-
-		return $this::initPage(\end($routes)->getDefaultPage(), $_GET);
+		return [
+			'arr_av_routes' => $arr_av_routes,
+			'parameters'    => $_GET,
+		];
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode route
@@ -541,44 +534,10 @@ class Router
 			}
 		}
 
-		/** TIME CONSUMING OPERATION */
-
-		$root_route = $RouteManager->retrieveBy([ // retrieve the root route
-			'id' => 1,
-		])[0];
-
-		$tree_routes = new \structure\Tree($root_route);
-
-		foreach ($arr_av_routes[0] as $key => $av_routes)
-		{
-			$Child = self::buildNode($arr_av_routes, 1, $av_routes); // start building a tree
-			if ($Child !== null)
-			{
-				$tree_routes->get('root')->addChild($Child);
-			}
-		}
-
-		if ($tree_routes->get('root')->getHeight() !== count($arr_av_routes))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['no_path'], ['url' => $url]);
-			throw new \Exception($GLOBALS['locale']['class']['route']['Router']['decodeWithRoute']['no_path']);
-		}
-
-		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
-
-		if ($routes === False)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'], ['url' => $url]);
-
-			return False;
-		}
-
-		foreach ($routes as $index => $node)
-		{
-			$routes[$index] = $node->get('data');
-		}
-
-		return self::initPage(\end($routes)->getDefaultPage(), $parameters);
+		return [
+			'arr_av_routes' => $arr_av_routes,
+			'parameters'   => $parameters,
+		];
 	}
 	/**
 	 * Initialize page & route

@@ -67,6 +67,8 @@ $GLOBALS['lang']['class']['route']['Router']['createLinkRoute']['success'] = 'li
 $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty'] = 'cannot decode an empty url';
 /* unknown Router mode */
 $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['unknown_mode'] = 'router mode {mode} does not exist';
+/* route not found **/
+$GLOABLS['lang']['class']['route']['Router']['decodeRoute']['404'] = 'cannot get the route associated to the url {url}';
 /** [/decodeRoute] **/
 
 /** [decodeWithGet] **/
@@ -82,8 +84,6 @@ $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route']
 /** [decodeWithRoute] **/
 /* start to decode parameter list */
 $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list'] = 'start to decode parameters list';
-/* unknown route */
-$GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['no_path'] = 'route not found for {url}';
 /** [/decodeWithRoute] **/
 
 /** [setMode] **/

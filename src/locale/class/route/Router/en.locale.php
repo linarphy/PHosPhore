@@ -1,8 +1,13 @@
 <?php
 
+/** [decodeRoute] **/
+/* no route found */
+$GLOBALS['locale']['class']['route']['Router']['decodeRoute']['404'] = 'Page not found';
+/** [/decodeRoute] **/
+
 /** [decodeWithRoute] **/
-/* unknown route */
-$GLOBALS['locale']['class']['route']['Router']['decodeWithRoute']['no_path'] = 'Unknown page';
+/* no path given */
+$GLOBALS['locale']['class']['route']['Router']['decodeWithGet']['no_path'] = 'No path given';
 /** [/decodeWithRoute] **/
 
 ?>
