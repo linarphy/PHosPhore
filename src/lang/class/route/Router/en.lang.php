@@ -68,7 +68,7 @@ $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty'] = 'cannot d
 /* unknown Router mode */
 $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['unknown_mode'] = 'router mode {mode} does not exist';
 /* route not found **/
-$GLOABLS['lang']['class']['route']['Router']['decodeRoute']['404'] = 'cannot get the route associated to the url {url}';
+$GLOBALS['lang']['class']['route']['Router']['decodeRoute']['404'] = 'cannot get the route associated to the url {url}';
 /** [/decodeRoute] **/
 
 /** [decodeWithGet] **/

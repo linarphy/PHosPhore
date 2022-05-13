@@ -422,7 +422,7 @@ class Router
 
 		$tree_routes = new \structure\Tree($root_route);
 
-		foreach ($results['arr_av_routes'][0] as $av_route)
+		foreach ($results['arr_av_routes'][0] as $av_routes)
 		{
 			$Child = self::buildNode($results['arr_av_routes'], 1, $av_routes); // start building a tree
 			if ($Child !== null)
@@ -431,11 +431,13 @@ class Router
 			}
 		}
 
-		if ($tree_routes->get('root')->getHeight() !== \count($arr_av_routes))
+		if ($tree_routes->get('root')->getHeight() !== \count($results['arr_av_routes']))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['404'], ['url' => $url]);
 			throw new \Exception($GLOBALS['locale']['class']['route']['Router']['decodeRoute']['404']);
 		}
+
+		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
 
 		foreach ($routes as $index => $node)
 		{
@@ -449,9 +451,9 @@ class Router
 	 *
 	 * @param string $url Link to decode
 	 *
-	 * @return \route\Route
+	 * @return array
 	 */
-	public static function decodeWithGet(string $url) : \route\Route
+	public static function decodeWithGet(string $url) : array
 	{
 		if (!isset($_GET['__path__']))
 		{
@@ -479,9 +481,9 @@ class Router
 	 *
 	 * @param string $url Link to decode
 	 *
-	 * @return \route\Route
+	 * @return array
 	 */
-	public static function decodeWithMixed(string $url) : \route\Route
+	public static function decodeWithMixed(string $url) : array
 	{
 		$paths = \explode('/', \rawurldecode(\strtok($url, '?')));
 
@@ -503,9 +505,9 @@ class Router
 	 *
 	 * @param string $url Links to decode
 	 *
-	 * @return \route\Route
+	 * @return array
 	 */
-	public static function decodeWithRoute(string $url) : \route\Route
+	public static function decodeWithRoute(string $url) : array
 	{
 		$paths = \explode('/', \rawurldecode(\strtok($url, '?')));
 		$parameters = [];
