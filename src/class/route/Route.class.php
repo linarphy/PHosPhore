@@ -20,6 +20,12 @@ class Route extends \core\Managed
 	 */
 	protected ?\route\Folder $folder = null;
 	/**
+	 * index of the associated folder
+	 *
+	 * @var int
+	 */
+	protected ?int $id_folder = null;
+	/**
 	 * name of the route
 	 *
 	 * @var string
@@ -51,9 +57,10 @@ class Route extends \core\Managed
 	 * @var array
 	 */
 	const ATTRIBUTES = [
-		'id'   => 'int',
-		'name' => 'string',
-		'type' => 'bool',
+		'id'        => 'int',
+		'id_folder' => 'int',
+		'name'      => 'string',
+		'type'      => 'bool',
 	];
 	/**
 	 * unique index
@@ -306,11 +313,11 @@ class Route extends \core\Managed
 	public function retrieveFolder() : \route\Folder
 	{
 		$Folder = new \route\Folder([
-			'id' => $this->id,
+			'id' => $this->get('id_folder'),
 		]);
 		$Folder->retrieve();
 
-		$this->folder = $Folder;
+		$this->set('folder', $Folder);
 
 		return $this->folder;
 	}

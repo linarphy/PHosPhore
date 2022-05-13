@@ -28,6 +28,7 @@ class RouteManager extends \core\Manager
 	 */
 	const ATTRIBUTES = [
 		'id',
+		'id_folder',
 		'name',
 		'type',
 	];

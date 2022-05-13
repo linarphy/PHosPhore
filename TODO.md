@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-- Link between route & folder
 - test different documentation system
 - Maintain
 
