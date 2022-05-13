@@ -4,11 +4,9 @@
 /* start the process */
 $GLOBALS['lang']['class']['route']['Router']['buildNode']['start'] = 'starting to build the node to check the route path';
 /* empty array */
-$GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array'] = 'cannot use an empty array to build the node';
-/* array is too empty */
-$GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'] = 'index out of range, the array does not have {index} rows';
-/* node empty after the process */
-$GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node'] = 'node empty after the process';
+$GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array'] = 'no available route, cannot construct the node';
+/* last level route */
+$GLOBALS['lang']['class']['route']['Router']['buildNode']['last'] = 'last node build (no more route to try)';
 /* end of the process */
 $GLOBALS['lang']['class']['route']['Router']['buildNode']['end'] = 'node built';
 /** [/buildNode] **/
@@ -85,7 +83,7 @@ $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route']
 /* start to decode parameter list */
 $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['start_parameter_list'] = 'start to decode parameters list';
 /* unknown route */
-$GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['unknown_route'] = 'unknown route for {url}';
+$GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['no_path'] = 'route not found for {url}';
 /** [/decodeWithRoute] **/
 
 /** [setMode] **/

@@ -135,7 +135,7 @@ class Node
 	 *
 	 * @param int $depth Wanted depth
 	 *
-	 * @return False|array
+	 * @return null|array
 	 */
 	public function getBranchDepth(int $depth) : ?array
 	{
@@ -154,7 +154,7 @@ class Node
 		foreach ($this->children as $child)
 		{
 			$result = $child->getBranchDepth($depth - 1);
-			if ($result !== False)
+			if ($result !== null)
 			{
 				return array_merge(array($this), $result);
 			}

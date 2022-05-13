@@ -169,7 +169,7 @@ class Page extends \core\Managed
 			$page_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default_preset']]['page_element']([]);
 			if (!$no_notification)
 			{
-				$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default']]['notification_element']([]);
+				$notification_element = new $GLOBALS['config']['class']['content']['pageelement']['preset']['list'][$GLOBALS['config']['class']['content']['pageelement']['preset']['default_preset']]['notification_element']([]);
 			}
 		}
 
@@ -254,7 +254,21 @@ class Page extends \core\Managed
 						'id' => $route->get('id'),
 					]);
 
-					$parameters = \array_merge($parameters, $page->retrieveParameters($level + 1));
+					$temp_parameters = $page->retrieveParameters($level + 1);
+
+					foreach ($temp_parameters as $temp_parameter)
+					{
+						foreach ($parameters as $index => $parameter)
+						{
+							if ($parameter->get('key') === $temp_parameter->get('key'))
+							{
+								unset($parameters[$index]);
+								break;
+							}
+						}
+						$parameters[] = $temp_parameter;
+					}
+
 					$GLOBALS['cache']['class']['user']['Page']['loaded']['parameters'][] = $route->get('id');
 				}
 				else
@@ -268,11 +282,24 @@ class Page extends \core\Managed
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['root_parameters']);
 		}
 
-		$parameters = \array_merge($parameters, $LinkPageParameters->retrieveBy([
+		$temp_parameters = $LinkPageParameters->retrieveBy([
 			'id_page' => $this->get('id'),
 		], class_name: '\user\Parameter', attributes_conversion: [
 			'id_parameter' => 'id',
-		]));
+		]);
+
+		foreach ($temp_parameters as $temp_parameter)
+		{
+			foreach ($parameters as $index => $parameter)
+			{
+				if ($parameter->get('key') === $temp_parameter->get('key'))
+				{
+					unset($parameters[$index]);
+					break;
+				}
+			}
+			$parameters[] = $temp_parameter;
+		}
 
 		$this->set('parameters', $parameters);
 

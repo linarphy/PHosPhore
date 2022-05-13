@@ -408,31 +408,31 @@ abstract class Managed
 	 *
 	 * @return bool
 	 */
-	public function isIdentical($objet) : bool
+	public function isIdentical($object) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet)]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'isIdentical', 'start'], [$this, $object]);
 
 		if (\get_class($this) !== \get_class($this))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet)]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
 			return False;
 		}
 		foreach ($this::INDEX as $attribute)
 		{
 			if ($this->$attribute === null || $object->$attribute === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['missing_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet), 'attribute' => $attribute]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['missing_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
 				return False;
 			}
 			if ($this->get($attribute) !== $object->get($attribute))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet), 'attribute' => $attribute]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
 				return False;
 			}
 		}
 		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'isIdentical', 'end'], [$this, $object]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['same'], ['class_1' => \get_class($this), 'class_2' => \get_class($objet)]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['same'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
 		return True;
 	}
 	/**
@@ -550,9 +550,9 @@ abstract class Managed
 		return True;
 	}
 	/**
-	 * Convert an objet to an array
+	 * Convert an object to an array
 	 *
-	 * @param int $depth Depth of the recursion if there is an objet in the objet, -1 for infinite, 0 for no recursion.
+	 * @param int $depth Depth of the recursion if there is an object in the object, -1 for infinite, 0 for no recursion.
 	 *                   Default to 0.
 	 *
 	 * @param object|null $object Object to convert or null for this object

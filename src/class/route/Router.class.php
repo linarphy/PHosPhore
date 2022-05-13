@@ -3,8 +3,8 @@
 namespace route;
 
 /**
- * Manage, create and cut internals links
- */
+* Manage, create and cut internals links
+*/
 class Router
 {
 	/**
@@ -37,64 +37,42 @@ class Router
 	 *
 	 * @param array $array_of_available_routes Array containing array containing route object which has corresponding name
 	 *
-	 * @param int $row Key of the level corresponding of the node
+	 * @param int $path_level Number of step already done
 	 *
-	 * @param int $column Key of the data corresponding of the node
+	 * @param \route\Route $root From which route to start
 	 *
 	 * @return \structure\Node|null
 	 */
-	public static function buildNode(array $array_of_available_routes, int $row, int $column) : ?\structure\Node
+	public static function buildNode(array $arr_av_routes, int $path_level, \route\Route $root) : ?\structure\Node
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
 
-		if (\phosphore_count($array_of_available_routes) === 0)
+		if (count($arr_av_routes) === 0) // there are available routes
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_array']);
 
 			return null;
 		}
 
-		if (\count($array_of_available_routes) <= $row) // there is less available route that the route number we want
+		$Node = new \structure\Node($root); // "root" node
+
+		if ($path_level === count($arr_av_routes)) // last level route
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], ['index' => $row]);
-
-			return null;
-		}
-
-		if (\count($array_of_available_routes[$row]) <= $column)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['undefined'], ['index' => $row . ', ' . $column]);
-
-			return null;
-		}
-
-		$Node = new \structure\Node($array_of_available_routes[$row][$column]);
-
-		if (\count($array_of_available_routes) === $row + 1) // last Node (end of recursion)
-		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['last']);
 			return $Node;
 		}
 
-		foreach ($array_of_available_routes[$row] as $key => $route)
+		foreach ($arr_av_routes[$path_level] as $av_route)
 		{
-			if ($route->getPath($Node->get('data')->get('id')) !== null) // check if it is defined bug
+			$path_av = $av_route->getPath($root->get('id'));
+			if ($path_av !== null && $path_av !== $root->getPath($root->get('id'))) // if the available route is a descendant of the "root" route /!\ \route\Route->getPath return a valid string if the root is the available route itself (like .../home/home/...)
 			{
-				$Child = $this->buildNode($array_of_available_routes, $row + 1, $key); // recursion
-				if ($Child !== null) // check if it is defined, if not, it cannot be the route we want
-				{
-					$Node->addChild($Child);
-				}
+				$Child = self::buildNode($arr_av_routes, $path_level + 1, $av_route);
+				$Node->addChild($Child);
 			}
-		}
-		if (empty($Node->get('children'))) // no children but recursion (we are a the end of the recursion)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['empty_node']);
-
-			return null;
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['end']);
-
 		return $Node;
 	}
 	/**
@@ -413,8 +391,8 @@ class Router
 
 			$route = $RouteManager->retrieveBy([
 				'id' => $GLOBALS['config']['class']['route']['root']['id'],
-			]);
-			$route = $this::initPage($route[0]->getDefaultPage(), []);
+			])[0];
+			$route = self::initPage($route->getDefaultPage(), []);
 		}
 		else
 		{
@@ -549,6 +527,10 @@ class Router
 				$key -= 1;
 				break;
 			}
+
+			$arr_av_routes[] = $RouteManager->retrieveBy([ // retrieve all routes with the same name
+				'name' => $path,
+			]);
 		}
 		if ($path === ' ') // parameter list
 		{
@@ -559,13 +541,9 @@ class Router
 			}
 		}
 
-		$arr_av_routes[] = $RouteManager->retrieveBy([
-			'name' => $paths[$key],
-		]);
-
 		/** TIME CONSUMING OPERATION */
 
-		$root_route = $RouteManager->retrieveBy([
+		$root_route = $RouteManager->retrieveBy([ // retrieve the root route
 			'id' => 1,
 		])[0];
 
@@ -573,11 +551,17 @@ class Router
 
 		foreach ($arr_av_routes[0] as $key => $av_routes)
 		{
-			$Child = $this->buildNode($arr_av_routes, 0, $key);
-			if ($Child !== False)
+			$Child = self::buildNode($arr_av_routes, 1, $av_routes); // start building a tree
+			if ($Child !== null)
 			{
 				$tree_routes->get('root')->addChild($Child);
 			}
+		}
+
+		if ($tree_routes->get('root')->getHeight() !== count($arr_av_routes))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithRoute']['no_path'], ['url' => $url]);
+			throw new \Exception($GLOBALS['locale']['class']['route']['Router']['decodeWithRoute']['no_path']);
 		}
 
 		$routes = $tree_routes->get('root')->getBranchDepth($tree_routes->get('root')->getHeight());
@@ -594,7 +578,7 @@ class Router
 			$routes[$index] = $node->get('data');
 		}
 
-		return $this::initPage(\end($routes)->getDefaultPage(), $parameters);
+		return self::initPage(\end($routes)->getDefaultPage(), $parameters);
 	}
 	/**
 	 * Initialize page & route
@@ -610,9 +594,9 @@ class Router
 		$Page = new \user\Page([
 			'id' => $route->get('id'),
 		]);
-		$GLOBALS['Visitor']->get('page', $Page);
+		$GLOBALS['Visitor']->set('page', $Page);
 		$GLOBALS['Visitor']->get('page')->retrieveParameters();
-		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($parameters, $route)));
+		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), self::cleanParameters($parameters, $route)));
 
 		return $route;
 	}

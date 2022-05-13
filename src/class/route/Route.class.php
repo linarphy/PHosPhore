@@ -72,7 +72,7 @@ class Route extends \core\Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['start']);
 
-		if ($this->get('type') === $this::TYPES['page'])
+		if ($this->get('type') === self::TYPES['page'])
 		{
 			return $this;
 		}
@@ -82,7 +82,7 @@ class Route extends \core\Managed
 
 			return null;
 		}
-		if ($this->get('type') !== $this::TYPES['folder'])
+		if ($this->get('type') !== self::TYPES['folder'])
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['route']['Route']['unknown_type'], ['type' => $this->get('type')]);
 
@@ -92,6 +92,9 @@ class Route extends \core\Managed
 		$Page = new \user\Page([
 			'id' => $this->get('id'),
 		]);
+
+		$Page->retrieve();
+		$Page->retrieveParameters();
 
 		if (\phosphore_count($Page->get('parameters')) !== 0)
 		{
@@ -103,6 +106,13 @@ class Route extends \core\Managed
 						'id' => $Parameter->get('value'),
 					]);
 					$route->retrieve();
+
+					if ($route->isIdentical($this))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Route']['getDefaultPage']['inf_recursion']);
+						throw new \Exception($GLOBALS['locale']['class']['route']['Route']['getDefaultPage']['inf_recursion']);
+					}
+
 					return $route->getDefaultPage();
 				}
 			}

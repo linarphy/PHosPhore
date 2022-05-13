@@ -132,12 +132,7 @@ try
 			));
 			$Route->retrieve();
 
-			$Page = new \user\Page(array(
-				'id' => $Route->get('id'),
-			));
-
-			$GLOBALS['Visitor']->set('page', $Page);
-			$GLOBALS['Visitor']->get('page')->retrieve();
+			\route\Router::initPage($Route, []);
 
 			$GLOBALS['exception'] = $exception;
 			$GLOBALS['Hook']->load(['core', 'index', 'start_error_page'], [$exception]);
@@ -156,7 +151,6 @@ try
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['cannot_display_error']);
 				throw $exception;
 			}
-
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end_error'], array('error' => $exception->getMessage()));
