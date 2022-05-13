@@ -43,7 +43,7 @@ class Router
 	 *
 	 * @return \structure\Node|null
 	 */
-	public function buildNode(array $array_of_available_routes, int $row, int $column) : ?\structure\Node
+	public static function buildNode(array $array_of_available_routes, int $row, int $column) : ?\structure\Node
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['buildNode']['start']);
 
@@ -106,7 +106,7 @@ class Router
 	 *
 	 * @return array
 	 */
-	public function cleanParameters(array $parameters, \route\Route $route) : array
+	public static function cleanParameters(array $parameters, \route\Route $route) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['cleanParameters']['start'], ['page' => $route->get('name')]);
 
@@ -175,11 +175,11 @@ class Router
 		switch ($this->mode)
 		{
 			case $this::MODES['get']:
-				return $this->createLinkGet($routes, $parameters);
+				return $this::createLinkGet($routes, $parameters);
 			case $this::MODES['mixed']:
-				return $this->createLinkMixed($routes, $parameters);
+				return $this::createLinkMixed($routes, $parameters);
 			case $this::MODES['route']:
-				return $this->createLinkRoute($routes, $parameters);
+				return $this::createLinkRoute($routes, $parameters);
 			default:
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], ['mode' => $this->mode]);
 				throw new \Exception($GLOBALS['locale']['class']['route']['Router']['unknown_mode']);
@@ -194,7 +194,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkGet(array $routes, array $parameters = []) : string
+	public static function createLinkGet(array $routes, array $parameters = []) : string
 	{
 		if (\count($routes) === 0)
 		{
@@ -256,7 +256,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkMixed(array $routes, array $parameters = []) : string
+	public static function createLinkMixed(array $routes, array $parameters = []) : string
 	{
 		if (\count($routes) === 0)
 		{
@@ -323,7 +323,7 @@ class Router
 	 *
 	 * @return string
 	 */
-	public function createLinkRoute(array $routes, array $parameters = []) : string
+	public static function createLinkRoute(array $routes, array $parameters = []) : string
 	{
 		if (\count($routes) === 0)
 		{
@@ -391,7 +391,6 @@ class Router
 	 */
 	public function decodeRoute(string $url) : \route\Route
 	{
-
 		if (\phosphore_count($url) > 0)
 		{
 			if ($url[\phosphore_count($url) - 1] === '/')
@@ -415,34 +414,20 @@ class Router
 			$route = $RouteManager->retrieveBy([
 				'id' => $GLOBALS['config']['class']['route']['root']['id'],
 			]);
-			$route = $route[0];
-
-
-			if ($route->get('type') !== \route\Route::TYPES['page']) // not a page
-			{
-				$route = $route->getDefaultPage();
-			}
-
-			$Page = new \user\Page([
-				'id' => $route->get('id'),
-			]);
-
-			$Page->retrieveParameters();
-
-			$GLOBALS['Visitor']->set('page', $Page);
+			$route = $this::initPage($route[0]->getDefaultPage(), []);
 		}
 		else
 		{
 			switch ($this->mode)
 			{
 				case $this::MODES['get']:
-					$route = $this->decodeWithGet($url);
+					$route = $this::decodeWithGet($url);
 					break;
 				case $this::MODES['mixed']:
-					$route = $this->decodeWithMixed($url);
+					$route = $this::decodeWithMixed($url);
 					break;
 				case $this::MODES['route']:
-					$route = $this->decodeWithRoute($url);
+					$route = $this::decodeWithRoute($url);
 					break;
 				default:
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['route']['Router']['unknown_mode'], ['mode' => $this->mode]);
@@ -460,7 +445,7 @@ class Router
 	 *
 	 * @return \route\Route
 	 */
-	public function decodeWithGet(string $url) : \route\Route
+	public static function decodeWithGet(string $url) : \route\Route
 	{
 		if (!isset($_GET['__path__']))
 		{
@@ -500,19 +485,7 @@ class Router
 			}
 		}
 
-		$route = \end($routes)->getDefaultPage();
-
-		$Page = new \user\Page([
-			'id' => $route->get('id'),
-		]);
-
-		$GLOBALS['Visitor']->set('page', $Page);
-
-		$GLOBALS['Visitor']->get('page')->retrieveParameters();
-
-		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($_GET, $route)));
-
-		return \end($routes);
+		return $this::initPage(\end($routes)->getDefaultPage(), $_GET);
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode mixed
@@ -521,7 +494,7 @@ class Router
 	 *
 	 * @return \route\Route
 	 */
-	public function decodeWithMixed(string $url) : \route\Route
+	public static function decodeWithMixed(string $url) : \route\Route
 	{
 		$paths = \explode('/', \rawurldecode(\strtok($url, '?')));
 
@@ -552,18 +525,7 @@ class Router
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['route']['Router']['decodeWithMixed']['unknown_route'], ['url' => $url]);
 		}
 
-		$route = \end($routes)->getDefaultPage();
-		$Page = new \user\Page([
-			'id' => $route->get('id'),
-		]);
-
-		$GLOBALS['Visitor']->set('page', $Page);
-
-		$GLOBALS['Visitor']->get('page')->retrieveParameters();
-
-		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($_GET, $route)));
-
-		return $routes;
+		return $this::initPage(\end($routes)->getDefaultPage(), $_GET);
 	}
 	/**
 	 * Transform a string representating an intern link in an array for the mode route
@@ -572,7 +534,7 @@ class Router
 	 *
 	 * @return \route\Route
 	 */
-	public function decodeWithRoute(string $url) : \route\Route
+	public static function decodeWithRoute(string $url) : \route\Route
 	{
 		$paths = \explode('/', \rawurldecode(\strtok($url, '?')));
 		$parameters = [];
@@ -632,16 +594,24 @@ class Router
 			$routes[$index] = $node->get('data');
 		}
 
-		$route = \end($routes)->getDefaultPage();
-
+		return $this::initPage(\end($routes)->getDefaultPage(), $parameters);
+	}
+	/**
+	 * Initialize page & route
+	 *
+	 * @param \route\Route $route route defined
+	 *
+	 * @param array $parameters Parameters given in the url
+	 *
+	 * @return \route\Route
+	 */
+	public static function initPage(\route\Route $route, array $parameters) : \route\Route
+	{
 		$Page = new \user\Page([
 			'id' => $route->get('id'),
 		]);
-
-		$GLOBALS['Visitor']->set('page', $Page);
-
+		$GLOBALS['Visitor']->get('page', $Page);
 		$GLOBALS['Visitor']->get('page')->retrieveParameters();
-
 		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), $this->cleanParameters($parameters, $route)));
 
 		return $route;
