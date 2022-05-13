@@ -1,7 +1,7 @@
 # TODO
 
 For now I'm currently:
-- factorize code in routing
+- clean Routing
 - test different documentation system
 - Maintain
 

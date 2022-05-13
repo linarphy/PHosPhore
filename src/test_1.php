@@ -93,14 +93,14 @@ if ($GLOBALS['Router']->buildNode([],0,0) !== null)
 
 $tests += 1;
 
-if (\phosphore_count($GLOBALS['Router']->cleanParameters([], $Page->get('route'))) !== 0)
+if (\phosphore_count($GLOBALS['Router']::cleanParameters([], $Page->get('route'))) !== 0)
 {
 	throw new \Exception('test ' . $tests . ' : cleanParameters should not throw an exception if no parameters are given');
 }
 
 $tests += 1;
 
-if (\phosphore_count($GLOBALS['Router']->cleanParameters(['test' => 'value'], new \route\Route([]))) !== 0)
+if (\phosphore_count($GLOBALS['Router']::cleanParameters(['test' => 'value'], new \route\Route([]))) !== 0)
 {
 	throw new \Exception('test ' . $tests . ' : cleanParameters should return an empty array if nothing is given');
 }
