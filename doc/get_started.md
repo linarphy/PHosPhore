@@ -18,4 +18,5 @@ API references
 - [Permission system](references/permission.md)
 - [Routing system](references/route.md)
 - [Logging system](references/log.md)
+- [Preset](references/pageElement/preset.md)
 - [API](references/api.md)

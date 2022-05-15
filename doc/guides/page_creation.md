@@ -89,6 +89,10 @@ Finally, `$body` and `$head` has to be added as body and head element of `$PageE
 
 That what these last lines do.
 
+### NOTE:
+
+Here, we associated $head to the key `head` and $body the the key `body` as the use of the `default_html` is implied (see [preset documentation](../references/pageElement/preset.md)).
+
 ## templates
 
 Now, let's create the templates files used in `page.php`.
