@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <documentation lang="fr">
+<NOTICE>
+	THIS FILE IS OUTDATED. SOME METHOD WILL NOT HAVE GIVE THE EXPECTED RESULT GIVEN HERE.
+	DO NOT USE THIS AS A REFERENCE FILE, IT'S AN ARCHIVE KEPT TO UNDERSTAND THE BASE OF THIS FRAMEWORK.
+	IN FRENCH ONLY FOR VARIOUS REASON.
+</NOTICE>
 <introduction>
 	PHosPHore est un framework PHP ayant pour objectif de facilité la création d'un site web dans un écosystème.
 	PHosPhore se base sur un parallélisme entre le code, son emplacement et son accès. Ainsi, la hiérarchie de l'url d'une page est lié à l'emplacement du code qui la définie.
