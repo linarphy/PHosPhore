@@ -6,3 +6,4 @@ For now I'm currently:
 
 Then,
 - create an abstract layer between database statement and manager, to support other database driver
+- add more types to vanilla logs
