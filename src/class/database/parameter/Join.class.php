@@ -10,23 +10,12 @@ class Join
 	use \core\Base;
 
 	/**
-	 * available types
-	 *
-	 * @var array
-	 */
-	const TYPES = [
-		'INNER JOIN',
-		'RIGHT JOIN',
-		'LEFT JOIN',
-		'CROSS JOIN',
-	];
-	/**
 	 * join type which does not need an ON condition for mysql
 	 *
 	 * @var array
 	 */
 	const TYPES_WITHOUT_ON = [
-		'CROSS JOIN',
+		\database\parameter::CROSS,
 	];
 	/**
 	 * expression to join (if needed)
@@ -55,28 +44,9 @@ class Join
 	/**
 	 * type of the join
 	 *
-	 * @var string
+	 * @var \database\parameter\JoinTypes
 	 */
-	protected string $type;
-	/**
-	 * set the type
-	 *
-	 * @param string $type
-	 *
-	 * @return bool
-	 */
-	public function setType(string $type) : bool
-	{
-		if (!\in_array($type, $this::TYPES))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['parameter']['Join']['setType']['unknown'], ['type' => $type]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['parameter']['Join']['setType']['unknown']);
-		}
-
-		$this->type = $type;
-
-		return True;
-	}
+	protected \database\parameter\JoinTypes $type;
 }
 
 ?>

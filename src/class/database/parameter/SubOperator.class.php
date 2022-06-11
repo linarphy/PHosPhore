@@ -7,7 +7,10 @@ namespace database\parameter;
  */
 class SubOperator
 {
-	use \core\Base;
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 
 	/**
 	 * symbol of the operator
@@ -56,7 +59,7 @@ class SubOperator
 			}
 			return $this->display($symbol);
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 }
 

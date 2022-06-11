@@ -10,70 +10,63 @@ class Expression
 	use \core\Base;
 
 	/**
-	 * available expression type
-	 *
-	 * @var array
-	 */
-	const TYPES = [
-		'comparison',
-		'AND',
-		'OR',
-		'XOR',
-	];
-	/**
-	 * columns used if in comparison type
-	 *
-	 * @var array
-	 */
-	protected array $columns;
-	/**
 	 * expressions inside this expression (for other type than comparison one)
 	 *
-	 * @var array
+	 * @var ?array
 	 */
-	protected array $expressions;
+	protected ?array $expressions = null;
 	/**
 	 * operator used if in comparison type and not with a subquery without operator like IN
 	 *
-	 * @var \database\parameter\Operator
+	 * @var ?\database\parameter\Operator
 	 */
-	protected \database\parameter\Operator $operator;
+	protected ?\database\parameter\Operator $operator;
 	/**
-	 * sub-operator used if in comparison type and with a subquery
+	 * values for this expression (comparison type)
 	 *
-	 * @var \database\parameter\SubOperator
+	 * @var ?array
 	 */
-	protected \database\parameter\SubOperator $sub_operator;
+	protected ?array $values = null;
 	/**
-	 * subquery if in comparison type
+	 * sub operator used if in comparison type with a subquery
 	 *
-	 * @var \database\parameter\Query
+	 * @var ?\database\parameter\SubOperator
 	 */
-	protected \database\parameter\Query $subquery;
+	protected ?\database\parameter\SubOperator $sub_operator = null;
 	/**
 	 * type of the expression
 	 *
-	 * @var string
+	 * @var \database\parameter\ExpressionTypes
 	 */
-	protected string $type;
+	protected \database\parameter\ExpressionTypes $type;
 	/**
-	 * set the type
+	 * retrieves parameters for this expression
 	 *
-	 * @param string
-	 *
-	 * @return bool
+	 * @return array
 	 */
-	public function setType(string $type) : bool
+	public function retrieveParameters() : array
 	{
-		if (!\in_array($type, $this::TYPES))
+		$parameters = [];
+
+		if ($this->get('expressions') === null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['parameter']['Expression']['setType']['unknown'], ['type' => $type]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['parameter']['Expression']['setType']['unknown']);
+			foreach ($this->get('values') as $value)
+			{
+				if (\get_class($value) === 'database\\parameter\\Parameter')
+				{
+					$parameters[] = $value;
+				}
+			}
+			return $parameters;
 		}
-
-		$this->type = $type;
-
-		return True;
+		else
+		{
+			foreach ($this->get('expressions') as $expression)
+			{
+				$parameters = \array_merge($parameters, $expression->retrieveParameters());
+			}
+			return $parameters;
+		}
 	}
 }
 

@@ -10,15 +10,6 @@ class OrderBy
 	use \core\Base;
 
 	/**
-	 * available types
-	 *
-	 * @var array
-	 */
-	const TYPES = [
-		'ASC',
-		'DESC',
-	];
-	/**
 	 * column to order by
 	 *
 	 * @var ?\database\parameter\Column
@@ -33,28 +24,9 @@ class OrderBy
 	/**
 	 * type of the order by
 	 *
-	 * @var ?string
+	 * @var ?\database\parameter\OrderByTypes
 	 */
-	protected ?string $type = null;
-	/**
-	 * set the type
-	 *
-	 * @param string $type
-	 *
-	 * @return bool
-	 */
-	public function setType(string $type) : bool
-	{
-		if (!\in_array($type, $this::TYPES))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['parameter']['OrderBy']['setType']['unknown'], ['type' => $type]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['parameter']['OrderBy']['setType']['unknown']);
-		}
-
-		$this->type = $type;
-
-		return True;
-	}
+	protected ?\database\parameter\OrderByTypes $type = null;
 }
 
 ?>

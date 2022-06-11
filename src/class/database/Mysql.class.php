@@ -130,15 +130,27 @@ class Mysql
 	 */
 	public static function displayExpression(\database\parameter\Expression $expression) : string
 	{
-		if ($expression->get('type') === 'comparison')
+		if ($expression->get('type') === \database\parameter\ExpressionTypes::COMP) // comparison mode
 		{
-			if (\count($expression->get('columns')) < 1)
+			if (\count($expression->get('values')) < 1)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['little_column'], ['number' => \count($expression->get('columns'))]);
-				throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['little_column']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['little_values'], ['number' => \count($expression->get('values'))]);
+				throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['little_values']);
 			}
 
-			if ($expression->get('subquery') !== null)
+			if (\count($expression->get('values')) > 2)
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['big_values'], ['number' => \count($expression->get('values'))]);
+				throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['big_values']);
+			}
+
+			if (!($expression->get('sub_operator') === null XOR $expression->get('operator') === null)) // one of it should be null when the other should not
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['impossible_operator'], ['operator' => $expression->get('operator'), 'sub_operator' => $expression->get('sub_operator')]);
+				throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['impossible_operator']);
+			}
+
+			if ($expression->get('sub_operator') !== null) // there is a subquery
 			{
 				if (!$expression->get('sub_operator')->check(self::SUB_OPERATORS))
 				{
@@ -146,27 +158,40 @@ class Mysql
 					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_sub_operator']);
 				}
 
-				if (\count($expression->get('columns')) > 1)
+				$display = '';
+				$containQuery = False;
+
+				foreach ([$expression->get('values')[0], $expression->get('sub_operator'), $expression->get('values')[1]] as $value)
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['big_column'], ['number' => \count($expression->get('columns'))]);
-					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['big_column']);
+					switch (\get_class($value))
+					{
+						case 'database\\parameter\\Column':
+							$display .= self::displayColumn($value) . ' ';
+							break;
+						case 'database\\parameter\\Parameter':
+							$display .= self::displayParameter($value) . ' ';
+							break;
+						case 'database\\parameter\\Query':
+							$containQuery = True;
+							$display .= '(' . self::displayQuery($value) . ') ';
+							break;
+						case 'database\\parameter\\Operator':
+							$display .= $value->display() . ' ';
+							break;
+						default:
+							$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['bad_type'], ['class' => \get_class($value)]);
+							throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_type']);
+							break;
+					}
 				}
 
-				$display = self::displayColumn($expression->get('columns')[0]) . ' ';
+				if (!$containQuery)
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['no_query']);
+					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['no_query']);
+				}
 
-				if ($expression->get('operator') === null)
-				{
-					return $display . $expression->get('sub_operator')->display() . ' (' . self::displayQuery($expression->get('subquery')) . ')';
-				}
-				else if (!$expression->get('operator')->check(self::OPERATORS))
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['bad_operator'], ['operator' => $expression->get('operator')]);
-					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_operator']);
-				}
-				else
-				{
-					return $display . $expression->get('operator')->display() . ' ' . $expression->get('sub_operator')->display() . ' (' . self::displayQuery($expression->get('subquery')) . ')';
-				}
+				return \substr($display, 0, -1); // remove the last space
 			}
 			else
 			{
@@ -176,26 +201,29 @@ class Mysql
 					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_operator']);
 				}
 
-				if (\count($expression->get('columns')) > 2)
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['big_column'], ['number' => \count($expression->get('columns'))]);
-					throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['big_column']);
-				}
+				$display = '';
 
-				$display = self::displayColumn($expression->get('columns')[0]) . ' ' . $expression->get('operator')->display();
-				if (\count($expression->get('columns')) === 1)
+				foreach ([$expression->get('values')[0], $expression->get('operator'), $expression->get('values')[1]] as $value)
 				{
-					if ($expression->get('subquery') === null)
+					switch (\get_class($value))
 					{
-						return $display;
+						case 'database\\parameter\\Column':
+							$display .= self::displayColumn($value) . ' ';
+							break;
+						case 'database\\parameter\\Parameter':
+							$display .= self::displayParameter($value) . ' ';
+							break;
+						case 'database\\parameter\\Operator':
+							$display .= $value->display() . ' ';
+							break;
+						default:
+							$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['bad_type'], ['class' => \get_class($value)]);
+							throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_type']);
+							break;
 					}
+				}
 
-					return $display . ' (' . self::displayQuery($expression->get('subquery')) . ')';
-				}
-				else // 2
-				{
-					return $display . ' ' . self::displayColumn($expression->get('columns')[1]);
-				}
+				return \substr($display, 0, -1); // remove the last space
 			}
 		}
 		else
@@ -207,11 +235,8 @@ class Mysql
 				$results[$key] = self::displayExpression($value);
 			}
 
-			return \implode(' ' . $expression->display('type') . ' ', $results);
+			return '(' . \implode(' ' . $expression->get('type')->value . ' ', $results) . ')';
 		}
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['bad_type'], ['type' => $expression->get('type')]);
-		throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_type']);
 	}
 	/**
 	 * display from part for mysql query
@@ -292,7 +317,7 @@ class Mysql
 	 */
 	public static function displayJoin(\database\parameter\Join $join) : string
 	{
-		$display = $join->display('type') . ' ';
+		$display = $join->get('type')->value . ' ';
 
 		if ($join->get('table') !== null)
 		{
@@ -383,7 +408,28 @@ class Mysql
 			return \implode(', ', $results);
 		}
 
-		return self::displayColumn($order_by->get('column')) . ' ' . $order_by->display('type');
+		if ($order_by->get('type'))
+		{
+			return self::displayColumn($order_by->get('column')) . ' ' . $order_by->display('type')->value;
+		}
+
+		return self::displayColumn($order_by->get('column'));
+	}
+	/**
+	 * display a parameter for mysql
+	 *
+	 * @param \database\parameter\Parameter $parameter
+	 *
+	 * @return string
+	 */
+	public static function displayParameter(\database\parameter\Parameter $parameter) : string
+	{
+		if ($parameter->get('placeholder'))
+		{
+			return ':' . $parameter->get('placeholder');
+		}
+
+		return '?';
 	}
 	/**
 	 * display a query for mysql
