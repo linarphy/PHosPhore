@@ -470,55 +470,6 @@ class QueryConstructor
 		return $this;
 	}
 	/**
-	 * create a select statement or update it
-	 *
-	 * @param string $name Attribute name of function if isFunction is true.
-	 *
-	 * @param string $table Table name or alias.
-	 *
-	 * @param ?string $alias Column alias.
-	 *                       Default to null.
-	 *
-	 * @param ?bool $is_function If $name is a function.
-	 *                           Default to False.
-	 *
-	 * @param ?string $function_parameter Function parameter. Must be null if $is_function is False.
-	 *                                    Default to null.
-	 *
-	 * @return self
-	 */
-	public function select(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : self
-	{
-		if ($this->get('type') === null) // first select statement
-		{
-			$this->set('type', \database\QueryTypes::select);
-
-			$this->set('query', new \database\request\Select([
-				'select' => [],
-			]));
-		}
-		else if ($this->get('type') !== \database\QueryTypes::select)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
-		}
-		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
-		}
-
-		$this->get('query')->set(
-			'select',
-			\array_merge(
-				$this->get('query')->get('select'),
-				[$this->buildColumn($name, $table, $alias, $is_function, $function_parameter)],
-			),
-		);
-
-		return $this;
-	}
-	/**
 	 * update the table already set in the query
 	 *
 	 * @param \database\parameter\Table $table
@@ -613,6 +564,89 @@ class QueryConstructor
 			}
 		}
 		return $results;
+	}
+	/**
+	 * create a select statement or update it
+	 *
+	 * @param string $name Attribute name of function if isFunction is true.
+	 *
+	 * @param string $table Table name or alias.
+	 *
+	 * @param ?string $alias Column alias.
+	 *                       Default to null.
+	 *
+	 * @param ?bool $is_function If $name is a function.
+	 *                           Default to False.
+	 *
+	 * @param ?string $function_parameter Function parameter. Must be null if $is_function is False.
+	 *                                    Default to null.
+	 *
+	 * @return self
+	 */
+	public function select(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::select);
+
+			$this->set('query', new \database\request\Select([
+				'select' => [],
+			]));
+		}
+		else if ($this->get('type') !== \database\QueryTypes::select)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
+		}
+
+		$this->get('query')->set(
+			'select',
+			\array_merge(
+				$this->get('query')->get('select'),
+				[$this->buildColumn($name, $table, $alias, $is_function, $function_parameter)],
+			),
+		);
+
+		return $this;
+	}
+	/**
+	 * add table part to the query
+	 *
+	 * @param string $name
+	 *
+	 * @param ?string $alias
+	 *
+	 * @return self
+	 */
+	public function table(string $name) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::table);
+		}
+		else if ($this->get('type') !== \database\QueryTypes::table)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
+		}
+
+		$this->set('query', new \database\request\Table([
+				'table' => new \database\parameter\Table([
+				'name' => $name,
+			]),
+		]));
+
+		return $this;
 	}
 	/**
 	 * add where part to the query
