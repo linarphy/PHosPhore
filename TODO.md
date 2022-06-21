@@ -4,7 +4,6 @@ For now I'm currently:
 - create better exception system
 - use enums
 - create an abstract layer between database statement and manager, to support other database driver:
-  - mysql select prototype
   - sanitize value
   - mass produce
 - test different documentation system
