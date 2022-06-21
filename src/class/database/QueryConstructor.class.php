@@ -100,6 +100,47 @@ class QueryConstructor
 		return $Column;
 	}
 	/**
+	 * create a delete statement
+	 *
+	 * @param string $name
+	 *
+	 * @param ?string $alias
+	 *
+	 * @return self
+	 */
+	public function delete(string $name, ?string $alias = null) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::delete);
+		}
+		else if ($this->get('type') !== \database\QueryTypes::delete)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['delete']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['delete']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['delete']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['delete']['null_query']);
+		}
+
+		$Table = new \database\parameter\Table([
+			'name' => $name,
+		]);
+
+		if ($alias !== null && !empty($alias))
+		{
+			$Table->set('alias', $alias);
+		}
+
+		$this->set('query', new \database\request\Delete([
+			'delete' => $Table,
+		]));
+
+		return $this;
+	}
+	/**
 	 * alias for expression
 	 *
 	 * @return \database\ExpressionConstructor
@@ -131,78 +172,75 @@ class QueryConstructor
 	public function findTable(string $table, ?string $alias = null) : \database\parameter\Table
 	{
 		/* search in from */
-		if ($this->get('query') !== null && $this->get('type') === \database\QueryTypes::select)
+		if ($this->get('query') !== null && $this->get('type') === \database\QueryTypes::select && $this->get('query')->get('from') !== null)
 		{
-			if ($this->get('query')->get('from') !== null)
+			if
+			(
+				(
+					$alias === null &&
+					(
+						$this->get('query')->get('from')->get('name') === $table ||
+						$this->get('query')->get('from')->get('alias') === $table
+					)
+				) ||
+				(
+					$alias !== null &&
+					$this->get('query')->get('from')->get('name') === $table &&
+					$this->get('query')->get('from')->get('alias') === $alias
+				)
+			)
+			{
+				return $this->get('query')->get('from');
+			}
+		}
+		/* search in joins */
+		if ($this->get('query') !== null && $this->get('type') === \database\QueryTypes::select && $this->get('query')->get('joins') !== null)
+		{
+			foreach ($this->get('query')->get('joins') as $join)
 			{
 				if
 				(
 					(
 						$alias === null &&
 						(
-							$this->get('query')->get('from')->get('name') === $table ||
-							$this->get('query')->get('from')->get('alias') === $table
+							$join->get('table')->get('name') === $table ||
+							$join->get('table')->get('alias') === $table
 						)
 					) ||
 					(
 						$alias !== null &&
-						$this->get('query')->get('from')->get('name') === $table &&
-						$this->get('query')->get('from')->get('alias') === $alias
+						$join->get('table')->get('name') === $table &&
+						$join->get('table')->get('alias') === $alias
 					)
 				)
 				{
-					return $this->get('query')->get('from');
+					return $join->get('table');
 				}
 			}
-			/* search in joins */
-			if ($this->get('query')->get('joins') !== null)
+		}
+		/* search in other select */
+		if ($this->get('query') !== null && $this->get('type') === \database\QueryTypes::select && !empty($this->get('query')->get('select')))
+		{
+			foreach ($this->get('query')->get('select') as $selected_column)
 			{
-				foreach ($this->get('query')->get('joins') as $join)
-				{
-					if
+				if
+				(
+					$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
 					(
+						$alias === null &&
 						(
-							$alias === null &&
-							(
-								$join->get('table')->get('name') === $table ||
-								$join->get('table')->get('alias') === $table
-							)
-						) ||
-						(
-							$alias !== null &&
-							$join->get('table')->get('name') === $table &&
-							$join->get('table')->get('alias') === $alias
+							$selected_column->get('attribute')->get('table')->get('name') === $table ||
+							$selected_column->get('attribute')->get('table')->get('alias') === $table
 						)
-					)
-					{
-						return $join->get('table');
-					}
-				}
-			}
-			/* search in other select */
-			if (!empty($this->get('query')->get('select')))
-			{
-				foreach ($this->get('query')->get('select') as $selected_column)
-				{
-					if
+					) ||
 					(
-						$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
-						(
-							$alias === null &&
-							(
-								$selected_column->get('attribute')->get('table')->get('name') === $table ||
-								$selected_column->get('attribute')->get('table')->get('alias') === $table
-							)
-						) ||
-						(
-							$alias !== null &&
-							$selected_column->get('attribute')->get('table')->get('name') === $table &&
-							$selected_column->get('attribute')->get('table')->get('alias') === $alias
-						)
+						$alias !== null &&
+						$selected_column->get('attribute')->get('table')->get('name') === $table &&
+						$selected_column->get('attribute')->get('table')->get('alias') === $alias
 					)
-					{
-						return $selected_column->get('attribute')->get('table');
-					}
+				)
+				{
+					return $selected_column->get('attribute')->get('table');
 				}
 			}
 		}
@@ -618,7 +656,7 @@ class QueryConstructor
 		return $this;
 	}
 	/**
-	 * add table part to the query
+	 * create a table statement
 	 *
 	 * @param string $name
 	 *
@@ -634,17 +672,17 @@ class QueryConstructor
 		}
 		else if ($this->get('type') !== \database\QueryTypes::table)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['table']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['table']['bad_type']);
 		}
 		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['table']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['table']['null_query']);
 		}
 
 		$this->set('query', new \database\request\Table([
-				'table' => new \database\parameter\Table([
+			'table' => new \database\parameter\Table([
 				'name' => $name,
 			]),
 		]));

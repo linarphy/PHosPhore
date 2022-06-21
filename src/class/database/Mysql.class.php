@@ -111,6 +111,17 @@ class Mysql
 		throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayColumn']['nothing']);
 	}
 	/**
+	 * display delete part for mysql query
+	 *
+	 * @param \database\parameter\Table $table
+	 *
+	 * @return string
+	 */
+	public static function displayDelete(\database\parameter\Table $table) : string
+	{
+		return self::displayTable($table);
+	}
+	/**
 	 * display distinct part for mysql query
 	 *
 	 * @param bool $distinct
