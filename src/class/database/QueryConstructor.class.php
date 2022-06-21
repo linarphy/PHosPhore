@@ -131,75 +131,78 @@ class QueryConstructor
 	public function findTable(string $table, ?string $alias = null) : \database\parameter\Table
 	{
 		/* search in from */
-		if ($this->get('query')->get('from') !== null)
+		if ($this->get('query') !== null && $this->get('type') === \database\QueryTypes::select)
 		{
-			if
-			(
-				(
-					$alias === null &&
-					(
-						$this->get('query')->get('from')->get('name') === $table ||
-						$this->get('query')->get('from')->get('alias') === $table
-					)
-				) ||
-				(
-					$alias !== null &&
-					$this->get('query')->get('from')->get('name') === $table &&
-					$this->get('query')->get('from')->get('alias') === $alias
-				)
-			)
-			{
-				return $this->get('query')->get('from');
-			}
-		}
-		/* search in joins */
-		if ($this->get('query')->get('joins') !== null)
-		{
-			foreach ($this->get('query')->get('joins') as $join)
+			if ($this->get('query')->get('from') !== null)
 			{
 				if
 				(
 					(
 						$alias === null &&
 						(
-							$join->get('table')->get('name') === $table ||
-							$join->get('table')->get('alias') === $table
+							$this->get('query')->get('from')->get('name') === $table ||
+							$this->get('query')->get('from')->get('alias') === $table
 						)
 					) ||
 					(
 						$alias !== null &&
-						$join->get('table')->get('name') === $table &&
-						$join->get('table')->get('alias') === $alias
+						$this->get('query')->get('from')->get('name') === $table &&
+						$this->get('query')->get('from')->get('alias') === $alias
 					)
 				)
 				{
-					return $join->get('table');
+					return $this->get('query')->get('from');
 				}
 			}
-		}
-		/* search in other select */
-		if (!empty($this->get('query')->get('select')))
-		{
-			foreach ($this->get('query')->get('select') as $selected_column)
+			/* search in joins */
+			if ($this->get('query')->get('joins') !== null)
 			{
-				if
-				(
-					$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
-					(
-						$alias === null &&
-						(
-							$selected_column->get('attribute')->get('table')->get('name') === $table ||
-							$selected_column->get('attribute')->get('table')->get('alias') === $table
-						)
-					) ||
-					(
-						$alias !== null &&
-						$selected_column->get('attribute')->get('table')->get('name') === $table &&
-						$selected_column->get('attribute')->get('table')->get('alias') === $alias
-					)
-				)
+				foreach ($this->get('query')->get('joins') as $join)
 				{
-					return $selected_column->get('attribute')->get('table');
+					if
+					(
+						(
+							$alias === null &&
+							(
+								$join->get('table')->get('name') === $table ||
+								$join->get('table')->get('alias') === $table
+							)
+						) ||
+						(
+							$alias !== null &&
+							$join->get('table')->get('name') === $table &&
+							$join->get('table')->get('alias') === $alias
+						)
+					)
+					{
+						return $join->get('table');
+					}
+				}
+			}
+			/* search in other select */
+			if (!empty($this->get('query')->get('select')))
+			{
+				foreach ($this->get('query')->get('select') as $selected_column)
+				{
+					if
+					(
+						$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
+						(
+							$alias === null &&
+							(
+								$selected_column->get('attribute')->get('table')->get('name') === $table ||
+								$selected_column->get('attribute')->get('table')->get('alias') === $table
+							)
+						) ||
+						(
+							$alias !== null &&
+							$selected_column->get('attribute')->get('table')->get('name') === $table &&
+							$selected_column->get('attribute')->get('table')->get('alias') === $alias
+						)
+					)
+					{
+						return $selected_column->get('attribute')->get('table');
+					}
 				}
 			}
 		}
