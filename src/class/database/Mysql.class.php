@@ -99,7 +99,7 @@ class Mysql
 
 		if ($column->get('function') !== null)
 		{
-			$display .= $column->display('function') . '(' . $display . ')';
+			$display = $column->display('function') . '(' . $display . ')';
 		}
 
 		if ($display !== '')
@@ -171,14 +171,16 @@ class Mysql
 						case 'database\\parameter\\Parameter':
 							$display .= self::displayParameter($value) . ' ';
 							break;
-						case 'database\\parameter\\Query':
-							$containQuery = True;
-							$display .= '(' . self::displayQuery($value) . ') ';
-							break;
-						case 'database\\parameter\\Operator':
+						case 'database\\parameter\\SubOperator':
 							$display .= $value->display() . ' ';
 							break;
 						default:
+							if (\is_subclass_of(\get_class($value), 'database\\parameter\\Query'))
+							{
+								$containQuery = True;
+								$display .= '(' . self::displayQuery($value) . ') ';
+								break;
+							}
 							$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['Mysql']['displayExpression']['bad_type'], ['class' => \get_class($value)]);
 							throw new \Exception($GLOBALS['locale']['class']['database']['Mysql']['displayExpression']['bad_type']);
 							break;

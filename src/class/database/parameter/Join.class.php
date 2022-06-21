@@ -15,7 +15,7 @@ class Join
 	 * @var array
 	 */
 	const TYPES_WITHOUT_ON = [
-		\database\parameter::CROSS,
+		\database\parameter\JoinTypes::CROSS,
 	];
 	/**
 	 * expression to join (if needed)

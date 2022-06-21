@@ -36,7 +36,7 @@ class ExpressionConstructor
 	 *
 	 * @return self
 	 */
-	public function add(string $type, ...$arguments)
+	public function add(string $type, ...$arguments) : self
 	{
 		if ($this->get('type') === null)
 		{
@@ -66,6 +66,7 @@ class ExpressionConstructor
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['ExpressionConstructor']['add']['unknown_arguments'], ['number' => \count($arguments)]);
 				throw new \Exception($GLOBALS['locale']['class']['database']['ExpressionConstructor']['add']['unknown_arguments']);
 		}
+
 
 		if ($this->get('expression') === null)
 		{
@@ -206,9 +207,9 @@ class ExpressionConstructor
 	 *
 	 * @param \database\parameter\Query $sub_query
 	 *
-	 * @return self
+	 * @return \database\parameter\Query
 	 */
-	public function addSubQuery(\database\parameter\Query $sub_query) : self
+	public function addSubQuery(\database\parameter\Query $sub_query) : \database\parameter\Query
 	{
 		if ($this->get('expression')->get('operator') !== null && \get_class($this->get('expression')->get('operator')) === 'database\\parameter\\Operator')
 		{
@@ -280,8 +281,8 @@ class ExpressionConstructor
 				(
 					\count($this->get('expression')->get('values')) === 2 &&
 					(
-						\get_class($this->get('expression')->get('values')[0]) === 'database\\parameter\\Query' ||
-						\get_class($this->get('expression')->get('values')[1]) === 'database\\parameter\\Query'
+						\is_subclass_of(\get_class($this->get('expression')->get('values')[0]), 'database\\parameter\\Query') ||
+						\is_subclass_of(\get_class($this->get('expression')->get('values')[1]), 'database\\parameter\\Query')
 					)
 				)
 			)

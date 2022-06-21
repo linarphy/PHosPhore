@@ -28,7 +28,7 @@ class QueryConstructor
 	 */
 	protected \database\QueryTypes $type;
 	/**
-	 * create a select statement or update it
+	 * help function to build a column
 	 *
 	 * @param string $name Attribute name of function if isFunction is true.
 	 *
@@ -43,45 +43,26 @@ class QueryConstructor
 	 * @param ?string $function_parameter Function parameter. Must be null if $is_function is False.
 	 *                                    Default to null.
 	 *
-	 * @return self
+	 * @return \database\parameter\Column
 	 */
-	public function select(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : self
+	public function buildColumn(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : \database\parameter\Column
 	{
 		if (!$is_function && $function_parameter !== null)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['cannot_parameter'], ['name' => $name, 'parameter' => $function_parameter]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['cannot_parameter']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['buildColumn']['cannot_parameter'], ['name' => $name, 'parameter' => $function_parameter]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['buildColumn']['cannot_parameter']);
 		}
 
 		if (empty($table))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['empty_table'], ['name' => $name]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['empty_table']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['buildColumn']['empty_table'], ['name' => $name]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['buildColumn']['empty_table']);
 		}
 
 		if (empty($name))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['empty_name'], ['table' => $table]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['empty_name']);
-		}
-
-		if ($this->get('type') === null) // first select statement
-		{
-			$this->set('type', \database\QueryTypes::select);
-
-			$this->set('query', new \database\request\Select([
-				'select' => [],
-			]));
-		}
-		else if ($this->get('type') !== \database\QueryTypes::select)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
-		}
-		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
-			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['buildColumn']['empty_name'], ['table' => $table]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['buildColumn']['empty_name']);
 		}
 
 		$Column = new \database\parameter\Column([
@@ -116,15 +97,7 @@ class QueryConstructor
 			$Column->get('attribute')->set('table', $this->findTable($table));
 		}
 
-		$this->get('query')->set(
-			'select',
-			\array_merge(
-				$this->get('query')->get('select'),
-				[$Column],
-			),
-		);
-
-		return $this;
+		return $Column;
 	}
 	/**
 	 * alias for expression
@@ -171,7 +144,7 @@ class QueryConstructor
 				) ||
 				(
 					$alias !== null &&
-					$this->get('query')->get('from')->get('name') === $name &&
+					$this->get('query')->get('from')->get('name') === $table &&
 					$this->get('query')->get('from')->get('alias') === $alias
 				)
 			)
@@ -243,7 +216,18 @@ class QueryConstructor
 		return $Table;
 	}
 	/**
-	 * add form part to the query
+	 * set the select query as distinct
+	 *
+	 * @return self
+	 */
+	public function distinct() : self
+	{
+		$this->get('query')->set('distinct', True);
+
+		return $this;
+	}
+	/**
+	 * add from part to the query
 	 *
 	 * @param string $name Table name
 	 *
@@ -278,12 +262,53 @@ class QueryConstructor
 		if ($alias !== null && !empty($alias))
 		{
 			$Table->set('alias', $alias);
+			$Table = $this->findTable($Table->get('name'), $Table->get('alias'));
+			$this->updateTable($Table);
+		}
+		else
+		{
+			$Table = $this->findTable($Table->get('name'));
 		}
 
-		$Table = $this->findTable($Table->get('name'), $Table->get('alias'));
-		$this->updateTable($Table);
-
 		$this->get('query')->set('from', $Table);
+
+		return $this;
+	}
+	/**
+	 * add group by part to the query
+	 *
+	 * @param ...string $attributes
+	 *
+	 * @return self
+	 */
+	public function groupBy(string ...$attributes) : self
+	{
+		if (empty($attributes))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['database']['QueryConstructor']['groupBy']['empty']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['groupBy']['empty']);
+		}
+
+		foreach ($attributes as $key => $value)
+		{
+			if ($key % 2 === 0) // it's an attribute name
+			{
+				$attributes[$key] = new \database\parameter\Attribute([
+					'name'  => $value,
+					'table' => $this->findTable($attributes[$key + 1]),
+				]);
+			}
+			else // it's a table name
+			{
+				unset($attributes[$key]);
+			}
+		}
+
+		$GroupBy = new \database\parameter\GroupBy([
+			'attributes' => $attributes,
+		]);
+
+		$this->get('query')->set('groupBy', $GroupBy);
 
 		return $this;
 	}
@@ -297,6 +322,199 @@ class QueryConstructor
 	public function having(\database\parameter\Expression $expression) : self
 	{
 		$this->get('query')->set('having', $expression);
+
+		return $this;
+	}
+	/** add a join to the query
+	 *
+	 * @param string|\database\parameter\JoinTypes $type
+	 *
+	 * @param string|\database\parameter\Query $table name of the table or subquery
+	 *
+	 * @param \database\parameter\Expression $expression
+	 *
+	 * @param ?string $alias
+	 *
+	 * @return self
+	 */
+	public function join(string|\database\parameter\JoinTypes $type, string|\database\parameter\Query $table, \database\parameter\Expression $expression, ?string $alias = null) : self
+	{
+		$joins = [];
+
+		if ($this->get('query')->get('joins') !== null && !empty($this->get('query')->get('joins')))
+		{
+			$joins = $this->get('query')->get('joins');
+		}
+
+		$Join = new \database\parameter\Join([]);
+
+		if (\is_string($type))
+		{
+			$type = \database\parameter\JoinTypes::tryFrom($type);
+			if ($type === null)
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['join']['unknown_type'], ['type' => $type]);
+				throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['join']['unknown_type']);
+			}
+		}
+
+		$Join->set('type', $type);
+
+		if (\is_string($table))
+		{
+			$Table = new \database\parameter\Table([
+				'name' => $table,
+			]);
+
+			if ($alias !== null && !empty($alias))
+			{
+				$Table->set('alias', $alias);
+				$Table = $this->findTable($Table->get('name'), $Table->get('alias'));
+				$this->updateTable($Table);
+			}
+			else
+			{
+				$Table = $this->findTable($Table->get('name'));
+			}
+		}
+		else // subquery
+		{
+			$Table = $table;
+
+			if ($alias !== null && !empty($alias))
+			{
+				$Join->set('subquery_alias', $alias);
+			}
+		}
+
+		$Join->set('table', $Table);
+		$Join->set('expression', $expression);
+
+		$joins[] = $Join;
+		$this->get('query')->set('joins', $joins);
+
+		return $this;
+	}
+	/**
+	 * add limits to the query
+	 *
+	 * @param int $count
+	 *
+	 * @param ?int $offset
+	 *
+	 * @return self
+	 */
+	public function limit(int $count, ?int $offset) : self
+	{
+		$Limit = new \database\parameter\Limit([
+			'count' => $count,
+		]);
+
+		if ($offset !== null)
+		{
+			$Limit->set('offset', $offset);
+		}
+
+		$this->get('query')->set('limit', $Limit);
+
+		return $this;
+	}
+	/**
+	 * add orderBy part to the query
+	 *
+	 * @param string $name
+	 *
+	 * @param string $table
+	 *
+	 * @param string|\database\parameter\OrderByTypes $type
+	 *
+	 * @return self
+	 */
+	public function orderBy(string $name, string $table, null|string|\database\parameter\OrderByTypes $type = null, ?bool $is_function = False, ?string $function_parameter = null) : self
+	{
+		$list_order = [];
+
+		if ($this->get('query')->get('orderBy') !== null)
+		{
+			if ($this->get('query')->get('orderBy')->get('order_by') === null) // should never happens (why do you read this)
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['orderBy']['badformed']);
+				throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['orderBy']['badformed']);
+			}
+
+			$list_order = $this->get('query')->get('orderBy');
+		}
+
+		$OrderBy = new \database\parameter\OrderBy([
+			'column' => $this->buildColumn($name, $table, is_function: $is_function, function_parameter: $function_parameter),
+		]);
+
+		if (\is_string($type))
+		{
+			$type = \database\parameter\OrderByTypes::tryForm($type);
+			if ($type === null)
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['orderBy']['unknown_type'], ['type' => $type]);
+				throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['orderBy']['unknown_type']);
+			}
+		}
+
+		$OrderBy->set('type', $type);
+
+		$list_order[] = $OrderBy;
+
+		$this->get('query')->set('orderBy', new \database\parameter\OrderBy([
+			'order_by' => $list_order,
+		]));
+
+		return $this;
+	}
+	/**
+	 * create a select statement or update it
+	 *
+	 * @param string $name Attribute name of function if isFunction is true.
+	 *
+	 * @param string $table Table name or alias.
+	 *
+	 * @param ?string $alias Column alias.
+	 *                       Default to null.
+	 *
+	 * @param ?bool $is_function If $name is a function.
+	 *                           Default to False.
+	 *
+	 * @param ?string $function_parameter Function parameter. Must be null if $is_function is False.
+	 *                                    Default to null.
+	 *
+	 * @return self
+	 */
+	public function select(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::select);
+
+			$this->set('query', new \database\request\Select([
+				'select' => [],
+			]));
+		}
+		else if ($this->get('type') !== \database\QueryTypes::select)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['select']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['select']['null_query']);
+		}
+
+		$this->get('query')->set(
+			'select',
+			\array_merge(
+				$this->get('query')->get('select'),
+				[$this->buildColumn($name, $table, $alias, $is_function, $function_parameter)],
+			),
+		);
 
 		return $this;
 	}
@@ -319,11 +537,11 @@ class QueryConstructor
 		{
 			if
 			(
-				$this->get('query')->get('form')->get('name') === $table->get('name') &&
-				$this->get('query')->get('form')->get('alias') !== $table->get('alias')
+				$this->get('query')->get('from')->get('name') === $table->get('name') &&
+				$this->get('query')->get('from')->get('alias') !== $table->get('alias')
 			)
 			{
-				$this->get('query')->get('form')->set('alias', $table->get('alias'));
+				$this->get('query')->get('from')->set('alias', $table->get('alias'));
 				$count += 1;
 			}
 		}
@@ -343,14 +561,14 @@ class QueryConstructor
 				}
 			}
 		}
-		/* search in other select */
+		/* search in select */
 		if (!empty($this->get('query')->get('select')))
 		{
 			foreach ($this->get('query')->get('select') as $selected_column)
 			{
 				if
 				(
-					$selected_column->get('attribute') !== null || // stop here if it does not so attribute can be used later
+					$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
 					(
 						$selected_column->get('attribute')->get('table')->get('name') === $table->get('name') &&
 						$selected_column->get('attribute')->get('table')->get('alias') !== $table->get('alias')

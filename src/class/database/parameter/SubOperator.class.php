@@ -33,7 +33,7 @@ class SubOperator
 	 */
 	public function check(array $whitelist)
 	{
-		if (\in_array($this->get('operator'), $whitelist))
+		if (\in_array($this->get('symbol'), $whitelist))
 		{
 			$this->set('isChecked', True);
 		}
@@ -52,12 +52,12 @@ class SubOperator
 	{
 		if ($attribute === null)
 		{
-			if (!$isChecked)
+			if (!$this->get('isChecked'))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['parameter']['Operator']['display']['not_checked']);
 				throw new \Exception($GLOBALS['locale']['class']['database']['parameter']['Operator']['display']['not_checked']);
 			}
-			return $this->display($symbol);
+			return $this->display('symbol');
 		}
 		return $this->display_($attribute);
 	}
