@@ -445,6 +445,24 @@ class Mysql
 		return '?';
 	}
 	/**
+	 * display parameters part (for insert) for mysql
+	 *
+	 * @param array $attributes
+	 *
+	 * @return string
+	 */
+	public static function displayParameters(array $attributes) : string
+	{
+		$display = '(';
+
+		foreach ($attributes as $attribute)
+		{
+			$display .= '`' . $attribute->display('name') . '`, ';
+		}
+
+		return substr($display, 0, -2) . ')';
+	}
+	/**
 	 * display a query for mysql
 	 *
 	 * @param \database\parameter\Query $query
@@ -523,6 +541,24 @@ class Mysql
 			return '`' . $table->display('alias') . '`';
 		}
 		return '`' . $table->display('name') . '`';
+	}
+	/**
+	 * display values part for mysql query
+	 *
+	 * @param array $values
+	 *
+	 * @return string
+	 */
+	public static function displayValues(array $values) : string
+	{
+		$display = 'VALUES (';
+
+		foreach ($values as $value)
+		{
+			$display .= self::displayParameter($value) . ', ';
+		}
+
+		return substr($display, 0, -2) . ')';
 	}
 	/**
 	 * display where part for mysql query

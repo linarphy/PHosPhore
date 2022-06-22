@@ -366,6 +366,40 @@ class QueryConstructor
 
 		return $this;
 	}
+	/**
+	 * create an insert statement
+	 *
+	 * @param string $name
+	 *
+	 * @param ?string $alias
+	 *
+	 * @return self
+	 */
+	public function insert(string $name) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::insert);
+		}
+		else if ($this->get('type') !== \database\QueryTypes::insert)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['insert']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['insert']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['insert']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['insert']['null_query']);
+		}
+
+		$this->set('query', new \database\request\Insert([
+			'table' => new \database\parameter\Table([
+				'name' => $name,
+			]),
+		]));
+
+		return $this;
+	}
 	/** add a join to the query
 	 *
 	 * @param string|\database\parameter\JoinTypes $type
@@ -686,6 +720,57 @@ class QueryConstructor
 				'name' => $name,
 			]),
 		]));
+
+		return $this;
+	}
+	/**
+	 * add a value to the query
+	 *
+	 * @param string $name
+	 *
+	 * @param string $value
+	 *
+	 * @param ?string $placeholder
+	 *
+	 * @return self
+	 */
+	public function value(string $name, mixed $value, ?string $placeholder = null) : self
+	{
+		$values = [];
+		$parameters = [];
+
+		if ($this->get('query')->get('values') !== null && !empty($this->get('query')->get('values')))
+		{
+			$values = $this->get('query')->get('values');
+		}
+		if ($this->get('query')->get('parameters') !== null && !empty($this->get('query')->get('parameters')))
+		{
+			$parameters = $this->get('query')->get('parameters');
+		}
+
+		$Parameter = new \database\parameter\Attribute([
+			'name'  => $name,
+			'table' => $this->get('query')->get('table'),
+		]);
+		$Value = new \database\parameter\Parameter([
+			'value' => $value,
+		]);
+
+		if ($placeholder !== null && !empty($placeholder))
+		{
+			$Value->set('placeholder', $placeholder);
+		}
+		else
+		{
+			$Value->set('position', $this->get('position'));
+			$this->set('position', $this->get('position') + 1);
+		}
+
+		$parameters[] = $Parameter;
+		$values[] = $Value;
+
+		$this->get('query')->set('values', $values);
+		$this->get('query')->set('parameters', $parameters);
 
 		return $this;
 	}
