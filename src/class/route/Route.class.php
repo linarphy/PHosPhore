@@ -348,12 +348,12 @@ class Route extends \core\Managed
 		{
 			foreach ($routes as $route)
 			{
-				if (!isset(\array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id_route_parent')])) // avoid circular reference
+				if (!isset(\array_flip($GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'])[$route->get('id')])) // avoid circular reference
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['retrieveParameters']['loading_parameters']);
 
 					$parameters = \array_merge($parameters, $route->retrieveParameters($level + 1));
-					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $route->get('id_route_parent');
+					$GLOBALS['cache']['class']['route']['Route']['loaded']['parameters'][] = $route->get('id');
 				}
 				else
 				{

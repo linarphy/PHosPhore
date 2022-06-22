@@ -122,13 +122,20 @@ class Page extends \core\Managed
 	/**
 	 * Display the page
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['display']);
+		if ($attribute === null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['display']);
 
-		return $this->displayer('page_element');
+			return $this->displayer('page_element');
+		}
+		return parent::display($attribute);
 	}
 	/**
 	 * Load the php file associated to the page

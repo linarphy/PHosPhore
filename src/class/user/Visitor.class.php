@@ -47,7 +47,7 @@ class Visitor extends \user\User
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['user']['Visitor']['connect']['invalid_id']);
 			return False;
 		}
-		if ($this->get('token') === False)
+		if ($this->has_token === False)
 		{
 			if (!$this->get('password')->check())
 			{

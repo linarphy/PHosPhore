@@ -68,7 +68,7 @@ function phosphore_display(mixed $var)
 	}
 	if (\is_object($var))
 	{
-		return \get_class($var) . ' : ' . phosphore_display((array) $var);
+		return \get_class($var) . ' : ' . phosphore_display(phosphore_table($var, 3)); // arbitrary recursion value
 	}
 	if (\is_callable($var))
 	{
@@ -83,6 +83,55 @@ function phosphore_display(mixed $var)
 		return 'iterable';
 	}
 	return 'cannot convert the variable that should be here to a string';
+}
+/**
+ * convert any object into a table
+ *
+ * @param int $depth Depth of the recursion if there is an object. -1 for infinite, 0 for no recursion.
+ *                   Default to 0.
+ *
+ * @param object $object Object to convert
+ *
+ * @return array
+ */
+function phosphore_table(object $object, int $depth = 0) : array
+{
+	if (\in_array(\core\Base::class, \class_uses($object)))
+	{
+		return $object->table();
+	}
+
+	$attributes = [];
+
+	if ($depth < -1)
+	{
+		throw new \Exception('Depth cannot be below -1');
+	}
+
+	foreach (\array_keys(\get_class_vars(\get_class($object))) as $attribute)
+	{
+		if (\is_object($object->$attribute))
+		{
+			if ($depth === 0)
+			{
+				$attributes[$attribute] = $object->$attribute;
+			}
+			else if ($depth > 0)
+			{
+				$attributes[$attribute] = phosphore_table($object->$attribute, $depth - 1);
+			}
+			else // depth === -1
+			{
+				$attributes[$attribute] = phosphore_table($object->$attribute, $depth);
+			}
+		}
+		else
+		{
+			$attributes[$attribute] = $object->$attribute;
+		}
+	}
+
+	return $attributes;
 }
 
 ?>

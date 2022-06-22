@@ -91,11 +91,18 @@ class Password extends \core\Managed
 	/**
 	 * Display the password a safe way
 	 *
+	 * @param ?string $attribue Attribute to display (entire object if null).
+	 *                          Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
-		return $this->get('password_hashed');
+		if ($attribute === null)
+		{
+			return $this->display('password_hashed');
+		}
+		return parent::display($attribute);
 	}
 	/**
 	 * Display the clear password

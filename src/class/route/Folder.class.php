@@ -46,15 +46,22 @@ class Folder extends \core\Managed
 	/**
 	 * Display the folder. Only use to display ('/' as directory separator is not a FULL standard, badly)
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
-		if ($this->id_parent === -1)
+		if ($attribute === null)
 		{
-			return $this->displayer('name') . '/';
+			if ($this->id_parent === -1)
+			{
+				return $this->displayer('name') . '/';
+			}
+			return $this->getParent()->display() . $this->displayer('name') . '/';
 		}
-		return $this->getParent()->display() . $this->displayer('name') . '/';
+		return parent::display($attribute);
 	}
 	/**
 	 * get the config file

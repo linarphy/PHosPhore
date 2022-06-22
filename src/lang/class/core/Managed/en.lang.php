@@ -44,24 +44,6 @@ $GLOBALS['lang']['class']['core']['Managed']['displayer']['not_exist'] = 'no cus
 $GLOBALS['lang']['class']['core']['Managed']['exist']['missing_index'] = 'cannot check the existence of the object {class} because the index is not defined';
 /** [/exist] **/
 
-/** [hydrate] **/
-/* start hydrating */
-$GLOBALS['lang']['class']['core']['Managed']['hydrate']['start'] = 'start hydratation of {class}';
-/* end hydrating */
-$GLOBALS['lang']['class']['core']['Managed']['hydrate']['end'] = 'hydratation of {class} finished, {count} attributes stored';
-/** [/hydrate] **/
-
-/** [get] **/
-/* start of the process */
-$GLOBALS['lang']['class']['core']['Managed']['get']['start'] = 'trying to get the attribute {attribute} of the object {class}';
-/* attribute not defined */
-$GLOBALS['lang']['class']['core']['Managed']['get']['not_defined'] = 'attribute {attribute} of {class} is not defined';
-/* custom method exist */
-$GLOBALS['lang']['class']['core']['Managed']['get']['getter'] = 'custom method found for accessing the attribute {attribute} of the class {class}';
-/* no custom method */
-$GLOBALS['lang']['class']['core']['Managed']['get']['default'] = 'no custom method found for accessing the attribute {attribute} of the class {class}, default one will be used';
-/** [/get] **/
-
 /** [getIndex] **/
 /* index attribute not defined */
 $GLOBALS['lang']['class']['core']['Managed']['getIndex'] = 'attribute {attribute} is an index but is not defined';
@@ -97,30 +79,6 @@ $GLOBALS['lang']['class']['core']['Managed']['retrieve']['not_defined'] = 'canno
 /* end of the process */
 $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'] = '{class} retrieved';
 /** [/retrieve] **/
-
-/** [set] **/
-/* start the process */
-$GLOBALS['lang']['class']['core']['Managed']['set']['start'] = 'start to set a value for the attribute {attribute} of the class {class}';
-/* attribute does not exist */
-$GLOBALS['lang']['class']['core']['Managed']['set']['undefined'] = 'cannot set a value for the attribute {attribute} of the class {class} because this attribute does not exist in this class';
-/* custom method exists */
-$GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'] = 'custom setter found: {method} , defining {attribute} for {class}';
-/* attribute is typed */
-$GLOBALS['lang']['class']['core']['Managed']['set']['typed_attribute'] = 'attribute {attribute} is typed for the class {class}';
-/* unknown attribute type */
-$GLOBALS['lang']['class']['core']['Managed']['set']['unknown_type'] = 'unknown type {type}';
-/* attribute is note typed */
-$GLOBALS['lang']['class']['core']['Managed']['set']['not_typed'] = 'attribute {attribute} is not typed for the class {class}';
-/* no custom method */
-$GLOBALS['lang']['class']['core']['Managed']['set']['default_method'] = 'custom setter not found, defining {attribute} for {class} with default method';
-/** [/set] **/
-
-/** [table] **/
-/* start the process */
-$GLOBALS['lang']['class']['core']['Managed']['table']['start'] = 'start to convert {class} into an array (depth: {depth})';
-/* depth value not accepted */
-$GLOBALS['lang']['class']['core']['Managed']['table']['undefined_depth'] = 'depth {depth} is not valid for converting {class} into an array';
-/** [/table] **/
 
 /** [update] **/
 /* start the process */

@@ -45,6 +45,26 @@
 			</pageelement>
 		</content>
 		<core>
+			<Base>
+				<get>
+					<start />
+					<end />
+				</get>
+				<hydrate>
+					<start />
+					<end />
+				</hydrate>
+				<set>
+					<start />
+					<check />
+					<end />
+				</set>
+				<table>
+					<start />
+					<check />
+					<end />
+				</table>
+			</Base>
 			<Managed>
 				<__construct>
 					<start />
@@ -64,14 +84,6 @@
 				<exist>
 					<end />
 				</exist>
-				<hydrate>
-					<start />
-					<end />
-				</hydrate>
-				<get>
-					<start />
-					<end />
-				</get>
 				<isIdentical>
 					<start />
 					<end />
@@ -84,16 +96,6 @@
 					<check />
 					<end />
 				</retrieve>
-				<set>
-					<start />
-					<check />
-					<end />
-				</set>
-				<table>
-					<start />
-					<check />
-					<end />
-				</table>
 				<update>
 					<start />
 					<end />

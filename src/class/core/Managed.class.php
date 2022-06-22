@@ -7,6 +7,8 @@ namespace core;
  */
 abstract class Managed
 {
+	use \core\Base;
+
 	/**
 	 * Unique index
 	 *
@@ -18,21 +20,6 @@ abstract class Managed
 	 * @var array
 	 */
 	const ATTRIBUTES = [];
-	/**
-	 * Constructor
-	 *
-	 * @param array $attributes Defined values of the object attributes
-	 */
-	public function __construct(array $attributes)
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['__construct'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', '__construct', 'start'], [$this, $attributes]);
-
-		$this->hydrate($attributes);
-
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', '__construct', 'end'], [$this, $attributes]);
-		return $this;
-	}
 	/**
 	 * Insert the object in the database
 	 *
@@ -128,18 +115,6 @@ abstract class Managed
 		return $display;
 	}
 	/**
-	 * Clone the object (return a new one with the same attributes)
-	 *
-	 * @return \core\Managed
-	 */
-	public function clone() : self
-	{
-		$class = \get_class($this);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'clone', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['clone'], ['class' => $class]);
-		return new $class($this->table());
-	}
-	/**
 	 * Delete the object in the database
 	 *
 	 * @return bool
@@ -168,15 +143,6 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], ['class' => \get_class($this)]);
 
 		return $this->manager()->delete($this->getIndex());
-	}
-	/**
-	 * Convert this object into a safe and readable form
-	 *
-	 * @return string
-	 */
-	public function display() : string
-	{
-		return $this::arrDisp($this->table());
 	}
 	/**
 	 * Convert any attribute into a safe and readable form
@@ -271,103 +237,6 @@ abstract class Managed
 		return $this->manager()->exist($index);
 	}
 	/**
-	 * Hydrate object with array
-	 *
-	 * @param array $attributes Array having $attribute => $value
-	 *
-	 * @return int Number of attributes set
-	 */
-	public function hydrate(array $attributes) : int
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['hydrate']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'hydrate', 'start'], [$this, $attributes]);
-
-		$count = 0;
-		foreach ($attributes as $attribute => $value)
-		{
-			if (\property_exists($this, $attribute))
-			{
-				if ($this->set($attribute, $value))
-				{
-					$count += 1;
-				}
-			}
-		}
-
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'hydrate', 'end'], [$this, $attributes]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['hydrate']['end'], ['class' => \get_class($this), 'count' => $count]);
-		return $count;
-	}
-	/**
-	 * Get the value of the given attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @return mixed
-	 */
-	public function get(string $attribute) : mixed
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'get', 'start'], [$this, $attribute]);
-
-		if (!\property_exists($this, $attribute))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['get']['not_defined'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-			return null;
-		}
-
-		$method = $this::getGet($attribute);
-		if (\method_exists($this, $method))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-			return $this->$method();
-		}
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'get', 'end'], [$this, $attribute]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-		return $this->$attribute;
-	}
-	/**
-	 * Get the name of the displayer method for the attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @return string
-	 */
-	public static function getDisp(string $attribute) : string
-	{
-		if (\phosphore_count($attribute) === 0)
-		{
-			return '';
-		}
-		return 'display' . \ucfirst($attribute);
-	}
-	/**
-	 * Get the name of the getter method for the attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @return string
-	 */
-	public static function getGet(string $attribute) : string
-	{
-		if (\phosphore_count($attribute) === 0)
-		{
-			return '';
-		}
-		switch (\ucfirst($attribute))
-		{
-			case 'Disp':
-			case 'Get':
-			case 'Index':
-			case 'Set':
-				return '';
-		}
-		return 'get' . \ucfirst($attribute);
-	}
-	/**
 	 * Get the index values of this object
 	 *
 	 * @return null|False
@@ -385,21 +254,6 @@ abstract class Managed
 			$index[$attribute] = $value;
 		}
 		return $index;
-	}
-	/**
-	 * Get the name of the setter method fore the attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @return string
-	 */
-	public static function getSet(string $attribute) : string
-	{
-		if (\phosphore_count($attribute) === 0)
-		{
-			return '';
-		}
-		return 'set' . \ucfirst($attribute);
 	}
 	/**
 	 * Check if the two objects have same index value (are the same)
@@ -488,119 +342,6 @@ abstract class Managed
 		$this->hydrate($this->manager()->get($index));
 
 		return $this;
-	}
-	/**
-	 * Set the value of an attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @param mixed $value
-	 *
-	 * @return bool
-	 */
-	public function set(string $attribute, mixed $value) : bool
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'start'], [$this, $attribute, $value]);
-
-		if (!\property_exists($this, $attribute))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['set']['undefined'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-			return False;
-		}
-
-		$method = $this::getSet($attribute);
-		if (\method_exists($this, $method))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['custom_method'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-
-			return $this->$method($value);
-		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['default_method'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		if (\key_exists($attribute, $this::ATTRIBUTES))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['typed_attribute'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-			switch ($this::ATTRIBUTES[$attribute])
-			{
-				case 'int':
-					$value = (int) $value;
-					break;
-				case 'string':
-					$value = (string) $value;
-					break;
-				case 'bool':
-					$value = (bool)  $value;
-					break;
-				default:
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['set']['unkown_type'], ['type' => $this::ATTRIBUTES[$attribute]]);
-					break;
-			}
-		}
-		else
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['set']['not_typed'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		}
-
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'check'], $this);
-		$this->$attribute = $value; // No type checking !
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'set', 'end'], $this);
-
-		return True;
-	}
-	/**
-	 * Convert an object to an array
-	 *
-	 * @param int $depth Depth of the recursion if there is an object in the object, -1 for infinite, 0 for no recursion.
-	 *                   Default to 0.
-	 *
-	 * @param object|null $object Object to convert or null for this object
-	 *
-	 * @return array
-	 */
-	public function table(int $depth = 0, object $object = null) : array
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['table']['start'], ['class' => \get_class($this), 'depth' => $depth]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'start'], [$this, $depth, $object]);
-
-		$attributes = [];
-
-		if ($depth < -1)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['table']['undefined_depth'], ['class' => \get_class($this), 'depth' => $depth]);
-			return $attributes;
-		}
-		if ($object === null)
-		{
-			$object = $this;
-		}
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'check'], [$this, $depth, $object]);
-
-		foreach (\array_keys(\get_class_vars(\get_class($object))) as $attribute)
-		{
-			if (\is_object($this->$attribute))
-			{
-				if ($depth === 0)
-				{
-					$attributes[$attribute] = $this->$attribute;
-				}
-				else
-				{
-					if ($depth != -1)
-					{
-						$depth -= 1;
-					}
-					$attributes[$attribute] = $this->table($depth, $this->$attribute);
-				}
-			}
-			else if ($this->$attribute !== null)
-			{
-				$attributes[$attribute] = $this->$attribute;
-			}
-		}
-		$GLOBALS['Hook']->load(['class', 'core', 'Managed', 'table', 'end'], [$this, $depth, $object]);
-		return $attributes;
 	}
 	/**
 	 * Update the database

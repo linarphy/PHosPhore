@@ -114,11 +114,18 @@ class User extends \core\Managed
 	/**
 	 * display the user
 	 *
+	 * @param string $attribute Attribute to display (entire object if null).
+	 *                          Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
-		return $this->displayer('nickname') . '#' . $this->displayer('id');
+		if ($attribute === null)
+		{
+			return $this->display('nickname') . '#' . $this->display('id');
+		}
+		return parent::display($attribute);
 	}
 	/**
 	 * check if the user has made a request before a time delta

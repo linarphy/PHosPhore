@@ -218,11 +218,18 @@ class Notification extends \core\Managed
 	/**
 	 * display notification with a friendly and safe way
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
-		return $this->displayer('type') . ': ' . $this->displayer('content');
+		if ($attribute === null)
+		{
+			return $this->displayer('type') . ': ' . $this->displayer('content');
+		}
+		return parent::display($attribute);
 	}
 	/**
 	 * display notification content

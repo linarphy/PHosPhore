@@ -35,7 +35,9 @@ function custom_error_handler($errno, $errstr, $errfile, $errline) : bool
         return false; // Make sure this ends up in $php_errormsg, if appropriate
     }
 }
+
 set_error_handler('custom_error_handler');	// try to catch as many errors as possible
+
 /**
  * a fatal error handler to crash in a "good" manner when a fatal error occur
  */
@@ -154,6 +156,7 @@ try
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end_error'], array('error' => $exception->getMessage()));
+		var_dump($exception);
 	}
 }
 catch (\Exception $exception) // FATAL ERROR
@@ -165,11 +168,11 @@ catch (\Exception $exception) // FATAL ERROR
 	}
 	try
 	{
-		$file = fopen('fatal_crash.log', 'w');
+		$file = fopen('fatal_crash.html', 'w');
 
 		if (!$file)
 		{
-			throw new \Exception('Cannot open fatal_crash.log, check your permissions on the web directory');
+			throw new \Exception('Cannot open fatal_crash.html, check your permissions on the web directory');
 		}
 
 		// Converting var_dump to a string
@@ -181,9 +184,9 @@ catch (\Exception $exception) // FATAL ERROR
 
 		if (!fclose($file))
 		{
-			throw new \Exception('Cannot close fatal_crash.log, check your permissions on the web directory');
+			throw new \Exception('Cannot close fatal_crash.html, check your permissions on the web directory');
 		}
-		echo 'FATAL ERROR, There is a bug in PHosPhore, contact the website owner, if you are, check fatal_crash.log in the root directory and report its content to the PHosPhore maintener here: https://github.com/gugus2000/PHosPhore/issues';
+		echo 'FATAL ERROR, There is a bug in PHosPhore, contact the website owner, if you are, check fatal_crash.html in the root directory and report its content to the PHosPhore maintener here: https://github.com/gugus2000/PHosPhore/issues';
 	}
 	catch (\Exception $exception_1)
 	{

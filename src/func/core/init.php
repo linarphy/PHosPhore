@@ -203,7 +203,7 @@ function load_class($class_name)
 	{
 		$GLOBALS['cache']['core']['class_loaded'] = [];
 	}
-	$path = $GLOBALS['config']['core']['path']['class'];
+	$path = \substr($GLOBALS['config']['core']['path']['class'], 0, -1);
 	foreach ($directories as $directory)
 	{
 		$path .= DIRECTORY_SEPARATOR . $directory;
@@ -274,7 +274,6 @@ function load_class($class_name)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['core']['autoload']['end'], ['class' => $class_name]);
 	}
-
 	return True;
 }
 /**
