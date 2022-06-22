@@ -3,7 +3,7 @@
 namespace database\request;
 
 /**
- * select query for mysql
+ * insert query for mysql
  */
 class Insert extends \database\parameter\Query
 {
