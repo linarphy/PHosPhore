@@ -617,11 +617,25 @@ class QueryConstructor
 	public function retrieveParameters() : array
 	{
 		$parameters = [];
-		if ($this->get('query')->get('where') !== null)
+		if ($this->get('type') === \database\QueryTypes::insert && $this->get('query')->get('values') !== null)
+		{
+			$temp = [];
+
+			foreach ($this->get('query')->get('values') as $value)
+			{
+				if (\get_class($value) === 'database\\parameter\\Parameter')
+				{
+					$temp[] = $value;
+				}
+			}
+
+			$parameters = \array_merge($parameters, $temp);
+		}
+		if ($this->get('type') === \database\QueryTypes::select && $this->get('query')->get('where') !== null)
 		{
 			$parameters = \array_merge($parameters, $this->get('query')->get('where')->retrieveParameters());
 		}
-		if ($this->get('query')->get('having') !== null)
+		if ($this->get('type') === \database\QueryTypes::select && $this->get('query')->get('having') !== null)
 		{
 			$parameters = \array_merge($parameters, $this->get('query')->get('having')->retrieveParameters());
 		}
