@@ -7,6 +7,10 @@ namespace route;
  */
 class Folder extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * Index of the folder in the database
 	 *
@@ -25,16 +29,6 @@ class Folder extends \core\Managed
 	 * @var int
 	 */
 	protected ?int $id_parent = null;
-	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'        => 'int',
-		'name'      => 'string',
-		'id_parent' => 'int',
-	];
 	/**
 	 * unique index
 	 *
@@ -57,11 +51,11 @@ class Folder extends \core\Managed
 		{
 			if ($this->id_parent === -1)
 			{
-				return $this->displayer('name') . '/';
+				return $this->display_('name') . '/';
 			}
-			return $this->getParent()->display() . $this->displayer('name') . '/';
+			return $this->getParent()->display() . $this->display_('name') . '/';
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 	/**
 	 * get the config file
