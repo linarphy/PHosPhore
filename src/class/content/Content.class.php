@@ -7,6 +7,10 @@ namespace content;
  */
 class Content extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * Content ID (not unique)
 	 *
@@ -30,16 +34,6 @@ class Content extends \core\Managed
 	 * @var string
 	 **/
 	protected ?string $date_creation = null;
-	/** Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id_content'    => 'int',
-		'lang'          => 'string',
-		'text'          => 'string',
-		'date_creation' => 'string',
-	];
 	/**
 	 * unique index
 	 *
@@ -52,11 +46,18 @@ class Content extends \core\Managed
 	/**
 	 * Display the content within a readable and safe form
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display()
+	public function display(?string $attribute = null) : string
 	{
-		return htmlspecialchars($this->displayer('text'));
+		if ($attribute === null)
+		{
+			return htmlspecialchars($this->display('text'));
+		}
+		$this->display_('text');
 	}
 	/**
 	 * Retrieves the text with its id and lang
@@ -91,7 +92,7 @@ class Content extends \core\Managed
 			else
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_any']);
-				$this = $this->retrieveBy(['id_content' => $this->id_content])[0];
+				$this->retrieveBy(['id_content' => $this->id_content])[0];
 			}
 		}
 		else
