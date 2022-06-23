@@ -52,16 +52,6 @@ class Route extends \core\Managed
 		'page'   => True,
 		'folder' => False,
 	];
-	/* Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'        => 'int',
-		'id_folder' => 'int',
-		'name'      => 'string',
-		'type'      => 'bool',
-	];
 	/**
 	 * unique index
 	 *
@@ -236,7 +226,7 @@ class Route extends \core\Managed
 		{
 			$GLOBALS['cache']['class']['route']['Route']['loaded']['subfiles'] = [];
 		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], ['name' => $this->displayer('name')]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['start'], ['name' => $this->display('name')]);
 
 		$LinkRouteRoute = new \route\LinkRouteRoute();
 		$routes = $LinkRouteRoute->retrieveBy([
@@ -262,12 +252,12 @@ class Route extends \core\Managed
 		if ($Folder->get('name') === null)
 		{
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->displayer('name')]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->display('name')]);
 
 			return 0;
 		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], ['name' => $this->displayer('name')]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['current'], ['name' => $this->display('name')]);
 
 		$count = 0;
 
@@ -301,7 +291,7 @@ class Route extends \core\Managed
 		}
 		$GLOBALS['Hook']::load(['class', 'route', 'Route', 'loadSubFiles', 'include'], $this);
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->displayer('name')]);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->display('name')]);
 
 		return $count === 3;
 	}

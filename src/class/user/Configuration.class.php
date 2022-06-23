@@ -7,6 +7,10 @@ namespace user;
  */
 class Configuration extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * configuration id in the database
 	 *
@@ -32,17 +36,6 @@ class Configuration extends \core\Managed
 	 */
 	protected ?string $value = null;
 	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'      => 'int',
-		'id_user' => 'int',
-		'name'    => 'string',
-		'value'   => 'string',
-	];
-	/**
 	 * unique index
 	 *
 	 * @var array
@@ -53,11 +46,18 @@ class Configuration extends \core\Managed
 	/**
 	 * display the configuration in a friendly way
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string = $attribute) : string
 	{
-		return $this->displayer('id') . ': ' . $this->displayer('name') . ' => ' . $this->displayer('value');
+		if ($attribute === null)
+		{
+			return $this->display_('id') . ': ' . $this->display_('name') . ' => ' . $this->display_('value');
+		}
+		return $this->display_($attribute);
 	}
 }
 
