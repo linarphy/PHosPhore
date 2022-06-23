@@ -31,17 +31,6 @@ abstract class Token extends \core\Managed
 	 */
 	protected ?string $validator_hashed;
 	/**
-	 * attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'date_expiration'  => 'string',
-		'selector'         => 'string',
-		'validator_clear'  => 'string',
-		'validator_hashed' => 'string',
-	];
-	/**
 	 * number of bytes to create the selector
 	 *
 	 * @var int
