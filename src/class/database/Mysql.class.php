@@ -119,7 +119,14 @@ class Mysql
 	 */
 	public static function displayDelete(\database\parameter\Table $table) : string
 	{
-		return self::displayTable($table);
+		$display = self::displayTable($table, False);
+
+		if ($table->get('alias') !== null)
+		{
+			return $display . ' AS ' . self::displayAlias($table->get('alias'));
+		}
+
+		return $display;
 	}
 	/**
 	 * display distinct part for mysql query
