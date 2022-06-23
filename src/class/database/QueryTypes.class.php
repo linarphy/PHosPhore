@@ -12,7 +12,6 @@ enum QueryTypes
 	case select;
 	case table;
 	case update;
-	case values;
 }
 
 ?>
