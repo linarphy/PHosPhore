@@ -66,6 +66,14 @@ trait Base
 			return $this->$method($attribute);
 		}
 
+		if (\is_object($this->get($attribute)))
+		{
+			if (\method_exists($this->get($attribute), 'display'))
+			{
+				return $this->get($attribute)->display();
+			}
+		}
+
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
 		return \htmlspecialchars(\phosphore_display($this->get($attribute)));
 	}
