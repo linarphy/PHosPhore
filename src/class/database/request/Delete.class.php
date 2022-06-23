@@ -12,7 +12,7 @@ class Delete extends \database\parameter\Query
 	 *
 	 * @var string
 	 */
-	const KEYWORD = 'DELETE';
+	const KEYWORD = 'DELETE FROM';
 	/**
 	 * steps order
 	 *
