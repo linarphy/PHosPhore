@@ -7,6 +7,10 @@ namespace content\pageelement;
  */
 class PageElement
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * Path to the template file
 	 *
@@ -20,14 +24,6 @@ class PageElement
 	 */
 	public ?array $elements = null;
 	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'template' => 'string',
-	];
-	/**
 	 * Constructor
 	 *
 	 * @param array $attributes Attributes of this object
@@ -36,27 +32,9 @@ class PageElement
 	{
 		$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'start'], $this);
 
-		foreach ($attributes as $key => $value)
-		{
-			$method = 'set' . \ucfirst($key);
-			if (\property_exists($this, $key))
-			{
-				if (\method_exists($this, $method))
-				{
-					$this->$method($value);
-				}
-				else
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], ['key' => $key, 'value' => $value, 'method' => $method]);
-				}
-			}
-			else
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'], ['key' => $key, 'value' => $value, 'method' => $method]);
-			}
-		}
+		$this->hydrate($attributes);
+
 		$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'end'], $this);
-		return $this;
 	}
 	/**
 	 * Add an element to the elements
@@ -118,10 +96,17 @@ class PageElement
 	/**
 	 * Display the object in a readable and safe form
 	 *
+	 * @param ?string $attribute Attribute to display (entire object if null).
+	 *                           Default to null.
+	 *
 	 * @return string
 	 */
-	public function display() : string
+	public function display(?string $attribute = null) : string
 	{
+		if ($attribute !== null)
+		{
+			$this->display_($attribute);
+		}
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
 		$GLOBALS['Hook']->load(['class', 'content', 'pageelement', 'PageElement', 'display', 'start'], $this);
 
