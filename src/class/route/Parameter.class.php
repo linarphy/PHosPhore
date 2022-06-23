@@ -32,17 +32,6 @@ class Parameter extends \core\Managed
 	 */
 	protected ?bool $necessary = null;
 	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'        => 'int',
-		'name'      => 'string',
-		'regex'     => 'string',
-		'necessary' => 'bool',
-	];
-	/**
 	 * unique index
 	 *
 	 * @var array
