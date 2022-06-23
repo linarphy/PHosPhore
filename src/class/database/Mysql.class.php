@@ -525,6 +525,24 @@ class Mysql
 		return \implode(', ', $columns);
 	}
 	/**
+	 * display set for mysql query
+	 *
+	 * @param array $set
+	 *
+	 * @return string
+	 */
+	public static function displaySets(array $set) : string
+	{
+		$display = 'SET ';
+
+		foreach ($set['attributes'] as $key => $value)
+		{
+			$display .= '`' . $value->display('name') . '` = ' . self::displayParameter($set['values'][$key]) . ', ';
+		}
+
+		return substr($display, 0, -2);
+	}
+	/**
 	 * display table for mysql query
 	 *
 	 * @param \database\parameter\Table $table

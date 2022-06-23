@@ -631,7 +631,26 @@ class QueryConstructor
 
 			$parameters = \array_merge($parameters, $temp);
 		}
-		if ($this->get('type') === \database\QueryTypes::select && $this->get('query')->get('where') !== null)
+		if ($this->get('type') === \database\QueryTypes::update && $this->get('query')->get('sets') !== null)
+		{
+			$temp = [];
+
+			foreach ($this->get('query')->get('sets')['values'] as $value)
+			{
+				if (\get_class($value) === 'database\\parameter\\Parameter')
+				{
+					$temp[] = $value;
+				}
+			}
+
+			$parameters = \array_merge($parameters, $temp);
+		}
+		if (
+			(
+				$this->get('type') === \database\QueryTypes::delete ||
+				$this->get('type') === \database\QueryTypes::select ||
+				$this->get('type') === \database\QueryTypes::update
+			) && $this->get('query')->get('where') !== null)
 		{
 			$parameters = \array_merge($parameters, $this->get('query')->get('where')->retrieveParameters());
 		}
@@ -704,11 +723,59 @@ class QueryConstructor
 		return $this;
 	}
 	/**
-	 * create a table statement
+	 * put another attribute => value in the sets to the query
 	 *
 	 * @param string $name
 	 *
-	 * @param ?string $alias
+	 * @param string $value
+	 *
+	 * @param ?string $placeholder
+	 *
+	 * @return self
+	 */
+	public function put(string $name, mixed $value, ?string $placeholder = null) : self
+	{
+		$values = [];
+		$attributes = [];
+
+		if ($this->get('query')->get('sets') !== null && !empty($this->get('query')->get('sets')))
+		{
+			$values = $this->get('query')->get('sets')['values'];
+			$attributes = $this->get('query')->get('sets')['attributes'];
+		}
+
+		$Parameter = new \database\parameter\Attribute([
+			'name'  => $name,
+			'table' => $this->get('query')->get('table'),
+		]);
+		$Value = new \database\parameter\Parameter([
+			'value' => $value,
+		]);
+
+		if ($placeholder !== null && !empty($placeholder))
+		{
+			$Value->set('placeholder', $placeholder);
+		}
+		else
+		{
+			$Value->set('position', $this->get('position'));
+			$this->set('position', $this->get('position') + 1);
+		}
+
+		$attributes[] = $Parameter;
+		$values[] = $Value;
+
+		$this->get('query')->set('sets', [
+			'values'     => $values,
+			'attributes' => $attributes,
+		]);
+
+		return $this;
+	}
+	/**
+	 * create a table statement
+	 *
+	 * @param string $name
 	 *
 	 * @return self
 	 */
@@ -730,6 +797,38 @@ class QueryConstructor
 		}
 
 		$this->set('query', new \database\request\Table([
+			'table' => new \database\parameter\Table([
+				'name' => $name,
+			]),
+		]));
+
+		return $this;
+	}
+	/**
+	 * create an update statement
+	 *
+	 * @param string $name
+	 *
+	 * @return self
+	 */
+	public function update(string $name) : self
+	{
+		if ($this->get('type') === null) // first select statement
+		{
+			$this->set('type', \database\QueryTypes::update);
+		}
+		else if ($this->get('type') !== \database\QueryTypes::update)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['update']['bad_type'], ['type' => $this->get('type')]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['update']['bad_type']);
+		}
+		else if ($this->get('query') === null) // SHOULD NEVER HAPPEN (we now it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['update']['null_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['update']['null_query']);
+		}
+
+		$this->set('query', new \database\request\Update([
 			'table' => new \database\parameter\Table([
 				'name' => $name,
 			]),
