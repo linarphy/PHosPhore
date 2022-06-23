@@ -15,11 +15,6 @@ abstract class Managed
 	 * @var array
 	 */
 	const INDEX = [];
-	/** Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [];
 	/**
 	 * Insert the object in the database
 	 *
@@ -143,81 +138,6 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], ['class' => \get_class($this)]);
 
 		return $this->manager()->delete($this->getIndex());
-	}
-	/**
-	 * Convert any attribute into a safe and readable form
-	 *
-	 * @param string $attribute Attribute to display
-	 *
-	 * @return string
-	 */
-	public function displayer(string $attribute) : string
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['displayer']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-		$display = $this::getDisp($attribute);
-		if (\method_exists($this, $display))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['displayer']['exist'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-			return $this->$display();
-		}
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['displayer']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
-		$attribute = $this->get($attribute);
-
-		if (\is_string($attribute))
-		{
-			return \htmlspecialchars($attribute);
-		}
-		if (\is_bool($attribute))
-		{
-			if ($attribute)
-			{
-				return 'True';
-			}
-			return 'False';
-		}
-		if (\is_int($attribute) || \is_float($attribute))
-		{
-			return (string) $attribute;
-		}
-		if (\is_null($attribute))
-		{
-			return '';
-		}
-		if (\is_resource($attribute))
-		{
-			return \get_resource_type($attribute);
-		}
-		if (is_array($attribute))
-		{
-			return self::arrDisp($attribute);
-		}
-		if (\is_object($attribute))
-		{
-			if (\method_exists($attribute, 'display'))
-			{
-				return $attribute->display();
-			}
-			return \get_class($attribute);
-		}
-		if (\is_callable($attribute))
-		{
-			if ($attribute instanceOf \Closure)
-			{
-				return 'closure';
-			}
-			return '';
-		}
-		if (\is_iterable($attribute))
-		{
-			return 'iterable';
-		}
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['core']['type']['unknown']);
-
-		return '';
 	}
 	/**
 	 * Check if the associated data exist in the database
