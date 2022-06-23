@@ -13,18 +13,6 @@ class Token extends \core\Token
 	 * @var int
 	 */
 	protected int $id;
-	/**
-	 * attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'date_expiration'  => 'string',
-		'id'               => 'int',
-		'selector'         => 'string',
-		'validator_clear'  => 'string',
-		'validator_hashed' => 'string',
-	];
 
 }
 

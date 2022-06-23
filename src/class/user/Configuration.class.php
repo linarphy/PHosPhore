@@ -55,7 +55,7 @@ class Configuration extends \core\Managed
 	{
 		if ($attribute === null)
 		{
-			return $this->display_('id') . ': ' . $this->display_('name') . ' => ' . $this->display_('value');
+			return $this->display('id') . ': ' . $this->display('name') . ' => ' . $this->display('value');
 		}
 		return $this->display_($attribute);
 	}

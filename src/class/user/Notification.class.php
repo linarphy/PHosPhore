@@ -7,6 +7,10 @@ namespace user;
  */
 class Notification extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * notification content
 	 *
@@ -227,9 +231,9 @@ class Notification extends \core\Managed
 	{
 		if ($attribute === null)
 		{
-			return $this->displayer('type') . ': ' . $this->displayer('content');
+			return $this->display('type') . ': ' . $this->display('content');
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 	/**
 	 * display notification content
@@ -251,7 +255,7 @@ class Notification extends \core\Managed
 			return '';
 		}
 
-		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $Content->displayer('text'), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $Content->display('text'), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		foreach ($tokens as $key => $token)
 		{

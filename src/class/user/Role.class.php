@@ -20,15 +20,6 @@ class Role extends \core\Managed
 	 */
 	protected ?string $name_role = null;
 	/**
-	 * attributes with type
-	 *
-	 * @var arry
-	 */
-	const ATTRIBUTES = [
-		'id_user'   => 'int',
-		'name_role' => 'string',
-	];
-	/**
 	 * Insert the role in the database
 	 *
 	 * @return array

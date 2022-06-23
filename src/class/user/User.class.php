@@ -7,6 +7,10 @@ namespace user;
  */
 class User extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * index of the used in the database
 	 *
@@ -55,17 +59,6 @@ class User extends \core\Managed
 	 * @var array
 	 */
 	protected ?array $roles = null;
-	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'                => 'int',
-		'date_registration' => 'string',
-		'date_login'        => 'string',
-		'nickname'          => 'string',
-	];
 	/**
 	 * unique index
 	 *
@@ -125,7 +118,7 @@ class User extends \core\Managed
 		{
 			return $this->display('nickname') . '#' . $this->display('id');
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 	/**
 	 * check if the user has made a request before a time delta

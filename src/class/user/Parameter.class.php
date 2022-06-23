@@ -26,16 +26,6 @@ class Parameter extends \core\Managed
 	 */
 	protected ?string $value = null;
 	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id' => 'int',
-		'key'     => 'string',
-		'value'   => 'string',
-	];
-	/**
 	 * unique index
 	 *
 	 * @var array

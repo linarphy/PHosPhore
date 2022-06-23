@@ -51,9 +51,9 @@ class Folder extends \core\Managed
 		{
 			if ($this->id_parent === -1)
 			{
-				return $this->display_('name') . '/';
+				return $this->display('name') . '/';
 			}
-			return $this->getParent()->display() . $this->display_('name') . '/';
+			return $this->getParent()->display() . $this->display('name') . '/';
 		}
 		return $this->display_($attribute);
 	}

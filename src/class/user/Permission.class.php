@@ -26,16 +26,6 @@ class Permission extends \core\Managed
 	 */
 	protected ?string $name_role = null;
 	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'        => 'int',
-		'id_route'  => 'int',
-		'name_role' => 'string',
-	];
-	/**
 	 * unique index
 	 *
 	 * @var array

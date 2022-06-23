@@ -7,6 +7,10 @@ namespace user;
  */
 class Password extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * Index of the password in the database
 	 *
@@ -25,16 +29,6 @@ class Password extends \core\Managed
 	 * @var string
 	 */
 	protected ?string $password_hashed = null;
-	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'              => 'int',
-		'password_clear'  => 'string',
-		'password_hashed' => 'string',
-	];
 	/**
 	 * unique index
 	 *
@@ -102,7 +96,7 @@ class Password extends \core\Managed
 		{
 			return $this->display('password_hashed');
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 	/**
 	 * Display the clear password

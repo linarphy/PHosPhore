@@ -7,6 +7,10 @@ namespace user;
  */
 class Page extends \core\Managed
 {
+	use \core\Base
+	{
+		\core\Base::display as display_;
+	}
 	/**
 	 * id of the page (aka the route)
 	 *
@@ -37,15 +41,6 @@ class Page extends \core\Managed
 	 * @var \route\Route
 	 */
 	protected ?\route\Route $route = null;
-	/**
-	 * Attributes with type
-	 *
-	 * @var array
-	 */
-	const ATTRIBUTES = [
-		'id'   => 'int',
-		'name' => 'string',
-	];
 	/**
 	 * unique index
 	 *
@@ -133,9 +128,9 @@ class Page extends \core\Managed
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['display']);
 
-			return $this->displayer('page_element');
+			return $this->display('page_element');
 		}
-		return parent::display($attribute);
+		return $this->display_($attribute);
 	}
 	/**
 	 * Load the php file associated to the page
