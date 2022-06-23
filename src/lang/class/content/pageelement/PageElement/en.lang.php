@@ -1,10 +1,5 @@
 <?php
 
-/** [__construct] **/
-/* unknown attribute given */
-$GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['unknown_attribute'] = '{key} (with the value of {value}) cannot be stored in \\content\\pageelement\\PageElement because it is not a defined attribute (the method {method} does not exist)';
-/** [/__construct] **/
-
 /** [addElement] **/
 /* start the process */
 $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['start'] = 'trying to add {key} with a value of {value} in the elements attributes';
