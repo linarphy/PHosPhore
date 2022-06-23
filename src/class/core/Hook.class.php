@@ -16,7 +16,7 @@ class Hook
 	 *
 	 * @return int Number of hook loaded
 	 */
-	public function load(array $event, mixed $param) : int
+	public static function load(array $event, mixed $param) : int
 	{
 		$path_hook_dir = $GLOBALS['config']['core']['path']['hook'] . \implode(DIRECTORY_SEPARATOR, $event) . DIRECTORY_SEPARATOR;
 		if (!\is_dir($path_hook_dir))
