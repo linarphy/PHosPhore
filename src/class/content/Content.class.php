@@ -57,7 +57,7 @@ class Content extends \core\Managed
 		{
 			return htmlspecialchars($this->display('text'));
 		}
-		$this->display_('text');
+		return $this->display_($attribute);
 	}
 	/**
 	 * Retrieves the text with its id and lang
