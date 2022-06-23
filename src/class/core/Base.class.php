@@ -15,11 +15,11 @@ trait Base
 	public function __construct(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['__construct'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
 
 		$this->hydrate($attributes);
 
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', '__construct', 'end'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'end'], [$this, $attributes]);
 	}
 	/**
 	 * Clone the object (return a new one with the same attributes)
@@ -29,7 +29,7 @@ trait Base
 	public function clone() : self
 	{
 		$class = \get_class($this);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'clone', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'clone', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['clone'], ['class' => $class]);
 		return new $class($this->table());
 	}
@@ -79,7 +79,7 @@ trait Base
 	public function get(string $attribute) : mixed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
 
 		if (!\property_exists($this, $attribute))
 		{
@@ -91,7 +91,7 @@ trait Base
 
 		if (\method_exists($this, $method))
 		{
-			$GLOBALS['Hook']->load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
 			return $this->$method();
 		}
@@ -101,7 +101,7 @@ trait Base
 			return null;
 		}
 
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
 		return $this->$attribute;
 	}
@@ -175,7 +175,7 @@ trait Base
 	public function hydrate(array $attributes) : int
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['hydrate']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'hydrate', 'start'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'hydrate', 'start'], [$this, $attributes]);
 
 		$count = 0;
 		foreach ($attributes as $attribute => $value)
@@ -189,7 +189,7 @@ trait Base
 			}
 		}
 
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'hydrate', 'end'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'hydrate', 'end'], [$this, $attributes]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['hydrate']['end'], ['class' => \get_class($this), 'count' => $count]);
 		return $count;
 	}
@@ -205,7 +205,7 @@ trait Base
 	public function set(string $attribute, mixed $value) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'set', 'start'], [$this, $attribute, $value]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'start'], [$this, $attribute, $value]);
 
 		if (!\property_exists($this, $attribute))
 		{
@@ -214,7 +214,7 @@ trait Base
 		}
 
 		$method = $this::getSet($attribute);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'set', 'check'], $this);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'check'], $this);
 
 		if (\method_exists($this, $method))
 		{
@@ -224,7 +224,7 @@ trait Base
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['default_method'], ['class' => \get_class($this), 'attribute' => $attribute]);
 		$this->$attribute = $value;
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'set', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'end'], $this);
 		return True;
 	}
 	/**
@@ -241,7 +241,7 @@ trait Base
 	public function table(int $depth = 0, bool $strict = False) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['table']['start'], ['class' => \get_class($this), 'depth' => $depth]);
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'table', 'start'], [$this, $depth]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'start'], [$this, $depth]);
 
 		$attributes = [];
 
@@ -251,7 +251,7 @@ trait Base
 			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['table']['undefined_depth']);
 		}
 
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'table', 'check'], [$this, $depth]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'check'], [$this, $depth]);
 
 		foreach (\array_keys(\get_class_vars(\get_class($this))) as $attribute)
 		{
@@ -279,7 +279,7 @@ trait Base
 			}
 		}
 
-		$GLOBALS['Hook']->load(['class', 'core', 'Base', 'table', 'end'], [$this, $depth]);
+		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'end'], [$this, $depth]);
 		return $attributes;
 	}
 }

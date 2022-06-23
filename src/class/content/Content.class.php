@@ -66,7 +66,7 @@ class Content extends \core\Managed
 	 */
 	public function retrieveText() : string
 	{
-		$GLOBALS['Hook']->load(['class', 'content', 'Content', 'retrieveText', 'start'], $this);
+		$GLOBALS['Hook']::load(['class', 'content', 'Content', 'retrieveText', 'start'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['start']);
 
 		$Manager = $this->Manager();
@@ -108,7 +108,7 @@ class Content extends \core\Managed
 			$this->text = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default'];
 			$this->date_creation = $GLOBALS['locale']['class']['content']['content']['default_date_creation'];
 		}
-		$GLOBALS['Hook']->load(['class', 'content', 'Content', 'retrieveText', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'content', 'Content', 'retrieveText', 'end'], $this);
 
 		return $this->text;
 	}

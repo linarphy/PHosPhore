@@ -106,9 +106,9 @@ class User extends \core\Managed
 	public function remove()
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['User']['remove']['start'], ['user' => $this->get('id')]);
-		$GLOBALS['Hook']->load(['class', 'user', 'User', 'remove', 'start'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'User', 'remove', 'start'], $this);
 		$this->delete();
-		$GLOBALS['Hook']->load(['class', 'user', 'User', 'remove', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'User', 'remove', 'end'], $this);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['remove']['deleting_user'], ['user' => $this->get('id')]);
 	}
 	/**
@@ -156,7 +156,7 @@ class User extends \core\Managed
 	public function retrieve() : self
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['User']['retrieve']);
-		$GLOBALS['Hook']->load(['class', 'user', 'User', 'retrieve', 'start'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'User', 'retrieve', 'start'], $this);
 
 		parent::retrieve();
 		$this->retrieveConfigurations();
@@ -164,7 +164,7 @@ class User extends \core\Managed
 		$this->retrievePassword();
 		$this->retrieveRoles();
 
-		$GLOBALS['Hook']->load(['class', 'user', 'User', 'retrieve', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'User', 'retrieve', 'end'], $this);
 		return $this;
 	}
 	/**

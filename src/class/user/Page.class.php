@@ -64,7 +64,7 @@ class Page extends \core\Managed
 	public function __construct(array $attributes)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['start']);
-		$GLOBALS['Hook']->load(['class', 'user', 'Page', '__construct', 'start'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'user', 'Page', '__construct', 'start'], [$this, $attributes]);
 
 		if ($this->hydrate($attributes) <= 0)
 		{
@@ -82,7 +82,7 @@ class Page extends \core\Managed
 		$this->retrieve();
 		$Route = $this->retrieveRoute();
 
-		$GLOBALS['Hook']->load(['class', 'user', 'Page', '__construct', 'end'], [$this, $attributes]);
+		$GLOBALS['Hook']::load(['class', 'user', 'Page', '__construct', 'end'], [$this, $attributes]);
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['__construct']['end']);
 		return True;
 	}
@@ -145,7 +145,7 @@ class Page extends \core\Managed
 	public function load() : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['start']);
-		$GLOBALS['Hook']->load(['class', 'user', 'Page', 'load', 'start'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'Page', 'load', 'start'], $this);
 
 		$PageElement = new \content\pageelement\PageElement([]); // I need configuration of this class to load after this point, it's dumb but it's the simple way for now
 
@@ -215,7 +215,7 @@ class Page extends \core\Managed
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['load']['include'], ['file' => $file]);
 
-		$GLOBALS['Hook']->load(['class', 'user', 'Page', 'load', 'end'], $this);
+		$GLOBALS['Hook']::load(['class', 'user', 'Page', 'load', 'end'], $this);
 		return include($file);
 	}
 	/**

@@ -299,7 +299,7 @@ class Route extends \core\Managed
 			include($path_lang);
 			$count += 1;
 		}
-		$GLOBALS['Hook']->load(['class', 'route', 'Route', 'loadSubFiles', 'include'], $this);
+		$GLOBALS['Hook']::load(['class', 'route', 'Route', 'loadSubFiles', 'include'], $this);
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Route']['loadSubFiles']['end'], ['name' => $this->displayer('name')]);
 
