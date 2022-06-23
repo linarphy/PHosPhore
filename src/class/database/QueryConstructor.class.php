@@ -141,6 +141,20 @@ class QueryConstructor
 		return $this;
 	}
 	/**
+	 * end the constructor (return the query associated or null if none
+	 *
+	 * @return ?\database\parameter\Query
+	 */
+	public function end() : ?\database\parameter\Query
+	{
+		if ($this->get('query') !== null)
+		{
+			return $this->get('query');
+		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['database']['QueryConstructor']['end']['query']);
+	}
+	/**
 	 * alias for expression
 	 *
 	 * @return \database\ExpressionConstructor

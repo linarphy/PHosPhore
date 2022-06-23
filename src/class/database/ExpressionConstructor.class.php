@@ -241,6 +241,39 @@ class ExpressionConstructor
 		return $this;
 	}
 	/**
+	 * alias for addColumn
+	 *
+	 * @param string $name
+	 *
+	 * @param string $table
+	 *
+	 * @param ?string $alias
+	 *
+	 * @param ?bool $is_function
+	 *
+	 * @param ?string $function_parameter
+	 *
+	 * @return self
+	 */
+	public function col(string $name, string $table, ?string $alias = null, ?bool $is_function = False, ?string $function_parameter = null) : self
+	{
+		return $this->add('C', $name, $table, $alias, $is_function, $function_parameter);
+	}
+	/**
+	 * end the constructor (return the expression associated or null if none
+	 *
+	 * @return ?\database\parameter\Expression
+	 */
+	public function end() : ?\database\parameter\Expression
+	{
+		if ($this->get('expression') !== null)
+		{
+			return $this->get('expression');
+		}
+
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['database']['ExpressionConstructor']['end']['expression']);
+	}
+	/**
 	 * alias for operator
 	 *
 	 * @param string $operator
@@ -343,6 +376,30 @@ class ExpressionConstructor
 		]));
 
 		return $this;
+	}
+	/**
+	 * alias for addParameter
+	 *
+	 * @param mixed $value
+	 *
+	 * @param ?string $placeholder
+	 *
+	 * @return self
+	 */
+	public function param(mixed $value, ?string $placeholder = null) : self
+	{
+		return $this->add('P', $value, $placeholder);
+	}
+	/**
+	 * alias for addSubQuery
+	 *
+	 * @param \database\parameter\Query $sub_query
+	 *
+	 * @return self
+	 */
+	public function query(\database\parameter\Query $sub_query) : self
+	{
+		return $this->add('Q', $sub_query);
 	}
 	/**
 	 * create a xor statement
