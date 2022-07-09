@@ -57,7 +57,7 @@ class SubOperator
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['parameter']['Operator']['display']['not_checked']);
 				throw new \Exception($GLOBALS['locale']['class']['database']['parameter']['Operator']['display']['not_checked']);
 			}
-			return $this->display('symbol');
+			return $this->get('symbol');
 		}
 		return $this->display_($attribute);
 	}
