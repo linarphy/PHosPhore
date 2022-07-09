@@ -10,9 +10,10 @@ trait Base
 	/**
 	 * Constructor
 	 *
-	 * @param array $attributes Defined values of the object attributes
+	 * @param array $attributes Defined values of the object attributes.
+	 *                          Default to empty array.
 	 */
-	public function __construct(array $attributes)
+	public function __construct(array $attributes = [])
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['__construct'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
