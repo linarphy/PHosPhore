@@ -15,8 +15,6 @@ class DBFactory
 	const DRIVERS = [
 		'MYSQL',
 		'POSTGRESQL',
-		'FIREBIRD',
-		'SQLITE',
 	];
 	/**
 	 * Creating a database connection
