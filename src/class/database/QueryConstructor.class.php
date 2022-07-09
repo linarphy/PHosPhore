@@ -806,14 +806,15 @@ class QueryConstructor
 
 		$connection = \core\DBFactory::connection();
 
-		if (!\in_array(\strtoupper($connection->getAttribute(PDO::ATTR_DRIVER_NAME)), \core\DBFactory::DRIVERS))
+		if (!\in_array(\strtoupper($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)), \core\DBFactory::DRIVERS))
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['run']['unsuported_driver'], ['driver' => $connection->getAttribute(PDO::ATTR_DRIVER_NAME)]);
 			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['run']['unsuported_driver']);
 		}
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
 
 		$request = $connection->prepare($driver_class::displayQuery($this->get('query')));
-		$request->execute($this->get('query')->retrieveParameters());
+		$request->execute($this->retrieveParameters());
 
 		return $request->fetchAll();
 	}
@@ -858,7 +859,7 @@ class QueryConstructor
 	 */
 	public function update(string $name) : self
 	{
-		if ($this->get('type') === null) // first select statement
+		if ($this->get('type') === null) // first update statement
 		{
 			$this->set('type', \database\QueryTypes::update);
 		}
