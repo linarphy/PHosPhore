@@ -787,6 +787,37 @@ class QueryConstructor
 		return $this;
 	}
 	/**
+	 * run the query
+	 *
+	 * @return array
+	 */
+	public function run() : array
+	{
+		if ($this->get('type') === null)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['run']['no_type']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['run']['no_type']);
+		}
+		if ($this->get('query') === null) // should never happend (of course it will)
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['run']['no_query']);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['run']['no_query']);
+		}
+
+		$connection = \core\DBFactory::connection();
+
+		if (!\in_array(\strtoupper($connection->getAttribute(PDO::ATTR_DRIVER_NAME)), \core\DBFactory::DRIVERS))
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['run']['unsuported_driver'], ['driver' => $connection->getAttribute(PDO::ATTR_DRIVER_NAME)]);
+			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['run']['unsuported_driver']);
+		}
+
+		$request = $connection->prepare($driver_class::displayQuery($this->get('query')));
+		$request->execute($this->get('query')->retrieveParameters());
+
+		return $request->fetchAll();
+	}
+	/**
 	 * create a table statement
 	 *
 	 * @param string $name
