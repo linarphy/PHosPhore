@@ -61,10 +61,42 @@ abstract class Manager
 	/**
 	 * Add a database entry and return its index
 	 *
+	 * @param array $values attribute name => value
+	 *
+	 * @return array
+	 */
+	public function add(array $values) : array
+	{
+		$values = $this->cleanAttributes($values);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$QC->insert($this::TABLE);
+
+		foreach ($values as $name => $value)
+		{
+			$QC->value($name, $value);
+		}
+
+		if ($QC->run() !== True)
+		{
+			throw new \Exception();
+		}
+
+		return $this->getIdBy($values);
+	}
+	/**
+	 * Add a database entry and return its index
+	 *
 	 * @param array $attributes
 	 *
 	 * @return array|null
-	 */
+	 *//**
 	public function add(array $attributes) : ?array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['start'], ['class' => \get_class($this)]);
@@ -103,7 +135,7 @@ abstract class Manager
 	 *                             number => int
 	 *
 	 * @return string|null
-	 */
+	 *//**
 	public function boundaryInterpreter(array $bounds) : ?string
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['boundaryInterpreter']['start'], ['class' => \get_class($this)]);
@@ -216,7 +248,7 @@ abstract class Manager
 	 * @param string|array $operations Default to '='
 	 *
 	 * @return array|null
-	 */
+	 *//**
 	public function conditionCreator(array $values, array|string $operations = null) : ?array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['start'], ['class' => \get_class($this)]);
@@ -263,7 +295,7 @@ abstract class Manager
 					break;
 				case 'IN':
 					/* IN is a special case, more complex than the other, values will change */
-					if (\count($value) === 0) // $value is the array of value that $name can takes
+					/**if (\count($value) === 0) // $value is the array of value that $name can takes
 					{
 						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['conditionCreator']['empty'], ['class' => \get_class($this), 'attribute' => $name]);
 
@@ -273,7 +305,7 @@ abstract class Manager
 
 					/* There are now \count($value) new "?" (value to enter). These must be at the good position
 					 * \array_map('strval', \array_keys($values)) is a solution to avoid casting string to integer
-					 * (see https://www.php.net/manual/function.array-search.php#122377)*/
+					 * (see https://www.php.net/manual/function.array-search.php#122377)*//**
 					$values = \array_splice($values, \array_search($name, \array_map('strval', \array_keys($values))), 1, $value);
 					break;
 				default:
@@ -286,10 +318,25 @@ abstract class Manager
 		return [$results, $values];
 	}
 	/**
-	 * Count all entries of the table
+	 * count all entries of the table
 	 *
 	 * @return int
 	 */
+	public function count() : int
+	{
+		$QC = new \database\QueryConstructor();
+
+		$QC->select('COUNT', $this::TABLE, alias: 'nbr', is_function: True, function_parameter: $this::INDEX[0]);
+
+		$QC->from($this::TABLE);
+
+		return (int) $QC->run()[0]['nbr'];
+	}
+	/**
+	 * Count all entries of the table
+	 *
+	 * @return int
+	 *//**
 	public function count() : int
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['count'], ['class' => \get_class($this)]);
@@ -301,6 +348,61 @@ abstract class Manager
 		return (int)$data['nbr'];
 	}
 	/**
+	 * count entries respecting a condition
+	 *
+	 * @param array $values attribute name => value
+	 *
+	 * @param array|string $operations attribute name => operation.
+	 *                                 If $operations is a string, it will be considered as an
+	 *                                 array with the same operation for each entry.
+	 *                                 Default to "=".
+	 *
+	 * @return int
+	 */
+	public function countBy(array $values, array|string $operations = '=') : int
+	{
+		$values = $this->cleanAttributes($values);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\phosphore_count($operations) === 0)
+		{
+			throw new \Exception();
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$QC->select('COUNT', $this::TABLE, alias: 'nbr', is_function: True, function_parameter: $this::INDEX[0]);
+
+		$QC->from($this::TABLE);
+
+		$wheres = [];
+		$operation = $operations;
+		foreach ($values as $name => $value)
+		{
+			if (\is_array($operations))
+			{
+				if (!\key_exists($name, $operations))
+				{
+					throw new \Exception();
+				}
+
+				$operation = $operations[$name];
+			}
+
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+							      ->op($operation)
+							      ->end();
+		}
+
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		return (int) $QC->run()[0]['nbr'];
+	}
+	/**
 	 * Count all entries which comply with a condition
 	 *
 	 * @param array $values Name => value of attributes
@@ -308,7 +410,7 @@ abstract class Manager
 	 * @param array|string $conditions Name => operator / operator
 	 *
 	 * @return int
-	 */
+	 *//**
 	public function countBy(array $values, array|string $conditions = null) : int
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['start'], ['class' => \get_class($this)]);
@@ -337,10 +439,50 @@ abstract class Manager
 	/**
 	 * Delete an entry
 	 *
-	 * @param array $index Index of the entry
+	 * @param array $index attribute name => value
 	 *
 	 * @return bool
 	 */
+	public function delete(array $index) : bool
+	{
+		$index = $this->cleanAttributes($index);
+
+		if (\count($index) === 0)
+		{
+			throw new \Exception();
+		}
+		foreach ($this::INDEX as $name)
+		{
+			if (!\key_exists($name, $index))
+			{
+				throw new \Exception();
+			}
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$QC->delete($this::TABLE);
+
+		$wheres = [];
+		foreach ($index as $name => $value)
+		{
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+							      ->op('=')
+							      ->end();
+		}
+
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		return $QC->run();
+	}
+	/**
+	 * Delete an entry
+	 *
+	 * @param array $index Index of the entry
+	 *
+	 * @return bool
+	 *//**
 	public function delete(array $index) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['start'], ['class', \get_class($this)]);
@@ -371,12 +513,77 @@ abstract class Manager
 	/**
 	 * Delete entries which comply with a condition
 	 *
+	 * @param array $values attribute name => value
+	 *
+	 * @param array|string $operations attribute name => operation.
+	 *                                 If $operations is a string, it will be considered as an
+	 *                                 array with the same operation for each entry.
+	 *                                 Default to "=".
+	 *
+	 * @return int Number of deleted entries
+	 */
+	public function deleteBy(array $values, array|string $operations = '=') : int
+	{
+		$values = $this->cleanAttributes($values);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\phosphore_count($operations) === 0)
+		{
+			throw new \Exception();
+		}
+
+		$count = $this->countBy($values, $operations);
+
+		if ($count === 0)
+		{
+			return 0;
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$QC->delete($this::TABLE);
+
+		$operation = $operations;
+		$wheres = [];
+		foreach ($values as $name => $value)
+		{
+			if (\is_array($operations))
+			{
+				if (!\key_exists($name, $operations))
+				{
+					throw new \Exception();
+				}
+
+				$operation = $operations[$name];
+			}
+
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+							      ->op($operation)
+							      ->end();
+		}
+
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		if ($QC->run() === True)
+		{
+			return $count;
+		}
+
+		return 0;
+	}
+	/**
+	 * Delete entries which comply with a condition
+	 *
 	 * @param array $values Name => value of attributes
 	 *
 	 * @param array|string $conditions Name => operator / operator
 	 *
 	 * @return int Number of deleted entries
-	 */
+	 *//**
 	public function deleteBy(array $values, array|string $conditions = null) : int
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['start'], ['class' => \get_class($this)]);
@@ -446,12 +653,57 @@ abstract class Manager
 		return $this->countBy($values, $operations) != 0;
 	}
 	/**
+	 * Get an entry from an index
+	 *
+	 * @param array $index attribute name => value
+	 *
+	 * @return array
+	 */
+	public function get(array $index) : array
+	{
+		$index = $this->cleanAttributes($index);
+
+		if (\count($index) === 0)
+		{
+			throw new \Exception();
+		}
+		foreach ($this::INDEX as $name)
+		{
+			if (!\key_exists($name, $index))
+			{
+				throw new \Exception();
+			}
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$wheres = [];
+		foreach ($this::ATTRIBUTES as $name)
+		{
+			$QC->select($name, $this::TABLE);
+
+			if (\key_exists($name, $index))
+			{
+				$wheres[] = $QC->exp()->col($name, $this::TABLE)
+					                  ->param($index[$name])
+								      ->op('=')
+								      ->end();
+			}
+		}
+
+		$QC->from($this::TABLE);
+
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		return $QC->run()[0];
+	}
+	/**
 	 * Get the result of a sql request from an index
 	 *
 	 * @param array $index
 	 *
 	 * @return array
-	 */
+	 *//**
 	public function get(array $index) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['start'], ['class' => \get_class($this)]);
@@ -491,63 +743,105 @@ abstract class Manager
 		return $request->fetch(\PDO::FETCH_ASSOC);
 	}
 	/**
-	 * Get results of sql request
+	 * Get simple table results
 	 *
-	 * @param array $values Name => value of attribute
+	 * @param array $values attribute name => value
 	 *
-	 * @param array|string $operations Name => operator / operator
+	 * @param array|string $operations attribute name => operation.
+	 *                                 If $operations is a string, it will be considered as an
+	 *                                 array with the same operation for each entry.
+	 *                                 Default to "=".
 	 *
-	 * @param array $bounds See boundaryInterpreter method for description
+	 * @param null|array|string $order_by attribute name => direction (ASC|DESC).
+	 *                               If $order_by is a string, it will be considered as
+	 *                               [ $order_by => "DESC" ].
+	 *                               Default to null.
+	 *
+	 * @param null|array|int $limit [ $number, $offset ]. $offset is optionnal.
+	 *                          If $limit is an int, it will be considered as [ $limit ].
+	 *                          Default to null.
 	 *
 	 * @return array
 	 */
-	public function getBy(array $values, array|string $operations = null, array $bounds = null) : ?array
+	public function getBy(array $values, array|string $operations = '=', null|array|string $order_by = null, null|array|int $limit = null) : array
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['start'], ['class' => \get_class($this)]);
-
 		$values = $this->cleanAttributes($values);
 
 		if (\count($values) === 0)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['values'], ['class' => \get_class($this)]);
-
-			return null;
+			throw new \Exception();
+		}
+		if (\phosphore_count($operations) === 0)
+		{
+			throw new \Exception();
 		}
 
-		$condition = $this->conditionCreator($values, $operations);
+		$QC = new \database\QueryConstructor();
 
-		if ($condition === False)
+		$operation = $operations;
+		$wheres = [];
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			exit();
-		}
+			$QC->select($name, $this::TABLE);
 
-		$limit = '';
-		if ($bounds != null)
-		{
-			$limit = $this->boundaryInterpreter($bounds);
-		}
-
-		$attributes = [];
-		foreach ($this::ATTRIBUTES as $attribute)
-		{
-			if (\in_array(\strtoupper($attribute), $this::RESERVED_KEYWORD))
+			if (\key_exists($name, $values))
 			{
-				$attributes[] = '`' . $attribute . '`';
-			}
-			else
-			{
-				$attributes[] = $attribute;
+				if (\is_array($operations))
+				{
+					if (!\key_exists($name, $operations))
+					{
+						throw new \Exception();
+					}
+
+					$operation = $operations[$name];
+				}
+
+				$wheres[] = $QC->exp()->col($name, $this::TABLE)
+								   ->param($values[$name])
+								   ->op($operation)
+								   ->end();
 			}
 		}
 
-		$query = 'SELECT ' . \implode(', ', $attributes) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]) . $limit;
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getBy']['end'], ['class' => \get_class($this), 'query' => $query]);
+		$QC->from($this::TABLE);
+		$QC->where($QC->exp()->and(...$wheres)->end());
 
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($condition[1]));
+		if ($order_by !== null)
+		{
+			if (\is_string($order_by))
+			{
+				$order_by = [$order_by => 'DESC'];
+			}
 
-		return $request->fetchAll();
+			if (empty($order_by))
+			{
+				throw new \Exception();
+			}
+
+			foreach ($order_by as $name => $direction)
+			{
+				$QC->orderBy($name, $this::TABLE, $direction);
+			}
+
+		}
+
+		if ($limit !== null)
+		{
+			if (\is_int($limit))
+			{
+				$limit = [$limit];
+			}
+
+			if (empty($limit))
+			{
+				throw new \Exception();
+			}
+
+			$QC->limit(...$limit);
+		}
+
+		return $QC->run();
 	}
 	/**
 	 * db getter
@@ -561,12 +855,68 @@ abstract class Manager
 	/**
 	 * Get index of entries which comply to condition
 	 *
+	 * @param array $values attribute name => value
+	 *
+	 * @param string|array $operations attribute name => operation.
+	 *                                 If $operations is a string, it will be considered as
+	 *                                 an array with the same operation for each entry.
+	 *                                 Default to "=".
+	 *
+	 * @return array
+	 */
+	public function getIdBy(array $values, array|string $operations = '=') : array
+	{
+		$values = $this->cleanAttributes($values);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\phosphore_count($operations) === 0)
+		{
+			throw new \Exception();
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$operation = $operations;
+		$wheres = [];
+		foreach ($this::INDEX as $name)
+		{
+			$QC->select($name, $this::TABLE);
+		}
+		foreach ($values as $name => $value)
+		{
+			if (\is_array($operations))
+			{
+				if (!\key_exists($name, $operations))
+				{
+					throw new \Exception();
+				}
+
+				$operation = $operations[$name];
+			}
+
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+							      ->op($operation)
+							      ->end();
+		}
+
+		$QC->from($this::TABLE);
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		return $QC->run();
+	}
+	/**
+	 * Get index of entries which comply to condition
+	 *
 	 * @param array $values Name => value for attribute
 	 *
 	 * @param array|string $operations Name => operator / operator
 	 *
 	 * @return array
-	 */
+	 *//**
 	public function getIdBy(array $values, array|string $operations = null) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['start'], ['class' => \get_class($this)]);
@@ -596,12 +946,47 @@ abstract class Manager
 	 *
 	 * @param string $attribute Name of the attribute for the order by
 	 *
+	 * @param int $position Position of the entry (0 = first).
+	 *                      Default to 0.
+	 *
+	 * @param string $direction Direction of the order by (ASC|DESC).
+	 *                          Default to 'DESC'.
+	 *
+	 * @return array
+	 */
+	public function getIdByPos(string $attribute, int $position = 0, string $direction = 'DESC') : array
+	{
+		if (!\in_array($attribute, $this::ATTRIBUTES))
+		{
+			throw new \Exception();
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		foreach ($this::INDEX as $name)
+		{
+			$QC->select($name, $this::TABLE);
+		}
+
+		$QC->from($this::TABLE);
+
+		$QC->orderBy($attribute, $this::TABLE, $direction);
+
+		$QC->limit(1, $position);
+
+		return $QC->run();
+	}
+	/**
+	 * Get an index of the nth entry for an attribute
+	 *
+	 * @param string $attribute Name of the attribute for the order by
+	 *
 	 * @param int $position Position of the entry (0 = first)
 	 *
 	 * @param ASC|DESC $direction Direction of the order by
 	 *
 	 * @return array
-	 */
+	 *//**
 	public function getIdByPos(array $attribute, int $position = 0, string $direction = 'DESC') : array
 	{
 		$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['start'], ['class' => \get_class($this)]);
@@ -668,23 +1053,37 @@ abstract class Manager
 	/**
 	 * Retrieves directly objects which comply to a condition
 	 *
-	 * @param array $values Name => value of attribute
+	 * @param array $values attribute name => value
 	 *
-	 * @param array|string $operations Name => operator / operator
+	 * @param array|string $operations attribute name => operation.
+	 *                                 If $operations if a string, it will be considered as an
+	 *                                 array with the same operation for each entry.
+	 *                                 Default to "=".
 	 *
-	 * @param array $bounds See boundaryInterpreter method for description of this array
+	 * @param null|array|string $order_by attribute name => direction (ASC|DESC).
+	 *                                    If $order_by is a string, it will be considered as
+	 *                                    [ $order_by => "DESC" ].
+	 *                                    Default to null.
 	 *
-	 * @param string $class_name Class name if different (LinkManager for example)
+	 * @param null|array|int $limit [ $number, $offset ]. $offset is optionnal.
+	 *                                 If $limit is an int, it will be considered as [ $limit ].
+	 *                                 Default to null.
 	 *
-	 * @param array $attributes_conversion Convert attribute name if custom class. For example: ['id_route' => 'id'] convert id_route attribute to id to retrieve \route\Route object
+	 * @param string $class_name Class name if different (LinkManager for example).
+	 *                           Default to "".
+	 *
+	 * @param array $attributes_conversion Convert attribute name if custom class.
+	 *                                     For example: ['id_route' => 'id'] convert id_route
+	 *                                     attribute to id to retrieve \route\Route object
+	 *                                     Default to [].
 	 *
 	 * @return array
 	 */
-	public function retrieveBy(array $values, array|string $operations = null, array $bounds = null, string $class_name = '', array $attributes_conversion = []) : array
+	public function retrieveBy(array $values, array|string $operations = '=', null|string|array $order_by = null, null|array|int $limit = null, string $class_name = '', array $attributes_conversion = []) : array
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['retrieveBy']['start'], ['class' => \get_class($this)]);
 
-		$results = $this->getBy($values, $operations, $bounds);
+		$results = $this->getBy($values, $operations, $order_by, $limit);
 		$Objects = [];
 
 		if ($class_name === '')
@@ -748,7 +1147,7 @@ abstract class Manager
 	 * db setter
 	 *
 	 * @param \PDO $db PDO connection to the database
-	 */
+	*/
 	protected function setDb($db) : void
 	{
 		if ($db instanceOf \PDO)
@@ -763,12 +1162,62 @@ abstract class Manager
 	/**
 	 * Update an entry
 	 *
+	 * @param array $values attribute name => new value
+	 *
+	 * @param array $index index name => old value
+	 *
+	 * @return bool
+	  */
+	 public function update(array $values, array $index) : bool
+	 {
+		$values = $this->cleanAttributes($values);
+		$index = $this->cleanAttributes($index);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\count($index) === 0)
+		{
+			throw new \Exception();
+		}
+		foreach ($this::INDEX as $name)
+		{
+			if (!\key_exists($name, $index))
+			{
+				throw new \Exception();
+			}
+		}
+
+		$QC = new \database\QueryConstructor();
+		$QC->update($this::TABLE);
+
+		foreach ($values as $name => $value)
+		{
+			$QC->put($name, $value);
+		}
+
+		$wheres = [];
+		foreach ($index as $name => $value)
+		{
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+							      ->op('=')
+							      ->end();
+		}
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		return $QC->run();
+	 }
+	/**
+	 * Update an entry
+	 *
 	 * @param array $values New values
 	 *
 	 * @param array $index Index of the entry
 	 *
 	 * @return bool
-	 */
+	 *//**
 	public function update(array $values, array $index) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['start'], ['class' => \get_class($this)]);
@@ -805,23 +1254,87 @@ abstract class Manager
 		return True;
 	}
 	/**
+	 * Update entries which comply to a condition
+	 *
+	 * @param array $values attribute name => new value
+	 *
+	 * @param array $retrieve attribute name => old value
+	 *
+	 * @param array|string $operations attribute name => operation.
+	 *                                 If operations is a string, it will be considered as an
+	 *                                 array with the same operation for each entry.
+	 *                                 Default to "=".
+	 *
+	 * @return int Number of updated values
+	 */
+	public function updateBy(array $values, array $retrieve, array|string $operations = '=') : int
+	{
+		$values = $this->cleanAttributes($values);
+		$retrieve = $this->cleanAttributes($retrieve);
+
+		if (\count($values) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\count($retrieve) === 0)
+		{
+			throw new \Exception();
+		}
+		if (\phosphore_count($operations) === 0)
+		{
+			throw new \Exception();
+		}
+
+		$count = $this->countBy($retrieve, $operations);
+
+		if ($count === 0)
+		{
+			return 0;
+		}
+
+		$QC = new \database\QueryConstructor();
+
+		$QC->update($this::TABLE);
+
+		foreach ($values as $name => $value)
+		{
+			$QC->put($name, $value);
+		}
+
+		$operation = $operations;
+		$wheres = [];
+		foreach ($retrieve as $name => $value)
+		{
+			if (\is_array($operations))
+			{
+				if (!\key_exists($name, $operations))
+				{
+					throw new \Exception();
+				}
+
+				$operation = $operations[$name];
+			}
+
+			$wheres[] = $QC->exp()->col($name, $this::TABLE)
+				                  ->param($value)
+			                      ->op($operation)
+							      ->end();
+		}
+
+		$QC->where($QC->exp()->and(...$wheres)->end());
+
+		if ($QC->run() === True)
+		{
+			return $count;
+		}
+
+		return 0;
+	}
+	/**
 	 * Update entries which comply to condition
 	 *
 	 * @param array $values_get Name => value for non updated entries
 	 *
-	 * @param array $values_update Name => value for updated entries
-	 *
-	 * @param array|string $operations Name => operator / operator
-	 *
-	 * @return int Number of updated values
-	 */
-	public function updateBy(array $values_get, array $values_update, array|string $operations = null) : int
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['start'], ['class' => \get_class($this)]);
-
-		$values_get = $this->cleanAttributes($values_get);
-		$values_update = $this->cleanAttributes($values_update);
-
 		if (\count($values_get) === null || \count($values_update) === null)
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['values'], ['class' => \get_class($this)]);
@@ -842,7 +1355,7 @@ abstract class Manager
 		$request->execute(\array_values(\array_merge(\array_values($values_update), $values_get)));
 
 		return $number;
-	}
+	}*/
 }
 
 ?>
