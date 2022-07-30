@@ -387,11 +387,12 @@ class Router
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['route']['Router']['decodeRoute']['empty']);
 
-			$RouteManager = new \route\RouteManager();
-
-			$route = $RouteManager->retrieveBy([
+			$route = new \route\Route([
 				'id' => $GLOBALS['config']['class']['route']['root']['id'],
-			])[0];
+			]);
+
+			$route->retrieve();
+
 			return self::initPage($route->getDefaultPage(), []);
 		}
 		else
@@ -414,11 +415,11 @@ class Router
 			}
 		}
 
-		$RouteManager = new \route\RouteManager();
-
-		$root_route = $RouteManager->retrieveBy([ // retrieve the root route
+		$root_route = new \route\Route([
 			'id' => $GLOBALS['config']['class']['route']['root']['id'],
-		])[0];
+		]);
+
+		$root_route->retrieve(); // retrieve the root route
 
 		$tree_routes = new \structure\Tree($root_route);
 
