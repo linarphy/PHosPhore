@@ -417,7 +417,7 @@ class Router
 		$RouteManager = new \route\RouteManager();
 
 		$root_route = $RouteManager->retrieveBy([ // retrieve the root route
-			'id' => 1,
+			'id' => $GLOBALS['config']['class']['route']['root']['id'],
 		])[0];
 
 		$tree_routes = new \structure\Tree($root_route);
