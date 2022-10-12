@@ -96,6 +96,10 @@ class QueryConstructor
 		{
 			$Column->get('attribute')->set('table', $this->findTable($table));
 		}
+		else
+		{
+			throw new \Exception();
+		}
 
 		return $Column;
 	}
@@ -240,6 +244,7 @@ class QueryConstructor
 				if
 				(
 					$selected_column->get('attribute') !== null && // stop here if it does not so attribute can be used later
+					$selected_column->get('attribute')->get('table') !== null &&
 					(
 						$alias === null &&
 						(
@@ -310,19 +315,14 @@ class QueryConstructor
 			throw new \Exception($GLOBALS['locale']['class']['database']['QueryConstructor']['empty_name']);
 		}
 
-		$Table = new \database\parameter\Table([
-			'name' => $name,
-		]);
-
 		if ($alias !== null && !empty($alias))
 		{
-			$Table->set('alias', $alias);
-			$Table = $this->findTable($Table->get('name'), $Table->get('alias'));
+			$Table = $this->findTable($name, $alias);
 			$this->updateTable($Table);
 		}
 		else
 		{
-			$Table = $this->findTable($Table->get('name'));
+			$Table = $this->findTable($name);
 		}
 
 		$this->get('query')->set('from', $Table);
@@ -348,9 +348,10 @@ class QueryConstructor
 		{
 			if ($key % 2 === 0) // it's an attribute name
 			{
+				$Table = $this->findTable($attributes[$key + 1]);
 				$attributes[$key] = new \database\parameter\Attribute([
 					'name'  => $value,
-					'table' => $this->findTable($attributes[$key + 1]),
+					'table' => $Table,
 				]);
 			}
 			else // it's a table name
@@ -451,19 +452,14 @@ class QueryConstructor
 
 		if (\is_string($table))
 		{
-			$Table = new \database\parameter\Table([
-				'name' => $table,
-			]);
-
 			if ($alias !== null && !empty($alias))
 			{
-				$Table->set('alias', $alias);
-				$Table = $this->findTable($Table->get('name'), $Table->get('alias'));
+				$Table = $this->findTable($table, $alias);
 				$this->updateTable($Table);
 			}
 			else
 			{
-				$Table = $this->findTable($Table->get('name'));
+				$Table = $this->findTable($table);
 			}
 		}
 		else // subquery
@@ -789,9 +785,9 @@ class QueryConstructor
 	/**
 	 * run the query
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
-	public function run() : array
+	public function run() : array|bool
 	{
 		if ($this->get('type') === null)
 		{
@@ -813,10 +809,29 @@ class QueryConstructor
 		}
 		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
 
-		$request = $connection->prepare($driver_class::displayQuery($this->get('query')));
-		$request->execute($this->retrieveParameters());
+		try
+		{
+			$query = $driver_class::displayQuery($this->get('query'));
+			$request = $connection->prepare($query);
+			$request->execute($this->retrieveParameters());
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
 
-		return $request->fetchAll();
+		switch ($this->get('type'))
+		{
+			case \database\QueryTypes::select:
+			case \database\QueryTypes::table:
+				return $request->fetchAll(\PDO::FETCH_ASSOC);
+			case \database\QueryTypes::delete:
+			case \database\QueryTypes::insert:
+			case \database\QueryTypes::update:
+				return True;
+			default:
+				throw new \Exception();
+		}
 	}
 	/**
 	 * create a table statement

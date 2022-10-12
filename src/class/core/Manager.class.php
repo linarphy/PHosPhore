@@ -675,72 +675,73 @@ abstract class Manager
 			}
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$wheres = [];
+		$expressions = [];
+		$select = [];
+		$position = 0;
+		$values = [];
 		foreach ($this::ATTRIBUTES as $name)
 		{
-			$QC->select($name, $this::TABLE);
-
+			$attribute = new \database\parameter\Attribute([
+				'name'  => $name,
+				'table' => $table,
+			]);
 			if (\key_exists($name, $index))
 			{
-				$wheres[] = $QC->exp()->col($name, $this::TABLE)
-					                  ->param($index[$name])
-								      ->op('=')
-								      ->end();
+				$expressions[] = new \database\parameter\Expression([
+					'type'     => \database\parameter\ExpressionTypes::COMP,
+					'values'   => [
+						new \database\parameter\Column([
+							'attribute' => $attribute,
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $index[$name],
+							'position' => $position,
+						]),
+					],
+					'operator' => new \database\parameter\Operator([
+						'symbol' => '=',
+					]),
+				]);
+				$position += 1;
+				$values[] = $index[$name];
 			}
+
+			$select[] = new \database\parameter\Column([
+				'attribute' => $attribute,
+			]);
 		}
 
-		$QC->from($this::TABLE);
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
 
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$Query = new \database\request\Select([
+			'from'   => $table,
+			'select' => $select,
+			'where'  => $where,
+		]);
 
-		return $QC->run()[0];
-	}
-	/**
-	 * Get the result of a sql request from an index
-	 *
-	 * @param array $index
-	 *
-	 * @return array
-	 *//**
-	public function get(array $index) : array
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['start'], ['class' => \get_class($this)]);
+		$connection = \core\DBFactory::connection();
 
-		$indexes = [];
-		foreach ($this::INDEX as $name)
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
 		{
-			if ($index[$name] === null)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['get']['missing_index'], ['class' => \get_class($this), 'attribute' => $name]);
-
-				return [];
-			}
-			$indexes[] = $name . '=?';
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($values);
 		}
-
-		$attributes = [];
-		foreach ($this::ATTRIBUTES as $attribute)
+		catch (\PDOException $exception)
 		{
-			if (\in_array(\strtoupper($attribute), $this::RESERVED_KEYWORD))
-			{
-				$attributes[] = '`' . $attribute . '`';
-			}
-			else
-			{
-				$attributes[] = $attribute;
-			}
+			throw new \Exception();
 		}
 
-		$query = 'SELECT ' . \implode(', ', $attributes) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $indexes);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['get']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($index));
-
-		return $request->fetch(\PDO::FETCH_ASSOC);
+		return $request->fetchAll(\PDO::FETCH_ASSOC)[0];
 	}
 	/**
 	 * Get simple table results
@@ -776,13 +777,25 @@ abstract class Manager
 			throw new \Exception();
 		}
 
-		$QC = new \database\QueryConstructor();
+		$Table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
 		$operation = $operations;
-		$wheres = [];
+		$Selects = [];
+		$Expressions = [];
+		$position = 0;
+		$query_values = [];
 		foreach ($this::ATTRIBUTES as $name)
 		{
-			$QC->select($name, $this::TABLE);
+			$Attribute = new \database\parameter\Attribute([
+				'name' => $name,
+				'table' => $Table,
+			]);
+			$Select = new \database\parameter\Column([
+				'attribute' => $Attribute,
+			]);
+			$Selects[] = $Select;
 
 			if (\key_exists($name, $values))
 			{
@@ -796,16 +809,37 @@ abstract class Manager
 					$operation = $operations[$name];
 				}
 
-				$wheres[] = $QC->exp()->col($name, $this::TABLE)
-								   ->param($values[$name])
-								   ->op($operation)
-								   ->end();
+				$Expression = new \database\parameter\Expression([
+					'operator' => new \database\parameter\Operator([
+						'symbol' => $operation,
+					]),
+					'values' => [
+						new \database\parameter\Column([
+							'attribute' => $Attribute,
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $values[$name],
+							'position' => $position,
+						]),
+					],
+					'type'   => \database\parameter\ExpressionTypes::COMP,
+				]);
+				$query_values[] = $values[$name];
+				$Expressions[] = $Expression;
+				$position += 1;
 			}
 		}
 
+		$Expression = new \database\parameter\Expression([
+			'expressions' => $Expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
 
-		$QC->from($this::TABLE);
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$Query = new \database\request\Select([
+			'select' => $Selects,
+			'from'   => $Table,
+			'where'  => $Expression,
+		]);
 
 		if ($order_by !== null)
 		{
@@ -819,29 +853,75 @@ abstract class Manager
 				throw new \Exception();
 			}
 
+			$OrderBys = [];
 			foreach ($order_by as $name => $direction)
 			{
-				$QC->orderBy($name, $this::TABLE, $direction);
+				if (\is_string($direction))
+				{
+					$direction = \database\parameter\OrderByTypes::tryForm($direction);
+					if ($direction == null)
+					{
+						throw new \Exception();
+					}
+				}
+				$OrderBy = new \database\parameter\OrderBy([
+					'column' => new \database\parameter\Column([
+						'attribute' => new \database\parameter\Attribute([
+							'name'  => $name,
+							'table' => $Table,
+						]),
+					]),
+					'type'   => $direction,
+				]);
+				$OrderBys[] = $OrderBy;
 			}
-
+			$Query->set('orderBy', $OrderBy);
 		}
 
 		if ($limit !== null)
 		{
-			if (\is_int($limit))
-			{
-				$limit = [$limit];
-			}
-
 			if (empty($limit))
 			{
 				throw new \Exception();
 			}
 
-			$QC->limit(...$limit);
+			if (\is_int($limit))
+			{
+				$Limit = new \database\parameter\Limit([
+					'count' => $limit,
+				]);
+			}
+			else if (\count($limit) == 2)
+			{
+				$Limit = new \database\parameter\Limit([
+					'count'  => $limit[0],
+					'offset' => $limit[1],
+				]);
+			}
+			else
+			{
+				throw new \Exception();
+			}
+
+			$Query->set('limit', $Limit);
 		}
 
-		return $QC->run();
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return $request->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	/**
 	 * db getter

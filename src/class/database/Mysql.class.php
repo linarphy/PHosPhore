@@ -246,7 +246,7 @@ class Mysql
 				return \substr($display, 0, -1); // remove the last space
 			}
 		}
-		else
+		else if (\in_array($expression->get('type'), [\database\parameter\ExpressionTypes::AND, \database\parameter\ExpressionTypes::OR, \database\parameter\ExpressionTypes::XOR]))
 		{
 			$results = $expression->get('expressions');
 
@@ -256,6 +256,10 @@ class Mysql
 			}
 
 			return '(' . \implode(' ' . $expression->get('type')->value . ' ', $results) . ')';
+		}
+		else
+		{
+			throw new \Exception();
 		}
 	}
 	/**
