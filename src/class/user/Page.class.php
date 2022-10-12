@@ -252,11 +252,19 @@ class Page extends \core\Managed
 				{
 					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['user']['Page']['retrieveParameters']['loading_parameters']);
 
-					$page = new \user\Page([
-						'id' => $route->get('id'),
-					]);
+					if (!\phosphore_element_exists(['cache', 'class', 'route', 'pages', $route->get('id')], $GLOBALS))
+					{
+						$page = new \user\Page([
+							'id' => $route->get('id'),
+						]);
 
-					$temp_parameters = $page->retrieveParameters($level + 1);
+						$temp_parameters = $page->retrieveParameters($level + 1);
+					}
+					else
+					{
+						$page = $GLOBALS['cache']['class']['route']['pages'][$route->get('id')];
+						$temp_parameters = $page->get('parameters');
+					}
 
 					foreach ($temp_parameters as $temp_parameter)
 					{

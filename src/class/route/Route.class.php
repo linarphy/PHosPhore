@@ -86,12 +86,19 @@ class Route extends \core\Managed
 			return null;
 		}
 
-		$Page = new \user\Page([
-			'id' => $this->get('id'),
-		]);
+		if (!\phosphore_element_exists(['cache', 'class', 'route', 'pages', $this->get('id')], $GLOBALS))
+		{
+			$Page = new \user\Page([
+				'id' => $this->get('id'),
+			]);
 
-		$Page->retrieve();
-		$Page->retrieveParameters();
+			$Page->retrieveParameters();
+			$GLOBALS['cache']['class']['route']['pages'][$this->get('id')] = $Page;
+		}
+		else
+		{
+			$Page = $GLOBALS['cache']['class']['route']['pages'][$this->get('id')];
+		}
 
 		if (\phosphore_count($Page->get('parameters')) !== 0)
 		{
@@ -139,7 +146,7 @@ class Route extends \core\Managed
 			}
 		}
 
-		foreach ($route_child as $route) // not found the quick way
+		foreach ($routes_child as $route) // not found the quick way
 		{
 			$value = $route->getDefaultPage();
 
@@ -310,6 +317,19 @@ class Route extends \core\Managed
 		$this->set('folder', $Folder);
 
 		return $this->folder;
+	}
+	/**
+	 * Retrieve route from the database
+	 *
+	 * @return \core\Managed
+	 */
+	public function retrieve() : self
+	{
+		if (!\phosphore_element_exists(['cache', 'class', 'route', 'routes', $this->get('id')], $GLOBALS))
+		{
+			$GLOBALS['cache']['class']['route']['routes'][$this->get('id')] = parent::retrieve();
+		}
+		return $GLOBALS['cache']['class']['route']['routes'][$this->get('id')];
 	}
 	/**
 	 * Retrieve route parameter

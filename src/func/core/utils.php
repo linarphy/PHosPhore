@@ -133,5 +133,27 @@ function phosphore_table(object $object, int $depth = 0) : array
 
 	return $attributes;
 }
+/**
+ * check if the element of a deep array is set
+ *
+ * @param array $keys
+ *
+ * @param array $array
+ *
+ * @return bool
+ */
+function phosphore_element_exists(array $keys, array $array) : bool
+{
+	foreach ($keys as $key)
+	{
+		if (!\key_exists($key, $array))
+		{
+			return False;
+		}
+		$array = $array[$key];
+	}
+
+	return True;
+}
 
 ?>

@@ -555,12 +555,19 @@ class Router
 	 */
 	public static function initPage(\route\Route $route, array $parameters) : \route\Route
 	{
-		$Page = new \user\Page([
-			'id' => $route->get('id'),
-		]);
-		$GLOBALS['Visitor']->set('page', $Page);
-		$GLOBALS['Visitor']->get('page')->retrieveParameters();
-		$GLOBALS['Visitor']->get('page')->set('parameters', \array_merge($GLOBALS['Visitor']->get('page')->get('parameters'), self::cleanParameters($parameters, $route)));
+		if (!\phosphore_element_exists(['cache', 'class', 'route', 'pages', $route->get('id')], $GLOBALS))
+		{
+			$Page = new \user\Page([
+				'id' => $route->get('id'),
+			]);
+			$Page->retrieveParameters();
+			$Page->set('parameters', \array_merge($Page->get('parameters'), self::cleanParameters($parameters, $route)));
+			$GLOBALS['Visitor']->set('page', $Page);
+		}
+		else
+		{
+			$GLOBALS['Visitor']->set('page', $GLOBALS['cache']['class']['route']['pages'][$route->get('id')]);
+		}
 
 		return $route;
 	}

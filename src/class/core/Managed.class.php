@@ -235,7 +235,7 @@ abstract class Managed
 	/**
 	 * Retrieve data from the database
 	 *
-	 * @return \core\Managed Number of attributes retrieved
+	 * @return \core\Managed
 	 */
 	public function retrieve() : self
 	{
