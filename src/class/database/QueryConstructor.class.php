@@ -384,9 +384,7 @@ class QueryConstructor
 	/**
 	 * create an insert statement
 	 *
-	 * @param string $name
-	 *
-	 * @param ?string $alias
+	 * @param string $name table name
 	 *
 	 * @return self
 	 */
