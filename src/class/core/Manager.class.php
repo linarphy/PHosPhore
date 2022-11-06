@@ -74,18 +74,47 @@ abstract class Manager
 			throw new \Exception();
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$QC->insert($this::TABLE);
-
+		$attributes = [];
+		$parameters = [];
+		$query_values = [];
+		$position = 0;
 		foreach ($values as $name => $value)
 		{
-			$QC->value($name, $value);
+			$attributes[] = new \database\parameter\Attribute([
+				'name'  => $name,
+				'table' => $table,
+			]);
+			$parameters[] = new \database\parameter\Parameter([
+				'value'    => $value,
+				'position' => $position,
+			]);
+			$query_values[] = $value;
+			$position += 1;
 		}
 
-		if ($QC->run() !== True)
+		$Query = new \database\request\Insert([
+			'parameters' => $attributes,
+			'table'      => $table,
+			'values'     => $parameters,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
 		{
-			throw new \Exception();
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception($exception->getMessage());
 		}
 
 		return $this->getIdBy($values);
