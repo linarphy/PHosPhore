@@ -120,35 +120,6 @@ abstract class Manager
 		return $this->getIdBy($values);
 	}
 	/**
-	 * Add a database entry and return its index
-	 *
-	 * @param array $attributes
-	 *
-	 * @return array|null
-	 *//**
-	public function add(array $attributes) : ?array
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['start'], ['class' => \get_class($this)]);
-
-		$attributes = $this->cleanAttributes($attributes);
-
-		if (\count($attributes) === 0)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Manager']['add']['no_attributes'], ['class' => \get_class($this)]);
-
-			return null;
-		}
-
-		$query = 'INSERT INTO ' . $this::TABLE . ' (' . \implode(', ', \array_keys($attributes)) . ') VALUES (' . \implode(', ', \array_fill(0, \count($attributes), '?')) . ')';
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['query'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($attributes));
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['add']['success'], ['class' => \get_class($this)]);
-		return $this->getIdBy($attributes);
-	}
-	/**
 	 * Generate a LIMIT clause from an array
 	 *
 	 * @param array bounds Array which can have 3 keys:
