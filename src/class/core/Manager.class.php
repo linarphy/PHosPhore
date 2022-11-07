@@ -188,21 +188,6 @@ abstract class Manager
 		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
 	}
 	/**
-	 * Count all entries of the table
-	 *
-	 * @return int
-	 *//**
-	public function count() : int
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['count'], ['class' => \get_class($this)]);
-
-		$request = $this->db->prepare('SELECT count(' . \implode(', ', $this::INDEX) . ') AS nbr FROM ' . $this::TABLE);
-		$request->execute();
-
-		$data = $request->fetch(\PDO::FETCH_ASSOC);
-		return (int)$data['nbr'];
-	}
-	/**
 	 * count entries respecting a condition
 	 *
 	 * @param array $values attribute name => value
