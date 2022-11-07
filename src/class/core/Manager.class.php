@@ -483,41 +483,6 @@ abstract class Manager
 		return $count;
 	}
 	/**
-	 * Delete entries which comply with a condition
-	 *
-	 * @param array $values Name => value of attributes
-	 *
-	 * @param array|string $conditions Name => operator / operator
-	 *
-	 * @return int Number of deleted entries
-	 *//**
-	public function deleteBy(array $values, array|string $conditions = null) : int
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['start'], ['class' => \get_class($this)]);
-
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['values'], ['class' => \get_class($this)]);
-
-			return 0;
-		}
-
-		$number = $this->countBy($values, $conditions);
-
-		$condition = $this->conditionCreator($values, $conditions);
-
-		$query = 'DELETE FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['deleteBy']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($condition[1]));
-
-		return $number;
-	}
-	/**
 	 * Check the existence of an entry with a given index
 	 *
 	 * @param array $index
