@@ -294,40 +294,6 @@ abstract class Manager
 		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
 	}
 	/**
-	 * Count all entries which comply with a condition
-	 *
-	 * @param array $values Name => value of attributes
-	 *
-	 * @param array|string $conditions Name => operator / operator
-	 *
-	 * @return int
-	 *//**
-	public function countBy(array $values, array|string $conditions = null) : int
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['start'], ['class' => \get_class($this)]);
-
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['values'], ['class' => \get_class($this)]);
-
-			return 0;
-		}
-
-		$condition = $this->conditionCreator($values, $conditions);
-
-		$query = 'SELECT count(' . \implode(', ', $this::INDEX) . ') AS nbr FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['countBy']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($condition[1]));
-
-		$data = $request->fetch(\PDO::FETCH_ASSOC);
-		return (int)$data['nbr'];
-	}
-	/**
 	 * Delete an entry
 	 *
 	 * @param array $index attribute name => value
