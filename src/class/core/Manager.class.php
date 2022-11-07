@@ -327,16 +327,14 @@ abstract class Manager
 		{
 			if (\key_exists($name, $index))
 			{
-				$attribute = new \database\parameter\Attribute([
-					'name'  => $name,
-					'table' => $table,
-				]);
-
 				$expressions[] = new \database\parameter\Expression([
 					'type'     => \database\parameter\ExpressionTypes::COMP,
 					'values'   => [
 						new \database\parameter\Column([
-							'attribute' => $attribute,
+							'attribute' => new \database\parameter\Attribute([
+								'name'  => $name,
+								'table' => $table,
+							]),
 						]),
 						new \database\parameter\Parameter([
 							'value'    => $index[$name],
@@ -369,7 +367,6 @@ abstract class Manager
 		try
 		{
 			$query = $driver_class::displayQuery($Query);
-			var_dump($query);
 			$request = $connection->prepare($query);
 			$request->execute($values);
 		}
@@ -412,38 +409,78 @@ abstract class Manager
 			return 0;
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$QC->delete($this::TABLE);
-
-		$operation = $operations;
-		$wheres = [];
-		foreach ($values as $name => $value)
+		$operation    = $operations;
+		$expressions  = [];
+		$query_values = [];
+		$position     = 0;
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			if (\is_array($operations))
+			if (\key_exists($name, $values))
 			{
-				if (!\key_exists($name, $operations))
+				if (\is_array($operation))
 				{
-					throw new \Exception();
+					if (!\key_exists($name, $operation))
+					{
+						throw new \Exception();
+					}
+
+					$operation = $operations[$name];
 				}
 
-				$operation = $operations[$name];
+				$expressions[] = new \database\parameter\Expression([
+					'type'     => \database\parameter\ExpressionTypes::COMP,
+					'values'   => [
+						new \database\parameter\Column([
+							'attribute' => new \database\parameter\Attribute([
+								'name'  => $name,
+								'table' => $table,
+							]),
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $values[$name],
+							'position' => $position,
+						]),
+					],
+					'operator' => new \database\parameter\Operator([
+						'symbol' => $operation,
+					]),
+				]);
+
+				$position += 1;
+				$query_values[] = $values[$name];
 			}
-
-			$wheres[] = $QC->exp()->col($name, $this::TABLE)
-				                  ->param($value)
-							      ->op($operation)
-							      ->end();
 		}
 
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
 
-		if ($QC->run() === True)
+		$Query = new \database\request\Delete([
+			'delete' => $table,
+			'where'  => $where,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
 		{
-			return $count;
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
 		}
 
-		return 0;
+		return $count;
 	}
 	/**
 	 * Delete entries which comply with a condition
