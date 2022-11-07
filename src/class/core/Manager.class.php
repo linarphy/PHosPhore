@@ -316,22 +316,69 @@ abstract class Manager
 			}
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$QC->delete($this::TABLE);
-
-		$wheres = [];
-		foreach ($index as $name => $value)
+		$expressions  = [];
+		$values       = [];
+		$position     = 0;
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			$wheres[] = $QC->exp()->col($name, $this::TABLE)
-				                  ->param($value)
-							      ->op('=')
-							      ->end();
+			if (\key_exists($name, $index))
+			{
+				$attribute = new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]);
+
+				$expressions[] = new \database\parameter\Expression([
+					'type'     => \database\parameter\ExpressionTypes::COMP,
+					'values'   => [
+						new \database\parameter\Column([
+							'attribute' => $attribute,
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $index[$name],
+							'position' => $position,
+						]),
+					],
+					'operator' => new \database\parameter\Operator([
+						'symbol' => '=',
+					]),
+				]);
+				$position += 1;
+				$values[] = $index[$name];
+			}
 		}
 
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
 
-		return $QC->run();
+		$Query = new \database\request\Delete([
+			'delete' => $table,
+			'where'  => $where,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query = $driver_class::displayQuery($Query);
+			var_dump($query);
+			$request = $connection->prepare($query);
+			$request->execute($values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return True;
 	}
 	/**
 	 * Delete an entry
