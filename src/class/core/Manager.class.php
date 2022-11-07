@@ -381,40 +381,6 @@ abstract class Manager
 		return True;
 	}
 	/**
-	 * Delete an entry
-	 *
-	 * @param array $index Index of the entry
-	 *
-	 * @return bool
-	 *//**
-	public function delete(array $index) : bool
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['start'], ['class', \get_class($this)]);
-
-		$indexes = [];
-		$values = [];
-		foreach ($this::INDEX as $name)
-		{
-			if ($index[$name] === null)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['delete']['missing_index'], ['class' => \get_class($this), 'attribute' => $name]);
-
-				return False;
-			}
-			$values[] = $index[$name];
-			$indexes[] = $name .= '=?';
-		}
-
-		$query = 'DELETE FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $indexes);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['delete']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute($values);
-
-		return True;
-	}
-	/**
 	 * Delete entries which comply with a condition
 	 *
 	 * @param array $values attribute name => value
