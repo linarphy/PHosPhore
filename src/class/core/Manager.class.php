@@ -212,35 +212,86 @@ abstract class Manager
 			throw new \Exception();
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name'  => $this::TABLE,
+		]);
 
-		$QC->select('COUNT', $this::TABLE, alias: 'nbr', is_function: True, function_parameter: $this::INDEX[0]);
-
-		$QC->from($this::TABLE);
-
-		$wheres = [];
-		$operation = $operations;
-		foreach ($values as $name => $value)
+		$operation     = $operations;
+		$expressions   = [];
+		$query_values  = [];
+		$position      = 0;
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			if (\is_array($operations))
+			if (\key_exists($name, $values))
 			{
-				if (!\key_exists($name, $operations))
+				if (\is_array($operations))
 				{
-					throw new \Exception();
+					if (!\key_exists($name, $operations))
+					{
+						throw new \Exception();
+					}
+
+					$operation = $operations[$name];
 				}
 
-				$operation = $operations[$name];
-			}
+				$attribute = new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]);
 
-			$wheres[] = $QC->exp()->col($name, $this::TABLE)
-				                  ->param($value)
-							      ->op($operation)
-							      ->end();
+				$expressions[] = new \database\parameter\Expression([
+					'type'   => \database\parameter\ExpressionTypes::COMP,
+					'values' => [
+						new \database\parameter\Column([
+							'attribute' => $attribute,
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $values[$name],
+							'position' => $position,
+						]),
+					],
+					'operator' => new \database\parameter\Operator([
+						'symbol' => $operation,
+					]),
+				]);
+				$position += 1;
+				$query_values[] = $values[$name];
+			}
 		}
 
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$column = new \database\parameter\Column([
+			'attribute' => $attribute,
+			'function'  => 'COUNT',
+			'alias'     => 'nbr',
+		]);
 
-		return (int) $QC->run()[0]['nbr'];
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
+
+		$Query = new \database\request\Select([
+			'from'   => $table,
+			'select' => [$column],
+			'where'  => $where,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
 	}
 	/**
 	 * Count all entries which comply with a condition
