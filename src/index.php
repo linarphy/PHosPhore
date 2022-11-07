@@ -161,7 +161,7 @@ try
 }
 catch (\Exception $exception) // FATAL ERROR
 {
-	if(!http_response_code(500)) // CLI
+	if(!\http_response_code(500)) // CLI
 	{
 		echo 'FATAL ERROR, CANNOT RECOVER';
 		var_dump($exception);
