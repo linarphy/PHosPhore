@@ -150,13 +150,42 @@ abstract class Manager
 	 */
 	public function count() : int
 	{
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$QC->select('COUNT', $this::TABLE, alias: 'nbr', is_function: True, function_parameter: $this::INDEX[0]);
+		$attribute = new \database\parameter\Attribute([
+			'table' => $table,
+			'name'  => $this::INDEX[0],
+		]);
 
-		$QC->from($this::TABLE);
+		$column = new \database\parameter\Column([
+			'attribute' => $attribute,
+			'function'  => 'COUNT',
+			'alias'     => 'nbr',
+		]);
 
-		return (int) $QC->run()[0]['nbr'];
+		$Query = new \database\request\Select([
+			'from'   => $table,
+			'select' => [$column],
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute();
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
 	}
 	/**
 	 * Count all entries of the table
