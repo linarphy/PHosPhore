@@ -1,7 +1,6 @@
 # TODO
 
 For now I'm currently:
-- clean \core\Manager methods
 - create better exception system
 - use enums
 - add PostgreSQL support
