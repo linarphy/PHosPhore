@@ -223,6 +223,11 @@ class Mysql
 
 				$display = '';
 
+				if (\count($expression->get('values')) < 2)
+				{
+					throw new \Exception();
+				}
+
 				foreach ([$expression->get('values')[0], $expression->get('operator'), $expression->get('values')[1]] as $value)
 				{
 					switch (\get_class($value))
