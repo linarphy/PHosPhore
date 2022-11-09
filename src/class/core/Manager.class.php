@@ -728,7 +728,7 @@ abstract class Manager
 			{
 				if (\is_string($direction))
 				{
-					$direction = \database\parameter\OrderByTypes::tryForm($direction);
+					$direction = \database\parameter\OrderByTypes::tryFrom($direction);
 					if ($direction == null)
 					{
 						throw new \Exception();
@@ -782,7 +782,7 @@ abstract class Manager
 
 		try
 		{
-			$query = $driver_class::displayQuery($Query);
+			$query   = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute($query_values);
 		}
@@ -931,20 +931,65 @@ abstract class Manager
 			throw new \Exception();
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
+		$selects = [];
 		foreach ($this::INDEX as $name)
 		{
-			$QC->select($name, $this::TABLE);
+			$selects[] = new \database\parameter\Column([
+				'attribute' => new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]),
+			]);
 		}
 
-		$QC->from($this::TABLE);
+		$type = \database\parameter\OrderByTypes::tryFrom($direction);
+		if ($type === null)
+		{
+			throw new \Exception();
+		}
 
-		$QC->orderBy($attribute, $this::TABLE, $direction);
+		$order_by = new \database\parameter\OrderBy([
+			'column' => new \database\parameter\Column([
+				'attribute' => new \database\parameter\Attribute([
+					'name'  => $attribute,
+					'table' => $table,
+				]),
+			]),
+			'type'   => $type,
+		]);
 
-		$QC->limit(1, $position);
+		$limit = new \database\parameter\Limit([
+			'count'  => 1,
+			'offset' => $position,
+		]);
 
-		return $QC->run();
+		$Query = new \database\request\Select([
+			'select'  => $selects,
+			'from'    => $table,
+			'orderBy' => $order_by,
+			'limit'   => $limit,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query   = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute();
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return $request->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	/**
 	 * Get an index of the nth entry for an attribute
