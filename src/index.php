@@ -124,7 +124,7 @@ try
 		}
 		$GLOBALS['Hook']->load(['core', 'index', 'end_connect'], []);
 	}
-	catch (\Exception $exception)
+	catch (\Throwable $exception)
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['core']['exception_threw']);
 		try
@@ -141,14 +141,14 @@ try
 			echo $GLOBALS['Visitor']->loadPage($Route)->display();
 			$GLOBALS['Hook']->load(['core', 'index', 'end_error_page'], [$exception]);
 		}
-		catch (\Exception $exception_1)	// $exception already taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
+		catch (\Throwable $exception_1)	// $exception already taken, but bad naming, yes. An error here possibly mean that the visitor is not initialized
 		{
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['core']['cannot_display_error_page']);
 			try
 			{
 				echo $GLOBALS['locale']['core']['cannot_display_error_page'];
 			}
-			catch (\Exception $exception_2)	// same than $exception_1, an error here possibly means that we cannot echo: it's a FATAL ERROR
+			catch (\Throwable $exception_2)	// same than $exception_1, an error here possibly means that we cannot echo: it's a FATAL ERROR
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['cannot_display_error']);
 				throw $exception;
@@ -156,41 +156,47 @@ try
 		}
 
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['core']['end_error'], array('error' => $exception->getMessage()));
-		var_dump($exception);
 	}
 }
-catch (\Exception $exception) // FATAL ERROR
+catch (\Throwable $exception) // FATAL ERROR
 {
-	if(!\http_response_code(500)) // CLI
-	{
-		echo 'FATAL ERROR, CANNOT RECOVER';
-		var_dump($exception);
-	}
 	try
 	{
-		$file = fopen('fatal_crash.html', 'w');
-
-		if (!$file)
-		{
-			throw new \Exception('Cannot open fatal_crash.html, check your permissions on the web directory');
-		}
-
-		// Converting var_dump to a string
-		ob_start();
 		var_dump($exception);
-		$error = ob_get_clean();
-
-		fwrite($file, $error);
-
-		if (!fclose($file))
-		{
-			throw new \Exception('Cannot close fatal_crash.html, check your permissions on the web directory');
-		}
-		echo 'FATAL ERROR, There is a bug in PHosPhore, contact the website owner, if you are, check fatal_crash.html in the root directory and report its content to the PHosPhore maintener here: https://github.com/gugus2000/PHosPhore/issues';
 	}
-	catch (\Exception $exception_1)
+	catch (\Throwable $exception_1)
 	{
-		echo 'Cannot write logs, check your permissions on the web directory';
+		if(!\http_response_code(500)) // CLI
+		{
+			echo 'FATAL ERROR, CANNOT RECOVER';
+			var_dump($exception);
+		}
+		try
+		{
+			$file = fopen('fatal_crash.html', 'w');
+
+			if (!$file)
+			{
+				throw new \Exception('Cannot open fatal_crash.html, check your permissions on the web directory');
+			}
+
+			// Converting var_dump to a string
+			ob_start();
+			var_dump($exception);
+			$error = ob_get_clean();
+
+			fwrite($file, $error);
+
+			if (!fclose($file))
+			{
+				throw new \Exception('Cannot close fatal_crash.html, check your permissions on the web directory');
+			}
+			echo 'FATAL ERROR, There is a bug in PHosPhore, contact the website owner, if you are, check fatal_crash.html in the root directory and report its content to the PHosPhore maintener here: https://github.com/gugus2000/PHosPhore/issues';
+		}
+		catch (\Throwable $exception_1)
+		{
+			echo 'Cannot write logs, check your permissions on the web directory';
+		}
 	}
 }
 
