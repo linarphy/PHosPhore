@@ -1388,32 +1388,6 @@ abstract class Manager
 
 		return $count;
 	}
-	/**
-	 * Update entries which comply to condition
-	 *
-	 * @param array $values_get Name => value for non updated entries
-	 *
-		if (\count($values_get) === null || \count($values_update) === null)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['updateBy']['values'], ['class' => \get_class($this)]);
-
-			return 0;
-		}
-
-		$number = $this->countBy($values_get, $operations);
-
-		$condition_update = $this->conditionCreator($values_update, '=');
-		$condition = $this->conditionCreator($values_get, $operations);
-
-		$query = 'UPDATE ' . $this::TABLE . ' SET ' . \implode(', ', $condition_update[0]) . ' WHERE ' . \implode(' AND ', $condition[0]);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['Manager']['update']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values(\array_merge(\array_values($values_update), $values_get)));
-
-		return $number;
-	}*/
 }
 
 ?>
