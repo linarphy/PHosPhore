@@ -912,39 +912,6 @@ abstract class Manager
 		return $request->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	/**
-	 * Get index of entries which comply to condition
-	 *
-	 * @param array $values Name => value for attribute
-	 *
-	 * @param array|string $operations Name => operator / operator
-	 *
-	 * @return array
-	 *//**
-	public function getIdBy(array $values, array|string $operations = null) : array
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['start'], ['class' => \get_class($this)]);
-
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['values'], ['class' => \get_class($this)]);
-
-			return [];
-		}
-
-		$condition = $this->conditionCreator($values, $operations);
-
-		$query = 'SELECT ' . \implode(', ', $this::INDEX) . ' FROM ' . $this::TABLE . ' WHERE ' . \implode(' AND ', $condition[0]);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdBy']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values($condition[1]));
-
-		return $request->fetchAll();
-	}
-	/**
 	 * Get an index of the nth entry for an attribute
 	 *
 	 * @param string $attribute Name of the attribute for the order by
