@@ -551,6 +551,11 @@ class Mysql
 	{
 		$display = 'SET ';
 
+		if (!\key_exists('attributes', $set))
+		{
+			throw new \Exception();
+		}
+
 		foreach ($set['attributes'] as $key => $value)
 		{
 			$display .= '`' . $value->display('name') . '` = ' . self::displayParameter($set['values'][$key]) . ', ';
