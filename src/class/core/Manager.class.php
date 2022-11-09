@@ -992,37 +992,6 @@ abstract class Manager
 		return $request->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	/**
-	 * Get an index of the nth entry for an attribute
-	 *
-	 * @param string $attribute Name of the attribute for the order by
-	 *
-	 * @param int $position Position of the entry (0 = first)
-	 *
-	 * @param ASC|DESC $direction Direction of the order by
-	 *
-	 * @return array
-	 *//**
-	public function getIdByPos(array $attribute, int $position = 0, string $direction = 'DESC') : array
-	{
-		$GLOBALS['Logger']->get(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['start'], ['class' => \get_class($this)]);
-
-		if (!is_int($position) || ($direction != 'ASC' && $direction != 'DESC') || !in_array($attribute, $this::ATTRIBUTES))
-		{
-			$GLOBALS['Logger']->get(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['invalid_data'], ['class' => \get_class($this)]);
-
-			return [];
-		}
-
-		$query = 'SELECT ' . \implode(', ', $this::INDEX) . ' FROM ' . $this::TABLE . 'ORDER BY ' . $attribute . ' ' . $direction . ' LIMIT 1 OFFSET ' . $position;
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['getIdByPos']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute();
-
-		return $request->fetch(\PDO::FETCH_ASSOC);
-	}
-	/**
 	 * Get the next value for the index:
 	 *                                  last value in the dictionnary order for string.
 	 *                                  next value for int.
