@@ -1173,25 +1173,88 @@ abstract class Manager
 			}
 		}
 
-		$QC = new \database\QueryConstructor();
-		$QC->update($this::TABLE);
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		foreach ($values as $name => $value)
+		$attributes   = [];
+		$new_values   = [];
+		$expressions  = [];
+		$query_values = [];
+		$position     = 0;
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			$QC->put($name, $value);
+			if (\key_exists($name, $index))
+			{
+				$expressions[] = new \database\parameter\Expression([
+					'operator' => new \database\parameter\Operator([
+						'symbol' => '=',
+					]),
+					'values'   => [
+						new \database\parameter\Column([
+							'attribute' => new \database\parameter\Attribute([
+								'name'  => $name,
+								'table' => $table,
+							]),
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $index[$name],
+							'position' => $position,
+						]),
+					],
+					'type'     => \database\parameter\ExpressionTypes::COMP,
+				]);
+				$query_values[] = $index[$name];
+				$position += 1;
+			}
+		}
+		foreach ($this::ATTRIBUTES as $name)
+		{
+			if (\key_exists($name, $values))
+			{
+				$attributes[] = new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]);
+				$new_values[] = new \database\parameter\Parameter([
+					'value'    => $values[$name],
+					'position' => $position,
+				]);
+				$query_values[] = $values[$name];
+				$position += 1;
+			}
 		}
 
-		$wheres = [];
-		foreach ($index as $name => $value)
-		{
-			$wheres[] = $QC->exp()->col($name, $this::TABLE)
-				                  ->param($value)
-							      ->op('=')
-							      ->end();
-		}
-		$QC->where($QC->exp()->and(...$wheres)->end());
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
 
-		return $QC->run();
+		$Query = new \database\request\Update([
+			'table' => $table,
+			'sets'  => [
+				'values'     => $new_values,
+				'attributes' => $attributes,
+			],
+			'where' => $where,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query   = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return True;
 	 }
 	/**
 	 * Update an entry
