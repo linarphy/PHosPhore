@@ -421,9 +421,9 @@ abstract class Manager
 		{
 			if (\key_exists($name, $values))
 			{
-				if (\is_array($operation))
+				if (\is_array($operations))
 				{
-					if (!\key_exists($name, $operation))
+					if (!\key_exists($name, $operations))
 					{
 						throw new \Exception();
 					}
@@ -1184,6 +1184,22 @@ abstract class Manager
 		$position     = 0;
 		foreach ($this::ATTRIBUTES as $name)
 		{
+			if (\key_exists($name, $values))
+			{
+				$attributes[] = new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]);
+				$new_values[] = new \database\parameter\Parameter([
+					'value'    => $values[$name],
+					'position' => $position,
+				]);
+				$query_values[] = $values[$name];
+				$position += 1;
+			}
+		}
+		foreach ($this::ATTRIBUTES as $name)
+		{
 			if (\key_exists($name, $index))
 			{
 				$expressions[] = new \database\parameter\Expression([
@@ -1205,22 +1221,6 @@ abstract class Manager
 					'type'     => \database\parameter\ExpressionTypes::COMP,
 				]);
 				$query_values[] = $index[$name];
-				$position += 1;
-			}
-		}
-		foreach ($this::ATTRIBUTES as $name)
-		{
-			if (\key_exists($name, $values))
-			{
-				$attributes[] = new \database\parameter\Attribute([
-					'name'  => $name,
-					'table' => $table,
-				]);
-				$new_values[] = new \database\parameter\Parameter([
-					'value'    => $values[$name],
-					'position' => $position,
-				]);
-				$query_values[] = $values[$name];
 				$position += 1;
 			}
 		}
@@ -1256,50 +1256,6 @@ abstract class Manager
 
 		return True;
 	 }
-	/**
-	 * Update an entry
-	 *
-	 * @param array $values New values
-	 *
-	 * @param array $index Index of the entry
-	 *
-	 * @return bool
-	 *//**
-	public function update(array $values, array $index) : bool
-	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['start'], ['class' => \get_class($this)]);
-
-		$indexes = [];
-		foreach ($this::INDEX as $name)
-		{
-			if ($index[$name] === null)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['update']['missing_index'], ['class' => \get_class($this), 'attribute' => $name]);
-
-				return False;
-			}
-			$indexes[] = $name . '=?';
-		}
-
-		$values = $this->cleanAttributes($values);
-		if (\count($values) === 0)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['update']['values'], ['class' => \get_class($this)]);
-
-			return False;
-		}
-
-		$condition = $this->conditionCreator($values, '=');
-
-		$query = 'UPDATE ' . $this::TABLE  . ' SET ' . \implode(', ', $condition[0]) . ' WHERE ' . \implode(' AND ', $indexes);
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['update']['end'], ['class' => \get_class($this), 'query' => $query]);
-
-		$request = $this->db->prepare($query);
-		$request->execute(\array_values(\array_merge($condition[1], $index)));
-
-		return True;
-	}
 	/**
 	 * Update entries which comply to a condition
 	 *
@@ -1339,43 +1295,98 @@ abstract class Manager
 			return 0;
 		}
 
-		$QC = new \database\QueryConstructor();
+		$table = new \database\parameter\Table([
+			'name' => $this::TABLE,
+		]);
 
-		$QC->update($this::TABLE);
-
-		foreach ($values as $name => $value)
+		$operation    = $operations;
+		$attributes   = [];
+		$new_values   = [];
+		$expressions  = [];
+		$query_values = [];
+		$position     = 0;
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			$QC->put($name, $value);
-		}
-
-		$operation = $operations;
-		$wheres = [];
-		foreach ($retrieve as $name => $value)
-		{
-			if (\is_array($operations))
+			if (\key_exists($name, $values))
 			{
-				if (!\key_exists($name, $operations))
-				{
-					throw new \Exception();
-				}
-
-				$operation = $operations[$name];
+				$attributes[] = new \database\parameter\Expression([
+					'name'  => $name,
+					'table' => $table,
+				]);
+				$new_values[] = new \database\parameter\Parameter([
+					'value'    => $values[$name],
+					'position' => $position,
+				]);
+				$query_values[] = $values[$name];
+				$position += 1;
 			}
-
-			$wheres[] = $QC->exp()->col($name, $this::TABLE)
-				                  ->param($value)
-			                      ->op($operation)
-							      ->end();
 		}
-
-		$QC->where($QC->exp()->and(...$wheres)->end());
-
-		if ($QC->run() === True)
+		foreach ($this::ATTRIBUTES as $name)
 		{
-			return $count;
+			if (\key_exists($name, $retrieve))
+			{
+				if (\is_array($operations))
+				{
+					if (!\key_exists($name, $operations))
+					{
+						throw new \Exception();
+					}
+
+					$operation = $operations[$name];
+				}
+				$expressions[] = new \database\parameter\Expression([
+					'operator' => new \database\parameter\Operator([
+						'symbol' => $operation,
+					]),
+					'values'   => [
+						new \database\parameter\Column([
+							'attribute' => new \database\parameter\Attribute([
+								'name'  => $name,
+								'table' => $table,
+							]),
+						]),
+						new \database\parameter\Parameter([
+							'value'    => $retrieve[$name],
+							'position' => $position,
+						]),
+					],
+					'type'     => \database\parameter\ExpressionTypes::COMP,
+				]);
+				$query_values[] = $values[$name];
+				$position += 1;
+			}
 		}
 
-		return 0;
+		$where = new \database\parameter\Expression([
+			'expressions' => $expressions,
+			'type'        => \database\parameter\ExpressionTypes::AND,
+		]);
+
+		$Query = new \database\request\Update([
+			'table' => $table,
+			'sets'  => [
+				'values'     => $new_values,
+				'attributes' => $attributes,
+			],
+			'where' => $where,
+		]);
+
+		$connection = \core\DBFactory::connection();
+
+		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
+		try
+		{
+			$query   = $driver_class::displayQuery($Query);
+			$request = $connection->prepare($query);
+			$request->execute($query_values);
+		}
+		catch (\PDOException $exception)
+		{
+			throw new \Exception();
+		}
+
+		return $count;
 	}
 	/**
 	 * Update entries which comply to condition
