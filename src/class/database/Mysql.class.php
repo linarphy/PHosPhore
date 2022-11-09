@@ -439,7 +439,7 @@ class Mysql
 
 		if ($order_by->get('type'))
 		{
-			return self::displayColumn($order_by->get('column')) . ' ' . $order_by->display('type')->value;
+			return self::displayColumn($order_by->get('column')) . ' ' . $order_by->get('type')->value;
 		}
 
 		return self::displayColumn($order_by->get('column'));
