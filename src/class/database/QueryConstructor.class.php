@@ -534,7 +534,7 @@ class QueryConstructor
 
 		if (\is_string($type))
 		{
-			$type = \database\parameter\OrderByTypes::tryForm($type);
+			$type = \database\parameter\OrderByTypes::tryFrom($type);
 			if ($type === null)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['database']['QueryConstructor']['orderBy']['unknown_type'], ['type' => $type]);
