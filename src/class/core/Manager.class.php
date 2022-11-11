@@ -519,7 +519,7 @@ abstract class Manager
 	 *
 	 * @return bool
 	 */
-	public function existBy(array $values, array|string $operations = null) : bool
+	public function existBy(array $values, array|string $operations = '=') : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['existBy'], ['class' => \get_class($this)]);
 		return $this->countBy($values, $operations) != 0;
