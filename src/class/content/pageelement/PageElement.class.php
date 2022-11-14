@@ -50,16 +50,30 @@ class PageElement
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['start'], ['key' => $key, 'value' => $value]);
 		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'start'], [$this, $key, $value]);
 
-		if (!isset($this->elements[$key]))
+		try
 		{
+			if (\key_exists($key, $this->get('elements')))
+			{
+				throw new \exception\class\content\pagelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['failure'],
+					tokens:  [
+						'key'   => $key,
+						'value' => $value,
+					],
+				);
+			}
+
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'new'], [$this, $key, $value]);
 			$this->elements[$key] = $value;
+			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'end'], [$this, $key, $value]);
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['success'], ['key' => $key, 'value' => $value]);
 			return True;
 		}
-		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'end'], [$this, $key, $value]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['failure'], ['key' => $key, 'value' => $value]);
-		return False; // An identical key already exists
+		catch (\exception\class\content\pageelement\PageElement $exception)
+		{
+			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'end'], [$this, $key, $value]);
+			return False; // An identical key already exists
+		}
 	}
 	/**
 	 * Add an element of an array of elements
@@ -77,21 +91,52 @@ class PageElement
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['start'], ['key' => $key, 'value' => $value, 'new_key' => $new_key]);
 		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'start'], [$this, $key, $vlaue, $new_key]);
 
-		if (!\is_array($this->elements[$key]))
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'], ['key' => $key, 'value' => $value, 'new_key' => $new_key]);
-			return False; // The first element is not an array
-		}
-		if (!isset($this->elements[$key][$new_key]))
-		{
+			if (!\key_exists($key, $this->get('element')))
+			{
+				throw new \exception\class\content\pageelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['unknown_key'],
+					tokens:  [
+						'key'     => $key,
+						'value'   => $value,
+						'new_key' => $new_key,
+					],
+				);
+			}
+			if (!\is_array($this->elements[$key]))
+			{
+				throw new \exception\class\content\pageelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'],
+					tokens:  [
+						'key'     => $key,
+						'value'   => $value,
+						'new_key' => $new_key,
+					],
+				);
+			}
+			if (\key_exists($new_key, $this->get('elements')[$key]))
+			{
+				throw new \exception\class\content\pageelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['already_taken'],
+					tokens:  [
+						'key'     => $key,
+						'value'   => $value,
+						'new_key' => $new_key,
+					],
+				);
+			}
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'new'], [$this, $key, $value, $new_key]);
 			$this->elements[$key][$new_key] = $value;
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['success'], ['key' => $key, 'value' => $value, 'new_key' => $new_key]);
+			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
 			return True;
 		}
-		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $value, $new_key]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['already_taken'], ['key' => $key, 'value' => $value, 'new_key' => $new_key]);
-		return False; // An identical key already exist
+		catch (\exception\class\content\pageelement\PageElement $exception)
+		{
+			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
+			return False;
+		}
 	}
 	/**
 	 * Display the object in a readable and safe form
@@ -110,18 +155,18 @@ class PageElement
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
 		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'start'], $this);
 
-		if (!isset($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
+		if (!\key_exists('templates', $GLOBALS['cache']['class']['content']['pageelement']['PageElement']))
 		{
 			$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'] = [];
 		}
 
-		if ($this->template !== null)
+		if ($this->get('template') !== null)
 		{
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'template'], $this);
-			if (\key_exists($this->template, $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
+			if (\key_exists($this->get('template'), $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], ['template' => $this->template]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'cache'], $this);
+				$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'cache'], $this);
 
 				$content = $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template];
 			}
@@ -274,23 +319,34 @@ class PageElement
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'], ['key' => $key]);
 		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'start'], [$this, $key]);
 
-		if ($this->elements === null)
+		try
 		{
-			$this->elements = array();
+			if ($this->get('elements') === null)
+			{
+				$this->elements = array();
 
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'null'], [$this, $key]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null']);
-			return null;
-		}
-		if (\key_exists($key, $this->elements))
-		{
+				throw new \exception\class\content\pageelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null'],
+				);
+			}
+			if (!\key_exists($key, $this->get('elements')))
+			{
+				throw new \extension\class\content\pageelement\PageElement(
+					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['failure'],
+					tokens:  [
+						'key' => $key,
+					],
+				);
+			}
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'end'], [$this, $key]);
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'], ['key' => $key]);
 			return $this->elements[$key];
 		}
-		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'null'], [$this, $key]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['failure'], ['key' => $key]);
-		return null; // The element does not exist
+		catch (\exception\class\content\pageelement\PageElement $exception)
+		{
+			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'null'], [$this, $key]);
+			return null;
+		}
 	}
 	/**
 	 * Setter of an element of elements, return false if the elements does not exist
