@@ -69,6 +69,14 @@ class Logger
 			$types = [$types];
 		}
 
+		foreach ($types as $key => $type)
+		{
+			if (!\is_string($type))
+			{
+				$types[$key] = $type->value;
+			}
+		}
+
 		foreach ($tokens as $key => $token)
 		{
 			switch ($token)
