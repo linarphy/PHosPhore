@@ -54,7 +54,7 @@ class PageElement
 		{
 			if (\key_exists($key, $this->get('elements')))
 			{
-				throw new \exception\class\content\pagelement\PageElement(
+				throw new \exception\class\content\pagelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['failure'],
 					tokens:  [
 						'key'   => $key,
@@ -69,7 +69,7 @@ class PageElement
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['success'], ['key' => $key, 'value' => $value]);
 			return True;
 		}
-		catch (\exception\class\content\pageelement\PageElement $exception)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'end'], [$this, $key, $value]);
 			return False; // An identical key already exists
@@ -95,7 +95,7 @@ class PageElement
 		{
 			if (!\key_exists($key, $this->get('element')))
 			{
-				throw new \exception\class\content\pageelement\PageElement(
+				throw new \exception\class\content\pageelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['unknown_key'],
 					tokens:  [
 						'key'     => $key,
@@ -106,7 +106,7 @@ class PageElement
 			}
 			if (!\is_array($this->elements[$key]))
 			{
-				throw new \exception\class\content\pageelement\PageElement(
+				throw new \exception\class\content\pageelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'],
 					tokens:  [
 						'key'     => $key,
@@ -117,7 +117,7 @@ class PageElement
 			}
 			if (\key_exists($new_key, $this->get('elements')[$key]))
 			{
-				throw new \exception\class\content\pageelement\PageElement(
+				throw new \exception\class\content\pageelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['already_taken'],
 					tokens:  [
 						'key'     => $key,
@@ -132,7 +132,7 @@ class PageElement
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
 			return True;
 		}
-		catch (\exception\class\content\pageelement\PageElement $exception)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
 			return False;
@@ -155,7 +155,7 @@ class PageElement
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
 		$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'start'], $this);
 
-		if (!\key_exists('templates', $GLOBALS['cache']['class']['content']['pageelement']['PageElement']))
+		if (!isset($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
 		{
 			$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'] = [];
 		}
@@ -325,13 +325,13 @@ class PageElement
 			{
 				$this->elements = array();
 
-				throw new \exception\class\content\pageelement\PageElement(
+				throw new \exception\class\content\pageelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null'],
 				);
 			}
 			if (!\key_exists($key, $this->get('elements')))
 			{
-				throw new \extension\class\content\pageelement\PageElement(
+				throw new \exception\class\content\pageelement\PageElementException(
 					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['failure'],
 					tokens:  [
 						'key' => $key,
@@ -342,7 +342,7 @@ class PageElement
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'], ['key' => $key]);
 			return $this->elements[$key];
 		}
-		catch (\exception\class\content\pageelement\PageElement $exception)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'null'], [$this, $key]);
 			return null;
