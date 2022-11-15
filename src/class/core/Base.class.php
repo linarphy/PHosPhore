@@ -54,7 +54,6 @@ trait Base
 
 		if (!\property_exists($this, $attribute))
 		{
-			var_dump($this, $attribute);
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Base']['display']['undefined'], ['class' => \get_class($this), 'attribute' => $attribute]);
 			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['display']['undefined']);
 		}
