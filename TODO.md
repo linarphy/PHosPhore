@@ -9,3 +9,6 @@ For now I'm currently:
 
 Then,
 - add more types to vanilla logs
+
+Note:
+- should \core\Base::hydrate emit a warning when nothing is hydrated ? that can lead to unseen errors (for now it doesn't)
