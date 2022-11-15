@@ -46,36 +46,64 @@ trait Base
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
 
-		if ($attribute === null)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['object'], ['class' => \get_class($this)]);
-			return \htmlspecialchars(\phosphore_display($this->table()));
-		}
-
-		if (!\property_exists($this, $attribute))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Base']['display']['undefined'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['display']['undefined']);
-		}
-
-		$method = $this::getDisp($attribute);
-
-		if (\method_exists($this, $method))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-			return $this->$method($attribute);
-		}
-
-		if (\is_object($this->get($attribute)))
-		{
-			if (\method_exists($this->get($attribute), 'display'))
+			if ($attribute === null)
 			{
-				return $this->get($attribute)->display();
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['object'], ['class' => \get_class($this)]);
+				return \htmlspecialchars(\phosphore_display($this->table()));
 			}
-		}
 
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-		return \htmlspecialchars(\phosphore_display($this->get($attribute)));
+			if (!\property_exists($this, $attribute))
+			{
+				throw new \exception\class\core\BaseException(
+					message:      $GLOBALS['lang']['class']['Base']['display']['undefined'],
+					tokens:       [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+					],
+					logger_types: [
+						\core\LoggerTypes::ERROR,
+						'core',
+						'class',
+					],
+				);
+			}
+
+			$method = $this::getDisp($attribute);
+
+			if (\method_exists($this, $method))
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				return $this->$method($attribute);
+			}
+
+			if (\is_object($this->get($attribute)))
+			{
+				if (\method_exists($this->get($attribute), 'display'))
+				{
+					return $this->get($attribute)->display();
+				}
+			}
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+			return \htmlspecialchars(\phosphore_display($this->get($attribute)));
+		}
+		catch (\exception\class\core\BaseException $exception)
+		{
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['display']['error'],
+				tokens:       [
+					'exception' => $exception->getMessage(),
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['display']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 	/**
 	 * Get the value of the given attribute
@@ -89,29 +117,52 @@ trait Base
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
 
-		if (!\property_exists($this, $attribute))
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Base']['get']['not_defined'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['get']['not_defined']);
-		}
+			if (!\property_exists($this, $attribute))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $GLOBALS['lang']['class']['core']['Base']['get']['not_defined'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+					],
+				);
+			}
 
-		$method = $this::getGet($attribute);
+			$method = $this::getGet($attribute);
 
-		if (\method_exists($this, $method))
-		{
+			if (\method_exists($this, $method))
+			{
+				$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				return $this->$method();
+			}
+
+			if (!isset($this->$attribute))
+			{
+				return null;
+			}
+
 			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-			return $this->$method();
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+			return $this->$attribute;
 		}
-
-		if (!isset($this->$attribute))
+		catch (\exception\class\core\BaseException $exception)
 		{
-			return null;
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['get']['error'],
+				tokens:       [
+					'exception' => $exception->getMessage(),
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['get']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-		return $this->$attribute;
 	}
 	/**
 	 * Get the name of the displayer method for an attribute
@@ -124,8 +175,17 @@ trait Base
 	{
 		if (empty($attribute))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['getDisp']['empty']);
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['empty'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
 
 		return 'display' . \ucfirst($attribute);
@@ -141,8 +201,17 @@ trait Base
 	{
 		if (empty($attribute))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Base']['getGet']['empty'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['getGet']['empty']);
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['getGet']['empty'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['getGet']['empty'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
 
 		switch (\ucfirst($attribute)) // special case where the getter method name is already taken
@@ -167,8 +236,17 @@ trait Base
 	{
 		if (empty($attribute))
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Base']['getSet']['empty'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['getSet']['empty']);
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['getSet']['empty'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['getSet']['empty'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
 
 		return 'set' . \ucfirst($attribute);
@@ -215,25 +293,37 @@ trait Base
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'start'], [$this, $attribute, $value]);
 
-		if (!\property_exists($this, $attribute))
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Base']['set']['undefined'], ['class' => \get_class($this), 'attribute' => $attribute]);
+			if (!\property_exists($this, $attribute))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $GLOBALS['lang']['class']['core']['Base']['set']['undefined'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+					],
+				);
+			}
+
+			$method = $this::getSet($attribute);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'check'], $this);
+
+			if (\method_exists($this, $method))
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['custom_method'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				return $this->$method($value);
+			}
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['default_method'], ['class' => \get_class($this), 'attribute' => $attribute]);
+			$this->$attribute = $value;
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'end'], $this);
+			return True;
+		}
+		catch (\exception\class\core\BaseException $exception)
+		{
 			return False;
 		}
-
-		$method = $this::getSet($attribute);
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'check'], $this);
-
-		if (\method_exists($this, $method))
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['custom_method'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-			return $this->$method($value);
-		}
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['default_method'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$this->$attribute = $value;
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'end'], $this);
-		return True;
 	}
 	/**
 	 * Convert an object to an array
@@ -253,42 +343,66 @@ trait Base
 
 		$attributes = [];
 
-		if ($depth < -1)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Base']['table']['undefined_depth'], ['class' => \get_class($this), 'depth' => $depth]);
-			throw new \Exception($GLOBALS['locale']['class']['core']['Base']['table']['undefined_depth']);
-		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'check'], [$this, $depth]);
-
-		foreach (\array_keys(\get_class_vars(\get_class($this))) as $attribute)
-		{
-			if ($strict || isset($this->$attribute))
+			if ($depth < -1)
 			{
-				if (\is_object($this->$attribute))
+				throw new \exception\class\core\BaseException(
+					message:      $GLOBALS['lang']['class']['core']['Base']['table']['undefined_depth'],
+					tokens:       [
+						'class' => \get_class($this),
+						'depth' => $depth,
+					],
+				);
+			}
+
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'check'], [$this, $depth]);
+
+			foreach (\array_keys(\get_class_vars(\get_class($this))) as $attribute)
+			{
+				if ($strict || isset($this->$attribute))
 				{
-					if ($depth === 0)
+					if (\is_object($this->$attribute))
+					{
+						if ($depth === 0)
+						{
+							$attributes[$attribute] = $this->$attribute;
+						}
+						else if ($depth > 0)
+						{
+							$attributes[$attribute] = \phosphore_table($this->$attribute, $depth - 1);
+						}
+						else // depth === -1
+						{
+							$attributes[$attribute] = \phosphore_table($this->$attribute, $depth);
+						}
+					}
+					else
 					{
 						$attributes[$attribute] = $this->$attribute;
 					}
-					else if ($depth > 0)
-					{
-						$attributes[$attribute] = \phosphore_table($this->$attribute, $depth - 1);
-					}
-					else // depth === -1
-					{
-						$attributes[$attribute] = \phosphore_table($this->$attribute, $depth);
-					}
-				}
-				else
-				{
-					$attributes[$attribute] = $this->$attribute;
 				}
 			}
-		}
 
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'end'], [$this, $depth]);
-		return $attributes;
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'end'], [$this, $depth]);
+			return $attributes;
+		}
+		catch (\exception\class\core\BaseException $exception)
+		{
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['table']['error'],
+				tokens:       [
+					'exception' => $exception->getMessage(),
+					'class'     => \get_class($this),
+					'depth'     => $depth,
+					'strict'    => $strict,
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['table']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 }
 

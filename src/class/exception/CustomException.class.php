@@ -63,7 +63,7 @@ abstract class CustomException extends \Exception
 	 *
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		return \htmlspecialchars(\get_class($this)) . ' ' . \htmlspecialchars($this->message) . ' in ' . \htmlspecialchars($this->file) . '(' . \htmlspecialchars($this->line) . ')\n' . \htmlspecialchars($this->getTraceAsString());
 	}

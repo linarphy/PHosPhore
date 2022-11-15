@@ -21,6 +21,8 @@ $GLOBALS['lang']['class']['core']['Base']['display']['undefined'] = 'cannot disp
 $GLOBALS['lang']['class']['core']['Base']['display']['exist'] = 'custom method {method} used to display the attribute {attribute} of {class}';
 /* the method to display this attribute does not exist */
 $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'] = 'no custom method {method} found, default method used to display the attribute {attribute} of {class}';
+/* an error occured when displaying an attribute */
+$GLOBALS['lang']['class']['core']['Base']['display']['error'] = 'an error occured and the element {attribute} of the object {class} could not be displayed: {exception}';
 /** [/display] **/
 
 /** [get] **/
@@ -74,6 +76,8 @@ $GLOBALS['lang']['class']['core']['Base']['set']['default_method'] = 'custom set
 $GLOBALS['lang']['class']['core']['Base']['table']['start'] = 'start to convert {class} into an array (depth: {depth})';
 /* depth value not accepted */
 $GLOBALS['lang']['class']['core']['Base']['table']['undefined_depth'] = 'depth {depth} is not valid for converting {class} into an array';
+/* an error occured when converting the object into a table */
+$GLOBALS['lang']['class']['core']['Base']['table']['error'] = 'an error occured when converting the object into a table with de depth {depth}, with the mode strict {strict} for the class {class}: {exception}';
 /** [/table] **/
 
 ?>
