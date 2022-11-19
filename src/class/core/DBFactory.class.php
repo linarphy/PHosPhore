@@ -300,7 +300,6 @@ class DBFactory
 					'driver'         => $driver,
 					'dsn_parameters' => $dsn_parameters,
 					'username'       => $username,
-					'password'       => $password,
 					'options'        => $options,
 				],
 				notification: new \user\Notification([
