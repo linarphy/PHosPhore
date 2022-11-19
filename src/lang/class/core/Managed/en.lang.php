@@ -1,10 +1,5 @@
 <?php
 
-/** [__construct] **/
-/* construct the object */
-$GLOBALS['lang']['class']['core']['Managed']['__construct'] = 'constructing a {class} instance';
-/** [/__construct] **/
-
 /** [add] **/
 /* start the process */
 $GLOBALS['lang']['class']['core']['Managed']['add']['start'] = 'start to insert the object {class} in the database';
