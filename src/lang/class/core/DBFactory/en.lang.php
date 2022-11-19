@@ -36,7 +36,7 @@ $GLOBALS['lang']['class']['core']['DBFactory']['connection']['end'] = 'database 
 /* a PDO error happened during database connection */
 $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_pdo'] = 'an error occured during the PDO object construction: {exception}';
 /* an error happened during database connection */
-$GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_custom'] = 'an error occured during database creation (driver: {driver}, dsn_parameters: {dsn_parameters}, username: {username}, password: {password}, options: {options}): {exception}';
+$GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_custom'] = 'an error occured during database creation (driver: {driver}, dsn_parameters: {dsn_parameters}, username: {username}, options: {options}): {exception}';
 /** [/connection] **/
 
 ?>
