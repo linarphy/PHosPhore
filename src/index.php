@@ -91,12 +91,11 @@ try
 		else	// cannot connect
 		{
 			$GLOBALS['Hook']->load(['core', 'index', 'start_connect_guest'], []);
-			$Password = new \user\Password(array(
-				'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
-			));
 			$GLOBALS['Visitor'] = new \user\Visitor(array( // Guest
 				'id'       => $GLOBALS['config']['core']['login']['guest']['id'],
-				'password' => $Password,
+				'password' => new \user\Password([
+					'password_clear' => $GLOBALS['config']['core']['login']['guest']['password'],
+				]),
 			));
 			$GLOBALS['Visitor']->retrieve();
 
