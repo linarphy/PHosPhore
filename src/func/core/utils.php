@@ -155,5 +155,34 @@ function phosphore_element_exists(array $keys, array $array) : bool
 
 	return True;
 }
+/**
+ * substitute {element} with element for each element in token
+ *
+ * @param string $content
+ *
+ * @param array $tokens
+ *
+ * @return string
+ */
+function phosphore_substitute(string $content, array $tokens)
+{
+	$parts = \preg_split('/({(?:\\}|[^\\}])+})/Um', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+	if (\count($tokens) > 0)
+	{
+		foreach ($tokens as $name => $value)
+		{
+			if (\in_array('{' . $name . '}', $parts))
+			{
+				foreach (\array_keys($parts, '{' . $name . '}') as $key)
+				{
+					$parts[$key] = \phosphore_display($value);
+				}
+			}
+		}
+	}
+
+	return \implode($parts);
+}
 
 ?>

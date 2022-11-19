@@ -51,7 +51,7 @@ abstract class CustomException extends \Exception
 				}
 				$notification->addToSession();
 			}
-			parent::__construct($message, $code, $previous);
+			parent::__construct(\phosphore_substitute($message, $tokens), $code, $previous);
 		}
 		catch (\Throwable $exception)
 		{
