@@ -18,7 +18,7 @@ class Logger
 	 *
 	 * @var array
 	 */
-	const TYPES = [
+	const TYPES = [ // TO DELETE ONCE EXCEPTION SYSTEM IS FINISHED
 		'debug'   => 'debug',
 		'info'    => 'info',
 		'warning' => 'warning',
