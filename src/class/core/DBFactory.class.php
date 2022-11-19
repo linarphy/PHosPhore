@@ -45,13 +45,13 @@ class DBFactory
 	 */
 	public static function connection(?string $driver = null, ?array $dsn_parameters = null, $username = null, ?string $password = null, ?array $options = null) : \PDO
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['start']);
+		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['start']);
 
 		try
 		{
 			if ($driver === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['default_driver']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_driver']);
 				$driver = $GLOBALS['config']['class']['core']['DBFactory']['database']['driver'];
 			}
 			$driver = \strtoupper($driver);
@@ -66,7 +66,7 @@ class DBFactory
 			}
 			if ($dsn_parameters === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['default_dsn_parameters']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_dsn_parameters']);
 				$dsn_parameters = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['dsn_parameters'];
 			}
 			switch ($driver)
@@ -98,6 +98,7 @@ class DBFactory
 										'key'   => $key,
 										'value' => $parameter,
 									],
+								);
 						}
 					}
 					if (!isset($host))
@@ -256,25 +257,25 @@ class DBFactory
 						],
 					);
 			}
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['dsn'], ['dsn' => $dsn]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['dsn'], ['dsn' => $dsn]);
 
 			if ($username === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['default_username']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_username']);
 				$username = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['username'];
 			}
 			if ($password === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['default_password']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_password']);
 				$password = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['password'];
 			}
 			if ($options === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['default_options']);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_options']);
 				$options = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['options'];
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['Connection']['end']);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['end']);
 
 			try
 			{
