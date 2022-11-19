@@ -55,41 +55,114 @@ class LinkManager extends \core\Manager
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start'], ['class' => \get_class($this)]);
 
-		if (\count($variants) === 0)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants'], ['class' => \get_class($this)]);
-			return False;
-		}
-		foreach ($variants as $key => $variant)
-		{
-			$variants[$key] = $this->cleanAttributes($variant);
-			if (\count($variants[$key]) === 0)
+			if (\count($variants) === 0)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant'], ['class' => \get_class($this)]);
-				return False;
+				throw new \exception\class\core\LinkManagerException(
+					message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
 			}
+			foreach ($variants as $key => $variant)
+			{
+				$variants[$key] = $this->cleanAttributes($variant);
+				if (\count($variants[$key]) === 0)
+				{
+					throw new \exception\class\core\LinkManagerException(
+						message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant'],
+						tokens:  [
+							'class' => \get_class($this),
+						],
+					);
+				}
+			}
+			$invariants = $this->cleanAttributes($invariants);
+			if (\count($invariants) === 0)
+			{
+				throw new \exception\class\core\LinkManagerException(
+					message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
+
+			$attributes = \array_merge(\array_keys($variants[\array_key_first($variants)]), \array_keys($invariants));
+
+			$table = new \database\parameter\Table([
+				'name' => $this::TABLE,
+			]);
+
+			foreach ($variants as $variant)
+			{
+				$values           = \array_merge($variant, $invariants);
+				$query_attributes = [];
+				$query_parameters = [];
+				$query_values     = [];
+				$position         = 0;
+				foreach ($attributes as $key => $name)
+				{
+					$query_attributes[] = new \database\parameter\Attribute([
+						'name'  => $name,
+						'table' => $table,
+					]);
+					$query_parameters[] = new \database\parameter\Parameter([
+						'value'    => $values[$key],
+						'position' => $position,
+					]);
+					$query_values[] = $values[$key];
+					$position      += 1;
+				}
+
+				$Query = new \database\request\Insert([
+					'parameters' => $query_attributes,
+					'table'      => $table,
+					'values'     => $query_values,
+				]);
+
+				$connection = \core\DBFactory::connection();
+
+				$driver_class = '\\database\\' . \ucwords(\strtolower($connecion->getAttribute(PDO::ATTR_DRIVER_NAME)));
+
+				try
+				{
+					$query   = $driver_class::displayQuery($Query);
+					$request = $connection->prepare($query);
+					$request->execute($query_values);
+				}
+				catch (\PDOException $exception)
+				{
+					throw new \exception\class\core\LinkManagerException(
+						message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['PDO_error'],
+						tokens:  [
+							'class'     => \get_class($this),
+							'exception' => $exception->getMessage(),
+						],
+					);
+				}
+			}
+
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'], ['class' => \get_class($this)]);
+			return True;
 		}
-		$invariants = $this->cleanAttributes($invariants);
-		if (\count($invariants) === 0)
+		catch (\exception\class\core\LinkManagerException $exception)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants'], ['class' => \get_class($this)]);
+			throw new \exception\class\core\LinkManagerException(
+				message:      $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['LinkManager']['addBy']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 			return False;
 		}
-
-		$attributes = \array_merge(\array_keys($variants[\array_key_first($variants)]), \array_keys($invariants));
-
-		foreach ($variants as $variant)
-		{
-			$query = 'INSERT INTO ' . $this::TABLE . '(' . \implode(',', $attributes) . ') VALUES (' . \implode(',', \array_fill(0, \count($attributes), '?')) . ')';
-
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'], ['class' => \get_class($this), 'query' => $query]);
-
-			$request = $this->bdd->prepare($query);
-			$request->execute(\array_merge($variant, $invariants)); // Order is important here
-		}
-
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'], ['class' => \get_class($this)]);
-		return True;
 	}
 }
 

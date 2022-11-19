@@ -13,6 +13,10 @@ $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants'] = '{c
 $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['query'] = '{class} query created: {query}';
 /* end the process */
 $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'] = '{class} all rows successfully added into the database';
+/* an error occured during the PDO object construction */
+$GLOBALS['lang']['class']['core']['LinkManager']['addBy']['PDO_error'] = 'an error occured during the PDO object construction for the class {class}: {exception}';
+/* an error occured during the request */
+$GLOBALS['lang']['class']['core']['LinkManager']['addBy']['error'] = 'an error occured during the request for the class {class}: {exception}';
 /** [/addBy] **/
 
 ?>
