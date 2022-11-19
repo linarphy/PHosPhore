@@ -42,7 +42,8 @@ abstract class CustomException extends \Exception
 			{
 				$logger_types = $this::LOGGER_TYPES;
 			}
-			$GLOBALS['Logger']->log($logger_types, $message, $tokens);
+			$backtrace = \debug_backtrace();
+			$GLOBALS['Logger']->log($logger_types, $message, $tokens, $backtrace[\array_search(__FUNCTION__, \array_column($backtrace, 'function'))]);
 			if ($notification != null)
 			{
 				if ($notification->get('content') === null)

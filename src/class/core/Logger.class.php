@@ -33,8 +33,10 @@ class Logger
 	 * @param string $message Message of the event
 	 *
 	 * @param array $substitution Substitution array, which contains list of string to replace placeholder
+	 *
+	 * @param array $backtrace Backtrace to use if given (allows to get the right class for customException)
 	 */
-	public function log(string|array $types, string $message, array $substitution = [])
+	public function log(string|array $types, string $message, array $substitution = [], ?array $backtrace = null)
 	{
 		$config = $GLOBALS['config']['class']['core']['Logger'];
 
@@ -60,9 +62,12 @@ class Logger
 
 		$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $config['format'], -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		$backtrace = \debug_backtrace();
-		$key = \array_search(__FUNCTION__, \array_column($backtrace, 'function'));
-		$backtrace = $backtrace[$key];
+		if ($backtrace === null)
+		{
+			$backtrace = \debug_backtrace();
+			$key = \array_search(__FUNCTION__, \array_column($backtrace, 'function'));
+			$backtrace = $backtrace[$key];
+		}
 
 		if (\is_string($types))
 		{
