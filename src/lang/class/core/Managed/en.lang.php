@@ -10,7 +10,7 @@ $GLOBALS['lang']['class']['core']['Managed']['add']['success'] = 'successfully i
 /* an error occured in the \core\Manager class */
 $GLOBALS['lang']['class']['core']['Managed']['add']['manager_error'] = 'an error occured in the manager when inserting the object {class} in the database: {exception}';
 /* error */
-$GLOBALS['lang']['class']['core']['Managed']['add']['error'] = 'an error occured in when inserting the object {class} in the database: {exception}';
+$GLOBALS['lang']['class']['core']['Managed']['add']['error'] = 'an error occured when inserting the object {class} in the database: {exception}';
 /** [/add] **/
 
 /** [arrDisp] **/
