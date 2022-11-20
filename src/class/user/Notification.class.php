@@ -46,7 +46,7 @@ class Notification extends \core\Managed
 	 *
 	 * @var string
 	 */
-	protected ?string $type = null;
+	protected mixed $type = null;
 	/**
 	 * Attributes with type
 	 *
