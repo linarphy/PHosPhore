@@ -16,6 +16,8 @@ $GLOBALS['lang']['class']['core']['Managed']['add']['error'] = 'an error occured
 /** [arrDisp] **/
 /* error when using \phosphore_display() to display an object */
 $GLOBALS['lang']['class']['core']['Managed']['arrDisp']['object_error'] = 'an error occured when displaying the object {element}: {exception}';
+/* error when displaying an array */
+$GLOBALS['lang']['class']['core']['Managed']['arrDisp']['error'] = 'an error occured when displaying an array: {exception}';
 /** [/arrDisp] **/
 
 /** [delete] **/

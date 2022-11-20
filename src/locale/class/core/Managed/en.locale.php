@@ -5,6 +5,11 @@
 $GLOBALS['locale']['class']['core']['Managed']['add']['error'] = 'Sorry, an error occured: cannot insert object in the database';
 /** [/add] **/
 
+/** [arrDisp] **/
+/* an error occured when displaying an array */
+$GLOBALS['locale']['class']['core']['Managed']['arrDisp']['error'] = 'Sorry, an error occured: cannot display an array';
+/* [/arrDisp] **/
+
 /** [delete] **/
 /* an error occured when deleting a value in the database */
 $GLOBALS['locale']['class']['core']['Managed']['delete']['error'] = 'Sorry, an error occured: cannot delete object in the database';

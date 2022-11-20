@@ -22,11 +22,11 @@ abstract class Managed
 	 */
 	public function add() : array
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'add', 'start'], $this);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'add', 'start'], $this);
+
 			try
 			{
 				$index = $this->manager()->add($this->table())[0];
@@ -34,11 +34,12 @@ abstract class Managed
 			catch (\exception\class\core\ManagerException $exception)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['add']['manager_error'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['add']['manager_error'],
+					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 
@@ -76,6 +77,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['add']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:    $exception,
 			);
 		}
 	}
@@ -88,111 +90,132 @@ abstract class Managed
 	 */
 	public static function arrDisp(array $list) : string
 	{
-		$display = '';
-		if (\count($list) === 0)
+		try
 		{
-			return $display;
-		}
-		foreach ($list as $element)
-		{
-			if (\is_string($element))
+			$display = '';
+			if (\count($list) === 0)
 			{
-				$display .= \htmlspecialchars($element);
+				return $display;
 			}
-			else if (\is_bool($element))
+			foreach ($list as $element)
 			{
-				$display .= ($element ? 'True' : 'False');
-			}
-			else if (\is_int($element) || \is_float($element))
-			{
-				$display .= (string) $element;
-			}
-			else if (\is_null($element))
-			{
-				$display .= '';
-			}
-			else if (\is_resource($element))
-			{
-				$display .= \get_resource_type($element);
-			}
-			else if (is_array($element))
-			{
-				$display .= '(' . self::arrDisp($element) . ')';
-			}
-			else if (\is_object($element))
-			{
-				if (\method_exists($element, 'display'))
+				if (\is_string($element))
 				{
-					try
-					{
-						$display .= $element->display();
-					}
-					catch (
-						\exception\class\core\BaseException |
-						\exception\class\core\ManagedException
-					)
-					{
-						$display .= \get_class($element);
-					}
+					$display .= \htmlspecialchars($element);
 				}
-				if (\method_exists($element, 'table'))
+				else if (\is_bool($element))
 				{
-					try
-					{
-						$display .= self::arrDisp($element->table());
-					}
-					catch (
-						\exception\class\core\BaseException |
-						\exception\class\core\ManagedException $exception
-					)
-					{
-						$display .= \get_class($element);
-					}
+					$display .= ($element ? 'True' : 'False');
 				}
-				else
+				else if (\is_int($element) || \is_float($element))
 				{
-					try
-					{
-						$display .= \phosphore_display($element);
-					}
-					catch (\Throwable $exception)
+					$display .= (string) $element;
+				}
+				else if (\is_null($element))
+				{
+					$display .= '';
+				}
+				else if (\is_resource($element))
+				{
+					$display .= \get_resource_type($element);
+				}
+				else if (is_array($element))
+				{
+					$display .= '(' . self::arrDisp($element) . ')';
+				}
+				else if (\is_object($element))
+				{
+					if (\method_exists($element, 'display'))
 					{
 						try
 						{
-							throw new \exception\class\core\ManagedException(
-								message: $GLOBALS['lang']['class']['core']['Managed']['arrDisp']['object_error'],
-								tokens:  [
-									'element'   => \get_class($element),
-									'exception' => $exception->getMessage(),
-								],
-							);
+							$display .= $element->display();
 						}
-						catch (\exception\class\core\ManagedException $exception)
+						catch (
+							\exception\class\core\BaseException |
+							\exception\class\core\ManagedException
+						)
 						{
 							$display .= \get_class($element);
 						}
 					}
+					if (\method_exists($element, 'table'))
+					{
+						try
+						{
+							$display .= self::arrDisp($element->table());
+						}
+						catch (
+							\exception\class\core\BaseException |
+							\exception\class\core\ManagedException $exception
+						)
+						{
+							$display .= \get_class($element);
+						}
+					}
+					else
+					{
+						try
+						{
+							$display .= \phosphore_display($element);
+						}
+						catch (\Throwable $exception)
+						{
+							try
+							{
+								throw new \exception\class\core\ManagedException(
+									message:  $GLOBALS['lang']['class']['core']['Managed']['arrDisp']['object_error'],
+									tokens:   [
+										'element'   => \get_class($element),
+										'exception' => $exception->getMessage(),
+									],
+									previous: $exception,
+								);
+							}
+							catch (\exception\class\core\ManagedException $exception)
+							{
+								$display .= \get_class($element);
+							}
+						}
+					}
 				}
-			}
-			else if (\is_callable($element))
-			{
-				if ($element instanceOf \Closure)
+				else if (\is_callable($element))
 				{
-					$display .= 'closure';
+					if ($element instanceOf \Closure)
+					{
+						$display .= 'closure';
+					}
+					$display .= 'unknown';
 				}
-				$display .= 'unknown';
+				else if (\is_iterable($element))
+				{
+					$display .= 'iterable';
+				}
+				else
+				{
+					$display .= 'unknown type';
+				}
+				$display .= ',';
 			}
-			else if (\is_iterable($element))
-			{
-				$display .= 'iterable';
-			}
-			else
-			{
-				$display .= 'unknown type';
-			}
-			$display .= ',';
+			return $display;
 		}
-		return $display;
+		catch (
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\core\ManagedException(
+				message: ,
+				tokens: [
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['arrDisp']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Delete the object in the database
@@ -201,11 +224,11 @@ abstract class Managed
 	 */
 	public function delete() : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'delete', 'start'], $this);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'delete', 'start'], $this);
+
 			if (!$this->exist())
 			{
 				throw new \exception\class\core\ManagedException(
@@ -237,11 +260,12 @@ abstract class Managed
 			catch (\exception\class\core\ManagerException $exception)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['delete']['manager_error'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['delete']['manager_error'],
+					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 		}
@@ -261,6 +285,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['delete']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -291,10 +316,11 @@ abstract class Managed
 			catch (\exception\class\core\ManagerException $exception)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['exist']['manager_error'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['exist']['manager_error'],
+					tokens:   [
 						'class' => \get_class($this),
 					],
+					previous: $exception,
 				);
 			}
 		}
@@ -314,6 +340,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['exist']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -349,12 +376,13 @@ abstract class Managed
 				)
 				{
 					throw new \exception\class\core\ManagedException(
-						message: $GLOBALS['lang']['class']['core']['Managed']['getIndex']['get_error'],
-						tokens:  [
+						message:  $GLOBALS['lang']['class']['core']['Managed']['getIndex']['get_error'],
+						tokens:   [
 							'class'     => \get_class($this),
 							'attribute' => $attribute,
 							'exception' => $exception->getMessage(),
 						],
+						previous: $exception,
 					);
 				}
 				if ($value === null)
@@ -386,6 +414,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['getIndex']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous: $exception,
 			);
 		}
 	}
@@ -398,11 +427,11 @@ abstract class Managed
 	 */
 	public function isIdentical(object $object) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'isIdentical', 'start'], [$this, $object]);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'isIdentical', 'start'], [$this, $object]);
+
 			if (\get_class($this) !== \get_class($this))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
@@ -439,12 +468,13 @@ abstract class Managed
 				)
 				{
 					throw new \exception\class\core\ManagedException(
-						message: $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['get_error'],
-						tokens:  [
+						message:  $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['get_error'],
+						tokens:   [
 							'class'     => \get_class($this),
 							'attribute' => $attribute,
 							'exception' => $exception->getMessage(),
 						],
+						previous: $exception,
 					);
 				}
 			}
@@ -458,16 +488,17 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message: $GLOBALs['lang']['class']['core']['Managed']['isIdentical']['error'],
-				tokens: [
+				message:      $GLOBALs['lang']['class']['core']['Managed']['isIdentical']['error'],
+				tokens:       [
 					'class_1'   => \get_class($this),
 					'class_2'   => \get_class($object),
 					'exception' => $exception->getMessage(),
 				],
-				notification: \user\Notification([
+				notification: new \user\Notification([
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['isIdentical']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -480,10 +511,10 @@ abstract class Managed
 	 */
 	public function manager(\PDO $connection = null) : mixed
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['start'], ['class' => \get_class($this)]);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['start'], ['class' => \get_class($this)]);
+
 			$manager = \get_class($this) . 'Manager';
 			if (!\class_exists($manager))
 			{
@@ -504,11 +535,12 @@ abstract class Managed
 			catch (\exception\class\core\ManagerException)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['manager']['manager_error'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['manager']['manager_error'],
+					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 		}
@@ -527,6 +559,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['manager']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -537,11 +570,11 @@ abstract class Managed
 	 */
 	public function retrieve() : self
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'start'], $this);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'start'], $this);
+
 			if (!$this->exist())
 			{
 				throw new \exception\class\core\ManagedException(
@@ -576,12 +609,13 @@ abstract class Managed
 				)
 				{
 					throw new \exception\class\core\ManagedException(
-						message: $GLOBALS['lang']['class']['core']['Managed']['retrieve']['get_error'],
-						tokens:  [
+						message:  $GLOBALS['lang']['class']['core']['Managed']['retrieve']['get_error'],
+						tokens:   [
 							'class'     => \get_class($this),
 							'attribute' => $attribute,
 							'exception' => $exception->getMessage(),
 						],
+						previous: $exception,
 					);
 				}
 			}
@@ -608,6 +642,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['retrieve']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -618,11 +653,11 @@ abstract class Managed
 	 */
 	public function update() : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'update', 'start'], $this);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'update', 'start'], $this);
+
 			if (!$this->exist())
 			{
 				throw new \exception\class\core\ManagedException(
@@ -640,11 +675,12 @@ abstract class Managed
 			catch (\exception\class\core\ManagedException $exception)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['update']['missing_index'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['update']['missing_index'],
+					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 
@@ -656,11 +692,12 @@ abstract class Managed
 			catch (\exception\class\core\ManagerException $exception)
 			{
 				throw new \exception\class\core\ManagedException(
-					message: $GLOBALS['lang']['class']['core']['Managed']['update']['manager_error'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['Managed']['update']['manager_error'],
+					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 
@@ -682,6 +719,7 @@ abstract class Managed
 					'content' => $GLOBALS['locale']['class']['core']['Managed']['update']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
