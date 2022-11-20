@@ -15,12 +15,47 @@ trait Base
 	 */
 	public function __construct(array $attributes = [])
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['__construct'], ['class' => \get_class($this)]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
+		try
+		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['__construct']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
 
-		$this->hydrate($attributes);
+			try
+			{
+				$this->hydrate($attributes);
+			}
+			catch (\exception\class\core\BaseException $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['__construct']['error_hydrate'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
 
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'end'], [$this, $attributes]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'end'], [$this, $attributes]);
+		}
+		catch (
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['__construct']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['__construct']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+				previous:     $exception,
+			);
+		}
 	}
 	/**
 	 * Clone the object (return a new one with the same attributes)
@@ -29,10 +64,45 @@ trait Base
 	 */
 	public function clone() : self
 	{
-		$class = \get_class($this);
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'clone', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['clone'], ['class' => $class]);
-		return new $class($this->table());
+		try
+		{
+			$class = \get_class($this);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'clone', 'end'], $this);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['clone']['start'], ['class' => $class]);
+			try
+			{
+				return new $class($this->table());
+			}
+			catch (\exception\class\core\BaseException $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['clone']['error_table'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
+		}
+		catch (
+			\exception\class\BaseException |
+			\Thowable $exception
+		)
+		{
+			throw new \exception\class\core\BaseException(
+				message:      $GLOBALS['lang']['class']['core']['Base']['clone']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Base']['clone']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+				previous:     $exception,
+			);
+		}
 	}
 	/**
 	 * Convert this object or one of its attribute into a safe and readable form
@@ -44,14 +114,39 @@ trait Base
 	 */
 	public function display(?string $attribute = null) : string
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
+
 			if ($attribute === null)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['object'], ['class' => \get_class($this)]);
-				return \htmlspecialchars(\phosphore_display($this->table()));
+				try
+				{
+					return \htmlspecialchars(\phosphore_display($this->table()));
+				}
+				catch (\exception\class\core\BaseException $exception)
+				{
+					throw new \exception\class\core\BaseException(
+						message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_table'],
+						tokens:   [
+							'class'     => \get_class($this),
+							'exception' => $exception->getMessage(),
+						],
+						previous: $exception,
+					);
+				}
+				catch (\Throwable $exception)
+				{
+					throw new \exception\class\core\BaseException(
+						message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display'],
+						tokens:   [
+							'class'     => \get_class($this),
+							'exception' => $exception->getMessage(),
+						],
+						previous: $exception,
+					);
+				}
 			}
 
 			if (!\property_exists($this, $attribute))
@@ -62,34 +157,107 @@ trait Base
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
-					logger_types: [
-						\core\LoggerTypes::ERROR,
-						'core',
-						'class',
-					],
 				);
 			}
 
-			$method = $this::getDisp($attribute);
+			try
+			{
+				$method = $this::getDisp($attribute);
+			}
+			catch (\exception\class\core\BaseException $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_getDisp'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+						'attribute' => $attribute,
+					],
+					previous: $exception,
+				);
+			}
 
 			if (\method_exists($this, $method))
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-				return $this->$method($attribute);
-			}
-
-			if (\is_object($this->get($attribute)))
-			{
-				if (\method_exists($this->get($attribute), 'display'))
+				try
 				{
-					return $this->get($attribute)->display();
+					return $this->$method($attribute);
+				}
+				catch (\exception\BaseException $exception)
+				{
+					throw new \exception\class\core\BaseException(
+						message:  $GLOBALS['lang']['class']['core']['Base']['display']['custom_method_error'],
+						tokens:   [
+							'method'    => $method,
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'exception' => $exception->getMessage(),
+						],
+						previous: $exception,
+					);
 				}
 			}
 
+			try
+			{
+				if (\is_object($this->get($attribute)))
+				{
+					if (\method_exists($this->get($attribute), 'display'))
+					{
+						try
+						{
+							return $this->get($attribute)->display();
+						}
+						catch (\exception\class\core\BaseException $exception)
+						{
+							throw new \exception\class\core\BaseException(
+								message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display'],
+								tokens:   [
+									'class'     => \get_class($this),
+									'exception' => $exception->getMessage(),
+								],
+								previous: $exception
+							);
+						}
+					}
+				}
+			}
+			catch (\exception\class\core\BaseException $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['display']['get_attribute'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
+
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-			return \htmlspecialchars(\phosphore_display($this->get($attribute)));
+			try
+			{
+				return \htmlspecialchars(\phosphore_display($this->get($attribute)));
+			}
+			catch (\Throwable $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display_attribute'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
 		}
-		catch (\exception\class\core\BaseException $exception)
+		catch (
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
 		{
 			throw new \exception\class\core\BaseException(
 				message:      $GLOBALS['lang']['class']['core']['Base']['display']['error'],
@@ -102,6 +270,7 @@ trait Base
 					'content' => $GLOBALS['locale']['class']['core']['Base']['display']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -114,11 +283,11 @@ trait Base
 	 */
 	public function get(string $attribute) : mixed
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-		$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
+			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
+
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
@@ -130,13 +299,44 @@ trait Base
 				);
 			}
 
-			$method = $this::getGet($attribute);
+			try
+			{
+				$method = $this::getGet($attribute);
+			}
+			catch (\exception\class\core\BaseException $exception)
+			{
+				throw new \exception\class\core\BaseException(
+					message:  $GLOBALS['lang']['class']['core']['Base']['get']['error_getGet'],
+					tokens:   [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+						'attribute' => $attribute,
+					],
+					previous: $exception,
+				);
+			}
 
 			if (\method_exists($this, $method))
 			{
 				$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
-				return $this->$method();
+				try
+				{
+					return $this->$method();
+				}
+				catch (\exception\CustomException $exception)
+				{
+					throw new \exception\class\core\BaseException(
+						message: $GLOBALS['lang']['class']['core']['Base']['get']['error_custom_method'],
+						tokens: [
+							'method'    => $method,
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'exception' => $exception->getMessage(),
+						],
+						previous: $exception,
+					);
+				}
 			}
 
 			if (!isset($this->$attribute))
@@ -148,7 +348,10 @@ trait Base
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
 			return $this->$attribute;
 		}
-		catch (\exception\class\core\BaseException $exception)
+		catch (
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
 		{
 			throw new \exception\class\core\BaseException(
 				message:      $GLOBALS['lang']['class']['core']['Base']['get']['error'],
@@ -161,6 +364,7 @@ trait Base
 					'content' => $GLOBALS['locale']['class']['core']['Base']['get']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -173,22 +377,44 @@ trait Base
 	 */
 	public static function getDisp(string $attribute) : string
 	{
-		if (empty($attribute))
+		try
+		{
+			if (empty($attribute))
+			{
+				throw new \exception\class\core\BaseException(
+					message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'],
+					tokens:       [
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+					],
+					notification: new \user\Notification([
+						'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['empty'],
+						'type'    => \user\NotificationTypes::ERROR,
+					]),
+				);
+			}
+
+			return 'display' . \ucfirst($attribute);
+		}
+		catch (
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'],
+				message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
+					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['empty'],
+					'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
-
-		return 'display' . \ucfirst($attribute);
 	}
 	/**
 	 * Get the name of the getter method for an attribute
