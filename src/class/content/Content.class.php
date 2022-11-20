@@ -97,18 +97,25 @@ class Content extends \core\Managed
 			\Throwable $exception
 		)
 		{
-			throw new \exception\class\content\ContentException(
-				message:      $GLOBALS['lang']['class']['content']['Content']['display']['error'],
-				tokens:       [
-					'attribute' => $attribute,
-					'exception' => $exception->getMessage(),
-				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['content']['Content']['display']['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
-			);
+			try
+			{
+				throw new \exception\class\content\ContentException(
+					message:      $GLOBALS['lang']['class']['content']['Content']['display']['error'],
+					tokens:       [
+						'attribute' => $attribute,
+						'exception' => $exception->getMessage(),
+					],
+					notification: new \user\Notification([
+						'content' => $GLOBALS['locale']['content']['Content']['display']['error'],
+						'type'    => \user\NotificationTypes::WARNING,
+					]),
+					previous:     $exception,
+				);
+			}
+			catch (\exception\class\content\ContentException $exception)
+			{
+				return '';
+			}
 		}
 	}
 	/**
