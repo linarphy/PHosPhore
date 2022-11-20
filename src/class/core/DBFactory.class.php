@@ -45,10 +45,10 @@ class DBFactory
 	 */
 	public static function connection(?string $driver = null, ?array $dsn_parameters = null, $username = null, ?string $password = null, ?array $options = null) : \PDO
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['start']);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['start']);
+
 			if ($driver === null)
 			{
 				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_driver']);
@@ -284,14 +284,18 @@ class DBFactory
 			catch (\PDOException $exception)
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message: $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_pdo'],
-					tokens:  [
+					message:  $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_pdo'],
+					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
+					previous: $exception,
 				);
 			}
 		}
-		catch (\exception\class\core\DBFactoryException $exception)
+		catch (
+			\exception\class\core\DBFactoryException |
+			\Throwable $exception
+		)
 		{
 			throw new \exception\class\core\DBFactoryException(
 				message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_custom'],
@@ -306,6 +310,7 @@ class DBFactory
 					'content' => $GLOBALS['locale']['class']['core']['DBFactory']['connection']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
 		}
 	}
