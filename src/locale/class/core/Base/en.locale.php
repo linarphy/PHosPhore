@@ -25,6 +25,26 @@ $GLOBALS['locale']['class']['core']['Base']['get']['error'] = 'Sorry, an error o
 $GLOBALS['locale']['class']['core']['Base']['getDisp']['error'] = 'Sorry, an error occured: cannot generate a displayer name';
 /** [/getDisp] **/
 
+/** [getGet] **/
+/* an error occured when getting the getter name */
+$GLOBALS['locale']['class']['core']['Base']['getGet']['error'] = 'Sorry, an error occured: cannot generate a getter name';
+/** [/getGet] **/
+
+/** [getSet] **/
+/* an error occured when getting the setter name */
+$GLOBALS['locale']['class']['core']['Base']['getSet']['error'] = 'Sorry, an error occured: cannot generate a setter name';
+/** [/getSet] **/
+
+/** [hydrate] **/
+/* an error occured when hydrating the object */
+$GLOBALS['locale']['class']['core']['Base']['hydrate']['error'] = 'Sorry, an error occured: cannot set values to an object';
+/** [/hydrate] */
+
+/** [set] **/
+/* an error occured when setting a value to an attribute */
+$GLOBALS['locale']['class']['core']['Base']['set']['error'] = 'Sorry, an error occured: cannot set an attribute value';
+/** [/set] **/
+
 /** [table] **/
 /* an error occured when converting the object */
 $GLOBALS['locale']['class']['core']['Base']['table']['error'] = 'Sorry, an error occured: cannot convert an object in array';

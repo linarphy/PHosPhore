@@ -58,6 +58,8 @@ $GLOBALS['lang']['class']['core']['Base']['get']['error_custom_method'] = 'an er
 $GLOBALS['lang']['class']['core']['Base']['get']['getter'] = 'custom method {method} used to access the attribute {attribute} of {class}';
 /* no custom method */
 $GLOBALS['lang']['class']['core']['Base']['get']['default'] = 'no custom method {method} found, default method used to access the attribute {attribute} of {class}';
+/* cannot get the attribute of this object */
+$GLOBALS['lang']['class']['core']['Base']['get']['error'] = 'cannot get the attribute {attribute} of the class {class}: {exception}';
 /** [/get] **/
 
 /** [getDisp] **/
@@ -72,18 +74,28 @@ $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'] = 'cannot get the 
 $GLOBALS['lang']['class']['core']['Base']['getGet']['empty'] = 'cannot get the getter of an attribute {attribute} which is empty for {class}';
 /* special attribute */
 $GLOBALS['lang']['class']['core']['Base']['getGet']['special'] = 'the method for the attribute {attribute} for {class} is already used for something else, the getter name associated to it is different: {method}';
+/* an error occured when getting the getter of the attribute of this object */
+$GLOBALS['lang']['class']['core']['Base']['getGet']['error'] = 'cannot get the getter of the attribute {attribute} of class {class}: {exception}';
 /** [/getGet] **/
 
 /** [getSet] **/
 /* empty attribute */
 $GLOBALS['lang']['class']['core']['Base']['getSet']['empty'] = 'cannot get the setter of an attribute {attribute} wich is empty for {class}';
+/* an error occured when getting the setter of an attribute of this object */
+$GLOBALS['lang']['class']['core']['Base']['getSet']['error'] = 'cannot get the setter of the attribute {attribute} of class {class}: {exception}';
 /** [/getSet] **/
 
 /** [hydrate] **/
 /* start hydrating */
 $GLOBALS['lang']['class']['core']['Base']['hydrate']['start'] = 'start hydratation of {class}';
+/* the attribute is not a string */
+$GLOBALS['lang']['class']['core']['Base']['hydrate']['type_attribute'] = 'an attribute of {class} should be a string, {type} given';
+/* error when setting a value to the attribute */
+$GLOBALS['lang']['class']['core']['Base']['hydrate']['error_set'] = 'cannot set a value to the attribute {attribute} of class {class}: {exception}';
 /* end hydrating */
 $GLOBALS['lang']['class']['core']['Base']['hydrate']['end'] = 'hydratation of {class} finished, {count} attributes stored';
+/* error when hydrating an object */
+$GLOBALS['lang']['class']['core']['Base']['hydrate']['error'] = 'cannot hydrate an object of the class {class}: {exception}';
 /** [/hydrate] **/
 
 /** [set] **/
@@ -91,10 +103,16 @@ $GLOBALS['lang']['class']['core']['Base']['hydrate']['end'] = 'hydratation of {c
 $GLOBALS['lang']['class']['core']['Base']['set']['start'] = 'start to set a value for the attribute {attribute} of {class}';
 /* attribute does not exist */
 $GLOBALS['lang']['class']['core']['Base']['set']['undefined'] = 'cannot set a value for the attribute {attribute} of {class} because this attribute does not exist in this class';
+/* error when generating setter name for the attribute of this object */
+$GLOBALS['lang']['class']['core']['Base']['set']['error_getSet'] = 'error occured in generating setter name for the attribute {attribute} of {class}: {exception}';
 /* custom method exists */
 $GLOBALS['lang']['class']['core']['Base']['set']['custom_method'] = 'custom setter found: {method} , defining {attribute} for {class}';
+/* custom method threw an error */
+$GLOBALS['lang']['class']['core']['Base']['set']['error_custom_method'] = 'an error occured in teh custom method {method} for setting the attribute {attribute} of {class}: {exception}';
 /* no custom method */
 $GLOBALS['lang']['class']['core']['Base']['set']['default_method'] = 'custom setter not found, defining {attribute} for {class} with default method';
+/* error when setting an attribute */
+$GLOBALS['lang']['class']['core']['Base']['set']['error'] = 'cannot set a valur for the attribute {attribute} of {class}: {exception}';
 /** [/set] **/
 
 /** [table] **/
