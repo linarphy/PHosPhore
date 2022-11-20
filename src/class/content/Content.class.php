@@ -53,11 +53,59 @@ class Content extends \core\Managed
 	 */
 	public function display(?string $attribute = null) : string
 	{
-		if ($attribute === null)
+		try
 		{
-			return htmlspecialchars($this->display('text'));
+			if ($attribute === null)
+			{
+				try
+				{
+					return htmlspecialchars($this->display('text'));
+				}
+				catch (\exception\class\content\ContentException $exception)
+				{
+					throw new \exception\class\content\ContentException(
+						message:  $GLOBALS['lang']['class']['content']['Content']['error_before'],
+						tokens:   [
+							'exception' => $exception->getMessage(),
+						],
+						previous: $exception,
+					);
+				}
+			}
+			try
+			{
+				return $this->display_($attribute);
+			}
+			catch (
+				\exception\class\content\ContentException |
+				\exception\class\core\ManagedException    |
+				\exception\class\core\BaseException $exception
+			)
+			{
+				throw new \exception\class\content\ContentException(
+					message:  $GLOBALS['lang']['class']['content']['Content']['error_display'],
+					tokens:   [
+						'attribute' => $attribute,
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
 		}
-		return $this->display_($attribute);
+		catch (
+			\exception\class\content\Content |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\content\ContentException(
+				message:  $GLOBALS['lang']['class']['content']['Content']['display']['error'],
+				tokens:   [
+					'attribute' => $attribute,
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Retrieves the text with its id and lang
@@ -71,47 +119,141 @@ class Content extends \core\Managed
 			$GLOBALS['Hook']::load(['class', 'content', 'Content', 'retrieveText', 'start'], $this);
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['start']);
 
-			$Manager = $this->Manager();
-
-			if ($this->exist()) // in the db
+			try
 			{
-				$this->retrieve();
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success']);
+				$Manager = $this->manager();
 			}
-			else if ($Manager->existBy(['id_content' => $this->id_content])) // manually set
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['warning']);
-				if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]))
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_user_lang']);
-					$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]));
-				}
-				else if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['locale']['default']]))
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_default_lang']);
-					$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['lang']]));
-				}
-				else
-				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_any']);
-					$this->retrieveBy(['id_content' => $this->id_content])[0];
-				}
-			}
-			else // missconfigured
+			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\ContentException(
-					message:      $GLOBALS['lang']['class']['content']['Content']['retrieveText']['failure'],
-					notification: new \user\Notification([
-						'content' => $GLOBALS['lang']['class']['content']['Content']['retrieveText']['failure'],
-						'type'    => \user\NotificationTypes::WARNING->value,
-					]),
+					message:  $GLOBALS['lang']['class']['content']['Content']['error_manager'],
+					tokens:   [
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
+
+			try
+			{
+				if ($this->exist()) // in the db
+				{
+					try
+					{
+						$this->retrieve();
+					}
+					catch (\exception\class\core\ManagedException $exception)
+					{
+						throw new \exception\class\content\ContentException(
+							message:  $GLOBALS['lang']['class']['content']['Content']['error_retrieve'],
+							tokens:   [
+								'exception' => $exception->getMessage(),
+							],
+							previous: $exception,
+						);
+					}
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success']);
+				}
+				else if ($Manager->existBy(['id_content' => $this->id_content])) // manually set
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['warning']);
+					if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_user_lang']);
+						try
+						{
+							$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]));
+						}
+						catch (\exception\class\core\BaseException $exception)
+						{
+							throw new \exception\class\content\ContentException(
+								message:  $GLOBALS['lang']['class']['content']['Content']['error_hydrate'],
+								tokens:   [
+									'exception' => $exception->getMessage(),
+								],
+								previous: $exception,
+							);
+						}
+					}
+					else if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['locale']['default']]))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_default_lang']);
+						try
+						{
+							$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['lang']]));
+						}
+						catch (\exception\class\core\BaseException $exception)
+						{
+							throw new \exception\class\content\ContentException(
+								message:  $GLOBALS['lang']['class']['content']['Content']['error_hydrate'],
+								tokens:   [
+									'exception' => $exception->getMessage(),
+								],
+								previous: $exception,
+							);
+						}
+					}
+					else
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_any']);
+						try
+						{
+							$this->retrieveBy(['id_content' => $this->id_content])[0];
+						}
+						catch (\exception\class\core\Managed $exception)
+						{
+							throw new \exception\class\content\ContentException(
+								message:  $GLOBALS['lang']['class']['content']['Content']['error_retrieve'],
+								tokens:   [
+									'exception' => $exception->getMessage(),
+								],
+								previous: $exception,
+							);
+						}
+					}
+				}
+				else // missconfigured
+				{
+					throw new \exception\class\content\ContentException(
+						message:      $GLOBALS['lang']['class']['content']['Content']['retrieveText']['failure'],
+						notification: new \user\Notification([
+							'content' => $GLOBALS['lang']['class']['content']['Content']['retrieveText']['failure'],
+							'type'    => \user\NotificationTypes::WARNING->value,
+						]),
+					);
+				}
+			}
+			catch (\exception\class\core\ManagedException $exception)
+			{
+				throw new \exception\class\content\ContentException(
+					message:  $GLOBALS['lang']['class']['content']['Content']['error_exist'],
+					tokens:   [
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
 				);
 			}
 		}
-		catch (\exception\class\content\ContentException $exception)
+		catch (
+			\exception\class\content\ContentException |
+			\Throwable $exception
+		)
 		{
-			$this->text          = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default_text'];
-			$this->date_creation = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default_date_creation'];
+			try
+			{
+				throw new \exception\class\content\ContentException(
+					message:  $GLOBALS['lang']['class']['content']['Content']['retrieveText']['error'],
+					tokens:   [
+						'exception' => $exception->getMessage(),
+					],
+					previous: $exception,
+				);
+			}
+			catch (\exception\class\content\ContentException $exception)
+			{
+				$this->text          = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default_text'];
+				$this->date_creation = $GLOBALS['locale']['class']['content']['Content']['retrieveText']['default_date_creation'];
+			}
 		}
 		finally
 		{
