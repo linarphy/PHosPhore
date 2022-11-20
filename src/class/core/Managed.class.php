@@ -25,21 +25,59 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'add', 'start'], $this);
 
-		$index = $this->manager()->add($this->table())[0];
-
-		if ($index === False || \phosphore_count($index) === 0)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Managed']['add']['error'], ['class' => \get_class($this)]);
+			try
+			{
+				$index = $this->manager()->add($this->table())[0];
+			}
+			catch (\exception\class\core\ManagerException $exception)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['add']['manager_error'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+				);
+			}
+
+			if ($index === False || \phosphore_count($index) === 0)
+			{
+				throw new \exception\class\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['add']['unknown_error'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
+
+			foreach ($index as $name => $value)
+			{
+				$this->set($name, $value);
+			}
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'add', 'end'], $this);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['success'], ['class' => \get_class($this)]);
 			return $index;
 		}
-
-		foreach ($index as $name => $value)
+		catch (
+			\exception\class\core\BaseException |
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
 		{
-			$this->set($name, $value);
+			throw new \exception\class\coore\ManagedException(
+				message:     $GLOBALS['lang']['class']['core']['Managed']['add']['error'],
+				tokens:      [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['add']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'add', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['add']['success'], ['class' => \get_class($this)]);
-		return $index;
 	}
 	/**
 	 * Display a given array into a readable and safe form
@@ -85,9 +123,56 @@ abstract class Managed
 			{
 				if (\method_exists($element, 'display'))
 				{
-					$display .= $element->display();
+					try
+					{
+						$display .= $element->display();
+					}
+					catch (
+						\exception\class\core\BaseException |
+						\exception\class\core\ManagedException
+					)
+					{
+						$display .= \get_class($element);
+					}
 				}
-				$display .= \get_class($element);
+				if (\method_exists($element, 'table'))
+				{
+					try
+					{
+						$display .= self::arrDisp($element->table());
+					}
+					catch (
+						\exception\class\core\BaseException |
+						\exception\class\core\ManagedException $exception
+					)
+					{
+						$display .= \get_class($element);
+					}
+				}
+				else
+				{
+					try
+					{
+						$display .= \phosphore_display($element);
+					}
+					catch (\Throwable $exception)
+					{
+						try
+						{
+							throw new \exception\class\core\ManagedException(
+								message: $GLOBALS['lang']['class']['core']['Managed']['arrDisp']['object_error'],
+								tokens:  [
+									'element'   => \get_class($element),
+									'exception' => $exception->getMessage(),
+								],
+							);
+						}
+						catch (\exception\class\core\ManagedException $exception)
+						{
+							$display .= \get_class($element);
+						}
+					}
+				}
 			}
 			else if (\is_callable($element))
 			{
@@ -119,25 +204,65 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'delete', 'start'], $this);
 
-		if (!$this->exist())
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['delete']['not_exist'], ['class' => \get_class($this)]);
+			if (!$this->exist())
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['delete']['not_exist'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
 
-			return False;
+			$index = $this->getIndex();
+			if ($index === False)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['delete']['missing_index'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
+
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'delete', 'end'], $this);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], ['class' => \get_class($this)]);
+
+			try
+			{
+				return $this->manager()->delete($this->getIndex());
+			}
+			catch (\exception\class\core\ManagerException $exception)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['delete']['manager_error'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+				);
+			}
 		}
-
-		$index = $this->getIndex();
-		if ($index === False)
+		catch (
+			\exception\class\core\ManagedException |
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['delete']['missing_index'], ['class' => \get_class($this)]);
-
-			return False;
+			throw new \exception\class\core\ManagedException(
+				message:      $GLOBALS['lang']['class']['core']['Managed']['delete']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['delete']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'delete', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['delete']['success'], ['class' => \get_class($this)]);
-
-		return $this->manager()->delete($this->getIndex());
 	}
 	/**
 	 * Check if the associated data exist in the database
@@ -146,15 +271,51 @@ abstract class Managed
 	 */
 	public function exist() : bool
 	{
-		$index = $this->getIndex();
-		if ($index === False)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['exist']['missing_index'], ['class' => \get_class($this)]);
-
-			return False;
+			$index = $this->getIndex();
+			if ($index === False)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['exist']['missing_index'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'exist', 'end'], $this);
+			try
+			{
+				return $this->manager()->exist($index);
+			}
+			catch (\exception\class\core\ManagerException $exception)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['exist']['manager_error'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
 		}
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'exist', 'end'], $this);
-		return $this->manager()->exist($index);
+		catch (
+			\exception\class\core\ManagedException |
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
+		{
+			throw new \exceptio\class\core\ManagedException(
+				message:      $GLOBALS['lang']['class']['core']['Managed']['exist']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['exist']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 	/**
 	 * Get the index values of this object
@@ -163,17 +324,70 @@ abstract class Managed
 	 */
 	public function getIndex() : ?array
 	{
-		$index = [];
-		foreach ($this::INDEX as $attribute)
+		try
 		{
-			$value = $this->get($attribute);
-			if ($value === null)
+			$index = [];
+			foreach ($this::INDEX as $attribute)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Managed']['getIndex'], ['attribute' => $attribute]);
+				if (!\is_string($attribute))
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['getIndex']['type_attribute'],
+						tokens:  [
+							'class' => \get_class($this),
+							'type'  => \gettype($attribute),
+						],
+					);
+				}
+				try
+				{
+					$value = $this->get($attribute);
+				}
+				catch (
+					\exception\class\core\ManagedException |
+					\exception\class\core\BaseException $exception
+				)
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['getIndex']['get_error'],
+						tokens:  [
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'exception' => $exception->getMessage(),
+						],
+					);
+				}
+				if ($value === null)
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['getIndex']['null_attribute'],
+						tokens:  [
+							'attribute' => $attribute,
+						],
+					);
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Managed']['getIndex'], ['attribute' => $attribute]);
+				}
+				$index[$attribute] = $value;
 			}
-			$index[$attribute] = $value;
+			return $index;
 		}
-		return $index;
+		catch (
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\core\ManagedException(
+				message:      $GLOBALS['lang']['class']['core']['Managed']['getIndex']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['getIndex']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 	/**
 	 * Check if the two objects have same index value (are the same)
@@ -182,32 +396,80 @@ abstract class Managed
 	 *
 	 * @return bool
 	 */
-	public function isIdentical($object) : bool
+	public function isIdentical(object $object) : bool
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['start'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'isIdentical', 'start'], [$this, $object]);
 
-		if (\get_class($this) !== \get_class($this))
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
-			return False;
-		}
-		foreach ($this::INDEX as $attribute)
-		{
-			if ($this->$attribute === null || $object->$attribute === null)
+			if (\get_class($this) !== \get_class($this))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['missing_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_class'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
 				return False;
 			}
-			if ($this->get($attribute) !== $object->get($attribute))
+			foreach ($this::INDEX as $attribute)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
-				return False;
+				if (!\is_string($attribute))
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['type_attribute'],
+						tokens:  [
+							'class' => \get_class($this),
+							'type'  => \gettype($attribute),
+						],
+					);
+				}
+				if ($this->$attribute === null || $object->$attribute === null)
+				{
+					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['missing_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
+					return False;
+				}
+				try
+				{
+					if ($this->get($attribute) !== $object->get($attribute))
+					{
+						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['dif_index'], ['class_1' => \get_class($this), 'class_2' => \get_class($object), 'attribute' => $attribute]);
+						return False;
+					}
+				}
+				catch (
+					\exception\class\core\ManagedException |
+					\exception\class\core\BaseException $exception
+				)
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['get_error'],
+						tokens:  [
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'exception' => $exception->getMessage(),
+						],
+					);
+				}
 			}
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'isIdentical', 'end'], [$this, $object]);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['same'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
+			return True;
 		}
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'isIdentical', 'end'], [$this, $object]);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['isIdentical']['same'], ['class_1' => \get_class($this), 'class_2' => \get_class($object)]);
-		return True;
+		catch (
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\core\ManagedException(
+				message: $GLOBALs['lang']['class']['core']['Managed']['isIdentical']['error'],
+				tokens: [
+					'class_1'   => \get_class($this),
+					'class_2'   => \get_class($object),
+					'exception' => $exception->getMessage(),
+				],
+				notification: \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['isIdentical']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 	/**
 	 * Create an instance of the associated manager
@@ -220,17 +482,53 @@ abstract class Managed
 	{
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['start'], ['class' => \get_class($this)]);
 
-		$manager = \get_class($this) . 'Manager';
-		if (!\class_exists($manager))
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['core']['Managed']['manager']['not_defined'], ['class' => \get_class($this)]);
+			$manager = \get_class($this) . 'Manager';
+			if (!\class_exists($manager))
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['manager']['not_defined'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
 
-			return null;
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'manager', 'end'], $this);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['end'], ['class' => \get_class($this)]);
+			try
+			{
+				return new $manager($connection);
+			}
+			catch (\exception\class\core\ManagerException)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['manager']['manager_error'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+				);
+			}
 		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'manager', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['manager']['end'], ['class' => \get_class($this)]);
-		return new $manager($connection);
+		catch (
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
+		{
+			throw new \exception\class\core\ManagedException(
+				message: $GLOBALS['lang']['class']['core']['Managed']['manager']['error'],
+				tokens: [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['manager']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
+		}
 	}
 	/**
 	 * Retrieve data from the database
@@ -242,26 +540,76 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'start'], $this);
 
-		if (!$this->exist())
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['not_defined'], ['class' => \get_class($this)]);
+			if (!$this->exist())
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['retrieve']['not_defined'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'check'], $this);
 
-			throw new \Exception($GLOBALS['locale']['class']['core']['Managed']['retrieve']['not_exist']);
+			$index = [];
+			foreach ($this::INDEX as $attribute)
+			{
+				if (!\is_string($attribute))
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['retrieve']['type_attribute'],
+						tokens:  [
+							'class' => \get_class($this),
+							'type'  => \gettype($attribute),
+						],
+					);
+				}
+				try
+				{
+					$index[$attribute] = $this->get($attribute);
+				}
+				catch (
+					\exception\class\core\ManagedException |
+					\exception\class\core\BaseException $exception
+				)
+				{
+					throw new \exception\class\core\ManagedException(
+						message: $GLOBALS['lang']['class']['core']['Managed']['retrieve']['get_error'],
+						tokens:  [
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'exception' => $exception->getMessage(),
+						],
+					);
+				}
+			}
+
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'end'], $this);
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'], ['class' => \get_class($this)]);
+
+			$this->hydrate($this->manager()->get($index));
+
+			return $this;
 		}
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'check'], $this);
-
-		$index = [];
-		foreach ($this::INDEX as $attribute)
+		catch (
+			\exception\class\core\ManagedException |
+			\Throwable $exception
+		)
 		{
-			$index[$attribute] = $this->get($attribute);
+			throw new \exception\class\core\ManagedException(
+				message:      $GLOBALS['lang']['class']['core']['Managed']['retrieve']['error'],
+				tokens:       [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['retrieve']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'retrieve', 'end'], $this);
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['retrieve']['end'], ['class' => \get_class($this)]);
-
-		$this->hydrate($this->manager()->get($index));
-
-		return $this;
 	}
 	/**
 	 * Update the database
@@ -273,25 +621,69 @@ abstract class Managed
 		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Managed']['update']['start'], ['class' => \get_class($this)]);
 		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'update', 'start'], $this);
 
-		if (!$this->exist())
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Managed']['update']['not_exist'], ['class' => \get_class($this)]);
+			if (!$this->exist())
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['update']['not_exist'],
+					tokens:  [
+						'class' => \get_class($this),
+					],
+				);
+			}
 
-			return False;
+			try
+			{
+				$index = $this->getIndex();
+			}
+			catch (\exception\class\core\ManagedException $exception)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['update']['missing_index'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+				);
+			}
+
+			$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'update', 'end'], $this);
+			try
+			{
+				$this->manager()->update(\array_diff_key($this->table(), $this->getIndex()), $this->getIndex());
+			}
+			catch (\exception\class\core\ManagerException $exception)
+			{
+				throw new \exception\class\core\ManagedException(
+					message: $GLOBALS['lang']['class']['core']['Managed']['update']['manager_error'],
+					tokens:  [
+						'class'     => \get_class($this),
+						'exception' => $exception->getMessage(),
+					],
+				);
+			}
+
+			return True;
 		}
-		$index = $this->getIndex();
-
-		if ($index === False)
+		catch (
+			\exception\class\core\ManagedException |
+			\exception\class\core\BaseException |
+			\Throwable $exception
+		)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['managed']['update']['missing_index'], ['class' => \get_class($this)]);
-
-			return False;
+			throw new \exception\class\core\ManagedException(
+				message: $GLOBALS['lang']['class']['core']['Managed']['update']['error'],
+				tokens:  [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['class']['core']['Managed']['update']['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+			);
 		}
-
-		$GLOBALS['Hook']::load(['class', 'core', 'Managed', 'update', 'end'], $this);
-		$this->manager()->update(\array_diff_key($this->table(), $this->getIndex()), $this->getIndex());
-
-		return True;
 	}
 }
 
