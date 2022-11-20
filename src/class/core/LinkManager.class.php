@@ -53,10 +53,10 @@ class LinkManager extends \core\Manager
 	 */
 	public function addBy(array $variants, array $invariants) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start'], ['class' => \get_class($this)]);
-
 		try
 		{
+			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start'], ['class' => \get_class($this)]);
+
 			if (\count($variants) === 0)
 			{
 				throw new \exception\class\core\LinkManagerException(
