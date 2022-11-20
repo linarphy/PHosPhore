@@ -136,11 +136,12 @@ class LinkManager extends \core\Manager
 				catch (\PDOException $exception)
 				{
 					throw new \exception\class\core\LinkManagerException(
-						message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['PDO_error'],
-						tokens:  [
+						message:  $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['PDO_error'],
+						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
 						],
+						previous: $exception,
 					);
 				}
 			}
@@ -148,7 +149,10 @@ class LinkManager extends \core\Manager
 			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'], ['class' => \get_class($this)]);
 			return True;
 		}
-		catch (\exception\class\core\LinkManagerException $exception)
+		catch (
+			\exception\class\core\LinkManagerException |
+			\Throwable $exception
+		)
 		{
 			throw new \exception\class\core\LinkManagerException(
 				message:      $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['error'],
@@ -160,8 +164,8 @@ class LinkManager extends \core\Manager
 					'content' => $GLOBALS['locale']['class']['core']['LinkManager']['addBy']['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
+				previous:     $exception,
 			);
-			return False;
 		}
 	}
 }
