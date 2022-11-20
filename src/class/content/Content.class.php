@@ -98,12 +98,16 @@ class Content extends \core\Managed
 		)
 		{
 			throw new \exception\class\content\ContentException(
-				message:  $GLOBALS['lang']['class']['content']['Content']['display']['error'],
-				tokens:   [
+				message:      $GLOBALS['lang']['class']['content']['Content']['display']['error'],
+				tokens:       [
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				previous: $exception,
+				notification: new \user\Notification([
+					'content' => $GLOBALS['locale']['content']['Content']['display']['error'],
+					'type'    => \user\NotificationTypes::WARNING,
+				]),
+				previous:     $exception,
 			);
 		}
 	}
@@ -242,11 +246,15 @@ class Content extends \core\Managed
 			try
 			{
 				throw new \exception\class\content\ContentException(
-					message:  $GLOBALS['lang']['class']['content']['Content']['retrieveText']['error'],
-					tokens:   [
+					message:      $GLOBALS['lang']['class']['content']['Content']['retrieveText']['error'],
+					tokens:       [
 						'exception' => $exception->getMessage(),
 					],
-					previous: $exception,
+					notification: new \user\Notification([
+						'content' => $GLOBALS['locale']['class']['content']['Content']['retrieveText']['error'],
+						'type'    => \user\NotificationTypes::WARNING,
+					]),
+					previous:     $exception,
 				);
 			}
 			catch (\exception\class\content\ContentException $exception)
