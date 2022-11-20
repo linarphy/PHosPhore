@@ -506,7 +506,7 @@ trait Base
 			\Throwable $exception
 		)
 		{
-			throw new \exception\class\core\BaseException([
+			throw new \exception\class\core\BaseException(
 				message:      $GLOBALS['lang']['class']['core']['Base']['getSet']['error'],
 				tokens:       [
 					'class'     => \get_class($this),
@@ -518,7 +518,7 @@ trait Base
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
-			]);
+			);
 		}
 	}
 	/**

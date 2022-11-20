@@ -205,7 +205,7 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message: ,
+				message: $GLOBALS['lang']['class']['core']['Managed']['arrDisp']['error'],
 				tokens: [
 					'exception' => $exception->getMessage(),
 				],
