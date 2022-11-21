@@ -236,6 +236,26 @@ class Notification extends \core\Managed
 		return $this->display_($attribute);
 	}
 	/**
+	 * display notification type
+	 *
+	 * @return string
+	 */
+	public function displayType() : string
+	{
+		if ($this->type === null)
+		{
+			return '';
+		}
+		if (\is_string($this->type))
+		{
+			return \htmlspecialchars($this->type);
+		}
+		else
+		{
+			return \htmlspecialchars($this->type->value);
+		}
+	}
+	/**
 	 * display notification content
 	 *
 	 * @return string
@@ -330,8 +350,16 @@ class Notification extends \core\Managed
 		{
 			$class = get_class($element);
 			$elements = [];
-			$elements['date'] = $notification->get('date');
-			$elements['type'] = $notification->get('type');
+			if ($notification->get('date') === null)
+			{
+				$date = new \DateTime('now');
+				$elements['date'] = $date->format('Y-m-d H:i:s');
+			}
+			else
+			{
+				$elements['date'] = $notification->display('date');
+			}
+			$elements['type'] = $notification->display('type');
 
 			if ($notification->get('id') === null) // notification in session
 			{
