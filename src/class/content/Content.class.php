@@ -123,7 +123,7 @@ class Content extends \core\Managed
 	 *
 	 * @return string
 	 */
-	public function retrieveText() : string
+	public function retrieveText() : ?string
 	{
 		try
 		{
