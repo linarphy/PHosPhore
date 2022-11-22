@@ -10,7 +10,7 @@ class PageElementException extends \exception\CustomException
 	 * @var array
 	 */
 	const LOGGER_TYPES = [
-		\core\LoggerTypes::DEBUG,
+		\core\LoggerTypes::WARNING,
 		'class',
 		'core',
 	];
