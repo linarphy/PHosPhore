@@ -59,7 +59,9 @@ class Content extends \core\Managed
 			{
 				try
 				{
-					return htmlspecialchars($this->display('text'));
+					return htmlspecialchars(
+						$this->display('text')
+					);
 				}
 				catch (\exception\class\content\ContentException $exception)
 				{
@@ -127,8 +129,21 @@ class Content extends \core\Managed
 	{
 		try
 		{
-			$GLOBALS['Hook']::load(['class', 'content', 'Content', 'retrieveText', 'start'], $this);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['start']);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'Content',
+					'retrieveText',
+					'start'
+				],
+				$this,
+			);
+
+			$GLOBALS['Logger']->log(
+				\core\Logger::TYPES['debug'],
+				$GLOBALS['lang']['class']['content']['Content']['retrieveText']['start'],
+			);
 
 			try
 			{
@@ -163,17 +178,40 @@ class Content extends \core\Managed
 							previous: $exception,
 						);
 					}
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success']);
+					$GLOBALS['Logger']->log(
+						\core\Logger::TYPES['debug'],
+						$GLOBALS['lang']['class']['content']['Content']['retrieveText']['success']
+					);
 				}
 				else if ($Manager->existBy(['id_content' => $this->id_content])) // manually set
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['warning']);
-					if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]))
+					$GLOBALS['Logger']->log(
+						\core\Logger::TYPES['debug'],
+						$GLOBALS['lang']['class']['content']['Content']['retrieveText']['warning']
+					);
+					if (
+						$Manager->exist(
+							[
+								'id_content' => $this->id_content,
+								'lang' => $GLOBALS['Visitor']->getConfigurations()['lang'],
+							]
+						)
+					)
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_user_lang']);
+						$GLOBALS['Logger']->log(
+							\core\Logger::TYPES['debug'],
+							$GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_user_lang'],
+						);
 						try
 						{
-							$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['Visitor']->getConfigurations()['lang']]));
+							$this->hydrate(
+								$Manager->get(
+									[
+										'id_content' => $this->id_content,
+										'lang' => $GLOBALS['Visitor']->getConfigurations()['lang'],
+									]
+								)
+							);
 						}
 						catch (\exception\class\core\BaseException $exception)
 						{
@@ -186,12 +224,29 @@ class Content extends \core\Managed
 							);
 						}
 					}
-					else if ($Manager->exist(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['locale']['default']]))
+					else if (
+						$Manager->exist(
+							[
+								'id_content' => $this->id_content,
+								'lang' => $GLOBALS['config']['core']['locale']['default'],
+							]
+						)
+					)
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_default_lang']);
+						$GLOBALS['Logger']->log(
+							\core\Logger::TYPES['debug'],
+							$GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_default_lang'],
+						);
 						try
 						{
-							$this->hydrate($Manager->get(['id_content' => $this->id_content, 'lang' => $GLOBALS['config']['core']['lang']]));
+							$this->hydrate(
+								$Manager->get(
+									[
+										'id_content' => $this->id_content,
+										'lang' => $GLOBALS['config']['core']['lang']
+									]
+								)
+							);
 						}
 						catch (\exception\class\core\BaseException $exception)
 						{
@@ -206,10 +261,17 @@ class Content extends \core\Managed
 					}
 					else
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_any']);
+						$GLOBALS['Logger']->log(
+							\core\Logger::TYPES['debug'],
+							$GLOBALS['lang']['class']['content']['Content']['retrieveText']['success_any'],
+						);
 						try
 						{
-							$this->retrieveBy(['id_content' => $this->id_content])[0];
+							$this->retrieveBy(
+								[
+									'id_content' => $this->id_content,
+								]
+							)[0];
 						}
 						catch (\exception\class\core\Managed $exception)
 						{
