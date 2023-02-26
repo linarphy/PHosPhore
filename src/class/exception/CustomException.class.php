@@ -43,20 +43,36 @@ abstract class CustomException extends \Exception
 				$logger_types = $this::LOGGER_TYPES;
 			}
 			$backtrace = \debug_backtrace();
-			$GLOBALS['Logger']->log($logger_types, $message, $tokens, $backtrace[\array_search(__FUNCTION__, \array_column($backtrace, 'function'))]);
+			$GLOBALS['Logger']->log(
+				$logger_types, 
+				$message,
+				$tokens,
+				$backtrace[
+					\array_search(__FUNCTION__, \array_column($backtrace, 'function'))
+				]
+			);
 			if ($notification != null)
 			{
 				if ($notification->get('content') === null)
 				{
-					$notification->set('content', $GLOBALS['locale']['class']['exception']['CustomException']['default']['message']);
+					$notification->set(
+						'content',
+						$GLOBALS['locale']['class']['exception']['CustomException']['default']['message']
+					);
 				}
 				$notification->addToSession();
 			}
-			parent::__construct(\phosphore_substitute($message, $tokens), $code, $previous);
+			parent::__construct(
+				\phosphore_substitute($message, $tokens),
+				$code, 
+				$previous
+			);
 		}
 		catch (\Throwable $exception)
 		{
-			parent::__construct($GLOBALS['lang']['class']['exception']['CustomException']['default']['message']);
+			parent::__construct(
+				$GLOBALS['lang']['class']['exception']['CustomException']['default']['message']
+			);
 		}
 	}
 	/**
@@ -66,7 +82,11 @@ abstract class CustomException extends \Exception
 	 */
 	public function __toString() : string
 	{
-		return \htmlspecialchars(\get_class($this)) . ' ' . \htmlspecialchars($this->message) . ' in ' . \htmlspecialchars($this->file) . '(' . \htmlspecialchars($this->line) . ')\n' . \htmlspecialchars($this->getTraceAsString());
+		return \htmlspecialchars(\get_class($this)) .
+			' ' . \htmlspecialchars($this->message) .
+			' in ' . \htmlspecialchars($this->file) .
+			'(' . \htmlspecialchars($this->line) . ')\n' .
+			\htmlspecialchars($this->getTraceAsString());
 	}
 }
 

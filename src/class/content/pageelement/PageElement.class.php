@@ -2,6 +2,20 @@
 
 namespace content\pageelement;
 
+$LANG = $GLOBALS
+        ['lang']
+        ['class']
+        ['content']
+        ['pageelement']
+        ['PageElement'];
+
+$LOCALE = $GLOBALS
+          ['locale']
+          ['class']
+          ['content']
+          ['pageelement']
+          ['PageElement'];
+
 /**
  * A element of a page
  */
@@ -27,12 +41,24 @@ class PageElement
 	 * Constructor
 	 *
 	 * @param array $attributes Attributes of this object
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	public function __construct(array $attributes)
 	{
 		try
 		{
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'start'], $this);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'__construct',
+					'start',
+				],
+				$this,
+			);
 
 			try
 			{
@@ -41,7 +67,9 @@ class PageElement
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['error_hydrate'],
+					message:  $LANG
+							  ['__construct']
+							  ['error_hydrate'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -50,21 +78,35 @@ class PageElement
 				);
 			}
 
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', '__construct', 'end'], $this);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'__construct',
+					'end',
+				],
+				$this,
+			);
 		}
 		catch (
 			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception,
+			\Throwable $exception
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['__construct']['error'],
+				message:      $LANG
+							  ['__construct']
+							  ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['__construct']['error'],
+					'content' => $LOCALE
+								 ['__construct']
+								 ['error'],
 					'type'    => \user\NotificationTypes::WARNING,
 				]),
 				previous:     $exception,
@@ -78,19 +120,47 @@ class PageElement
 	 *
 	 * @param mixed $value Value of the elements to add
 	 *
-	 * @return bool
+	 * @return \content\pageelement\PageElement This PageElement
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
-	public function addElement(string|int $key, mixed $value) : bool
+	public function addElement(string|int $key, mixed $value) : \content\pageelement\PageElement
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['start'], ['key' => $key, 'value' => $value]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'start'], [$this, $key, $value]);
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['addElement']
+				['start'],
+				[
+					'key' => $key,
+					'value' => $value,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addElement',
+					'start',
+				],
+				[
+					$this,
+					$key,
+					$value,
+				],
+			);
 
 			if (\key_exists($key, $this->get('elements')))
 			{
 				throw new \exception\class\content\pagelement\PageElementException(
-					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['identical_key'],
+					message: $LANG
+							 ['addElement']
+							 ['identical_key'],
 					tokens:  [
 						'key'   => $key,
 						'value' => $value,
@@ -98,38 +168,75 @@ class PageElement
 				);
 			}
 
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'new'], [$this, $key, $value]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addElement',
+					'new',
+				],
+				[
+					$this,
+					$key,
+					$value,
+				],
+			);
+
 			$this->elements[$key] = $value;
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addElement', 'end'], [$this, $key, $value]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['success'], ['key' => $key, 'value' => $value]);
-			return True;
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addElement',
+					'end',
+				],
+				[
+					$this,
+					$key,
+					$value,
+				],
+			);
+
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['addElement']
+				['success'],
+				[
+					'key' => $key,
+					'value' => $value,
+				],
+			);
+
+			return $this;
 		}
 		catch (
 			\exception\class\content\pageelement\PageElementException |
 			\Throwable $exception
 		)
 		{
-			try
-			{
-				throw new \exception\class\content\pageelement\PageElementException(
-					message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addElement']['error'],
-					tokens:       [
-						'key'       => $key,
-						'value'     => $value,
-						'class'     => \get_class($this),
-						'exception' => $exception->getMessage(),
-					],
-					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['addElement']['error'],
-						'type'    => \user\NotificationTypes::WARNING,
-					]),
-					previous:     $exception,
-				);
-			}
-			catch (\exception\class\content\pageelement\PageElementException $exception)
-			{
-				return False;
-			}
+			throw new \exception\class\content\pageelement\PageElementException(
+				message:      $LANG
+							  ['addElement']
+							  ['error'],
+				tokens:       [
+					'key'       => $key,
+					'value'     => $value,
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $LOCALE
+								 ['addElement']
+								 ['error'],
+					'type'    => \user\NotificationTypes::WARNING,
+				]),
+				previous:     $exception,
+			);
 		}
 	}
 	/**
@@ -141,43 +248,77 @@ class PageElement
 	 *
 	 * @param string|int $new_key Key of the element to add
 	 *
-	 * @return bool
+	 * @return \content\pageelement\PageElement This PageElement
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
-	public function addValueElement(string|int $key, mixed $value, string|int $new_key) : bool
+	public function addValueElement(string|int $key, mixed $value, string|int $new_key) : \content\pageelement\PageElement
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['start'], ['key' => $key, 'value' => $value, 'new_key' => $new_key]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'start'], [$this, $key, $vlaue, $new_key]);
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['addValueElement']
+				['start'],
+				[
+					'key' => $key,
+					'value' => $value,
+					'new_key' => $new_key,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addValueElement',
+					'start',
+				],
+				[
+					$this,
+					$key,
+					$value,
+					$new_key,
+				],
+			);
 
 			try
 			{
-				if (!\key_exists($key, $this->get('element')))
-				{
-					throw new \exception\class\content\pageelement\PageElementException(
-						message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['unknown_key'],
-						tokens:  [
-							'key'     => $key,
-							'new_key' => $new_key,
-						],
-					);
-				}
+				$elements = $this->get('elements');
 			}
-			catch (\exception\class\core\Base $exception)
+			catch (\exception\CustomException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['error_get'],
-					tokens: [
-						'key'       => $key,
+					message:  $LANG
+							  ['addValueElement']
+							  ['error_get'],
+					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
 					previous: $exception,
 				);
 			}
-			if (!\is_array($this->elements[$key]))
+			if (!\key_exists($key, $elements))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['not_array'],
+					message: $LANG
+							 ['addValueElement']
+							 ['unknown_key'],
+					tokens:  [
+						'key'     => $key,
+						'new_key' => $new_key,
+					],
+				);
+			}
+			if (!\is_array($elements[$key]))
+			{
+				throw new \exception\class\content\pageelement\PageElementException(
+					message: $LANG
+							 ['addValueElement']
+							 ['not_array'],
 					tokens:  [
 						'key'     => $key,
 						'new_key' => $new_key,
@@ -187,46 +328,88 @@ class PageElement
 			if (\key_exists($new_key, $this->get('elements')[$key]))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['already_taken'],
+					message: $LANG
+							 ['addValueElement']
+							 ['already_taken'],
 					tokens:  [
 						'key'     => $key,
 						'new_key' => $new_key,
 					],
 				);
 			}
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'new'], [$this, $key, $value, $new_key]);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addValueElement',
+					'new',
+				],
+				[
+					$this,
+					$key,
+					$value,
+					$new_key,
+				],
+			);
+
 			$this->elements[$key][$new_key] = $value;
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['success'], ['key' => $key, 'new_key' => $new_key]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
-			return True;
+
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['addValueElement']
+				['success'],
+				[
+					'key' => $key,
+					'new_key' => $new_key,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'addValueElement',
+					'end',
+				],
+				[
+					$this,
+					$key,
+					$value,
+					$new_key,
+				],
+			);
+
+			return $this;
 		}
 		catch (
 			\exception\class\content\pageelement\PageElementException |
 			\Throwable $exception
 		)
 		{
-			try
-			{
-				$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'addValueElement', 'end'], [$this, $key, $varlue, $new_key]);
-				throw new \exception\class\content\pageelement\PageElementException(
-					message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['addValueElement']['error'],
-					tokens:       [
-						'key'       => $key,
-						'new_key'   => $new_key,
-						'class'     => \get_class($this),
-						'exception' => $exception->getMessage(),
-					],
-					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['addValueElement']['error'],
-						'type'    => \user\NotificationTypes::WARNING,
-					]),
-					previous:     $exception,
-				);
-			}
-			catch (\exception\class\content\pageelement\PageElementException $exception)
-			{
-				return False;
-			}
+			throw new \exception\class\content\pageelement\PageElementException(
+				message:      $LANG
+							  ['addValueElement']
+							  ['error'],
+				tokens:       [
+					'key'       => $key,
+					'new_key'   => $new_key,
+					'value'     => $value,
+					'exception' => $exception->getMessage(),
+				],
+				notification: new \user\Notification([
+					'content' => $LOCALE
+								 ['addValueElement']
+								 ['error'],
+					'type'    => \user\NotificationTypes::WARNING,
+				]),
+				previous:     $exception,
+			);
 		}
 	}
 	/**
@@ -235,9 +418,11 @@ class PageElement
 	 * @param ?string $attribute Attribute to display (entire object if null).
 	 *                           Default to null.
 	 *
-	 * @return string
+	 * @return ?string
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
-	public function display(?string $attribute = null) : string
+	public function display(?string $attribute = null) : ?string
 	{
 		try
 		{
@@ -250,7 +435,9 @@ class PageElement
 				catch (\exception\class\core\Base $exception)
 				{
 					throw new \exception\class\content\pageelement\PageElementException(
-						message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['error_display'],
+						message:  $LANG
+						          ['display']
+								  ['error_display'],
 						tokens:   [
 							'attribute' => $attribute,
 							'exception' => $exception->getMessage(),
@@ -259,52 +446,59 @@ class PageElement
 					);
 				}
 			}
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['start']);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'start'], $this);
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['display']
+				['start'],
+				[
+					'class' => \get_class($this),
+				],
+			);
 
-			if (!isset($GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'display',
+					'start',
+				],
+				$this,
+			);
+
+			if (
+				!isset(
+					$GLOBALS
+					['cache']
+					['class']
+					['content']
+					['pageelement']
+					['PageElement']
+					['templates']
+				)
+			)
 			{
-				$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'] = [];
+				$GLOBALS
+				['cache']
+				['class']
+				['content']
+				['pageelement']
+				['PageElement']
+				['templates'] = [];
 			}
 
 			try
 			{
-				if ($this->get('template') !== null)
-				{
-					$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'template'], $this);
-					if (\key_exists($this->get('template'), $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates']))
-					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['use_cache'], ['template' => $this->template]);
-						$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'cache'], $this);
-
-						$content = $GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template];
-					}
-					else
-					{
-						$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'no_cache'], $this);
-						$content = \file_get_contents($GLOBALS['config']['core']['path']['template'] . $this->template, true);
-
-						if ($content === False)
-						{
-							$GLOBALS['Logger']->log(\core\Logger::TYPES['error'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_file_template'], ['template' => $this->template]);
-							$content = '';
-						}
-
-						$GLOBALS['cache']['class']['content']['pageelement']['PageElement']['templates'][$this->template] = $content;
-					}
-				}
-				else
-				{
-					$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'no_template'], $this);
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_template']);
-
-					$content = '';
-				}
+				$template = $this->get('template');
 			}
 			catch (\exception\class\core\BaseException $exception)
 			{
-				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error_get'],
+				throw new \exception\class\content\pageelement\PageElementException(
+					message:  $LANG
+							  ['display']
+							  ['error_get'],
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -312,16 +506,172 @@ class PageElement
 				);
 			}
 
+			if ($template !== null)
+			{
+				$GLOBALS['Hook']::load(
+					[
+						'class',
+						'content',
+						'pageelement',
+						'PageElement',
+						'display',
+						'template',
+					],
+					$this,
+				);
+
+				if (
+					\key_exists(
+						$template,
+						$GLOBALS
+						['cache']
+						['class']
+						['content']
+						['pageelement']
+						['PageElement']
+						['templates'],
+					)
+				)
+				{
+					$GLOBALS['Logger']->log(
+						\core\LoggerTypes::DEBUG,
+						$LANG
+						['display']
+						['use_cache'],
+						[
+							'template' => $template,
+						],
+					);
+
+					$GLOBALS['Hook']::load(
+						[
+							'class',
+							'content',
+							'pageelement',
+							'PageElement',
+							'display',
+							'cache',
+						],
+						$this,
+					);
+
+					$content = $GLOBALS
+					['cache']
+					['class']
+					['content']
+					['pageelement']
+					['PageElement']
+					['templates']
+					[$template];
+				}
+				else
+				{
+					$GLOBALS['Hook']::load(
+						[
+							'class',
+							'content',
+							'pageelement',
+							'PageElement',
+							'display',
+							'no_cache',
+						],
+						$this,
+					);
+
+					$content = \file_get_contents(
+						$GLOBALS
+						['config']['core']['path']['template'] .
+						$this->template, true
+					);
+
+					if ($content === False)
+					{
+						throw new \exception\class\content\pageelement\PageElementException(
+							message:      $LANG
+										  ['display']
+										  ['no_file_template'],
+							tokens:       [
+								'template' => $this->template,
+							],
+							logger_types: [
+								\core\LoggerTypes::ERROR,
+								'class',
+								'core',
+							],
+						);
+					}
+
+					$GLOBALS
+					['cache']
+					['class']
+					['content']
+					['pageelement']
+					['PageElement']
+					['templates']
+					[$this->template] = $content;
+				}
+			}
+			else
+			{
+				$GLOBALS['Hook']::load(
+					[
+						'class',
+						'content',
+						'pageelement',
+						'PageElement',
+						'display',
+						'no_template'
+					],
+					$this,
+				);
+
+				$GLOBALS['Logger']->log(
+					\core\LoggerTypes::DEBUG,
+					$LANG
+					['display']
+					['no_template'],
+				);
+
+				$content = ''; // we want to display every element
+							   // of elements
+			}
+
 			if ($this->elements !== null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['elements']);
-				$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'elements'], $this);
+				$GLOBALS['Logger']->log(
+					\core\LoggerTypes::DEBUG, 
+					$LANG
+					['display']
+					['elements'],
+				);
+
+				$GLOBALS['Hook']::load(
+					[
+						'class',
+						'content',
+						'pageelement',
+						'PageElement',
+						'display',
+						'elements',
+					],
+					$this,
+				);
 
 				if ($content !== '')
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['content']);
+					$GLOBALS['Logger']->log(
+						\core\LoggerTypes::DEBUG,
+						$LANG
+						['display']
+						['content'],
+					);
 
-					$tokens = \preg_split('/({(?:\\}|[^\\}])+})/Um', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+					$tokens = \preg_split(
+						'/({(?:\\}|[^\\}])+})/Um',
+						$content,
+						-1,
+						PREG_SPLIT_DELIM_CAPTURE,
+					);
 
 					foreach ($this->elements as $name => $element)
 					{
@@ -339,9 +689,11 @@ class PageElement
 								)
 								{
 									throw new exception\class\content\pageelement\PageElementException(
-										message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error_element_display'],
+										message: $LANG
+												 ['display']
+												 ['error_element_display'],
 										tokens: [
-											'element_clas' => \get_class($element),
+											'element_class' => \get_class($element),
 											'exception'    => $exception,
 										],
 										previous: $exception,
@@ -350,7 +702,14 @@ class PageElement
 							}
 							else
 							{
-								$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['cannot_display_object'], ['object' => get_class($element)]);
+								throw new \exception\class\content\pageelement\PageElementException(
+									message: $LANG
+									         ['display']
+									         ['cannot_display_object'],
+									tokens:  [
+										'class' => \get_class($elements),
+									],
+								);
 							}
 						}
 						else if (\is_array($element))
@@ -362,7 +721,9 @@ class PageElement
 							catch (\exception\class\content\pageelement\PageElementException $exception)
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error_displayArray'],
+									message:  $LANG
+											  ['display']
+											  ['error_displayArray'],
 									tokens:   [
 										'exception'     => $exception->getMessage(),
 									],
@@ -388,7 +749,12 @@ class PageElement
 				}
 				else
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['no_content']);
+					$GLOBALS['Logger']->log(
+						\core\LoggerTypes::DEBUG,
+						$LANG
+						['display']
+						['no_content'],
+					);
 
 					foreach ($this->elements as $name => $element)
 					{
@@ -401,12 +767,13 @@ class PageElement
 									$value = $element->display();
 								}
 								catch (
-									\exception\class\content\pageelement\PageElementException |
-									\exception\class\contetn\pageelement\BaseException $exception
+									\exception\CustomException $exception
 								)
 								{
 									throw new exception\class\content\pageelement\PageElementException(
-										message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error_element_display'],
+										message: $LANG
+												 ['display']
+												 ['error_element_display'],
 										tokens: [
 											'element_clas' => \get_class($element),
 											'exception'    => $exception,
@@ -417,8 +784,14 @@ class PageElement
 							}
 							else
 							{
-								$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['cannot_display_object'], ['object' => get_class($element)]);
-								$value = '';
+								throw new \exception\class\content\pageelement\PageElementException(
+									message: $LANG
+									         ['display']
+									         ['cannot_display_object'],
+									tokens:  [
+										'object' => \get_class($elements),
+									],
+								);
 							}
 						}
 						else if (\is_array($element))
@@ -430,7 +803,9 @@ class PageElement
 							catch (\exception\class\content\pageelement\PageElementException $exception)
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error_displayArray'],
+									message:  $LANG
+											  ['display']
+											  ['error_displayArray'],
 									tokens:   [
 										'exception'     => $exception->getMessage(),
 									],
@@ -448,8 +823,27 @@ class PageElement
 				}
 			}
 
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'display', 'end'], $this);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['end']);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'display',
+					'end'
+				],
+				$this,
+			);
+
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['display']
+				['end'],
+				[
+					'class' => \get_class($this),
+				],
+			);
 
 			return $content;
 		}
@@ -459,9 +853,12 @@ class PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['display']['error'],
+				message:      $LANG
+							  ['display']
+							  ['error'],
 				tokens:       [
 					'attribute' => $attribute,
+					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				logger_types: [
@@ -470,7 +867,9 @@ class PageElement
 					'core',
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['display']['error'],
+					'content' => $LOCALE
+								 ['display']
+								 ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -482,9 +881,11 @@ class PageElement
 	 *
 	 * @param array $list
 	 *
-	 * @return string
+	 * @return ?string
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
-	public function displayArray(array $list) : string
+	public function displayArray(array $list) : ?string
 	{
 		try
 		{
@@ -502,9 +903,12 @@ class PageElement
 						catch (\exception\CustomException $exception)
 						{
 							throw new \exception\class\content\pageelement\PageElementException(
-								message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray']['error_display'],
+								message:  $LANG
+										  ['displayArray']
+										  ['error_display'],
 								tokens:   [
-									'exception' => $exception->getMessage(),
+									'exception'     => $exception->getMessage(),
+									'element_class' => \get_class($this),
 								],
 								previous: $exception,
 							);
@@ -512,7 +916,14 @@ class PageElement
 					}
 					else
 					{
-						$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray']['cannot_display_object'], ['object' => get_class($element)]);
+						throw new \exception\class\content\pageelement\PageElementException(
+							message: $LANG
+									 ['displayArray']
+									 ['cannot_display_object'],
+							tokens:  [
+								'class' => \get_class($element),
+							],
+						);
 					}
 				}
 				else if (\is_array($element))
@@ -524,8 +935,10 @@ class PageElement
 					catch (\exception\class\content\pageelement\PageElementException $exception)
 					{
 						throw new \exception\class\content\pageelement\PageElementException(
-							message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray']['error_displayArray'],
-							tokens: [
+							message:  $LANG
+									  ['displayArray']
+									  ['error_displayArray'],
+							tokens:   [
 								'exception' => $exception->getMessage(),
 							],
 							previous: $exception,
@@ -545,12 +958,16 @@ class PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['displayArray']['error'],
+				message:      $LANG
+							  ['displayArray']
+							  ['error'],
 				tokens:       [
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['displayArray']['error'],
+					'content' => $LOCALE
+								 ['displayArray']
+								 ['error'],
 					'type'    => \user\NotificationTypes::WARNING,
 				]),
 				previous:     $exception,
@@ -558,37 +975,53 @@ class PageElement
 		}
 	}
 	/**
-	 * Accessor of an element of elements, return false if the element do not exist
+	 * Accessor of an element of elements
 	 *
 	 * @param string|int $key Key corresponding to the element
 	 *
-	 * @return null|mixed
+	 * @return mixed
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	public function getElement(string|int $key) : mixed
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['start'], ['key' => $key]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'start'], [$this, $key]);
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['getElement']
+				['start'],
+				[
+					'key' => $key,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'getElement',
+					'start',
+				],
+				[
+					$this,
+					$key,
+				],
+			);
 
 			try
 			{
-				if ($this->get('elements') === null)
-				{
-					$this->elements = [];
-
-					throw new \exception\class\content\pageelement\PageElementException(
-						message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['elements_null'],
-						tokens:  [
-							'key' => $key,
-						],
-					);
-				}
+				$elements = $this->get('elements');
 			}
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['error_get'],
+					message:  $LANG
+							  ['getElement']
+							  ['error_get'],
 					tokens:   [
 						'key'       => $key,
 						'exception' => $exception->getMessage(),
@@ -596,17 +1029,42 @@ class PageElement
 					previous: $exception,
 				);
 			}
-			if (!\key_exists($key, $this->get('elements')))
+			if (!\key_exists($key, $elements))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['unknown_key'],
+					message: $LANG
+							 ['getElement']
+							 ['unknown_key'],
 					tokens:  [
 						'key' => $key,
 					],
 				);
 			}
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'end'], [$this, $key]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['success'], ['key' => $key]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'getElement',
+					'end',
+				],
+				[
+					$this,
+					$key,
+				],
+			);
+
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['getElement']
+				['success'],
+				[
+					'key' => $key,
+				],
+			);
+
 			return $this->elements[$key];
 		}
 		catch (
@@ -614,46 +1072,72 @@ class PageElement
 		   	\Throwable $exception
 		)
 		{
-			try
-			{
-				$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'getElement', 'null'], [$this, $key]);
-				throw new \exception\class\content\pageelement\PageElementException(
-					message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['getElement']['error'],
-					tokens:       [
-						'exception' => $exception->getMessage(),
-						'key'       => $key,
-						'class'     => \get_class($this),
-					],
-					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['getElement']['error'],
-						'type'    => \user\NotificationTypes::ERROR,
-					]),
-					previous:     $exception,
-				);
-			}
-			catch (\exception\class\content\pageelement\PageElementException $exception)
-			{
-				return null;
-			}
+			throw new \exception\class\content\pageelement\PageElementException(
+				message:      $LANG
+							  ['getElement']
+							  ['error'],
+				tokens:       [
+					'exception' => $exception->getMessage(),
+					'key'       => $key,
+					'class'     => \get_class($this),
+				],
+				notification: new \user\Notification([
+					'content' => $LOCALE
+								 ['getElement']
+								 ['error'],
+					'type'    => \user\NotificationTypes::ERROR,
+				]),
+				previous:     $exception,
+			);
 		}
 	}
 	/**
-	 * Setter of an element of elements, return false if the elements does not exist
+	 * Setter of an element of elements
 	 *
 	 * @param string|int $key Key corresponding to the element
 	 *
 	 * @param mixed $value New value of the element
 	 *
-	 * @param bool $strict If strict is true, the value will not be set if the element did not exist before
+	 * @param bool $strict If strict is true, the value will not be set
+	 *                     if the element did not exist before
 	 *
-	 * @return null|mixed old value
+	 * @return mixed Old value or null if the element did not exist
+	 *               before
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	public function setElement(string|int $key, mixed $value, bool $strict = True) : mixed
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['start'], ['key' => $key, 'value' => $value, 'strict' => $strict]);
-			$GLOBALS['Hook']::load(['class', 'content', 'pageelement', 'PageElement', 'setElement', 'start'], [$this, $key, $value, $strict]);
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['setElement']
+				['start'],
+				[
+					'key' => $key,
+					'value' => $value,
+					'strict' => $strict,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'content',
+					'pageelement',
+					'PageElement',
+					'setElement',
+					'start',
+				],
+				[
+					$this,
+					$key,
+					$value,
+					$strict,
+				],
+			);
 
 			try
 			{
@@ -661,38 +1145,30 @@ class PageElement
 			}
 			catch (\exception\class\content\pageelement\PageElementException $exception)
 			{
-				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['error_getElement'],
-					tokens:   [
-						'key'       => $key,
-						'value'     => $value,
-						'strict'    => $strict,
-						'exception' => $exception->getMessage(),
-						'class'     => \get_class($this),
-					],
-					previous: $exception,
-				);
-			}
-			if ($element !== null)
-			{
-				$old_value = $this->elements[$key];
-				$this->elements[$key] = $value;
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['change'], ['key' => $key, 'value' => $value]);
-				return $old_value;
-			}
-			else // Element does not exist
-			{
 				if ($strict === False)
 				{
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['add'], ['key' => $key, 'value' => $value]);
+					$GLOBALS['Logger']->log(
+						\core\LoggerTypes::DEBUG,
+						$LANG
+						['setElement']
+						['add'],
+						[
+							'key' => $key,
+							'value' => $value,
+						],
+					);
+
 					$this->elements[$key] = $value;
+
 					return null;
 				}
 				else
 				{
 					throw new \exception\class\content\pageelement\PageElementException(
-						message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['error_strict'],
-						tokens: [
+						message: $LANG
+						         ['setElement']
+								 ['error_strict'],
+						tokens:  [
 							'key'       => $key,
 							'value'     => $value,
 							'exception' => $exception->getMessage(),
@@ -701,6 +1177,22 @@ class PageElement
 					);
 				}
 			}
+
+			$old_value = $this->elements[$key];
+			$this->elements[$key] = $value;
+
+			$GLOBALS['Logger']->log(
+				\core\LoggerTypes::DEBUG,
+				$LANG
+				['setElement']
+				['change'],
+				[
+					'key' => $key,
+					'value' => $value,
+				],
+			);
+
+			return $old_value;
 		}
 		catch (
 			\exception\class\content\pageelement\PageElementException |
@@ -708,7 +1200,9 @@ class PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElement']['error'],
+				message:      $LANG
+							  ['setElement']
+							  ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'key'       => $key,
@@ -717,7 +1211,9 @@ class PageElement
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['setElement']['error'],
+					'content' => $LOCALE
+								 ['setElement']
+								 ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -730,6 +1226,8 @@ class PageElement
 	 * @param array $elements
 	 *
 	 * @return bool
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	protected function setElements(array $elements) : bool
 	{
@@ -748,13 +1246,17 @@ class PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setElements']['error'],
+				message: $LANG
+						 ['setElements']
+						 ['error'],
 				tokens: [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['setElements']['error'],
+					'content' => $LOCALE
+								 ['setElements']
+								 ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous: $exception,
@@ -767,6 +1269,8 @@ class PageElement
 	 * @param string $template
 	 *
 	 * @return bool
+	 *
+	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	protected function setTemplate(?string $template) : bool
 	{
@@ -785,14 +1289,18 @@ class PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message: $GLOBALS['lang']['class']['content']['pageelement']['PageElement']['setTemplate']['error'],
+				message: $LANG
+						 ['setTemplate']
+						 ['error'],
 				tokens: [
 					'class'     => \get_class($this),
 					'template'  => $template,
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['content']['pageelement']['PageElement']['setTemplate']['error'],
+					'content' => $LOCALE
+								 ['setTemplate']
+								 ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous: $exception,

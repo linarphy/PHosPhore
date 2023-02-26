@@ -18,22 +18,22 @@ date_default_timezone_set('UTC');
  */
 function custom_error_handler($errno, $errstr, $errfile, $errline) : bool
 {
-    // Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
-    $error_is_enabled = (bool)($errno & ini_get('error_reporting') );
+	// Determine if this error is one of the enabled ones in php config (php.ini, .htaccess, etc)
+	$error_is_enabled = (bool)($errno & ini_get('error_reporting') );
 
-    // -- FATAL ERROR
-    // throw an Error Exception, to be handled by whatever Exception handling logic is available in this context
-    if( in_array($errno, array(E_USER_ERROR, E_RECOVERABLE_ERROR)) && $error_is_enabled ) {
-        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    }
+	// -- FATAL ERROR
+	// throw an Error Exception, to be handled by whatever Exception handling logic is available in this context
+	if( in_array($errno, array(E_USER_ERROR, E_RECOVERABLE_ERROR)) && $error_is_enabled ) {
+		throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+	}
 
-    // -- NON-FATAL ERROR/WARNING/NOTICE
-    // Log the error if it's enabled, otherwise just ignore it
-    else if( $error_is_enabled ) {
+	// -- NON-FATAL ERROR/WARNING/NOTICE
+	// Log the error if it's enabled, otherwise just ignore it
+	else if( $error_is_enabled ) {
 		throw new Exception('Error ' . $errno . ': '. $errstr . ' at ' . $errfile . ' line ' . $errline, 0);
-        error_log($errstr, 0 );
-        return false; // Make sure this ends up in $php_errormsg, if appropriate
-    }
+		error_log($errstr, 0 );
+		return false; // Make sure this ends up in $php_errormsg, if appropriate
+	}
 }
 
 set_error_handler('custom_error_handler');	// try to catch as many errors as possible
