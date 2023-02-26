@@ -2,6 +2,24 @@
 
 namespace core;
 
+$LANG = $GLOBALS
+        ['lang']
+        ['class']
+        ['core']
+        ['DBFactory'];
+
+$LOCALE = $GLOBALS
+          ['locale']
+          ['class']
+          ['core']
+          ['DBFactory'];
+
+$CONFIG = $GLOBALS
+          ['config']
+          ['class']
+          ['core']
+          ['DBFactory'];
+
 /**
  * Tool to connect with the database
  */
@@ -20,58 +38,116 @@ class DBFactory
 	 * Creating a database connection
 	 *
 	 * @param string $driver Name of the driver that will be used.
-	 *                       Id null, the default one defined in the configuration will be used.
+	 *                       Id null, the default one defined in the
+	 *                       configuration will be used.
 	 *                       Default to null.
 	 *
-	 * @param array $dsn_parameters Parameters of DSN associated to the chosen driver.
-	 *                              Mysql     : host, port, dbname, unix_socket, charset
+	 * @param array $dsn_parameters Parameters of DSN associated to the
+	 *                              chosen driver.
+	 *                              Mysql     : host, port, dbname,
+	 *                              unix_socket, charset
 	 *                              PostgreSQL: host, port, dbname
-	 *                              Firebird  : dbname, charset, role, dialect
+	 *                              Firebird  : dbname, charset, role,
+	 *                              dialect
 	 *                              SQLite    : memory, path
 	 *
 	 * @param string $username The username for the DSN string.
-	 *                         If null, the default one defined in the configuration will be used.
+	 *                         If null, the default one defined in the
+	 *                         configuration will be used.
 	 *                         Default to null.
 	 *
 	 * @param string $password The password for the DSN string.
-	 *                         If null, the default one defined in the configuration will be used.
+	 *                         If null, the default one defined in the
+	 *                         configuration will be used.
 	 *                         Default to null.
 	 *
-	 * @param array $options A key => value array of driver-specific connection options.
-	 *                       If null, the default one defined in the configuration will be used.
+	 * @param array $options A key => value array of driver-specific
+	 *                       connection options.
+	 *                       If null, the default one defined in the
+	 *                       configuration will be used.
 	 *                       Default to null.
 	 *
 	 * @return \PDO
+	 *
+	 * @throws \exception\class\core\DBFactoryException
 	 */
-	public static function connection(?string $driver = null, ?array $dsn_parameters = null, $username = null, ?string $password = null, ?array $options = null) : \PDO
+	public static function connection(
+		?string $driver = null,
+		?array $dsn_parameters = null,
+		?string $username = null,
+		?string $password = null,
+		?array $options = null,
+	) : \PDO
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['start']);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBGU,
+				],
+				$LANG
+				['connection']
+				['start'],
+			);
 
 			if ($driver === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_driver']);
-				$driver = $GLOBALS['config']['class']['core']['DBFactory']['database']['driver'];
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\Logger::TYPES['debug'],
+					],
+					$LANG
+					['connection']
+					['default_driver'],
+				);
+
+				$driver = $CONFIG
+						  ['database']
+				          ['driver'];
 			}
+
 			$driver = \strtoupper($driver);
+
 			if (!in_array($driver, self::DRIVERS))
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_driver'],
+					message:      $LANG
+								  ['connection']
+					              ['unknown_driver'],
 					tokens:       [
 						'driver' => $driver,
 					],
 				);
 			}
+
 			if ($dsn_parameters === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_dsn_parameters']);
-				$dsn_parameters = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['dsn_parameters'];
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\Logger::TYPES['debug'],
+					],
+					$LANG
+					['connection']
+					['default_dsn_parameters']
+				);
+
+				$dsn_parameters = $CONFIG
+								  ['database']
+								  ['drivers']
+								  [$driver]
+				                  ['dsn_parameters'];
 			}
+
 			switch ($driver)
 			{
 				case 'MYSQL':
+
 					foreach ($dsn_parameters as $key => $parameter)
 					{
 						switch ($key)
@@ -93,7 +169,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_mysql_parameter'],
+									message: $LANG
+											 ['connection']
+									         ['unknown_mysql_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
@@ -101,31 +179,42 @@ class DBFactory
 								);
 						}
 					}
+
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $GLOBALS['lang']['class']['core']['DBFactory']['connection']['no_mysql_host'],
+							message: $LANG
+									 ['connection']
+							         ['no_mysql_host'],
 						);
 					}
+
 					$dsn = 'mysql: host=' . $host;
+
 					if (isset($port))
 					{
 						$dsn .= ';port=' . $port;
 					}
+
 					if (isset($dbname))
 					{
 						$dsn .= ';dbname=' . $dbname;
 					}
+
 					if (isset($unix_socket))
 					{
 						$dsn .= ';unix_socket=' . $unix_socket;
 					}
+
 					if (isset($charset))
 					{
 						$dsn .= ';charset=' . $charset;
 					}
+
 					break;
+
 				case 'POSTGRESQL':
+
 					foreach ($dsn_parameters as $key => $parameter)
 					{
 						switch ($key)
@@ -141,31 +230,40 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_postgresql_parameter'],
-									tokens:       [
+									message: $LANG
+											 ['connection']
+									         ['unknown_postgresql_parameter'],
+									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
 									],
 								);
 						}
 					}
+
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['no_postgresql_host'],
+							message: $LANG
+									 ['connection']
+							         ['no_postgresql_host'],
 						);
 					}
 
 					$dsn = 'pgsql: host=' . $host;
+
 					if (isset($port))
 					{
 						$dsn .= ';port=' . $port;
 					}
+
 					if (isset($dbname))
 					{
 						$dsn .= ';dbname=' . $dbname;
 					}
+
 					break;
+
 				case 'FIREBIRD':
 					foreach ($dsn_parameters as $key => $parameter)
 					{
@@ -185,7 +283,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_firebird_parameter'],
+									message: $LANG
+											 ['connection']
+									         ['unknown_firebird_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
@@ -197,24 +297,33 @@ class DBFactory
 					if (!isset($dbname))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['no_firebird_dbname'],
+							message: $LANG
+									 ['connection']
+							         ['no_firebird_dbname'],
 						);
 					}
+
 					$dsn = 'firebird: dbname=' . $dbname;
+
 					if (isset($charset))
 					{
 						$dsn .= ';charset=' . $charset;
 					}
+
 					if (isset($role))
 					{
 						$dsn .= ';role=' . $role;
 					}
+
 					if (isset($dialect))
 					{
 						$dsn .= ';dialect=' . $dialect;
 					}
+
 					break;
+
 				case 'SQLITE':
+
 					foreach ($dsn_parameters as $key => $parameter)
 					{
 						switch ($key)
@@ -230,8 +339,10 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_sqlite_parameter'],
-									tokens:       [
+									message: $LANG
+											 ['connection']
+									         ['unknown_sqlite_parameter'],
+									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
 									],
@@ -251,31 +362,98 @@ class DBFactory
 					break;
 				default:
 					throw new \exception\class\core\DBFactoryException(
-						message: $GLOBALS['lang']['class']['core']['DBFactory']['connection']['unknown_driver'],
+						message: $LANG
+								 ['connection']
+						         ['unknown_driver'],
 						tokens: [
 							'driver' => $driver,
 						],
 					);
 			}
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['dsn'], ['dsn' => $dsn]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['connection']
+				['dsn'],
+				[
+					'dsn' => $dsn,
+				],
+			);
 
 			if ($username === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_username']);
-				$username = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['username'];
-			}
-			if ($password === null)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_password']);
-				$password = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['password'];
-			}
-			if ($options === null)
-			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['default_options']);
-				$options = $GLOBALS['config']['class']['core']['DBFactory']['database']['drivers'][$driver]['options'];
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['connection']
+					['default_username']
+				);
+
+				$username = $CONFIG
+							['database']
+							['drivers']
+							[$driver]
+				            ['username'];
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['DBFactory']['connection']['end']);
+			if ($password === null)
+			{
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['connection']
+					['default_password'],
+				);
+
+				$password = $CONFIG
+							['database']
+							['drivers']
+							[$driver]
+				            ['password'];
+			}
+
+			if ($options === null)
+			{
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['connection']
+					['default_options'],
+				);
+
+				$options = $CONFIG
+						   ['database']
+						   ['drivers']
+						   [$driver]
+				           ['options'];
+			}
+
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['connection']
+				['end'],
+			);
 
 			try
 			{
@@ -284,7 +462,9 @@ class DBFactory
 			catch (\PDOException $exception)
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message:  $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_pdo'],
+					message:  $LANG
+							  ['connection']
+					          ['error_pdo'],
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -298,7 +478,9 @@ class DBFactory
 		)
 		{
 			throw new \exception\class\core\DBFactoryException(
-				message:      $GLOBALS['lang']['class']['core']['DBFactory']['connection']['error_custom'],
+				message:      $LANG
+							  ['connection']
+				              ['error_custom'],
 				tokens:       [
 					'exception'      => $exception->getMessage(),
 					'driver'         => $driver,
@@ -307,7 +489,9 @@ class DBFactory
 					'options'        => $options,
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['DBFactory']['connection']['error'],
+					'content' => $LOCALE
+								 ['connection']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
