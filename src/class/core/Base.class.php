@@ -193,12 +193,16 @@ trait Base
 		}
 	}
 	/**
-	 * Convert this object or one of its attribute into a safe and readable form
+	 * Convert this object or one of its attribute into a safe and
+	 * readable form
 	 *
-	 * @param ?string $attribute Attribute to display (entire object if null).
+	 * @param ?string $attribute Attribute to display (entire object
+	 *                           if null).
 	 *                           Default to null.
 	 *
 	 * @return string
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function display(?string $attribute = null) : string
 	{
@@ -453,6 +457,8 @@ trait Base
 	 * @param string $attribute
 	 *
 	 * @return mixed
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function get(string $attribute) : mixed
 	{
@@ -639,6 +645,8 @@ trait Base
 	 * @param string $attribute
 	 *
 	 * @return string
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public static function getDisp(string $attribute) : string
 	{
@@ -695,6 +703,8 @@ trait Base
 	 * @param string $attribute
 	 *
 	 * @return string
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public static function getGet(string $attribute) : string
 	{
@@ -719,7 +729,9 @@ trait Base
 				);
 			}
 
-			switch (\ucfirst($attribute)) // special case where the getter method name is already taken
+			switch (\ucfirst($attribute)) // special case where the
+										  // getter method name is
+										  // already taken
 			{
 				case 'Get':
 				case 'Set':
@@ -775,6 +787,8 @@ trait Base
 	 * @param string $attribute
 	 *
 	 * @return string
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public static function getSet(string $attribute) : string
 	{
@@ -831,6 +845,8 @@ trait Base
 	 * @param array $attributes Array having $attribute => $value
 	 *
 	 * @return int Number of attributes set
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function hydrate(array $attributes) : int
 	{
@@ -967,6 +983,8 @@ trait Base
 	 * @param mixed $value
 	 *
 	 * @return bool
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function set(string $attribute, mixed $value) : bool
 	{
@@ -1138,13 +1156,18 @@ trait Base
 	/**
 	 * Convert an object to an array
 	 *
-	 * @param int $depth Depth of the recursion if there is an object, -1 for infinite, 0 for no recursion.
+	 * @param int $depth Depth of the recursion if there is an object,
+	 *                    -1 for infinite, 0 for no recursion.
 	 *                   Default to 0.
 	 *
-	 * @param bool $strict If True, null value will be displayed, but it can throw fatal error if every properties are not initialized.
+	 * @param bool $strict If True, null value will be displayed, but
+	 *                     it can throw fatal error if every properties
+	 *                     are not initialized.
 	 *                     Default to False;
 	 *
 	 * @return array
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function table(int $depth = 0, bool $strict = False) : array
 	{
@@ -1222,11 +1245,15 @@ trait Base
 						}
 						else if ($depth > 0)
 						{
-							$attributes[$attribute] = \phosphore_table($this->$attribute, $depth - 1);
+							$attributes[$attribute] = \phosphore_table(
+								$this->$attribute, $depth - 1
+							);
 						}
 						else // depth === -1
 						{
-							$attributes[$attribute] = \phosphore_table($this->$attribute, $depth);
+							$attributes[$attribute] = \phosphore_table(
+								$this->$attribute, $depth
+							);
 						}
 					}
 					else
