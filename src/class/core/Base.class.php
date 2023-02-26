@@ -2,6 +2,18 @@
 
 namespace core;
 
+$LANG = $GLOBALS
+        ['lang']
+        ['class']
+        ['core']
+        ['Base'];
+
+$LOCALE = $GLOBALS
+          ['locale']
+          ['class']
+          ['core']
+          ['Base';
+
 /**
  * core basic methods
  */
@@ -12,13 +24,40 @@ trait Base
 	 *
 	 * @param array $attributes Defined values of the object attributes.
 	 *                          Default to empty array.
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function __construct(array $attributes = [])
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['__construct']['start'], ['class' => \get_class($this)]);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'start'], [$this, $attributes]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['__construct']
+				['start'],
+				[
+					'class' => \get_class($this),
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'__construct',
+					'start',
+				],
+				[
+					$this,
+					$attributes,
+				],
+			);
 
 			try
 			{
@@ -27,7 +66,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['__construct']['error_hydrate'],
+					message:  $LANG
+							  ['__construct']
+					          ['error_hydrate'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -36,7 +77,19 @@ trait Base
 				);
 			}
 
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', '__construct', 'end'], [$this, $attributes]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'__construct',
+					'end',
+				],
+				[
+					$this,
+					$attributes,
+				],
+			);
 		}
 		catch (
 			\exception\class\core\BaseException |
@@ -44,13 +97,17 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['__construct']['error'],
+				message:      $LANG
+							  ['__construct']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['__construct']['error'],
+					'content' => $LOCALE
+								 ['__construct']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -61,14 +118,39 @@ trait Base
 	 * Clone the object (return a new one with the same attributes)
 	 *
 	 * @return self
+	 *
+	 * @throws \exception\class\core\BaseException
 	 */
 	public function clone() : self
 	{
 		try
 		{
 			$class = \get_class($this);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'clone', 'end'], $this);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['clone']['start'], ['class' => $class]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'clone',
+					'end',
+				],
+				$this,
+			);
+
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['clone']
+				['start'],
+				[
+					'class' => $class,
+				],
+			);
+
 			try
 			{
 				return new $class($this->table());
@@ -76,7 +158,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['clone']['error_table'],
+					message:  $LANG
+							  ['clone']
+					          ['error_table'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -91,13 +175,17 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['clone']['error'],
+				message:      $LANG
+				              ['clone']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['clone']['error'],
+					'content' => $LOCALE
+					             ['clone']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -116,19 +204,49 @@ trait Base
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['display']
+				['start'],
+				[
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+			);
 
 			if ($attribute === null)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['object'], ['class' => \get_class($this)]);
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['display']
+					['object'],
+					[
+						'class' => \get_class($this),
+					],
+				);
+
 				try
 				{
-					return \htmlspecialchars(\phosphore_display($this->table()));
+					return \htmlspecialchars(
+						\phosphore_display($this->table())
+					);
 				}
 				catch (\exception\class\core\BaseException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_table'],
+						message:  $LANG
+								  ['display']
+						          ['error_table'],
 						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
@@ -139,7 +257,9 @@ trait Base
 				catch (\Throwable $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display'],
+						message:  $LANG
+								  ['display']
+						          ['error_display'],
 						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
@@ -152,7 +272,9 @@ trait Base
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $GLOBALS['lang']['class']['Base']['display']['undefined'],
+					message:      $LANG
+								  ['display']
+					              ['undefined'],
 					tokens:       [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -167,7 +289,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_getDisp'],
+					message:  $LANG
+							  ['display']
+					          ['error_getDisp'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -179,7 +303,22 @@ trait Base
 
 			if (\method_exists($this, $method))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['display']
+					['exist'],
+					[
+						'class' => \get_class($this),
+						'attribute' => $attribute,
+						'method' => $method,
+					],
+				);
+
 				try
 				{
 					return $this->$method($attribute);
@@ -187,7 +326,9 @@ trait Base
 				catch (\exception\BaseException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $GLOBALS['lang']['class']['core']['Base']['display']['custom_method_error'],
+						message:  $LANG
+								  ['display']
+						          ['custom_method_error'],
 						tokens:   [
 							'method'    => $method,
 							'class'     => \get_class($this),
@@ -203,16 +344,23 @@ trait Base
 			{
 				if (\is_object($this->get($attribute)))
 				{
-					if (\method_exists($this->get($attribute), 'display'))
+					if (\method_exists(
+						$this->get($attribute),
+						'display',
+					))
 					{
 						try
 						{
 							return $this->get($attribute)->display();
 						}
-						catch (\exception\class\core\BaseException $exception)
+						catch (
+							\exception\class\core\BaseException $exception
+						)
 						{
 							throw new \exception\class\core\BaseException(
-								message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display'],
+								message:  $LANG
+										  ['display']
+								          ['error_display'],
 								tokens:   [
 									'class'     => \get_class($this),
 									'exception' => $exception->getMessage(),
@@ -226,7 +374,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['display']['get_attribute'],
+					message:  $LANG
+							  ['display']
+					          ['get_attribute'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -236,15 +386,34 @@ trait Base
 				);
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['display']['not_exist'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['display']
+				['not_exist'],
+				[
+					'class' => \get_class($this),
+					'attribute' => $attribute,
+					'method' => $method,
+				],
+			);
+
 			try
 			{
-				return \htmlspecialchars(\phosphore_display($this->get($attribute)));
+				return \htmlspecialchars(
+					\phosphore_display($this->get($attribute))
+				);
 			}
 			catch (\Throwable $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['display']['error_display_attribute'],
+					message:  $LANG
+							  ['display']
+					          ['error_display_attribute'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -260,14 +429,18 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['display']['error'],
+				message:      $LANG
+							  ['display']
+				              ['error'],
 				tokens:       [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['display']['error'],
+					'content' => $LOCALE
+								 ['display']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -285,13 +458,41 @@ trait Base
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'start'], [$this, $attribute]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['get']
+				['start'],
+				[
+					'class' => \get_class($this),
+					'attribute' => $attribute,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'get',
+					'start',
+				],
+				[
+					$this,
+					$attribute,
+				],
+			);
 
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message: $GLOBALS['lang']['class']['core']['Base']['get']['not_defined'],
+					message: $LANG
+							 ['get']
+					         ['not_defined'],
 					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -306,7 +507,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $GLOBALS['lang']['class']['core']['Base']['get']['error_getGet'],
+					message:  $LANG
+							  ['get']
+					          ['error_getGet'],
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -318,8 +521,36 @@ trait Base
 
 			if (\method_exists($this, $method))
 			{
-				$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['getter'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				$GLOBALS['Hook']::load(
+					[
+						'class',
+						'core',
+						'Base',
+						'get',
+						'end',
+					],
+					[
+						$this,
+						$attribute,
+					],
+				);
+
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['get']
+					['getter'],
+					[
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+						'method'    => $method,
+					],
+				);
+
 				try
 				{
 					return $this->$method();
@@ -327,7 +558,9 @@ trait Base
 				catch (\exception\CustomException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message: $GLOBALS['lang']['class']['core']['Base']['get']['error_custom_method'],
+						message: $LANG
+								 ['get']
+						         ['error_custom_method'],
 						tokens: [
 							'method'    => $method,
 							'class'     => \get_class($this),
@@ -344,8 +577,36 @@ trait Base
 				return null;
 			}
 
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'get', 'end'], [$this, $attribute]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['get']['default'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'get',
+					'end',
+				],
+				[
+					$this,
+					$attribute,
+				],
+			);
+
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['get']
+				['default'],
+				[
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+					'method'    => $method,
+				],
+			);
+
 			return $this->$attribute;
 		}
 		catch (
@@ -354,14 +615,18 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['get']['error'],
+				message:      $LANG
+							  ['get']
+				              ['error'],
 				tokens:       [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['get']['error'],
+					'content' => $LOCALE
+								 ['get']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -382,13 +647,17 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['empty'],
+					message:      $LANG
+								  ['getDisp']
+					              ['empty'],
 					tokens:       [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
 					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['empty'],
+						'content' => $LOCALE
+									 ['getDisp']
+						             ['empty'],
 						'type'    => \user\NotificationTypes::ERROR,
 					]),
 				);
@@ -402,14 +671,18 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['getDisp']['error'],
+				message:      $LANG
+							  ['getDisp']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['getDisp']['error'],
+					'content' => $LOCALE
+								 ['getDisp']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -430,13 +703,17 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $GLOBALS['lang']['class']['core']['Base']['getGet']['empty'],
+					message:      $LANG
+								  ['getGet']
+					              ['empty'],
 					tokens:       [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
 					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['core']['Base']['getGet']['empty'],
+						'content' => $LOCALE
+									 ['getGet']
+						             ['empty'],
 						'type'    => \user\NotificationTypes::ERROR,
 					]),
 				);
@@ -447,7 +724,22 @@ trait Base
 				case 'Get':
 				case 'Set':
 				case 'Disp':
-					$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Base']['getGet']['special'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => 'get_' . \ucfirst($attribute)]);
+					$GLOBALS['Logger']->log(
+						[
+							'class',
+							'core',
+							\core\Logger::TYPES['info'],
+						],
+						$LANG
+						['getGet']
+						['special'],
+						[
+							'class'     => \get_class($this),
+							'attribute' => $attribute,
+							'method'    => 'get_' . \ucfirst($attribute),
+						],
+					);
+
 					return 'get_' . \ucfirst($attribute);
 			}
 
@@ -459,14 +751,18 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['getGet']['error'],
+				message:      $LANG
+							  ['getGet']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['getGet']['error'],
+					'content' => $LOCALE
+								 ['getGet']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -487,13 +783,17 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $GLOBALS['lang']['class']['core']['Base']['getSet']['empty'],
+					message:      $LANG
+								  ['getSet']
+					              ['empty'],
 					tokens:       [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
 					notification: new \user\Notification([
-						'content' => $GLOBALS['locale']['class']['core']['Base']['getSet']['empty'],
+						'content' => $LOCALE
+									 ['getSet']
+						             ['empty'],
 						'type'    => \user\NotificationTypes::ERROR,
 					]),
 				);
@@ -507,14 +807,18 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['getSet']['error'],
+				message:      $LANG
+							  ['getSet']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['getSet']['error'],
+					'content' => $LOCALE
+								 ['getSet']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -532,8 +836,33 @@ trait Base
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['hydrate']['start'], ['class' => \get_class($this)]);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'hydrate', 'start'], [$this, $attributes]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['hydrate']
+				['start'],
+				[
+					'class' => \get_class($this),
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'hydrate',
+					'start',
+				],
+				[
+					$this,
+					$attributes,
+				],
+			);
 
 			$count = 0;
 			foreach ($attributes as $attribute => $value)
@@ -541,7 +870,9 @@ trait Base
 				if (!\is_string($attribute))
 				{
 					throw new \exception\class\core\BaseException(
-						message: $GLOBALS['lang']['class']['core']['Base']['hydrate']['type_attribute'],
+						message: $LANG
+								 ['hydrate']
+						         ['type_attribute'],
 						tokens:  [
 							'class' => \get_class($this),
 							'type'  => \gettype($attribute),
@@ -560,7 +891,9 @@ trait Base
 					catch (\exception\class\core\BaseException $exception)
 					{
 						throw new \exception\class\core\BaseException(
-							message:  $GLOBALS['lang']['class']['core']['Base']['hydrate']['error_set'],
+							message:  $LANG
+									  ['hydrate']
+							          ['error_set'],
 							tokens:   [
 								'class'     => \get_class($this),
 								'attribute' => $attribute,
@@ -572,8 +905,35 @@ trait Base
 				}
 			}
 
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'hydrate', 'end'], [$this, $attributes]);
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['hydrate']['end'], ['class' => \get_class($this), 'count' => $count]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'hydrate',
+					'end',
+				],
+				[
+					$this,
+					$attributes,
+				],
+			);
+
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['hydrate']
+				['end'],
+				[
+					'class' => \get_class($this),
+					'count' => $count,
+				],
+			);
+
 			return $count;
 		}
 		catch (
@@ -582,13 +942,17 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['hydrate']['error'],
+				message:      $LANG
+							  ['hydrate']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['hydrate']['error'],
+					'content' => $LOCALE
+								 ['hydrate']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -608,14 +972,42 @@ trait Base
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['start'], ['class' => \get_class($this), 'attribute' => $attribute]);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'start'], [$this, $attribute, $value]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['set']
+				['start'],
+				[
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+			);
 
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'set',
+					'start',
+				],
+				[
+					$this,
+					$attribute,
+					$value,
+				],
+			);
 
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message: $GLOBALS['lang']['class']['core']['Base']['set']['undefined'],
+					message: $LANG
+							 ['set']
+					         ['undefined'],
 					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -630,7 +1022,9 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message: $GLOBALS['lang']['class']['core']['Base']['set']['error_getSet'],
+					message: $LANG
+							 ['set']
+					         ['error_getSet'],
 					tokens: [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -639,11 +1033,36 @@ trait Base
 					previous: $exception,
 				);
 			}
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'check'], $this);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'set',
+					'check',
+				],
+				$this,
+			);
 
 			if (\method_exists($this, $method))
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['custom_method'], ['class' => \get_class($this), 'attribute' => $attribute, 'method' => $method]);
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
+					$LANG
+					['set']
+					['custom_method'],
+					[
+						'class'     => \get_class($this),
+						'attribute' => $attribute,
+						'method'    => $method,
+					],
+				);
+
 				try
 				{
 					return $this->$method($value);
@@ -651,7 +1070,9 @@ trait Base
 				catch (\exception\CustomException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $GLOBALS['lang']['class']['core']['Base']['set']['error_custom_method'],
+						message:  $LANG
+								  ['set']
+						          ['error_custom_method'],
 						tokens:   [
 							'class'     => \get_class($this),
 							'method'    => $method,
@@ -663,22 +1084,51 @@ trait Base
 				}
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['set']['default_method'], ['class' => \get_class($this), 'attribute' => $attribute]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['set']
+				['default_method'],
+				[
+					'class'     => \get_class($this),
+					'attribute' => $attribute,
+				],
+			);
+
 			$this->$attribute = $value;
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'set', 'end'], $this);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'set',
+					'end',
+				],
+				$this,
+			);
+
 			return True;
 		}
 		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['set']['error'],
+				message:      $LANG
+							  ['set']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['set']['error'],
+					'content' => $LOCALE
+								 ['set']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
@@ -700,15 +1150,43 @@ trait Base
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Base']['table']['start'], ['class' => \get_class($this), 'depth' => $depth]);
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'start'], [$this, $depth]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['table']
+				['start'],
+				[
+					'class' => \get_class($this),
+					'depth' => $depth,
+				],
+			);
+
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'table',
+					'start',
+				],
+				[
+					$this,
+					$depth,
+				],
+			);
 
 			$attributes = [];
 
 			if ($depth < -1)
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $GLOBALS['lang']['class']['core']['Base']['table']['undefined_depth'],
+					message:      $LANG
+								  ['table']
+					              ['undefined_depth'],
 					tokens:       [
 						'class' => \get_class($this),
 						'depth' => $depth,
@@ -716,9 +1194,23 @@ trait Base
 				);
 			}
 
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'check'], [$this, $depth]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'table',
+					'check',
+				],
+				[
+					$this,
+					$depth,
+				],
+			);
 
-			foreach (\array_keys(\get_class_vars(\get_class($this))) as $attribute)
+			foreach (\array_keys(
+				\get_class_vars(\get_class($this))
+			) as $attribute)
 			{
 				if ($strict || isset($this->$attribute))
 				{
@@ -744,7 +1236,20 @@ trait Base
 				}
 			}
 
-			$GLOBALS['Hook']::load(['class', 'core', 'Base', 'table', 'end'], [$this, $depth]);
+			$GLOBALS['Hook']::load(
+				[
+					'class',
+					'core',
+					'Base',
+					'table',
+					'end',
+				],
+				[
+					$this,
+					$depth,
+				],
+			);
+
 			return $attributes;
 		}
 		catch (
@@ -753,7 +1258,9 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $GLOBALS['lang']['class']['core']['Base']['table']['error'],
+				message:      $LANG
+							  ['table']
+				              ['error'],
 				tokens:       [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
@@ -761,7 +1268,9 @@ trait Base
 					'strict'    => $strict,
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Base']['table']['error'],
+					'content' => $LOCALE
+								 ['table']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
