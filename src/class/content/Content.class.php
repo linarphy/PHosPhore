@@ -158,7 +158,11 @@ class Content extends \core\Managed
 			);
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['retrieveText']
 				['start'],
@@ -202,7 +206,11 @@ class Content extends \core\Managed
 						);
 					}
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['retrieveText']
 						['success'],
@@ -211,7 +219,11 @@ class Content extends \core\Managed
 				else if ($Manager->existBy(['id_content' => $this->id_content])) // manually set
 				{
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['retrieveText']
 						['warning'],
@@ -228,7 +240,11 @@ class Content extends \core\Managed
 					)
 					{
 						$GLOBALS['Logger']->log(
-							\core\LoggerTypes::DEBUG,
+							[
+								'class',
+								'core',
+								\core\LoggerTypes::DEBUG,
+							],
 							$LANG
 							['retrieveText']
 							['success_user_lang'],
@@ -273,7 +289,11 @@ class Content extends \core\Managed
 					)
 					{
 						$GLOBALS['Logger']->log(
-							\core\LoggerTypes::DEBUG,
+							[
+								'class',
+								'core',
+								\core\LoggerTypes::DEBUG,
+							],
 							$LANG
 							['retrieveText']
 							['success_default_lang'],
@@ -308,7 +328,11 @@ class Content extends \core\Managed
 					else
 					{
 						$GLOBALS['Logger']->log(
-							\core\LoggerTypes::DEBUG,
+							[
+								'class',
+								'core',
+								\core\LoggerTypes::DEBUG,
+							],
 							$LANG
 							['retrieveText']
 							['success_any'],

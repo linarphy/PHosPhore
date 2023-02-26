@@ -1,7 +1,7 @@
 <?php
 
 /** [__construct] **/
-/* an error occured when constructing a notification */
+/* an error occured when constucting a notification */
 $GLOBALS
 ['locale']
 ['class']
@@ -10,9 +10,9 @@ $GLOBALS
 ['preset']
 ['default']
 ['html']
-['NotificationElement']
+['PageElement']
 ['__construct']
-['error'] = 'Sorry, an error occured: cannot build a notification';
+['error'] = 'Sorry, an error occured: cannot build the page';
 /** [/__construct] **/
 
 ?>

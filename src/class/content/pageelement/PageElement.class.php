@@ -129,7 +129,11 @@ class PageElement
 		try
 		{
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['addElement']
 				['start'],
@@ -203,7 +207,11 @@ class PageElement
 			);
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				]
 				$LANG
 				['addElement']
 				['success'],
@@ -257,7 +265,11 @@ class PageElement
 		try
 		{
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['addValueElement']
 				['start'],
@@ -358,7 +370,11 @@ class PageElement
 			$this->elements[$key][$new_key] = $value;
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['addValueElement']
 				['success'],
@@ -447,7 +463,11 @@ class PageElement
 				}
 			}
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['display']
 				['start'],
@@ -468,24 +488,21 @@ class PageElement
 				$this,
 			);
 
+			$CACHE =& $GLOBALS
+			         ['cache']
+			         ['class']
+			         ['content']
+			         ['pageelement']
+			         ['PageElement'];
+
 			if (
 				!isset(
-					$GLOBALS
-					['cache']
-					['class']
-					['content']
-					['pageelement']
-					['PageElement']
+					$CACHE
 					['templates']
 				)
 			)
 			{
-				$GLOBALS
-				['cache']
-				['class']
-				['content']
-				['pageelement']
-				['PageElement']
+				$CACHE
 				['templates'] = [];
 			}
 
@@ -523,18 +540,17 @@ class PageElement
 				if (
 					\key_exists(
 						$template,
-						$GLOBALS
-						['cache']
-						['class']
-						['content']
-						['pageelement']
-						['PageElement']
+						$CACHE
 						['templates'],
 					)
 				)
 				{
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['display']
 						['use_cache'],
@@ -555,12 +571,7 @@ class PageElement
 						$this,
 					);
 
-					$content = $GLOBALS
-					['cache']
-					['class']
-					['content']
-					['pageelement']
-					['PageElement']
+					$content = $CACHE
 					['templates']
 					[$template];
 				}
@@ -579,9 +590,12 @@ class PageElement
 					);
 
 					$content = \file_get_contents(
-						$GLOBALS
-						['config']['core']['path']['template'] .
-						$this->template, true
+					    $GLOBALS
+					    ['config']
+					    ['core']
+					    ['path']
+					    ['template'] .
+					    $this->template, true
 					);
 
 					if ($content === False)
@@ -601,12 +615,7 @@ class PageElement
 						);
 					}
 
-					$GLOBALS
-					['cache']
-					['class']
-					['content']
-					['pageelement']
-					['PageElement']
+					$CACHE
 					['templates']
 					[$this->template] = $content;
 				}
@@ -626,7 +635,11 @@ class PageElement
 				);
 
 				$GLOBALS['Logger']->log(
-					\core\LoggerTypes::DEBUG,
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG,
+					],
 					$LANG
 					['display']
 					['no_template'],
@@ -639,7 +652,11 @@ class PageElement
 			if ($this->elements !== null)
 			{
 				$GLOBALS['Logger']->log(
-					\core\LoggerTypes::DEBUG, 
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::DEBUG, 
+					],
 					$LANG
 					['display']
 					['elements'],
@@ -660,7 +677,11 @@ class PageElement
 				if ($content !== '')
 				{
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['display']
 						['content'],
@@ -750,7 +771,11 @@ class PageElement
 				else
 				{
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['display']
 						['no_content'],
@@ -836,7 +861,11 @@ class PageElement
 			);
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['display']
 				['end'],
@@ -988,7 +1017,11 @@ class PageElement
 		try
 		{
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['getElement']
 				['start'],
@@ -1056,7 +1089,11 @@ class PageElement
 			);
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['getElement']
 				['success'],
@@ -1111,7 +1148,11 @@ class PageElement
 		try
 		{
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['setElement']
 				['start'],
@@ -1148,7 +1189,11 @@ class PageElement
 				if ($strict === False)
 				{
 					$GLOBALS['Logger']->log(
-						\core\LoggerTypes::DEBUG,
+						[
+							'class',
+							'core',
+							\core\LoggerTypes::DEBUG,
+						],
 						$LANG
 						['setElement']
 						['add'],
@@ -1182,7 +1227,11 @@ class PageElement
 			$this->elements[$key] = $value;
 
 			$GLOBALS['Logger']->log(
-				\core\LoggerTypes::DEBUG,
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
 				$LANG
 				['setElement']
 				['change'],

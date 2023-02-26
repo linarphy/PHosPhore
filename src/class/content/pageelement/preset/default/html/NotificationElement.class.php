@@ -2,6 +2,27 @@
 
 namespace content\pageelement\preset\default\html;
 
+$CONFIG = $GLOBALS
+          ['config']
+          ['class']
+          ['content']
+          ['pageelement']
+          ['preset'];
+
+$LANG = $GLOBALS
+        ['lang']
+        ['class']
+        ['content']
+        ['pageelement']
+        ['preset'];
+
+$LOCALE = $GLOBALS
+          ['locale']
+          ['class']
+          ['content']
+          ['pageelement']
+          ['preset'];
+
 /**
  * Simple html notification element
  */
@@ -21,13 +42,12 @@ class NotificationElement extends \content\pageelement\PageElement
 			if (\key_exists('template', $attributes))
 			{
 				$GLOBALS['Logger']->log(
-					\core\LoggerTypes::INFO,
-					$GLOBALS
-					['lang']
-					['class']
-					['content']
-					['pageelement']
-					['preset']
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::INFO,
+					],
+					$LANG
 					['already_template'],
 					[
 						'template' => $attributes['template'],
@@ -35,12 +55,7 @@ class NotificationElement extends \content\pageelement\PageElement
 				);
 			}
 
-			$attributes['template'] = $GLOBALS
-									  ['config']
-									  ['class']
-									  ['content']
-									  ['pageelement']
-									  ['preset']
+			$attributes['template'] = $CONFIG
 									  ['template_folder'] .
 									  DIRECTORY_SEPARATOR .
 									  'default' .
@@ -57,12 +72,7 @@ class NotificationElement extends \content\pageelement\PageElement
 		)
 		{
 			throw new \exception\class\content\pageelement\preset\default\html\NotificationElementException(
-				message:      $GLOBALS
-				              ['lang']
-				              ['class']
-				              ['content']
-				              ['pageelement']
-				              ['preset']
+				message:      $LANG
 				              ['default']
 				              ['html']
 				              ['NotificationElement']
@@ -73,12 +83,7 @@ class NotificationElement extends \content\pageelement\PageElement
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS
-				                 ['locale']
-					             ['class']
-				                 ['content']
-				                 ['pageelement']
-				                 ['preset']
+					'content' => $LOCALE
 				                 ['default']
 				                 ['html']
 				                 ['NotificationElement']
