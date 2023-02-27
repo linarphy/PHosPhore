@@ -37,7 +37,8 @@ class DBFactory
 	/**
 	 * Creating a database connection
 	 *
-	 * @param string $driver Name of the driver that will be used.
+	 * @param string|\database\DatabaseDrivers $driver Name of the
+	 *                       driver that will be used.
 	 *                       Id null, the default one defined in the
 	 *                       configuration will be used.
 	 *                       Default to null.
@@ -72,7 +73,7 @@ class DBFactory
 	 * @throws \exception\class\core\DBFactoryException
 	 */
 	public static function connection(
-		?string $driver = null,
+		?string|\database\DatabaseDrivers $driver = null,
 		?array $dsn_parameters = null,
 		?string $username = null,
 		?string $password = null,
@@ -85,7 +86,7 @@ class DBFactory
 				[
 					'class',
 					'core',
-					\core\LoggerTypes::DEBGU,
+					\core\LoggerTypes::DEBUG,
 				],
 				$LANG
 				['connection']
@@ -112,13 +113,22 @@ class DBFactory
 
 			$driver = \strtoupper($driver);
 
-			if (!in_array($driver, self::DRIVERS))
+			if (
+				(
+					\is_string($driver) &&
+					\database\DatabaseDrivers::tryFrom($driver)
+				) |
+				!\in_array(
+					$driver,
+					\database\DatabaseDrivers::cases(),
+				)
+			)
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message:      $LANG
-								  ['connection']
-					              ['unknown_driver'],
-					tokens:       [
+					message: $LANG
+						     ['connection']
+					         ['unknown_driver'],
+					tokens:  [
 						'driver' => $driver,
 					],
 				);
