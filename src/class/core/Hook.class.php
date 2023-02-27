@@ -18,7 +18,9 @@ class Hook
 	 */
 	public static function load(array $event, mixed $param) : int
 	{
-		$path_hook_dir = $GLOBALS['config']['core']['path']['hook'] . \implode(DIRECTORY_SEPARATOR, $event) . DIRECTORY_SEPARATOR;
+		$path_hook_dir = $GLOBALS['config']['core']['path']['hook'] .
+		                 \implode(DIRECTORY_SEPARATOR, $event) . 
+		                 DIRECTORY_SEPARATOR;
 		if (!\is_dir($path_hook_dir))
 		{
 			return 0;
