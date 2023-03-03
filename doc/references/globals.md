@@ -128,7 +128,7 @@ Store language data used by modules.
 
 Store language data used by pages.
 
-## lang
+## locale
 
 Array used to store string or other data linked to the user language.
 
