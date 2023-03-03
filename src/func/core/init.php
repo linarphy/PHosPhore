@@ -288,6 +288,87 @@ function get_class_name($class_name)
 	if ($pos = \strrpos($class_name, '\\')) return \substr($class_name, $pos + 1);
     return $pos;
 }
+/**
+ * Get value of wanted global used by PHosPHore (lang, locale, etc.)
+ * for a specific type (class, func, etc.)
+ *
+ * @param string $global Global wanted.
+ *                       Can be 'lang', 'locale', 'cache' or 'config'.
+ *
+ * @param array $path Path of the class we're in.
+ *                    Example:
+ *                    [
+ *                    	'class',
+ *                    	'core',
+ *                    	'Base',
+ *                    ]
+ *
+ * @return mixed Value of the global.
+ *
+ * @throws \ValueError $global is not in the acceptlist or path is
+ *                     badformed.
+ *
+ * @throws \Exception $global is not in the $GLOBALS variable (it's not
+ *                    initialized yet)
+ */
+function phosphore_get_globals(string $global, array $path) : mixed
+{
+	if (!\in_array($global, ['lang', 'locale', 'cache', 'config']))
+	{
+		throw \ValueError(
+			message: $global . ' is not in the accepted global list, ' .
+			         'see func/core/init.php for more information',
+		);
+	}
+
+	if (!\array_key_exists($global, $GLOBALS))
+	{
+		throw \Exception(
+			message: $global . ' is not already defined in the ' .
+			         'GLOBALS variable';
+		);
+	}
+
+	$value = $GLOBALS[$global]
+
+	foreach ($path as $part)
+	{
+		if (!\is_string($part))
+		{
+			throw \ValueError(
+				message: 'path should be an array of string, by at' .
+				         'one element is a ' . \gettype($part),
+			);
+		}
+
+		if (!\array_key_exists($part, $value))
+		{
+			throw \ValueError(
+				message: $global . ' is not defined for this class: ' .
+				         $part . ' is not an available key',
+			);
+		}
+
+		$value = $value[$part];
+	}
+
+	return $value;
+}
+/**
+ * Return the lang table associated to the class where this function is
+ * called
+ *
+ * @param string $class_name String returned by get_class function
+ *
+ * @return mixed
+*/
+function phosphore_locale(string $class_name) : string
+{
+	return \phosphore_get_globals(
+		'locale',
+		\explode('\'', 'class\\' . $class_name),
+	);
+}
 
 init();
 \spl_autoload_register('load_class');
