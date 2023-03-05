@@ -2,6 +2,18 @@
 
 namespace core;
 
+$LANG = $GLOBALS
+        ['lang']
+        ['class']
+        ['core']
+        ['LinkManager'];
+
+$LOCALE = $GLOBALS
+          ['locale']
+          ['class']
+          ['core']
+          ['LinkManager'];
+
 /**
  * Manage a table which link two tables (manage a many to many table)
  */
@@ -10,9 +22,13 @@ class LinkManager extends \core\Manager
 	/**
 	 * Add entries to the table with variant and non variant parameters
 	 *
-	 * @param array $variants An array of n array (where n is the number of entries) of x values (with x the number of variant attributes of each entry).
+	 * @param array $variants An array of n array (where n is the
+	 *                        number of entries) of x values (with x
+	 *                        the number of variant attributes of each
+	 *                        entry).
 	 *
-	 * @param array $invariants An array of invariants values for each entry
+	 * @param array $invariants An array of invariants values for each
+	 *                          entry
 	 *
 	 * Example:
 	 *     for adding these entries:
@@ -55,42 +71,67 @@ class LinkManager extends \core\Manager
 	{
 		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['start'], ['class' => \get_class($this)]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['addBy']
+				['start'],
+				[
+					'class' => \get_class($this),
+				],
+			);
 
 			if (\count($variants) === 0)
 			{
 				throw new \exception\class\core\LinkManagerException(
-					message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variants'],
+					message: $LANG
+					         ['addBy']
+					         ['no_variants'],
 					tokens:  [
 						'class' => \get_class($this),
 					],
 				);
 			}
+
 			foreach ($variants as $key => $variant)
 			{
 				$variants[$key] = $this->cleanAttributes($variant);
+
 				if (\count($variants[$key]) === 0)
 				{
 					throw new \exception\class\core\LinkManagerException(
-						message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_variant'],
+						message: $LANG
+						         ['addBy']
+						         ['no_variant'],
 						tokens:  [
 							'class' => \get_class($this),
 						],
 					);
 				}
 			}
+
 			$invariants = $this->cleanAttributes($invariants);
+
 			if (\count($invariants) === 0)
 			{
 				throw new \exception\class\core\LinkManagerException(
-					message: $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['no_invariants'],
+					message: $LANG
+					         ['addBy']
+					         ['no_invariants'],
 					tokens:  [
 						'class' => \get_class($this),
 					],
 				);
 			}
 
-			$attributes = \array_merge(\array_keys($variants[\array_key_first($variants)]), \array_keys($invariants));
+			$attributes = \array_merge(
+				\array_keys($variants[\array_key_first($variants)]),
+				\array_keys($invariants),
+			);
 
 			$table = new \database\parameter\Table([
 				'name' => $this::TABLE,
@@ -125,7 +166,12 @@ class LinkManager extends \core\Manager
 
 				$connection = \core\DBFactory::connection();
 
-				$driver_class = '\\database\\' . \ucwords(\strtolower($connecion->getAttribute(PDO::ATTR_DRIVER_NAME)));
+				$driver_class = '\\database\\' .
+				                \ucwords(
+					\strtolower(
+						$connecion->getAttribute(PDO::ATTR_DRIVER_NAME),
+					),
+				                );
 
 				try
 				{
@@ -136,7 +182,9 @@ class LinkManager extends \core\Manager
 				catch (\PDOException $exception)
 				{
 					throw new \exception\class\core\LinkManagerException(
-						message:  $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['PDO_error'],
+						message:  $LANG
+						          ['addBy']
+						          ['PDO_error'],
 						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
@@ -146,7 +194,20 @@ class LinkManager extends \core\Manager
 				}
 			}
 
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['end'], ['class' => \get_class($this)]);
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$LANG
+				['addBy']
+				['end'],
+				[
+					'class' => \get_class($this),
+				],
+			);
+
 			return True;
 		}
 		catch (
@@ -155,13 +216,17 @@ class LinkManager extends \core\Manager
 		)
 		{
 			throw new \exception\class\core\LinkManagerException(
-				message:      $GLOBALS['lang']['class']['core']['LinkManager']['addBy']['error'],
+				message:      $LANG
+				              ['addBy']
+				              ['error'],
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
 				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['LinkManager']['addBy']['error'],
+					'content' => $LOCALE
+					             ['addBy']
+					             ['error'],
 					'type'    => \user\NotificationTypes::ERROR,
 				]),
 				previous:     $exception,
