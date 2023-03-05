@@ -325,11 +325,11 @@ function phosphore_get_globals(string $global, array $path) : mixed
 	{
 		throw \Exception(
 			message: $global . ' is not already defined in the ' .
-			         'GLOBALS variable';
+			         'GLOBALS variable',
 		);
 	}
 
-	$value = $GLOBALS[$global]
+	$value = $GLOBALS[$global];
 
 	foreach ($path as $part)
 	{
@@ -355,14 +355,67 @@ function phosphore_get_globals(string $global, array $path) : mixed
 	return $value;
 }
 /**
+ * Return the cache table associated to the class where this function is
+ * called
+ *
+ * @param string $class_name String returned by get_class function
+ *
+ * @return mixed
+ *
+ * @throws \Exception If the class does not define cache global
+ */
+function phosphore_cache(string $class_name) : mixed
+{
+	return \phosphore_get_globals(
+		'cache',
+		\explode('\\', 'class\\' . $class_name),
+	);
+}
+/**
+ * Return the config table associated to the class where this function
+ * is called
+ *
+ * @param string $class_name String returned by get_class function
+ *
+ * @return mixed
+ *
+ * @throws \Exception If the class does not define config global
+ */
+function phosphore_config(string $class_name) : mixed
+{
+	return \phosphore_get_globals(
+		'config',
+		\explode('\\', 'class\\' . $class_name),
+	);
+}
+/**
  * Return the lang table associated to the class where this function is
  * called
  *
  * @param string $class_name String returned by get_class function
  *
  * @return mixed
+ *
+ * @throws \Exception If the class does not define lang global
+ */
+function phosphore_lang(string $class_name) : mixed
+{
+	return \phosphore_get_globals(
+		'lang',
+		\explode('\\', 'class\\' . $class_name),
+	);
+}
+/**
+ * Return the locale table associated to the class where this function is
+ * called
+ *
+ * @param string $class_name String returned by get_class function
+ *
+ * @return mixed
+ *
+ * @throws \Exception If the class does not define locale global
 */
-function phosphore_locale(string $class_name) : string
+function phosphore_locale(string $class_name) : mixed
 {
 	return \phosphore_get_globals(
 		'locale',
