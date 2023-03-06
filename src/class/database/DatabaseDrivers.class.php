@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace database;
 
 /**
  * set of database drivers
