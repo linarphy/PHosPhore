@@ -307,9 +307,6 @@ function get_class_name($class_name)
  *
  * @throws \ValueError $global is not in the acceptlist or path is
  *                     badformed.
- *
- * @throws \Exception $global is not in the $GLOBALS variable (it's not
- *                    initialized yet)
  */
 function phosphore_get_globals(string $global, array $path) : mixed
 {
@@ -323,7 +320,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
 
 	if (!\array_key_exists($global, $GLOBALS))
 	{
-		throw \Exception(
+		throw \ValueError(
 			message: $global . ' is not already defined in the ' .
 			         'GLOBALS variable',
 		);
@@ -362,7 +359,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
  *
  * @return mixed
  *
- * @throws \Exception If the class does not define cache global
+ * @throws \ValueError If the class does not define cache global
  */
 function phosphore_cache(string $class_name) : mixed
 {
@@ -379,7 +376,7 @@ function phosphore_cache(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \Exception If the class does not define config global
+ * @throws \ValueError If the class does not define config global
  */
 function phosphore_config(string $class_name) : mixed
 {
@@ -396,7 +393,7 @@ function phosphore_config(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \Exception If the class does not define lang global
+ * @throws \ValueError If the class does not define lang global
  */
 function phosphore_lang(string $class_name) : mixed
 {
@@ -413,7 +410,7 @@ function phosphore_lang(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \Exception If the class does not define locale global
+ * @throws \ValueError If the class does not define locale global
 */
 function phosphore_locale(string $class_name) : mixed
 {

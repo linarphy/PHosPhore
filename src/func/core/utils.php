@@ -68,7 +68,14 @@ function phosphore_display(mixed $var)
 	}
 	if (\is_object($var))
 	{
-		return \get_class($var) . ' : ' . phosphore_display(phosphore_table($var, 3)); // arbitrary recursion value
+		if (!\method_exists($var, '__toString'))
+		{
+			return \get_class($var) . ' : ' . phosphore_display(phosphore_table($var, 3)); // arbitrary recursion value
+		}
+		else
+		{
+			return $var->__toString();
+		}
 	}
 	if (\is_callable($var))
 	{

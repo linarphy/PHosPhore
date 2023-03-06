@@ -2,18 +2,6 @@
 
 namespace core;
 
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['core']
-        ['Base'];
-
-$LOCALE = $GLOBALS
-          ['locale']
-          ['class']
-          ['core']
-          ['Base';
-
 /**
  * core basic methods
  */
@@ -37,9 +25,7 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['__construct']
-				['start'],
+				$this->lang('__construct', 'start', 'core\\Base'),
 				[
 					'class' => \get_class($this),
 				],
@@ -66,9 +52,11 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['__construct']
-					          ['error_hydrate'],
+					message:  $this->lang(
+						'__construct',
+						'error_hydrate',
+						'core\\Base',
+					),
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -91,25 +79,18 @@ trait Base
 				],
 			);
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['__construct']
-				              ['error'],
+				message:      $this->lang(
+					'__construct',
+					'error',
+					'core\\Base',
+				),
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['__construct']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous:     $exception,
 			);
 		}
@@ -143,52 +124,103 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['clone']
-				['start'],
+				$this->lang(
+					'clone',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class' => $class,
 				],
 			);
 
-			try
-			{
-				return new $class($this->table());
-			}
-			catch (\exception\class\core\BaseException $exception)
-			{
-				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['clone']
-					          ['error_table'],
-					tokens:   [
-						'class'     => \get_class($this),
-						'exception' => $exception->getMessage(),
-					],
-					previous: $exception,
-				);
-			}
+			return new $class($this->table());
 		}
-		catch (
-			\exception\class\BaseException |
-			\Thowable $exception
-		)
+		catch (\exception\class\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-				              ['clone']
-				              ['error'],
+				message:      $this->lang(
+					'clone',
+					'error',
+					'core\\Base',
+				),
 				tokens:       [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-					             ['clone']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous:     $exception,
+			);
+		}
+	}
+	/**
+	* Get the config value
+ 	*
+	* @param string method Method where the method is called
+	*
+	* @param string name Name associated to the value
+	*
+	* @param ?string class Class name.
+	*                      If null, use \get_class().
+	*                      Default to null.
+	*
+	* @return mixed
+	*
+	* @throws \exception\class\core\BaseException
+	*/
+	public function config(string $method, string $name, ?string $class = null)
+	{
+		try
+		{
+			if ($class === null)
+			{
+				$class = \get_class($this);
+			}
+
+			$result = \phosphore_config($class);
+
+			if (!\array_key_exists($method, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $this->lang(
+						'config',
+						'method',
+						'core\\Base',
+					),
+					tokens: [
+						'method' => $method,
+					],
+				);
+			}
+
+			$result = $result[$method];
+
+			if (!\array_key_exists($name, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $this->lang(
+						'config',
+						'name',
+						'core\\Base',
+					),
+					tokens: [
+						'name' => $name,
+					],
+				);
+			}
+
+			return $result[$name];
+		}
+		catch (
+			\exception\class\core\BaseException |
+			\ValueError $exception
+		)
+		{
+			throw new \exception\class\core\BaseException(
+				message:  $this->lang('config', 'error', 'core\\Base'),
+				tokens:   [
+					'exception' => $exception,
+				],
+				previous: $exception,
 			);
 		}
 	}
@@ -214,9 +246,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['display']
-				['start'],
+				$this->lang(
+					'display',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
@@ -231,9 +265,11 @@ trait Base
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['display']
-					['object'],
+					$this->lang(
+						'display',
+						'object',
+						'core\\Base',
+					),
 					[
 						'class' => \get_class($this),
 					],
@@ -242,28 +278,17 @@ trait Base
 				try
 				{
 					return \htmlspecialchars(
-						\phosphore_display($this->table())
+						\phosphore_display($this)
 					);
 				}
 				catch (\exception\class\core\BaseException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $LANG
-								  ['display']
-						          ['error_table'],
-						tokens:   [
-							'class'     => \get_class($this),
-							'exception' => $exception->getMessage(),
-						],
-						previous: $exception,
-					);
-				}
-				catch (\Throwable $exception)
-				{
-					throw new \exception\class\core\BaseException(
-						message:  $LANG
-								  ['display']
-						          ['error_display'],
+						message:  $this->lang(
+							'display',
+							'error_display',
+							'core\\Base',
+						),
 						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
@@ -276,9 +301,11 @@ trait Base
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $LANG
-								  ['display']
-					              ['undefined'],
+					message:      $this->lang(
+						'display',
+						'undefined',
+						'core\\Base',
+					),
 					tokens:       [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -293,9 +320,11 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['display']
-					          ['error_getDisp'],
+					message:  $this->lang(
+						'display',
+						'error_getDisp',
+						'core\\Base',
+					),
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -313,9 +342,11 @@ trait Base
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['display']
-					['exist'],
+					$this->lang(
+						'display',
+						'exist',
+						'core\\Base',
+					),
 					[
 						'class' => \get_class($this),
 						'attribute' => $attribute,
@@ -330,9 +361,11 @@ trait Base
 				catch (\exception\BaseException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $LANG
-								  ['display']
-						          ['custom_method_error'],
+						message:  $this->lang(
+							'display',
+							'custom_method_error',
+							'core\\Base',
+						),
 						tokens:   [
 							'method'    => $method,
 							'class'     => \get_class($this),
@@ -362,9 +395,11 @@ trait Base
 						)
 						{
 							throw new \exception\class\core\BaseException(
-								message:  $LANG
-										  ['display']
-								          ['error_display'],
+								message:  $this->lang(
+									'display',
+									'error_display',
+									'core\\Base',
+								),
 								tokens:   [
 									'class'     => \get_class($this),
 									'exception' => $exception->getMessage(),
@@ -378,9 +413,11 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['display']
-					          ['get_attribute'],
+					message:  $this->lang(
+						'display',
+						'get_attribute',
+						'core\\Base',
+					),
 					tokens:   [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -396,9 +433,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['display']
-				['not_exist'],
+				$this->lang(
+					'display',
+					'not_exist',
+					'core\\Base',
+				),
 				[
 					'class' => \get_class($this),
 					'attribute' => $attribute,
@@ -406,47 +445,23 @@ trait Base
 				],
 			);
 
-			try
-			{
-				return \htmlspecialchars(
-					\phosphore_display($this->get($attribute))
-				);
-			}
-			catch (\Throwable $exception)
-			{
-				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['display']
-					          ['error_display_attribute'],
-					tokens:   [
-						'class'     => \get_class($this),
-						'attribute' => $attribute,
-						'exception' => $exception->getMessage(),
-					],
-					previous: $exception,
-				);
-			}
+			return \htmlspecialchars(
+				\phosphore_display($this->get($attribute))
+			);
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['display']
-				              ['error'],
+				message:      $this->lang(
+					'display',
+					'error',
+					'core\\Base',
+				),
 				tokens:       [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['display']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous:     $exception,
 			);
 		}
@@ -470,9 +485,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['get']
-				['start'],
+				$this->lang(
+					'get',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class' => \get_class($this),
 					'attribute' => $attribute,
@@ -496,9 +513,11 @@ trait Base
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message: $LANG
-							 ['get']
-					         ['not_defined'],
+					message: $this->lang(
+						'get',
+						'not_defined',
+						'core\\Base',
+					),
 					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -513,9 +532,11 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message:  $LANG
-							  ['get']
-					          ['error_getGet'],
+					message:  $this->lang(
+						'get',
+						'error_getGet',
+						'core\\Base',
+					),
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -547,9 +568,11 @@ trait Base
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['get']
-					['getter'],
+					$this->lang(
+						'get',
+						'getter',
+						'core\\Base',
+					),
 					[
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -564,9 +587,11 @@ trait Base
 				catch (\exception\CustomException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message: $LANG
-								 ['get']
-						         ['error_custom_method'],
+						message: $this->lang(
+							'get',
+							'error_custom_method',
+							'core\\Base',
+						),
 						tokens: [
 							'method'    => $method,
 							'class'     => \get_class($this),
@@ -603,9 +628,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['get']
-				['default'],
+				$this->lang(
+					'get',
+					'default',
+					'core\\Base',
+				),
 				[
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
@@ -615,27 +642,20 @@ trait Base
 
 			return $this->$attribute;
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['get']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'get',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['get']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -655,45 +675,34 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $LANG
-								  ['getDisp']
-					              ['empty'],
-					tokens:       [
+					message: $this->lang(
+						'getDisp',
+						'empty',
+						'core\\Base',
+					),
+					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
-					notification: new \user\Notification([
-						'content' => $LOCALE
-									 ['getDisp']
-						             ['empty'],
-						'type'    => \user\NotificationTypes::ERROR,
-					]),
 				);
 			}
 
 			return 'display' . \ucfirst($attribute);
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['getDisp']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'getDisp',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['getDisp']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -713,19 +722,15 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $LANG
-								  ['getGet']
-					              ['empty'],
-					tokens:       [
+					message: $this->lang(
+						'getGet',
+						'empty',
+						'core\\Base',
+					),
+					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
-					notification: new \user\Notification([
-						'content' => $LOCALE
-									 ['getGet']
-						             ['empty'],
-						'type'    => \user\NotificationTypes::ERROR,
-					]),
 				);
 			}
 
@@ -742,9 +747,11 @@ trait Base
 							'core',
 							\core\Logger::TYPES['info'],
 						],
-						$LANG
-						['getGet']
-						['special'],
+						$this->lang(
+							'getGet',
+							'special',
+							'core\\Base',
+						),
 						[
 							'class'     => \get_class($this),
 							'attribute' => $attribute,
@@ -757,27 +764,20 @@ trait Base
 
 			return 'get' . \ucfirst($attribute);
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['getGet']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'getGet',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['getGet']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -797,19 +797,15 @@ trait Base
 			if (empty($attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $LANG
-								  ['getSet']
-					              ['empty'],
-					tokens:       [
+					message: $this->lang(
+						'getSet',
+						'empty',
+						'core\\Base',
+					),
+					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
 					],
-					notification: new \user\Notification([
-						'content' => $LOCALE
-									 ['getSet']
-						             ['empty'],
-						'type'    => \user\NotificationTypes::ERROR,
-					]),
 				);
 			}
 
@@ -821,21 +817,17 @@ trait Base
 		)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['getSet']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'getSet',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['getSet']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -858,9 +850,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['hydrate']
-				['start'],
+				$this->lang(
+					'hydrate',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class' => \get_class($this),
 				],
@@ -886,9 +880,11 @@ trait Base
 				if (!\is_string($attribute))
 				{
 					throw new \exception\class\core\BaseException(
-						message: $LANG
-								 ['hydrate']
-						         ['type_attribute'],
+						message: $this->lang(
+							'hydrate',
+							'type_attribute',
+							'core\\Base',
+						),
 						tokens:  [
 							'class' => \get_class($this),
 							'type'  => \gettype($attribute),
@@ -907,9 +903,11 @@ trait Base
 					catch (\exception\class\core\BaseException $exception)
 					{
 						throw new \exception\class\core\BaseException(
-							message:  $LANG
-									  ['hydrate']
-							          ['error_set'],
+							message:  $this->lang(
+								'hydrate',
+								'error_set',
+								'core\\Base',
+							),
 							tokens:   [
 								'class'     => \get_class($this),
 								'attribute' => $attribute,
@@ -941,9 +939,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['hydrate']
-				['end'],
+				$this->lang(
+					'hydrate',
+					'end',
+					'core\\Base',
+				),
 				[
 					'class' => \get_class($this),
 					'count' => $count,
@@ -952,26 +952,162 @@ trait Base
 
 			return $count;
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['hydrate']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'hydrate',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['hydrate']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
+			);
+		}
+	}
+	/**
+	* Get the lang value
+ 	*
+	* @param string method Method where the method is called
+	*
+	* @param string name Name associated to the value
+	*
+	* @param ?string class Class name.
+	*                      If null, use \get_class().
+	*                      Default to null.
+	*
+	* @return mixed
+	*
+	* @throws \exception\class\core\BaseException
+	*/
+	public function lang(string $method, string $name, ?string $class = null)
+	{
+		try
+		{
+			if ($class === null)
+			{
+				$class = \get_class($this);
+			}
+
+			$result = \phosphore_lang($class);
+
+			if (!\array_key_exists($method, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: 'The language table has no key for ' .
+					         'the method {method}',
+					tokens: [
+						'method' => $method,
+					],
+				);
+			}
+
+			$result = $result[$method];
+
+			if (!\array_key_exists($name, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: 'The language table has no key for ' .
+					         'the name {name}',
+					tokens: [
+						'name' => $name,
+					],
+				);
+			}
+
+			return $result[$name];
+		}
+		catch (
+			\exception\class\core\BaseException |
+			\ValueError $exception
+		)
+		{
+			throw new \exception\class\core\BaseException(
+				message:  'An error occured when accessing the language ' .
+				          'value: {exception}',
+				tokens:   [
+					'exception' => $exception,
+				],
+				previous: $exception,
+			);
+		}
+	}
+	/**
+	* Get the locale value
+ 	*
+	* @param string method Method where the method is called
+	*
+	* @param string name Name associated to the value
+	*
+	* @param ?string class Class name.
+	*                      If null, use \get_class().
+	*                      Default to null.
+	*
+	* @return mixed
+	*
+	* @throws \exception\class\core\BaseException
+	*/
+	public function locale(string $method, string $name, ?string $class = null)
+	{
+		try
+		{
+			if ($class === null)
+			{
+				$class = \get_class($this);
+			}
+
+			$result = \phosphore_locale($class);
+
+			if (!\array_key_exists($method, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $this->lang(
+						'locale',
+						'method',
+						'core\\Base',
+					),
+					tokens: [
+						'method' => $method,
+					],
+				);
+			}
+
+			$result = $result[$method];
+
+			if (!\array_key_exists($name, $result))
+			{
+				throw new \exception\class\core\BaseException(
+					message: $this->lang(
+						'locale',
+						'name',
+						'core\\Base',
+					),
+					tokens: [
+						'name' => $name,
+					],
+				);
+			}
+
+			return $result[$name];
+		}
+		catch (
+			\exception\class\core\BaseException |
+			\ValueError $exception
+		)
+		{
+			throw new \exception\class\core\BaseException(
+				message:  $this->lang(
+					'locale',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
+					'exception' => $exception,
+				],
+				previous: $exception,
 			);
 		}
 	}
@@ -996,9 +1132,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['set']
-				['start'],
+				$this->lang(
+					'set',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
@@ -1023,9 +1161,11 @@ trait Base
 			if (!\property_exists($this, $attribute))
 			{
 				throw new \exception\class\core\BaseException(
-					message: $LANG
-							 ['set']
-					         ['undefined'],
+					message: $this->lang(
+						'set',
+						'undefined',
+						'core\\Base',
+					),
 					tokens:  [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -1040,9 +1180,11 @@ trait Base
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\core\BaseException(
-					message: $LANG
-							 ['set']
-					         ['error_getSet'],
+					message: $this->lang(
+						'set',
+						'error_getSet',
+						'core\\Base',
+					),
 					tokens: [
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -1071,9 +1213,11 @@ trait Base
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['set']
-					['custom_method'],
+					$this->lang(
+						'set',
+						'custom_method',
+						'core\\Base',
+					),
 					[
 						'class'     => \get_class($this),
 						'attribute' => $attribute,
@@ -1088,9 +1232,11 @@ trait Base
 				catch (\exception\CustomException $exception)
 				{
 					throw new \exception\class\core\BaseException(
-						message:  $LANG
-								  ['set']
-						          ['error_custom_method'],
+						message:  $this->lang(
+							'set',
+							'error_custom_method',
+							'core\\Base',
+						),
 						tokens:   [
 							'class'     => \get_class($this),
 							'method'    => $method,
@@ -1108,9 +1254,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['set']
-				['default_method'],
+				$this->lang(
+					'set',
+					'default_method',
+					'core\\Base',
+				),
 				[
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
@@ -1135,21 +1283,17 @@ trait Base
 		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['set']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'set',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['set']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -1179,9 +1323,11 @@ trait Base
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['table']
-				['start'],
+				$this->lang(
+					'table',
+					'start',
+					'core\\Base',
+				),
 				[
 					'class' => \get_class($this),
 					'depth' => $depth,
@@ -1207,10 +1353,12 @@ trait Base
 			if ($depth < -1)
 			{
 				throw new \exception\class\core\BaseException(
-					message:      $LANG
-								  ['table']
-					              ['undefined_depth'],
-					tokens:       [
+					message: $this->lang(
+						'table',
+						'undefined_depth',
+						'core\\Base',
+					),
+					tokens:  [
 						'class' => \get_class($this),
 						'depth' => $depth,
 					],
@@ -1279,28 +1427,21 @@ trait Base
 
 			return $attributes;
 		}
-		catch (
-			\exception\class\core\BaseException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\BaseException $exception)
 		{
 			throw new \exception\class\core\BaseException(
-				message:      $LANG
-							  ['table']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'table',
+					'error',
+					'core\\Base',
+				),
+				tokens:   [
 					'exception' => $exception->getMessage(),
 					'class'     => \get_class($this),
 					'depth'     => $depth,
 					'strict'    => $strict,
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['table']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
