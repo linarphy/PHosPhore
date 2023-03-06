@@ -55,7 +55,7 @@ class DBFactory
 	 * @throws \exception\class\core\DBFactoryException
 	 */
 	public static function connection(
-		?string|\database\DatabaseDrivers $driver = null,
+		null|string|\database\DatabaseDrivers $driver = null,
 		?array $dsn_parameters = null,
 		?string $username = null,
 		?string $password = null,
@@ -75,10 +75,9 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$this->lang(
-					'connection',
-					'start',
-				),
+				\phosphore_lang('core\\DBFactory')
+				['connection']
+				['start'],
 			);
 
 			if ($driver === null)
@@ -89,10 +88,9 @@ class DBFactory
 						'core',
 						\core\Logger::TYPES['debug'],
 					],
-					$this->lang(
-						'connection',
-						'default_driver',
-					),
+					\phosphore_lang('core\\DBFactory')
+					['connection']
+					['default_driver'],
 				);
 
 				$driver = $CONFIG
@@ -110,10 +108,9 @@ class DBFactory
 			if (!\database\DatabaseDrivers::tryFrom($driver))
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message: $this->lang(
-						'connection',
-						'unknown_driver',
-					),
+					message: \phosphore_lang('core\\DBFactory')
+					         ['connection']
+					         ['unknown_driver'],
 					tokens:  [
 						'driver' => $driver,
 					],
@@ -128,10 +125,9 @@ class DBFactory
 						'core',
 						\core\Logger::TYPES['debug'],
 					],
-					$this->lang(
-						'connection',
-						'default_dsn_parameters',
-					),
+					\phosphore_lang('core\\DBFactory')
+					['connection']
+					['default_dsn_parameters'],
 				);
 
 				$dsn_parameters = $CONFIG
@@ -166,10 +162,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $this->lang(
-										'connection',
-										'unknown_mysql_parameter',
-									),
+									message: \phosphore_lang('core\\DBFactory')
+									         ['connection']
+									         ['unknown_mysql_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
@@ -181,10 +176,9 @@ class DBFactory
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $this->lang(
-								'connection',
-								'no_mysql_host',
-							),
+							message: \phosphore_lang('core\\DBFactory')
+							         ['connection']
+							         ['no_mysql_host'],
 						);
 					}
 
@@ -229,10 +223,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $this->lang(
-										'connection',
-										'unknown_postgresql_parameter',
-									),
+									message: \phosphore_lang('core\\DBFactory')
+									         ['connection']
+									         ['unknown_postgresql_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
@@ -244,10 +237,9 @@ class DBFactory
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $this->lang(
-								'connection',
-								'no_postgresql_host',
-							),
+							message: \phosphore_lang('core\\DBFactory')
+							         ['connection']
+							         ['no_postgresql_host'],
 						);
 					}
 
@@ -284,10 +276,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $this->lang(
-										'connection',
-										'unknown_firebird_parameter',
-									),
+									message: \phosphore_lang('core\\DBFactory')
+									         ['connection']
+									         ['unknown_firebird_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
@@ -299,10 +290,9 @@ class DBFactory
 					if (!isset($dbname))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $this->lang(
-								'connection',
-								'no_firebird_dbname',
-							),
+							message: \phosphore_lang('core\\DBFactory')
+							         ['connection']
+							         ['no_firebird_dbname'],
 						);
 					}
 
@@ -342,10 +332,9 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $this->lang(
-										'connection',
-										'unknown_sqlite_parameter',
-									),
+									message: \phosphore_lang('core\\DBFactory')
+									         ['connection']
+									         ['unknown_sqlite_parameter'],
 									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
@@ -366,10 +355,9 @@ class DBFactory
 					break;
 				default:
 					throw new \exception\class\core\DBFactoryException(
-						message: $this->lang(
-							'connection',
-							'unknown_driver',
-						),
+						message: \phosphore_lang('core\\DBFactory')
+						         ['connection']
+						         ['unknown_driver'],
 						tokens: [
 							'driver' => $driver,
 						],
@@ -381,10 +369,9 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$this->lang(
-					'connection',
-					'dsn'
-				),
+				\phosphore_lang('core\\DBFactory')
+				['connection']
+				['dsn'],
 				[
 					'dsn' => $dsn,
 				],
@@ -398,10 +385,9 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$this->lang(
-						'connection',
-						'default_username',
-					),
+					\phosphore_lang('core\\DBFactory')
+					['connection']
+					['default_username'],
 				);
 
 				$username = $CONFIG
@@ -419,10 +405,9 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$this->lang(
-						'connection',
-						'default_password',
-					),
+					\phosphore_lang('core\\DBFactory')
+					['connection']
+					['default_password'],
 				);
 
 				$password = $CONFIG
@@ -440,10 +425,9 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$this->lang(
-						'connection',
-						'default_options',
-					),
+					\phosphore_lang('core\\DBFactory')
+					['connection']
+					['default_options'],
 				);
 
 				$options = $CONFIG
@@ -459,10 +443,9 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$this->lang(
-					'connection',
-					'end',
-				),
+				\phosphore_lang('core\\DBFactory')
+				['connection']
+				['end'],
 			);
 
 			try
@@ -472,10 +455,9 @@ class DBFactory
 			catch (\PDOException $exception)
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message:  $this->lang(
-						'connection',
-						'error_pdo'
-					),
+					message:  \phosphore_lang('core\\DBFactory')
+					          ['connection']
+						      ['error_pdo'],
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -486,10 +468,9 @@ class DBFactory
 		catch (\exception\class\core\DBFactoryException $exception)
 		{
 			throw new \exception\class\core\DBFactoryException(
-				message:  $this->lang(
-					'connection',
-					'error_custom',
-				),
+				message:  \phosphore_lang('core\\DBFactory')
+				          ['connection']
+				          ['error_custom'],
 				tokens:   [
 					'exception'      => $exception->getMessage(),
 					'driver'         => $driver,

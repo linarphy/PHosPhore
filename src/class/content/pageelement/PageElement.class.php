@@ -22,7 +22,7 @@ class PageElement
 	 *
 	 * @var array
 	 */
-	public ?array $elements = null;
+	public array $elements = [];
 	/**
 	 * Constructor
 	 *
@@ -1303,7 +1303,7 @@ class PageElement
 	 */
 	protected function setElements(array $elements) : bool
 	{
-		if ($this->elements !== null)
+		if (!empty($this->elements))
 		{
 			return False;
 		}

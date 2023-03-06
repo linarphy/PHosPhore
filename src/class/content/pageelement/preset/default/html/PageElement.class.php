@@ -48,21 +48,21 @@ class PageElement extends \content\pageelement\PageElement
 
 			parent::__construct($attributes);
 		}
-	}
-	catch (\exception\class\content\pageelement\PageElementException $exception)
-	{
-		throw new \exception\class\content\pageelement\preset\default\html\PageElementException(
-			message:  $this->lang(
-				'__construct',
-				'error',
-				'content\\pageelement\\preset\\default\\html\\PageElement',
-			),
-			tokens:   [
-				'class'     => \get_class($this),
-				'exception' => $exception->getMessage(),
-			],
-			previous: $exception,
-		);
+		catch (\exception\class\content\pageelement\PageElementException $exception)
+		{
+			throw new \exception\class\content\pageelement\preset\default\html\PageElementException(
+				message:  $this->lang(
+					'__construct',
+					'error',
+					'content\\pageelement\\preset\\default\\html\\PageElement',
+				),
+				tokens:   [
+					'class'     => \get_class($this),
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 }
 
