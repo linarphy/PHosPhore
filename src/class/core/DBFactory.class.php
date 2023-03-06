@@ -2,24 +2,6 @@
 
 namespace core;
 
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['core']
-        ['DBFactory'];
-
-$LOCALE = $GLOBALS
-          ['locale']
-          ['class']
-          ['core']
-          ['DBFactory'];
-
-$CONFIG = $GLOBALS
-          ['config']
-          ['class']
-          ['core']
-          ['DBFactory'];
-
 /**
  * Tool to connect with the database
  */
@@ -80,6 +62,11 @@ class DBFactory
 		?array $options = null,
 	) : \PDO
 	{
+		$CONFIG = $GLOBALS
+		          ['config']
+		          ['class']
+		          ['core']
+		          ['DBFactory'];
 		try
 		{
 			$GLOBALS['Logger']->log(
@@ -88,9 +75,10 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['connection']
-				['start'],
+				$this->lang(
+					'connection',
+					'start',
+				),
 			);
 
 			if ($driver === null)
@@ -101,33 +89,31 @@ class DBFactory
 						'core',
 						\core\Logger::TYPES['debug'],
 					],
-					$LANG
-					['connection']
-					['default_driver'],
+					$this->lang(
+						'connection',
+						'default_driver',
+					),
 				);
 
 				$driver = $CONFIG
-						  ['database']
+				          ['database']
 				          ['driver'];
+			}
+
+			if (!\is_string($driver))
+			{
+				$driver = $driver->value;
 			}
 
 			$driver = \strtoupper($driver);
 
-			if (
-				(
-					\is_string($driver) &&
-					\database\DatabaseDrivers::tryFrom($driver)
-				) |
-				!\in_array(
-					$driver,
-					\database\DatabaseDrivers::cases(),
-				)
-			)
+			if (!\database\DatabaseDrivers::tryFrom($driver))
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message: $LANG
-						     ['connection']
-					         ['unknown_driver'],
+					message: $this->lang(
+						'connection',
+						'unknown_driver',
+					),
 					tokens:  [
 						'driver' => $driver,
 					],
@@ -142,9 +128,10 @@ class DBFactory
 						'core',
 						\core\Logger::TYPES['debug'],
 					],
-					$LANG
-					['connection']
-					['default_dsn_parameters']
+					$this->lang(
+						'connection',
+						'default_dsn_parameters',
+					),
 				);
 
 				$dsn_parameters = $CONFIG
@@ -179,9 +166,10 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $LANG
-											 ['connection']
-									         ['unknown_mysql_parameter'],
+									message: $this->lang(
+										'connection',
+										'unknown_mysql_parameter',
+									),
 									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
@@ -193,9 +181,10 @@ class DBFactory
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $LANG
-									 ['connection']
-							         ['no_mysql_host'],
+							message: $this->lang(
+								'connection',
+								'no_mysql_host',
+							),
 						);
 					}
 
@@ -240,9 +229,10 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $LANG
-											 ['connection']
-									         ['unknown_postgresql_parameter'],
+									message: $this->lang(
+										'connection',
+										'unknown_postgresql_parameter',
+									),
 									tokens:  [
 										'key'   => $key,
 										'value' => $parameter,
@@ -254,9 +244,10 @@ class DBFactory
 					if (!isset($host))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $LANG
-									 ['connection']
-							         ['no_postgresql_host'],
+							message: $this->lang(
+								'connection',
+								'no_postgresql_host',
+							),
 						);
 					}
 
@@ -293,9 +284,10 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $LANG
-											 ['connection']
-									         ['unknown_firebird_parameter'],
+									message: $this->lang(
+										'connection',
+										'unknown_firebird_parameter',
+									),
 									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
@@ -307,9 +299,10 @@ class DBFactory
 					if (!isset($dbname))
 					{
 						throw new \exception\class\core\DBFactoryException(
-							message: $LANG
-									 ['connection']
-							         ['no_firebird_dbname'],
+							message: $this->lang(
+								'connection',
+								'no_firebird_dbname',
+							),
 						);
 					}
 
@@ -349,9 +342,10 @@ class DBFactory
 								break;
 							default:
 								throw new \exception\class\core\DBFactoryException(
-									message: $LANG
-											 ['connection']
-									         ['unknown_sqlite_parameter'],
+									message: $this->lang(
+										'connection',
+										'unknown_sqlite_parameter',
+									),
 									tokens:  [
 										'key'   => $key,
 										'value' => $attribute,
@@ -372,9 +366,10 @@ class DBFactory
 					break;
 				default:
 					throw new \exception\class\core\DBFactoryException(
-						message: $LANG
-								 ['connection']
-						         ['unknown_driver'],
+						message: $this->lang(
+							'connection',
+							'unknown_driver',
+						),
 						tokens: [
 							'driver' => $driver,
 						],
@@ -386,9 +381,10 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['connection']
-				['dsn'],
+				$this->lang(
+					'connection',
+					'dsn'
+				),
 				[
 					'dsn' => $dsn,
 				],
@@ -402,9 +398,10 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['connection']
-					['default_username']
+					$this->lang(
+						'connection',
+						'default_username',
+					),
 				);
 
 				$username = $CONFIG
@@ -422,9 +419,10 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['connection']
-					['default_password'],
+					$this->lang(
+						'connection',
+						'default_password',
+					),
 				);
 
 				$password = $CONFIG
@@ -442,9 +440,10 @@ class DBFactory
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['connection']
-					['default_options'],
+					$this->lang(
+						'connection',
+						'default_options',
+					),
 				);
 
 				$options = $CONFIG
@@ -460,9 +459,10 @@ class DBFactory
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['connection']
-				['end'],
+				$this->lang(
+					'connection',
+					'end',
+				),
 			);
 
 			try
@@ -472,9 +472,10 @@ class DBFactory
 			catch (\PDOException $exception)
 			{
 				throw new \exception\class\core\DBFactoryException(
-					message:  $LANG
-							  ['connection']
-					          ['error_pdo'],
+					message:  $this->lang(
+						'connection',
+						'error_pdo'
+					),
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -482,29 +483,21 @@ class DBFactory
 				);
 			}
 		}
-		catch (
-			\exception\class\core\DBFactoryException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\DBFactoryException $exception)
 		{
 			throw new \exception\class\core\DBFactoryException(
-				message:      $LANG
-							  ['connection']
-				              ['error_custom'],
-				tokens:       [
+				message:  $this->lang(
+					'connection',
+					'error_custom',
+				),
+				tokens:   [
 					'exception'      => $exception->getMessage(),
 					'driver'         => $driver,
 					'dsn_parameters' => $dsn_parameters,
 					'username'       => $username,
 					'options'        => $options,
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['connection']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
