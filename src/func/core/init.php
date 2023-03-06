@@ -305,14 +305,14 @@ function get_class_name($class_name)
  *
  * @return mixed Value of the global.
  *
- * @throws \ValueError $global is not in the acceptlist or path is
+ * @throws \UnexpectedValueException $global is not in the acceptlist or path is
  *                     badformed.
  */
 function phosphore_get_globals(string $global, array $path) : mixed
 {
 	if (!\in_array($global, ['lang', 'locale', 'cache', 'config']))
 	{
-		throw \ValueError(
+		throw \UnexpectedValueException(
 			message: $global . ' is not in the accepted global list, ' .
 			         'see func/core/init.php for more information',
 		);
@@ -320,7 +320,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
 
 	if (!\array_key_exists($global, $GLOBALS))
 	{
-		throw \ValueError(
+		throw \UnexpectedValueException(
 			message: $global . ' is not already defined in the ' .
 			         'GLOBALS variable',
 		);
@@ -332,7 +332,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
 	{
 		if (!\is_string($part))
 		{
-			throw \ValueError(
+			throw \UnexpectedValueException(
 				message: 'path should be an array of string, by at' .
 				         'one element is a ' . \gettype($part),
 			);
@@ -340,7 +340,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
 
 		if (!\array_key_exists($part, $value))
 		{
-			throw \ValueError(
+			throw \UnexpectedValueException(
 				message: $global . ' is not defined for this class: ' .
 				         $part . ' is not an available key',
 			);
@@ -359,7 +359,7 @@ function phosphore_get_globals(string $global, array $path) : mixed
  *
  * @return mixed
  *
- * @throws \ValueError If the class does not define cache global
+ * @throws \UnexpectedValueException If the class does not define cache global
  */
 function phosphore_cache(string $class_name) : mixed
 {
@@ -376,7 +376,7 @@ function phosphore_cache(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \ValueError If the class does not define config global
+ * @throws \UnexpectedValueException If the class does not define config global
  */
 function phosphore_config(string $class_name) : mixed
 {
@@ -393,7 +393,7 @@ function phosphore_config(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \ValueError If the class does not define lang global
+ * @throws \UnexpectedValueException If the class does not define lang global
  */
 function phosphore_lang(string $class_name) : mixed
 {
@@ -410,7 +410,7 @@ function phosphore_lang(string $class_name) : mixed
  *
  * @return mixed
  *
- * @throws \ValueError If the class does not define locale global
+ * @throws \UnexpectedValueException If the class does not define locale global
 */
 function phosphore_locale(string $class_name) : mixed
 {
