@@ -299,17 +299,37 @@ class Notification extends \core\Managed
 	 */
 	public static function getNotifications(\content\pageelement\PageElement $element) : array
 	{
-		if ($element->getElement('content') !== null)
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], ['content' => $element->getElement('content')]);
+			if ($element->getElement('content'))
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_content'], ['content' => $element->getElement('content')]);
+			}
 		}
-		if ($element->getElement('date') !== null)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], ['date' => $element->getElement('date')]);
 		}
-		if  ($element->getElement('type') !== null)
+
+		try
 		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], ['type' => $element->getElement('type')]);
+			if ($element->getElement('date'))
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_date'], ['date' => $element->getElement('date')]);
+			}
+		}
+		catch (\exception\class\content\pageelement\PageElementException $exception)
+		{
+		}
+
+		try
+		{
+			if  ($element->getElement('type'))
+			{
+				$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['user']['Notification']['getNotifications']['already_type'], ['type' => $element->getElement('type')]);
+			}
+		}
+		catch (\exception\class\content\pageelement\PageElementException $exception)
+		{
 		}
 
 		$notifications = [];
