@@ -2,20 +2,6 @@
 
 namespace content\pageelement;
 
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['content']
-        ['pageelement']
-        ['PageElement'];
-
-$LOCALE = $GLOBALS
-          ['locale']
-          ['class']
-          ['content']
-          ['pageelement']
-          ['PageElement'];
-
 /**
  * A element of a page
  */
