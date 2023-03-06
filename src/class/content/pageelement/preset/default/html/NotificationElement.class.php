@@ -2,27 +2,6 @@
 
 namespace content\pageelement\preset\default\html;
 
-$CONFIG = $GLOBALS
-          ['config']
-          ['class']
-          ['content']
-          ['pageelement']
-          ['preset'];
-
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['content']
-        ['pageelement']
-        ['preset'];
-
-$LOCALE = $GLOBALS
-          ['locale']
-          ['class']
-          ['content']
-          ['pageelement']
-          ['preset'];
-
 /**
  * Simple html notification element
  */
@@ -47,51 +26,39 @@ class NotificationElement extends \content\pageelement\PageElement
 						'core',
 						\core\LoggerTypes::INFO,
 					],
-					$LANG
-					['already_template'],
+					$this->lang(
+						'preset',
+						'already_template',
+						'content\\pageelement',
+					),
 					[
 						'template' => $attributes['template'],
 					],
 				);
 			}
 
-			$attributes['template'] = $CONFIG
-									  ['template_folder'] .
-									  DIRECTORY_SEPARATOR .
-									  'default' .
-									  DIRECTORY_SEPARATOR .
-									  'html' .
-									  DIRECTORY_SEPARATOR .
-			                         'NotificationElement.html';
+			$attributes['template'] = $this->config(
+				'preset',
+				'template_folder',
+				'content\\pageelement'
+			) . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR .
+			'html' . DIRECTORY_SEPARATOR . 'NotificationElement.html';
 
 			parent::__construct($attributes);
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\preset\default\html\NotificationElementException(
-				message:      $LANG
-				              ['default']
-				              ['html']
-				              ['NotificationElement']
-				              ['__construct']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'__construct',
+					'error',
+					'content\\pageelement\\preset\\default\\html\\NotificationElement'
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-				                 ['default']
-				                 ['html']
-				                 ['NotificationElement']
-					             ['__construct']
-					             ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
