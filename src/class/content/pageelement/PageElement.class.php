@@ -67,9 +67,11 @@ class PageElement
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $LANG
-							  ['__construct']
-							  ['error_hydrate'],
+					message:  $this->lang(
+						'__construct',
+						'error_hydrate',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:   [
 						'class'     => \get_class($this),
 						'exception' => $exception->getMessage(),
@@ -90,26 +92,19 @@ class PageElement
 				$this,
 			);
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['__construct']
-							  ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'__construct',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['__construct']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -134,9 +129,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['addElement']
-				['start'],
+				$this->lang(
+					'addElement',
+					'start',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'value' => $value,
@@ -162,9 +159,10 @@ class PageElement
 			if (\key_exists($key, $this->get('elements')))
 			{
 				throw new \exception\class\content\pagelement\PageElementException(
-					message: $LANG
-							 ['addElement']
-							 ['identical_key'],
+					message: $this->lang(
+						'addElement',
+						'identical_key',
+					),
 					tokens:  [
 						'key'   => $key,
 						'value' => $value,
@@ -211,10 +209,12 @@ class PageElement
 					'class',
 					'core',
 					\core\LoggerTypes::DEBUG,
-				]
-				$LANG
-				['addElement']
-				['success'],
+				],
+				$this->lang(
+					'addElement',
+					'success',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'value' => $value,
@@ -223,27 +223,20 @@ class PageElement
 
 			return $this;
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['addElement']
-							  ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'addElement',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
+				tokens:   [
 					'key'       => $key,
 					'value'     => $value,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['addElement']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -270,9 +263,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['addValueElement']
-				['start'],
+				$this->lang(
+					'addValueElement',
+					'start',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'value' => $value,
@@ -304,9 +299,11 @@ class PageElement
 			catch (\exception\CustomException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $LANG
-							  ['addValueElement']
-							  ['error_get'],
+					message:  $this->lang(
+						'addValueElement',
+						'error_get',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -316,9 +313,11 @@ class PageElement
 			if (!\key_exists($key, $elements))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $LANG
-							 ['addValueElement']
-							 ['unknown_key'],
+					message: $this->lang(
+						'addValueElement',
+						'unknown_key',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:  [
 						'key'     => $key,
 						'new_key' => $new_key,
@@ -328,9 +327,11 @@ class PageElement
 			if (!\is_array($elements[$key]))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $LANG
-							 ['addValueElement']
-							 ['not_array'],
+					message: $this->lang(
+						'addValueElement',
+						'not_array',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:  [
 						'key'     => $key,
 						'new_key' => $new_key,
@@ -340,9 +341,11 @@ class PageElement
 			if (\key_exists($new_key, $this->get('elements')[$key]))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $LANG
-							 ['addValueElement']
-							 ['already_taken'],
+					message: $this->lang(
+						'addValueElement',
+						'already_taken',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:  [
 						'key'     => $key,
 						'new_key' => $new_key,
@@ -375,9 +378,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['addValueElement']
-				['success'],
+				$this->lang(
+					'addValueElement',
+					'success',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'new_key' => $new_key,
@@ -403,28 +408,21 @@ class PageElement
 
 			return $this;
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['addValueElement']
-							  ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'addValueElement',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
+				tokens:   [
 					'key'       => $key,
 					'new_key'   => $new_key,
 					'value'     => $value,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['addValueElement']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -448,12 +446,14 @@ class PageElement
 				{
 					$this->display_($attribute);
 				}
-				catch (\exception\class\core\Base $exception)
+				catch (\exception\class\core\BaseException $exception)
 				{
 					throw new \exception\class\content\pageelement\PageElementException(
-						message:  $LANG
-						          ['display']
-								  ['error_display'],
+						message:  $this->lang(
+							'display',
+							'error_display',
+							'content\\pageelement\\PageElement',
+						),
 						tokens:   [
 							'attribute' => $attribute,
 							'exception' => $exception->getMessage(),
@@ -468,9 +468,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['display']
-				['start'],
+				$this->lang(
+					'display',
+					'start',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'class' => \get_class($this),
 				],
@@ -513,9 +515,11 @@ class PageElement
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $LANG
-							  ['display']
-							  ['error_get'],
+					message:  $this->lang(
+						'display',
+						'error_get',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -551,9 +555,11 @@ class PageElement
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['display']
-						['use_cache'],
+						$this->lang(
+							'display',
+							'use_cache',
+							'content\\pageelement\\PageElement',
+						),
 						[
 							'template' => $template,
 						],
@@ -601,9 +607,11 @@ class PageElement
 					if ($content === False)
 					{
 						throw new \exception\class\content\pageelement\PageElementException(
-							message:      $LANG
-										  ['display']
-										  ['no_file_template'],
+							message:      $this->lang(
+								'display',
+								'no_file_template',
+								'content\\pageelement\\PageElement',
+							),
 							tokens:       [
 								'template' => $this->template,
 							],
@@ -640,9 +648,11 @@ class PageElement
 						'core',
 						\core\LoggerTypes::DEBUG,
 					],
-					$LANG
-					['display']
-					['no_template'],
+					$this->lang(
+						'display',
+						'no_template',
+						'content\\pageelement\\PageElement',
+					),
 				);
 
 				$content = ''; // we want to display every element
@@ -657,9 +667,11 @@ class PageElement
 						'core',
 						\core\LoggerTypes::DEBUG, 
 					],
-					$LANG
-					['display']
-					['elements'],
+					$this->lang(
+						'display',
+						'elements',
+						'content\\pageelement\\PageElement',
+					),
 				);
 
 				$GLOBALS['Hook']::load(
@@ -682,9 +694,11 @@ class PageElement
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['display']
-						['content'],
+						$this->lang(
+							'display',
+							'content',
+							'content\\pageelement\\PageElement',
+						),
 					);
 
 					$tokens = \preg_split(
@@ -710,9 +724,11 @@ class PageElement
 								)
 								{
 									throw new exception\class\content\pageelement\PageElementException(
-										message: $LANG
-												 ['display']
-												 ['error_element_display'],
+										message: $this->lang(
+											'display',
+											'error_element_display',
+											'content\\pageelement\\PageElement',
+										),
 										tokens: [
 											'element_class' => \get_class($element),
 											'exception'    => $exception,
@@ -724,9 +740,11 @@ class PageElement
 							else
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message: $LANG
-									         ['display']
-									         ['cannot_display_object'],
+									message: $this->lang(
+										'display',
+										'cannot_display_object',
+										'content\\pageelement\\PageElement',
+									),
 									tokens:  [
 										'class' => \get_class($elements),
 									],
@@ -742,9 +760,11 @@ class PageElement
 							catch (\exception\class\content\pageelement\PageElementException $exception)
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message:  $LANG
-											  ['display']
-											  ['error_displayArray'],
+									message:  $this->lang(
+										'display',
+										'error_displayArray',
+										'content\\pageelement\\PageElement',
+									),
 									tokens:   [
 										'exception'     => $exception->getMessage(),
 									],
@@ -776,9 +796,11 @@ class PageElement
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['display']
-						['no_content'],
+						$this->lang(
+							'display',
+							'no_content',
+							'content\\pageelement\\PageElement',
+						),
 					);
 
 					foreach ($this->elements as $name => $element)
@@ -796,9 +818,11 @@ class PageElement
 								)
 								{
 									throw new exception\class\content\pageelement\PageElementException(
-										message: $LANG
-												 ['display']
-												 ['error_element_display'],
+										message: $this->lang(
+											'display',
+											'error_element_display',
+											'content\\pageelement\\PageElement',
+										),
 										tokens: [
 											'element_clas' => \get_class($element),
 											'exception'    => $exception,
@@ -810,9 +834,11 @@ class PageElement
 							else
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message: $LANG
-									         ['display']
-									         ['cannot_display_object'],
+									message: $this->lang(
+										'display',
+										'cannot_display_object',
+										'content\\pageelement\\PageElement',
+									),
 									tokens:  [
 										'object' => \get_class($elements),
 									],
@@ -828,9 +854,11 @@ class PageElement
 							catch (\exception\class\content\pageelement\PageElementException $exception)
 							{
 								throw new \exception\class\content\pageelement\PageElementException(
-									message:  $LANG
-											  ['display']
-											  ['error_displayArray'],
+									message:  $this->lang(
+										'display',
+										'error_dispalyArray',
+										'content\\pageelement\\PageElement',
+									),
 									tokens:   [
 										'exception'     => $exception->getMessage(),
 									],
@@ -866,9 +894,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['display']
-				['end'],
+				$this->lang(
+					'display',
+					'end',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'class' => \get_class($this),
 				],
@@ -876,15 +906,14 @@ class PageElement
 
 			return $content;
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['display']
-							  ['error'],
+				message:      $this->lang(
+					'display',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
 				tokens:       [
 					'attribute' => $attribute,
 					'class'     => \get_class($this),
@@ -895,12 +924,6 @@ class PageElement
 					'class',
 					'core',
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['display']
-								 ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous:     $exception,
 			);
 		}
@@ -932,9 +955,11 @@ class PageElement
 						catch (\exception\CustomException $exception)
 						{
 							throw new \exception\class\content\pageelement\PageElementException(
-								message:  $LANG
-										  ['displayArray']
-										  ['error_display'],
+								message:  $this->lang(
+									'displayArray',
+									'error_display',
+									'content\\pageelement\\PageElement',
+								),
 								tokens:   [
 									'exception'     => $exception->getMessage(),
 									'element_class' => \get_class($this),
@@ -946,9 +971,11 @@ class PageElement
 					else
 					{
 						throw new \exception\class\content\pageelement\PageElementException(
-							message: $LANG
-									 ['displayArray']
-									 ['cannot_display_object'],
+							message: $this->lang(
+								'displayArray',
+								'cannot_display_object',
+								'content\\pageelement\\PageElement',
+							),
 							tokens:  [
 								'class' => \get_class($element),
 							],
@@ -964,9 +991,11 @@ class PageElement
 					catch (\exception\class\content\pageelement\PageElementException $exception)
 					{
 						throw new \exception\class\content\pageelement\PageElementException(
-							message:  $LANG
-									  ['displayArray']
-									  ['error_displayArray'],
+							message:  $this->lang(
+								'displayArray',
+								'error_displayArray',
+								'content\\pageelement\\PageElement',
+							),
 							tokens:   [
 								'exception' => $exception->getMessage(),
 							],
@@ -981,24 +1010,22 @@ class PageElement
 			}
 			return $display;
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['displayArray']
-							  ['error'],
+				message:      $this->lang(
+					'displayArray',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
 				tokens:       [
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['displayArray']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
+				logger_types: [
+					\core\LoggerTypes::ERROR,
+					'class',
+					'core',
+				],
 				previous:     $exception,
 			);
 		}
@@ -1022,9 +1049,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['getElement']
-				['start'],
+				$this->lang(
+					'getElement',
+					'start',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 				],
@@ -1052,9 +1081,11 @@ class PageElement
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message:  $LANG
-							  ['getElement']
-							  ['error_get'],
+					message:  $this->lang(
+						'getElement',
+						'error_get',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:   [
 						'key'       => $key,
 						'exception' => $exception->getMessage(),
@@ -1065,9 +1096,11 @@ class PageElement
 			if (!\key_exists($key, $elements))
 			{
 				throw new \exception\class\content\pageelement\PageElementException(
-					message: $LANG
-							 ['getElement']
-							 ['unknown_key'],
+					message: $this->lang(
+						'getElement',
+						'unknown_key',
+						'content\\pageelement\\PageElement',
+					),
 					tokens:  [
 						'key' => $key,
 					],
@@ -1094,9 +1127,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['getElement']
-				['success'],
+				$this->lang(
+					'getElement',
+					'success',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 				],
@@ -1104,26 +1139,24 @@ class PageElement
 
 			return $this->elements[$key];
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-		   	\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['getElement']
-							  ['error'],
+				message:      $this->lang(
+					'getElement',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
 				tokens:       [
 					'exception' => $exception->getMessage(),
 					'key'       => $key,
 					'class'     => \get_class($this),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['getElement']
-								 ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
+				logger_types: [
+					\core\LoggerTypes::ERROR,
+					'class',
+					'core',
+				],
 				previous:     $exception,
 			);
 		}
@@ -1153,9 +1186,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['setElement']
-				['start'],
+				$this->lang(
+					'setElement',
+					'start',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'value' => $value,
@@ -1194,9 +1229,11 @@ class PageElement
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['setElement']
-						['add'],
+						$this->lang(
+							'setElement',
+							'add',
+							'content\\pageelement\\PageElement',
+						),
 						[
 							'key' => $key,
 							'value' => $value,
@@ -1210,9 +1247,11 @@ class PageElement
 				else
 				{
 					throw new \exception\class\content\pageelement\PageElementException(
-						message: $LANG
-						         ['setElement']
-								 ['error_strict'],
+						message: $this->lang(
+							'setElement',
+							'error_strict',
+							'content\\pageelement\\PageElement',
+						),
 						tokens:  [
 							'key'       => $key,
 							'value'     => $value,
@@ -1232,9 +1271,11 @@ class PageElement
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['setElement']
-				['change'],
+				$this->lang(
+					'setElement',
+					'change',
+					'content\\pageelement\\PageElement',
+				),
 				[
 					'key' => $key,
 					'value' => $value,
@@ -1243,15 +1284,14 @@ class PageElement
 
 			return $old_value;
 		}
-		catch (
-			\exception\class\content\pageelement\PageElementException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\pageelement\PageElementException $exception)
 		{
 			throw new \exception\class\content\pageelement\PageElementException(
-				message:      $LANG
-							  ['setElement']
-							  ['error'],
+				message:      $this->lang(
+					'setElement',
+					'error',
+					'content\\pageelement\\PageElement',
+				),
 				tokens:       [
 					'class'     => \get_class($this),
 					'key'       => $key,
@@ -1259,12 +1299,11 @@ class PageElement
 					'strict'    => $strict,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['setElement']
-								 ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
+				logger_types: [
+					\core\LoggerTypes::ERROR,
+					'class',
+					'core',
+				],
 				previous:     $exception,
 			);
 		}
@@ -1275,42 +1314,16 @@ class PageElement
 	 * @param array $elements
 	 *
 	 * @return bool
-	 *
-	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	protected function setElements(array $elements) : bool
 	{
-		try
+		if ($this->elements !== null)
 		{
-			if ($this->elements !== null)
-			{
-				return False;
-			}
+			return False;
+		}
 
-			$this->elements = $elements;
-			return True;
-		}
-		catch (
-			\Throwable $exception
-		)
-		{
-			throw new \exception\class\content\pageelement\PageElementException(
-				message: $LANG
-						 ['setElements']
-						 ['error'],
-				tokens: [
-					'class'     => \get_class($this),
-					'exception' => $exception->getMessage(),
-				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['setElements']
-								 ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous: $exception,
-			);
-		}
+		$this->elements = $elements;
+		return True;
 	}
 	/**
 	 * Set the template attribute if not defined
@@ -1318,43 +1331,16 @@ class PageElement
 	 * @param string $template
 	 *
 	 * @return bool
-	 *
-	 * @throws \exception\class\content\pageelement\PageElementException
 	 */
 	protected function setTemplate(?string $template) : bool
 	{
-		try
+		if ($this->template !== null)
 		{
-			if ($this->template !== null)
-			{
-				return False;
-			}
+			return False;
+		}
 
-			$this->template = $template;
-			return True;
-		}
-		catch (
-			\Throwable $exception
-		)
-		{
-			throw new \exception\class\content\pageelement\PageElementException(
-				message: $LANG
-						 ['setTemplate']
-						 ['error'],
-				tokens: [
-					'class'     => \get_class($this),
-					'template'  => $template,
-					'exception' => $exception->getMessage(),
-				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['setTemplate']
-								 ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous: $exception,
-			);
-		}
+		$this->template = $template;
+		return True;
 	}
 }
 
