@@ -2,18 +2,6 @@
 
 namespace content;
 
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['content']
-        ['Content'];
-
-$LOCALE = $GLOBALS
-        ['locale']
-        ['class']
-        ['content']
-        ['Content'];
-
 /**
  * A content in a specific language
  */
@@ -80,9 +68,10 @@ class Content extends \core\Managed
 				catch (\exception\class\content\ContentException $exception)
 				{
 					throw new \exception\class\content\ContentException(
-						message:  $LANG
-								  ['display']
-								  ['error_before'],
+						message:  $this->lang(
+							'display',
+							'error_before',
+						),
 						tokens:   [
 							'exception' => $exception->getMessage(),
 						],
@@ -101,9 +90,10 @@ class Content extends \core\Managed
 			)
 			{
 				throw new \exception\class\content\ContentException(
-					message:  $LANG
-					          ['display']
-							  ['error_display'],
+					message:  $this->lang(
+						'display',
+						'error_display',
+					),
 					tokens:   [
 						'attribute' => $attribute,
 						'exception' => $exception->getMessage(),
@@ -112,26 +102,18 @@ class Content extends \core\Managed
 				);
 			}
 		}
-		catch (
-			\exception\class\content\ContentException |
-			\Throwable $exception
-		)
+		catch (\exception\class\content\ContentException $exception)
 		{
 			throw new \exception\class\content\ContentException(
-				message:      $LANG
-							  ['display']
-							  ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'display',
+					'error',
+				),
+				tokens:   [
 					'attribute' => $attribute,
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['display']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -163,9 +145,10 @@ class Content extends \core\Managed
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['retrieveText']
-				['start'],
+				$this->lang(
+					'retrieveText',
+					'start',
+				),
 			);
 
 			try
@@ -175,9 +158,10 @@ class Content extends \core\Managed
 			catch (\exception\class\core\BaseException $exception)
 			{
 				throw new \exception\class\content\ContentException(
-					message:  $LANG
-					          ['retrieveText']
-							  ['error_manager'],
+					message:  $this->lang(
+						'retrieveText',
+						'error_manager',
+					),
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -196,9 +180,10 @@ class Content extends \core\Managed
 					catch (\exception\class\core\ManagedException $exception)
 					{
 						throw new \exception\class\content\ContentException(
-							message:  $GLOBALS
-									  ['retrieveText']
-									  ['error_retrieve'],
+							message:  $this->lang(
+								'retrieveText',
+								'error_retrieve',
+							),
 							tokens:   [
 								'exception' => $exception->getMessage(),
 							],
@@ -211,12 +196,19 @@ class Content extends \core\Managed
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['retrieveText']
-						['success'],
+						$this->lang(
+							'retrieveText',
+							'success',
+						),
 					);
 				}
-				else if ($Manager->existBy(['id_content' => $this->id_content])) // manually set
+				else if (
+					$Manager->existBy(
+						[
+							'id_content' => $this->id_content,
+						],
+					)
+				) // manually set
 				{
 					$GLOBALS['Logger']->log(
 						[
@@ -224,9 +216,10 @@ class Content extends \core\Managed
 							'core',
 							\core\LoggerTypes::DEBUG,
 						],
-						$LANG
-						['retrieveText']
-						['warning'],
+						$this->lang(
+							'retrieveText',
+							'warning',
+						),
 					);
 					if (
 						$Manager->exist(
@@ -245,9 +238,10 @@ class Content extends \core\Managed
 								'core',
 								\core\LoggerTypes::DEBUG,
 							],
-							$LANG
-							['retrieveText']
-							['success_user_lang'],
+							$this->lang(
+								'retrieveText',
+								'success_user_lang',
+							),
 						);
 						try
 						{
@@ -265,9 +259,10 @@ class Content extends \core\Managed
 						catch (\exception\class\core\BaseException $exception)
 						{
 							throw new \exception\class\content\ContentException(
-								message:  $LANG
-										  ['retrieveText']
-										  ['error_hydrate'],
+								message:  $this->lang(
+									'retrieveText',
+									'error_hydrate',
+								),
 								tokens:   [
 									'exception' => $exception->getMessage(),
 								],
@@ -294,9 +289,10 @@ class Content extends \core\Managed
 								'core',
 								\core\LoggerTypes::DEBUG,
 							],
-							$LANG
-							['retrieveText']
-							['success_default_lang'],
+							$this->lang(
+								'retrieveText',
+								'success_default_lang',
+							),
 						);
 						try
 						{
@@ -315,9 +311,10 @@ class Content extends \core\Managed
 						catch (\exception\class\core\BaseException $exception)
 						{
 							throw new \exception\class\content\ContentException(
-								message:  $LANG
-										  ['retrieveText']
-										  ['error_hydrate'],
+								message:  $this->lang(
+									'retrieveText',
+									'error_hydrate',
+								),
 								tokens:   [
 									'exception' => $exception->getMessage(),
 								],
@@ -333,9 +330,10 @@ class Content extends \core\Managed
 								'core',
 								\core\LoggerTypes::DEBUG,
 							],
-							$LANG
-							['retrieveText']
-							['success_any'],
+							$this->lang(
+								'retrieveText',
+								'success_any',
+							),
 						);
 						try
 						{
@@ -346,12 +344,13 @@ class Content extends \core\Managed
 							)
 							[0];
 						}
-						catch (\exception\class\core\Managed $exception)
+						catch (\exception\class\core\ManagedException $exception)
 						{
 							throw new \exception\class\content\ContentException(
-								message:  $LANG
-										  ['retrieveText']
-										  ['error_retrieve'],
+								message:  $this->lang(
+									'retrieveText',
+									'error_retrieve',
+								),
 								tokens:   [
 									'exception' => $exception->getMessage(),
 								],
@@ -363,18 +362,20 @@ class Content extends \core\Managed
 				else // missconfigured
 				{
 					throw new \exception\class\content\ContentException(
-						message:      $LANG
-									  ['retrieveText']
-									  ['failure'],
+						message: $this->lang(
+							'retrieveText',
+							'failure',
+						),
 					);
 				}
 			}
 			catch (\exception\class\core\ManagedException $exception)
 			{
 				throw new \exception\class\content\ContentException(
-					message:  $LANG
-							  ['retrieveText']
-							  ['error_exist'],
+					message:  $this->lang(
+						'retrieveText',
+						'error_exist',
+					),
 					tokens:   [
 						'exception' => $exception->getMessage(),
 					],
@@ -397,22 +398,17 @@ class Content extends \core\Managed
 		}
 		catch (
 			\exception\class\content\ContentException |
-			\Throwable $exception
+			\exception\class\content\ManagerException $exception
 		)
 		{
 			throw new \exception\class\content\ContentException(
-				message:      $LANG
-							  ['retrieveText']
-							  ['error'],
+				message:      $this->lang(
+					'retrieveText',
+					'error',
+				),
 				tokens:       [
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-								 ['retrieveText']
-								 ['error'],
-					'type'    => \user\NotificationTypes::WARNING,
-				]),
 				previous:     $exception,
 			);
 		}
