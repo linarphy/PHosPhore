@@ -402,14 +402,14 @@ class Content extends \core\Managed
 		)
 		{
 			throw new \exception\class\content\ContentException(
-				message:      $this->lang(
+				message:  $this->lang(
 					'retrieveText',
 					'error',
 				),
-				tokens:       [
+				tokens:   [
 					'exception' => $exception->getMessage(),
 				],
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
