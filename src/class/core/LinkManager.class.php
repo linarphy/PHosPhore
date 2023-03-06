@@ -2,18 +2,6 @@
 
 namespace core;
 
-$LANG = $GLOBALS
-        ['lang']
-        ['class']
-        ['core']
-        ['LinkManager'];
-
-$LOCALE = $GLOBALS
-          ['locale']
-          ['class']
-          ['core']
-          ['LinkManager'];
-
 /**
  * Manage a table which link two tables (manage a many to many table)
  */
@@ -77,9 +65,11 @@ class LinkManager extends \core\Manager
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['addBy']
-				['start'],
+				$this->lang(
+					'addBy',
+					'start',
+					'core\\LinkManager',
+				),
 				[
 					'class' => \get_class($this),
 				],
@@ -88,9 +78,11 @@ class LinkManager extends \core\Manager
 			if (\count($variants) === 0)
 			{
 				throw new \exception\class\core\LinkManagerException(
-					message: $LANG
-					         ['addBy']
-					         ['no_variants'],
+					message: $this->lang(
+						'addBy',
+						'no_variants',
+						'core\\LinkManager',
+					),
 					tokens:  [
 						'class' => \get_class($this),
 					],
@@ -104,9 +96,11 @@ class LinkManager extends \core\Manager
 				if (\count($variants[$key]) === 0)
 				{
 					throw new \exception\class\core\LinkManagerException(
-						message: $LANG
-						         ['addBy']
-						         ['no_variant'],
+						message: $this->lang(
+							'addBy',
+							'no_variant',
+							'core\\LinkManager',
+						),
 						tokens:  [
 							'class' => \get_class($this),
 						],
@@ -119,9 +113,11 @@ class LinkManager extends \core\Manager
 			if (\count($invariants) === 0)
 			{
 				throw new \exception\class\core\LinkManagerException(
-					message: $LANG
-					         ['addBy']
-					         ['no_invariants'],
+					message: $this->lang(
+						'addBy',
+						'no_invariants',
+						'core\\LinkManager',
+					),
 					tokens:  [
 						'class' => \get_class($this),
 					],
@@ -182,9 +178,11 @@ class LinkManager extends \core\Manager
 				catch (\PDOException $exception)
 				{
 					throw new \exception\class\core\LinkManagerException(
-						message:  $LANG
-						          ['addBy']
-						          ['PDO_error'],
+						message:  $this->lang(
+							'addBy',
+							'PDO_error',
+							'core\\LinkManager',
+						),
 						tokens:   [
 							'class'     => \get_class($this),
 							'exception' => $exception->getMessage(),
@@ -200,9 +198,11 @@ class LinkManager extends \core\Manager
 					'core',
 					\core\LoggerTypes::DEBUG,
 				],
-				$LANG
-				['addBy']
-				['end'],
+				$this->lang(
+					'addBy',
+					'end',
+					'core\\LinkManager',
+				),
 				[
 					'class' => \get_class($this),
 				],
@@ -210,26 +210,19 @@ class LinkManager extends \core\Manager
 
 			return True;
 		}
-		catch (
-			\exception\class\core\LinkManagerException |
-			\Throwable $exception
-		)
+		catch (\exception\class\core\LinkManagerException $exception)
 		{
 			throw new \exception\class\core\LinkManagerException(
-				message:      $LANG
-				              ['addBy']
-				              ['error'],
-				tokens:       [
+				message:  $this->lang(
+					'addBy',
+					'error',
+					'core\\LinkManager',
+				),
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $LOCALE
-					             ['addBy']
-					             ['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
