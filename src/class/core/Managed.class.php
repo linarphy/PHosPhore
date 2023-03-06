@@ -68,16 +68,12 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\coore\ManagedException(
-				message:     $GLOBALS['lang']['class']['core']['Managed']['add']['error'],
-				tokens:      [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['add']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['add']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:    $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -209,10 +205,6 @@ abstract class Managed
 				tokens: [
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['arrDisp']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous: $exception,
 			);
 		}
@@ -276,16 +268,12 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message:      $GLOBALS['lang']['class']['core']['Managed']['delete']['error'],
-				tokens:       [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['delete']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['delete']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -331,16 +319,12 @@ abstract class Managed
 		)
 		{
 			throw new \exceptio\class\core\ManagedException(
-				message:      $GLOBALS['lang']['class']['core']['Managed']['exist']['error'],
-				tokens:       [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['exist']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['exist']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -405,15 +389,11 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message:      $GLOBALS['lang']['class']['core']['Managed']['getIndex']['error'],
-				tokens:       [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['getIndex']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['getIndex']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
 				previous: $exception,
 			);
 		}
@@ -488,17 +468,13 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message:      $GLOBALs['lang']['class']['core']['Managed']['isIdentical']['error'],
-				tokens:       [
+				message:  $GLOBALs['lang']['class']['core']['Managed']['isIdentical']['error'],
+				tokens:   [
 					'class_1'   => \get_class($this),
 					'class_2'   => \get_class($object),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['isIdentical']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -550,16 +526,12 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message: $GLOBALS['lang']['class']['core']['Managed']['manager']['error'],
-				tokens: [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['manager']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['manager']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -633,16 +605,12 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message:      $GLOBALS['lang']['class']['core']['Managed']['retrieve']['error'],
-				tokens:       [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['retrieve']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['retrieve']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
@@ -710,16 +678,12 @@ abstract class Managed
 		)
 		{
 			throw new \exception\class\core\ManagedException(
-				message: $GLOBALS['lang']['class']['core']['Managed']['update']['error'],
-				tokens:  [
+				message:  $GLOBALS['lang']['class']['core']['Managed']['update']['error'],
+				tokens:   [
 					'class'     => \get_class($this),
 					'exception' => $exception->getMessage(),
 				],
-				notification: new \user\Notification([
-					'content' => $GLOBALS['locale']['class']['core']['Managed']['update']['error'],
-					'type'    => \user\NotificationTypes::ERROR,
-				]),
-				previous:     $exception,
+				previous: $exception,
 			);
 		}
 	}
