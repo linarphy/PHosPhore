@@ -46,17 +46,65 @@ abstract class Manager
 	 *                        If null, \core\DBConnection::connection() will be used.
 	 *                        Default to null
 	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function __construct(\PDO $db = null)
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['__construct'], ['class' => \get_class($this)]);
-
-		if ($db === null)
+		try
 		{
-			$db = \core\DBFactory::connection();
-		}
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					\core\LoggerTypes::DEBUG,
+				],
+				$this->lang(
+					'__construct',
+					'start',
+					'core\\Manager',
+				),
+				[
+					'class' => \get_class($this),
+				],
+			);
 
-		$this->setDB($db);
+			if ($db === null)
+			{
+				$db = \core\DBFactory::connection();
+			}
+
+			$this->setDB($db);
+
+			$GLOBALS['Logger']->log(
+				[
+					'class',
+					'core',
+					'core\\Manager',
+				],
+				$this->lang(
+					'__construct',
+					'end',
+					'core\\Manager',
+				),
+				[
+					'class' => \get_class($this),
+				],
+			);
+		}
+		catch (\exception\class\core\ManagerException $exception)
+		{
+			throw new \exception\class\core\ManagerException(
+				message: $this->lang(
+					'__construct',
+					'error',
+					'core\\Manager',
+				),
+				tokens:   [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Add a database entry and return its index
@@ -64,63 +112,88 @@ abstract class Manager
 	 * @param array $values attribute name => value
 	 *
 	 * @return array
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function add(array $values) : array
 	{
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			throw new \Exception();
-		}
-
-		$table = new \database\parameter\Table([
-			'name' => $this::TABLE,
-		]);
-
-		$attributes = [];
-		$parameters = [];
-		$query_values = [];
-		$position = 0;
-		foreach ($values as $name => $value)
-		{
-			$attributes[] = new \database\parameter\Attribute([
-				'name'  => $name,
-				'table' => $table,
-			]);
-			$parameters[] = new \database\parameter\Parameter([
-				'value'    => $value,
-				'position' => $position,
-			]);
-			$query_values[] = $value;
-			$position += 1;
-		}
-
-		$Query = new \database\request\Insert([
-			'parameters' => $attributes,
-			'table'      => $table,
-			'values'     => $parameters,
-		]);
-
-		$connection = \core\DBFactory::connection();
-
-		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
-
 		try
 		{
+			$values = $this->cleanAttributes($values);
+
+			if (\count($values) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'add',
+						'no_values',
+						'core\\Manager',
+					),
+				);
+			}
+
+			$table = new \database\parameter\Table([
+				'name' => $this::TABLE,
+			]);
+
+			$attributes = [];
+			$parameters = [];
+			$query_values = [];
+			$position = 0;
+			foreach ($values as $name => $value)
+			{
+				$attributes[] = new \database\parameter\Attribute([
+					'name'  => $name,
+					'table' => $table,
+				]);
+				$parameters[] = new \database\parameter\Parameter([
+					'value'    => $value,
+					'position' => $position,
+				]);
+				$query_values[] = $value;
+				$position += 1;
+			}
+
+			$Query = new \database\request\Insert([
+				'parameters' => $attributes,
+				'table'      => $table,
+				'values'     => $parameters,
+			]);
+
+			$connection = \core\DBFactory::connection();
+
+			$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
 			$query = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute($query_values);
-		}
-		catch (\PDOException $exception)
-		{
-			throw new \Exception($exception->getMessage());
-		}
 
-		return $this->getIdBy($values);
+			return $this->getIdBy($values);
+		}
+		catch (
+			\exception\class\core\ManagerException ||
+			\exception\class\core\BaseException ||
+			\exception\class\database\DriverException ||
+			\PDOException ||
+			\exception\class\core\DBFactoryException $exception
+		)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'add',
+					'error',
+					'core\\Manager',
+				),
+				tokens:    [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
-	 * Remove from an array all the element where the key is not in the array $this::ATTRIBUTES
+	 * Remove from an array all the element where the key is not in
+	 * the array $this::ATTRIBUTES
 	 *
 	 * @param array $attributes
 	 *
@@ -128,7 +201,10 @@ abstract class Manager
 	 */
 	public function cleanAttributes(array $attributes) : array
 	{
-		$values = \array_intersect_key($attributes, \array_flip($this::ATTRIBUTES));
+		$values = \array_intersect_key(
+			$attributes,
+			\array_flip($this::ATTRIBUTES),
+		);
 		foreach ($values as $key => $value)
 		{
 			if (\is_bool($value))
@@ -147,45 +223,63 @@ abstract class Manager
 	 * count all entries of the table
 	 *
 	 * @return int
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function count() : int
 	{
-		$table = new \database\parameter\Table([
-			'name' => $this::TABLE,
-		]);
-
-		$attribute = new \database\parameter\Attribute([
-			'table' => $table,
-			'name'  => $this::INDEX[0],
-		]);
-
-		$column = new \database\parameter\Column([
-			'attribute' => $attribute,
-			'function'  => 'COUNT',
-			'alias'     => 'nbr',
-		]);
-
-		$Query = new \database\request\Select([
-			'from'   => $table,
-			'select' => [$column],
-		]);
-
-		$connection = \core\DBFactory::connection();
-
-		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
-
 		try
 		{
+			$table = new \database\parameter\Table([
+				'name' => $this::TABLE,
+			]);
+
+			$attribute = new \database\parameter\Attribute([
+				'table' => $table,
+				'name'  => $this::INDEX[0],
+			]);
+
+			$column = new \database\parameter\Column([
+				'attribute' => $attribute,
+				'function'  => 'COUNT',
+				'alias'     => 'nbr',
+			]);
+
+			$Query = new \database\request\Select([
+				'from'   => $table,
+				'select' => [$column],
+			]);
+
+			$connection = \core\DBFactory::connection();
+
+			$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
+
 			$query = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute();
-		}
-		catch (\PDOException $exception)
-		{
-			throw new \Exception();
-		}
 
-		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
+			return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
+		}
+		catch (
+			\exception\class\core\ManagerException ||
+			\exception\class\core\BaseException ||
+			\exception\class\core\DBFactoryException ||
+			\exception\class\database\DriverException ||
+			\PDOException $exception
+		)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'count',
+					'error',
+					'core\\Manager',
+				),
+				tokens:    [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * count entries respecting a condition
@@ -193,105 +287,150 @@ abstract class Manager
 	 * @param array $values attribute name => value
 	 *
 	 * @param array|string $operations attribute name => operation.
-	 *                                 If $operations is a string, it will be considered as an
-	 *                                 array with the same operation for each entry.
+	 *                                 If $operations is a string, it
+	 *                                 will be considered as an
+	 *                                 array with the same operation
+	 *                                 for each entry.
 	 *                                 Default to "=".
 	 *
 	 * @return int
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function countBy(array $values, array|string $operations = '=') : int
 	{
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			throw new \Exception();
-		}
-		if (\phosphore_count($operations) === 0)
-		{
-			throw new \Exception();
-		}
-
-		$table = new \database\parameter\Table([
-			'name'  => $this::TABLE,
-		]);
-
-		$operation     = $operations;
-		$expressions   = [];
-		$query_values  = [];
-		$position      = 0;
-		foreach ($this::ATTRIBUTES as $name)
-		{
-			if (\key_exists($name, $values))
-			{
-				if (\is_array($operations))
-				{
-					if (!\key_exists($name, $operations))
-					{
-						throw new \Exception();
-					}
-
-					$operation = $operations[$name];
-				}
-
-				$attribute = new \database\parameter\Attribute([
-					'name'  => $name,
-					'table' => $table,
-				]);
-
-				$expressions[] = new \database\parameter\Expression([
-					'type'   => \database\parameter\ExpressionTypes::COMP,
-					'values' => [
-						new \database\parameter\Column([
-							'attribute' => $attribute,
-						]),
-						new \database\parameter\Parameter([
-							'value'    => $values[$name],
-							'position' => $position,
-						]),
-					],
-					'operator' => new \database\parameter\Operator([
-						'symbol' => $operation,
-					]),
-				]);
-				$position += 1;
-				$query_values[] = $values[$name];
-			}
-		}
-
-		$column = new \database\parameter\Column([
-			'attribute' => $attribute,
-			'function'  => 'COUNT',
-			'alias'     => 'nbr',
-		]);
-
-		$where = new \database\parameter\Expression([
-			'expressions' => $expressions,
-			'type'        => \database\parameter\ExpressionTypes::AND,
-		]);
-
-		$Query = new \database\request\Select([
-			'from'   => $table,
-			'select' => [$column],
-			'where'  => $where,
-		]);
-
-		$connection = \core\DBFactory::connection();
-
-		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
-
 		try
 		{
+			$values = $this->cleanAttributes($values);
+
+			if (\count($values) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'countBy',
+						'no_values',
+						'core\\Manager',
+					),
+				);
+			}
+			if (\phosphore_count($operations) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'countBy',
+						'no_operations',
+						'core\\Manager',
+					),
+				);
+			}
+
+			$table = new \database\parameter\Table([
+				'name'  => $this::TABLE,
+			]);
+
+			$operation     = $operations;
+			$expressions   = [];
+			$query_values  = [];
+			$position      = 0;
+			foreach ($this::ATTRIBUTES as $name)
+			{
+				if (\key_exists($name, $values))
+				{
+					if (\is_array($operations))
+					{
+						if (!\key_exists($name, $operations))
+						{
+							throw new \exception\class\core\ManagerException(
+								message: $this->lang(
+									'countBy',
+									'bad_key',
+									'core\\Manager',
+								),
+								tokens:  [
+									'key' => $name,
+								],
+							);
+						}
+
+						$operation = $operations[$name];
+					}
+
+					$attribute = new \database\parameter\Attribute([
+						'name'  => $name,
+						'table' => $table,
+					]);
+
+					$expressions[] = new \database\parameter\Expression([
+						'type'   => \database\parameter\ExpressionTypes::COMP,
+						'values' => [
+							new \database\parameter\Column([
+								'attribute' => $attribute,
+							]),
+							new \database\parameter\Parameter([
+								'value'    => $values[$name],
+								'position' => $position,
+							]),
+						],
+						'operator' => new \database\parameter\Operator([
+							'symbol' => $operation,
+						]),
+					]);
+					$position += 1;
+					$query_values[] = $values[$name];
+				}
+			}
+
+			$column = new \database\parameter\Column([
+				'attribute' => $attribute,
+				'function'  => 'COUNT',
+				'alias'     => 'nbr',
+			]);
+
+			$where = new \database\parameter\Expression([
+				'expressions' => $expressions,
+				'type'        => \database\parameter\ExpressionTypes::AND,
+			]);
+
+			$Query = new \database\request\Select([
+				'from'   => $table,
+				'select' => [$column],
+				'where'  => $where,
+			]);
+
+			$connection = \core\DBFactory::connection();
+
+			$driver_class = '\\database\\' . \ucwords(
+				\strtolower(
+					$connection->getAttribute(\PDO::ATTR_DRIVER_NAME),
+				),
+			);
+
 			$query = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute($query_values);
-		}
-		catch (\PDOException $exception)
-		{
-			throw new \Exception();
-		}
 
-		return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
+			return $request->fetchAll(\PDO::FETCH_ASSOC)[0]['nbr'];
+		}
+		catch (
+			\exception\class\core\ManagerException ||
+			\exception\class\core\BaseException ||
+			\exception\class\core\DBFactory ||
+			\exception\class\database\DriverException ||
+			\PDOException $exception
+		)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'countBy',
+					'error',
+					'core\\Manager',
+				),
+				tokens:   [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Delete an entry
@@ -299,83 +438,120 @@ abstract class Manager
 	 * @param array $index attribute name => value
 	 *
 	 * @return bool
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function delete(array $index) : bool
 	{
-		$index = $this->cleanAttributes($index);
-
-		if (\count($index) === 0)
-		{
-			throw new \Exception();
-		}
-		foreach ($this::INDEX as $name)
-		{
-			if (!\key_exists($name, $index))
-			{
-				throw new \Exception();
-			}
-		}
-
-		$table = new \database\parameter\Table([
-			'name' => $this::TABLE,
-		]);
-
-		$expressions  = [];
-		$values       = [];
-		$position     = 0;
-		foreach ($this::ATTRIBUTES as $name)
-		{
-			if (\key_exists($name, $index))
-			{
-				$expressions[] = new \database\parameter\Expression([
-					'type'     => \database\parameter\ExpressionTypes::COMP,
-					'values'   => [
-						new \database\parameter\Column([
-							'attribute' => new \database\parameter\Attribute([
-								'name'  => $name,
-								'table' => $table,
-							]),
-						]),
-						new \database\parameter\Parameter([
-							'value'    => $index[$name],
-							'position' => $position,
-						]),
-					],
-					'operator' => new \database\parameter\Operator([
-						'symbol' => '=',
-					]),
-				]);
-				$position += 1;
-				$values[] = $index[$name];
-			}
-		}
-
-		$where = new \database\parameter\Expression([
-			'expressions' => $expressions,
-			'type'        => \database\parameter\ExpressionTypes::AND,
-		]);
-
-		$Query = new \database\request\Delete([
-			'delete' => $table,
-			'where'  => $where,
-		]);
-
-		$connection = \core\DBFactory::connection();
-
-		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
-
 		try
 		{
+			$index = $this->cleanAttributes($index);
+
+			if (\count($index) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'delete',
+						'no_index',
+						'core\\Manager',
+					),
+				);
+			}
+			foreach ($this::INDEX as $name)
+			{
+				if (!\key_exists($name, $index))
+				{
+					throw new \exception\class\core\ManagerException(
+						message: $this->lang(
+							'delete',
+							'bad_index',
+							'core\\Manager',
+						),
+						tokens:  [
+							'key' => $name,
+						],
+					);
+				}
+			}
+
+			$table = new \database\parameter\Table([
+				'name' => $this::TABLE,
+			]);
+
+			$expressions  = [];
+			$values       = [];
+			$position     = 0;
+			foreach ($this::ATTRIBUTES as $name)
+			{
+				if (\key_exists($name, $index))
+				{
+					$expressions[] = new \database\parameter\Expression([
+						'type'     => \database\parameter\ExpressionTypes::COMP,
+						'values'   => [
+							new \database\parameter\Column([
+								'attribute' => new \database\parameter\Attribute([
+									'name'  => $name,
+									'table' => $table,
+								]),
+							]),
+							new \database\parameter\Parameter([
+								'value'    => $index[$name],
+								'position' => $position,
+							]),
+						],
+						'operator' => new \database\parameter\Operator([
+							'symbol' => '=',
+						]),
+					]);
+					$position += 1;
+					$values[] = $index[$name];
+				}
+			}
+
+			$where = new \database\parameter\Expression([
+				'expressions' => $expressions,
+				'type'        => \database\parameter\ExpressionTypes::AND,
+			]);
+
+			$Query = new \database\request\Delete([
+				'delete' => $table,
+				'where'  => $where,
+			]);
+
+			$connection = \core\DBFactory::connection();
+
+			$driver_class = '\\database\\' . \ucwords(
+				\strtolower(
+					$connection->getAttribute(\PDO::ATTR_DRIVER_NAME),
+				),
+			);
+
 			$query = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute($values);
-		}
-		catch (\PDOException $exception)
-		{
-			throw new \Exception();
-		}
 
-		return True;
+			return True;
+		}
+		catch (
+			\exception\class\core\ManagerException ||
+			\exception\class\core\DBFactoryManager ||
+			\exception\class\core\BaseException ||
+			\exception\class\database\DriverException ||
+			\PDOException $exception
+		)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'delete',
+					'error',
+					'core\\Manager',
+				),
+				tokens:   [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Delete entries which comply with a condition
@@ -383,104 +559,162 @@ abstract class Manager
 	 * @param array $values attribute name => value
 	 *
 	 * @param array|string $operations attribute name => operation.
-	 *                                 If $operations is a string, it will be considered as an
-	 *                                 array with the same operation for each entry.
+	 *                                 If $operations is a string, it
+	 *                                 will be considered as an array
+	 *                                 with the same operation for each
+	 *                                 entry.
 	 *                                 Default to "=".
 	 *
 	 * @return int Number of deleted entries
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function deleteBy(array $values, array|string $operations = '=') : int
 	{
-		$values = $this->cleanAttributes($values);
-
-		if (\count($values) === 0)
-		{
-			throw new \Exception();
-		}
-		if (\phosphore_count($operations) === 0)
-		{
-			throw new \Exception();
-		}
-
-		$count = $this->countBy($values, $operations);
-
-		if ($count === 0)
-		{
-			return 0;
-		}
-
-		$table = new \database\parameter\Table([
-			'name' => $this::TABLE,
-		]);
-
-		$operation    = $operations;
-		$expressions  = [];
-		$query_values = [];
-		$position     = 0;
-		foreach ($this::ATTRIBUTES as $name)
-		{
-			if (\key_exists($name, $values))
-			{
-				if (\is_array($operations))
-				{
-					if (!\key_exists($name, $operations))
-					{
-						throw new \Exception();
-					}
-
-					$operation = $operations[$name];
-				}
-
-				$expressions[] = new \database\parameter\Expression([
-					'type'     => \database\parameter\ExpressionTypes::COMP,
-					'values'   => [
-						new \database\parameter\Column([
-							'attribute' => new \database\parameter\Attribute([
-								'name'  => $name,
-								'table' => $table,
-							]),
-						]),
-						new \database\parameter\Parameter([
-							'value'    => $values[$name],
-							'position' => $position,
-						]),
-					],
-					'operator' => new \database\parameter\Operator([
-						'symbol' => $operation,
-					]),
-				]);
-
-				$position += 1;
-				$query_values[] = $values[$name];
-			}
-		}
-
-		$where = new \database\parameter\Expression([
-			'expressions' => $expressions,
-			'type'        => \database\parameter\ExpressionTypes::AND,
-		]);
-
-		$Query = new \database\request\Delete([
-			'delete' => $table,
-			'where'  => $where,
-		]);
-
-		$connection = \core\DBFactory::connection();
-
-		$driver_class = '\\database\\' . \ucwords(\strtolower($connection->getAttribute(\PDO::ATTR_DRIVER_NAME)));
-
 		try
 		{
+			$values = $this->cleanAttributes($values);
+
+			if (\count($values) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'deleteBy',
+						'no_values',
+						'core\\Manager',
+					),
+				);
+			}
+			if (\phosphore_count($operations) === 0)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'deleteBy',
+						'no_operations',
+						'core\\Manager',
+					),
+				);
+			}
+
+			$count = $this->countBy($values, $operations);
+
+			if ($count === 0)
+			{
+				$GLOBALS['Logger']->log(
+					[
+						'class',
+						'core',
+						\core\LoggerTypes::WARNING,
+					],
+					$this->lang(
+						'deleteBy',
+						'nothing_delete',
+						'core\\Manager',
+					),
+				);
+
+				return 0;
+			}
+
+			$table = new \database\parameter\Table([
+				'name' => $this::TABLE,
+			]);
+
+			$operation    = $operations;
+			$expressions  = [];
+			$query_values = [];
+			$position     = 0;
+			foreach ($this::ATTRIBUTES as $name)
+			{
+				if (\key_exists($name, $values))
+				{
+					if (\is_array($operations))
+					{
+						if (!\key_exists($name, $operations))
+						{
+							throw new \exception\class\core\ManagerException(
+								message: $this->lang(
+									'deleteBy',
+									'bad_key',
+									'core\\Manager',
+								),
+								tokens:  [
+									'key' => $name,
+								],
+							);
+						}
+
+						$operation = $operations[$name];
+					}
+
+					$expressions[] = new \database\parameter\Expression([
+						'type'     => \database\parameter\ExpressionTypes::COMP,
+						'values'   => [
+							new \database\parameter\Column([
+								'attribute' => new \database\parameter\Attribute([
+									'name'  => $name,
+									'table' => $table,
+								]),
+							]),
+							new \database\parameter\Parameter([
+								'value'    => $values[$name],
+								'position' => $position,
+							]),
+						],
+						'operator' => new \database\parameter\Operator([
+							'symbol' => $operation,
+						]),
+					]);
+
+					$position += 1;
+					$query_values[] = $values[$name];
+				}
+			}
+
+			$where = new \database\parameter\Expression([
+				'expressions' => $expressions,
+				'type'        => \database\parameter\ExpressionTypes::AND,
+			]);
+
+			$Query = new \database\request\Delete([
+				'delete' => $table,
+				'where'  => $where,
+			]);
+
+			$connection = \core\DBFactory::connection();
+
+			$driver_class = '\\database\\' . \ucwords(
+				\strtolower(
+					$connection->getAttribute(\PDO::ATTR_DRIVER_NAME),
+				),
+			);
+
 			$query = $driver_class::displayQuery($Query);
 			$request = $connection->prepare($query);
 			$request->execute($query_values);
-		}
-		catch (\PDOException $exception)
-		{
-			throw new \Exception();
-		}
 
-		return $count;
+			return $count;
+		}
+		catch (
+			\exception\class\core\ManagerException ||
+			\exception\class\core\DBFactory ||
+			\exception\class\core\BaseException ||
+			\exception\class\database\DriverException ||
+			\PDOException $exception
+		)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'deleteBy',
+					'error',
+					'core\\Manager',
+				),
+				tokens:   [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Check the existence of an entry with a given index
@@ -488,27 +722,62 @@ abstract class Manager
 	 * @param array $index
 	 *
 	 * @return bool
+	 *
+	 * @throws \exception\class\core\ManagerException
 	 */
 	public function exist(array $index) : bool
 	{
-		$GLOBALS['Logger']->log(\core\Logger::TYPES['debug'], $GLOBALS['lang']['class']['core']['Manager']['exist']['start'], ['class' => \get_class($this)]);
-
-		foreach ($this::INDEX as $name)
+		try
 		{
-			if ($index[$name] === null)
+
+			foreach ($this::INDEX as $name)
 			{
-				$GLOBALS['Logger']->log(\core\Logger::TYPES['warning'], $GLOBALS['lang']['class']['core']['Manager']['exist']['missing_index'], ['class' => \get_class($this), 'attribute' => $name]);
-
-				return False;
+				if (!\array_key_exists($name, $index))
+				{
+					throw new \exception\class\core\ManagerException(
+						message: $this->lang(
+							'exist',
+							'no_index',
+							'core\\Manager',
+						),
+						tokens:  [
+							'key' => $name,
+						]
+					);
+				}
 			}
-		}
-		$number = $this->countBy($index);
-		if ($number > 1)
-		{
-			$GLOBALS['Logger']->log(\core\Logger::TYPES['info'], $GLOBALS['lang']['class']['core']['Manager']['exist']['more_one_index'], ['class' => \get_class($this), 'number' => $number]);
-		}
+			$number = $this->countBy($index);
+			if ($number > 1)
+			{
+				throw new \exception\class\core\ManagerException(
+					message: $this->lang(
+						'exist',
+						'too_many',
+						'core\\Manager',
+					),
+					tokens:   [
+						'number' => $number,
+						'class'  => \get_class($this),
+					],
+				);
+			}
 
-		return $number != 0;
+			return $number != 0;
+		}
+		catch (\exception\class\core\ManagerException $exception)
+		{
+			throw new \exception\class\core\ManagerException(
+				message:  $this->lang(
+					'exist',
+					'error',
+					'core\\Manager',
+				),
+				tokens:   [
+					'exception' => $exception->getMessage(),
+				],
+				previous: $exception,
+			);
+		}
 	}
 	/**
 	 * Check the existence of an entry which comply to a condition

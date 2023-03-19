@@ -2,19 +2,64 @@
 
 /** [__construct] **/
 /* construction of the object */
-$GLOBALS['lang']['class']['core']['Manager']['__construct'] = 'constructing the {class}';
+$GLOBALS['lang']['class']['core']['Manager']['__construct']['start'] = 'constructing {class}...';
+/* an error occured during object construction */
+$GLOBALS['lang']['class']['core']['Manager']['__construct']['error'] = 'error during class construction: {exception}';
+/* end of object construction */
+$GLOBALS['lang']['class']['core']['Manager']['__construct']['end']   = 'end of {class} construction';
 /** [/__construct] **/
 
 /** [add] **/
-/* start the process */
-$GLOBALS['lang']['class']['core']['Manager']['add']['start'] = '{class} start to add a row in the database';
 /* item to add does not have any attributes */
-$GLOBALS['lang']['class']['core']['Manager']['add']['no_attributes'] = '{class} cannot add an item in the database without any attribute';
-/* query $query constructed */
-$GLOBALS['lang']['class']['core']['Manager']['add']['query'] = '{class} query constructed: {query}';
-/* success */
-$GLOBALS['lang']['class']['core']['Manager']['add']['success'] = '{class} successfully added a row in the database';
+$GLOBALS['lang']['class']['core']['Manager']['add']['no_values'] = 'cannot add an item in the database without any attribute';
+/* an error occured during data insertion */
+$GLOBALS['lang']['class']['core']['Manager']['add']['error'] = 'error when adding a database entry: {exception}';
 /** [/add] **/
+
+/** [count] **/
+/* an error occured during count */
+$GLOBALS['lang']['class']['core']['Manager']['count']['error'] = 'cannot count element in the database: {exception}';
+/** [/count] **/
+
+/** [countBy] **/
+/* cannot count without values */
+$GLOBALS['lang']['class']['core']['Manager']['countBy']['no_values'] = 'cannot count with a condition without any value given';
+/* cannot count without operation for the where clause */
+$GLOBALS['lang']['class']['core']['Manager']['countBy']['no_operations'] = 'cannot count with a condition without any condition given';
+/* the attribute is not used by an operation */
+$GLOBALS['lang']['class']['core']['Manager']['countBy']['bad_key'] = 'the attribute {key} is not used by any operation';
+/* an error occured during count */
+$GLOBALS['lang']['class']['core']['Manager']['countBy']['error'] = 'error during count with condition: {exception}';
+/** [/countBy] **/
+
+/** [delete] **/
+/* cannot delete an entry without index value */
+$GLOBALS['lang']['class']['core']['Manager']['delete']['no_index'] = 'cannot delete a database entry without correct index values';
+/* cannot delete an entry with some index value missing */
+$GLOBALS['lang']['class']['core']['Manager']['delete']['bad_index'] = 'cannot delete a database entry without every index values defined: missing {key}';
+/* an error occured when deleting an entry */
+$GLOBALS['lang']['class']['core']['Manager']['delete']['error'] = 'error during database entry deletion: {exception}';
+/** [/delete] **/
+
+/** [deleteBy] **/
+/* cannot delete entries without any values */
+$GLOBALS['lang']['class']['core']['Manager']['deleteBy']['no_values'] = 'cannot delete entries with a condition without any value given';
+/* cannot delete entries without any operations */
+$GLOBALS['lang']['class']['core']['Manager']['deleteBy']['no_operations'] = 'cannot delete entries with a condition without any operation given';
+/* no entry found with given operations */
+$GLOBALS['lang']['class']['core']['Manager']['deleteBy']['bad_key'] = 'the attribute {key} is not used by any operation';
+/* an error occured during entries deletion */
+$GLOBALS['lang']['class']['core']['Manager']['deleteBy']['error'] = 'an error occured when deleting database entries by condition: {exception}';
+/** [/deleteBy] **/
+
+/** [exist] **/
+/* cannot check the existence of an entry without its index */
+$GLOBALS['lang']['class']['core']['Manager']['exist']['no_index'] = 'cannot check the existence of an entry without its index';
+/* there are many object with the same index */
+$GLOBALS['lang']['class']['core']['Manager']['exist']['too_many'] = 'multiple entries have the same index';
+/* an error occured when checking the existence of an entry */
+$GLOBALS['lang']['class']['core']['Manager']['exist']['error'] = 'en error occured when chekcing the existence of an entry in the database: {exception}';
+/** [/exist] **/
 
 /** [boundaryInterpreter] **/
 /* start of the process */
