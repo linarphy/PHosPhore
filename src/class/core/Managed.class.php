@@ -194,7 +194,7 @@ abstract class Managed
 						}
 						catch (
 							\exception\class\core\BaseException |
-							\exception\class\core\ManagedException
+							\exception\class\core\ManagedException $exception
 						)
 						{
 							$display .= \get_class($element);
