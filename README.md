@@ -2,6 +2,10 @@
  
  A PHP framework
 
+## State of the project
+
+This project is no longer developed (for various reasons). I may return to it at some point. Still, the code is useable right now if some people want to have fun ! Everything is implemented (but not free of bug sadly) and the last thing I was doing was cleaning up the code, which isn't finished yet.
+
 ## Getting started
 
 PHosPhore is a PHP framework which create multiple page for a website which can easily be integrated with plugin module.
@@ -24,7 +28,7 @@ For now documentation take the form of markdown files which are available [here]
 
 ## Authors
 
-* **gugus2000** - *initial work*
+* **linarphy** - *initial work*
 
 ## Versioning
 
